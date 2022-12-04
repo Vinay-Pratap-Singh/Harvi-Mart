@@ -8,6 +8,7 @@ import Products from "./components/Products"
 import Wishlist from "./components/Wishlist"
 import Cart from "./components/Cart"
 import Registration from "./components/Registration/RegistrationPage"
+import Footer from './components/Footer'
 import Error from "./components/Error"
 
 const App = () => {
@@ -36,6 +37,9 @@ const App = () => {
         <Route path='/registration' element={<Registration />} />
         <Route path="*" element={<Error/>} />
       </Routes>
+
+      {/* adding the footer */}
+      <Footer></Footer>
     </div>
   )
 }
