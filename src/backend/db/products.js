@@ -8,23 +8,35 @@ import { v4 as uuid } from "uuid";
 export const products = [
   {
     _id: uuid(),
-    title: "You Can WIN",
-    author: "Shiv Khera",
-    price: "5000",
-    categoryName: "non-fiction",
+    imageURL:
+      "https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/k/s/t/-original-imaghxengzjc2djt.jpeg?q=70",
+    title: "APPLE iPhone 14 Pro Max",
+    price: "₹1,89,900",
+    categoryName: "Mobile",
+    brand: "Apple",
+    description:
+      "The iPhone 14 Pro 5G Dual SIM comes with a 6.1 inch touchscreen with 460PPI.",
   },
   {
     _id: uuid(),
-    title: "You are Winner",
-    author: "Junaid Qureshi",
-    price: "3000",
-    categoryName: "horror",
+    imageURL:
+      "https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/k/s/t/-original-imaghxengzjc2djt.jpeg?q=70",
+    title: "APPLE iPhone 14 Pro Max",
+    price: "₹1,89,900",
+    categoryName: "Mobile",
+    brand: "Apple",
+    description:
+      "The iPhone 14 Pro 5G Dual SIM comes with a 6.1 inch touchscreen with 460PPI.",
   },
   {
     _id: uuid(),
-    title: "Think and Grow Rich",
-    author: "Shiv Khera",
-    price: "1000",
-    categoryName: "fiction",
+    imageURL:
+      "https://rukminim1.flixcart.com/image/832/832/xif0q/mobile/k/s/t/-original-imaghxengzjc2djt.jpeg?q=70",
+    title: "APPLE iPhone 14 Pro Max",
+    price: "₹1,89,900",
+    categoryName: "Mobile",
+    brand: "Apple",
+    description:
+      "The iPhone 14 Pro 5G Dual SIM comes with a 6.1 inch touchscreen with 460PPI.",
   },
 ];

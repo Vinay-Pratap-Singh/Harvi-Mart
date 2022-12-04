@@ -19,7 +19,7 @@ const Navbar = () => {
         {/* creating the menu item */}
         <div className="hidden sm:flex flex-col sm:flex-row gap-2 sm:gap-6">
           <NavLink to={"/"}>Home</NavLink>
-          <NavLink to={"/about"}>About</NavLink>
+          <NavLink to={"/about"}>About us</NavLink>
           <NavLink to={"./products"}>Products</NavLink>
           <NavLink to={"./wishlist"}>Wishlist</NavLink>
           <NavLink to={"./cart"}>Cart</NavLink>

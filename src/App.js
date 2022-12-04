@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import { Routes, Route } from "react-router-dom"
 import Home from "./components/Home/Home"
 import About from "./components/About"
-import Products from "./components/Products"
+import Products from "./components/Product/Products"
 import Wishlist from "./components/Wishlist"
 import Cart from "./components/Cart"
 import Registration from "./components/Registration/RegistrationPage"
@@ -30,7 +30,7 @@ const App = () => {
       {/* importing all the routes */}
       <Routes>
         <Route path='/' element={ <Home/> } />
-        <Route path='/about' element={ <About/> } />
+        <Route path='/about' element={ <About /> } />
         <Route path='/products' element={ <Products/> } />
         <Route path='/wishlist' element={ <Wishlist/> } />
         <Route path='/cart' element={ <Cart/> } />

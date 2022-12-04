@@ -19,7 +19,7 @@ const Home = () => {
       <section className='flex flex-col items-center gap-10'>
         <h1 className='font-bold text-2xl'>Shop by Categories</h1>
         {/* div for all the categories card */}
-        <div className='flex flex-col sm:flex-row items-center sm:justify-around gap-10 sm:gap-0'>
+        <div className='flex gap-10 sm:gap-0 items-center justify-around flex-wrap py-10'>
           {
             category.map((element) => {
               return <CategoryCard imageURL={element.imageURL} categoryName={element.categoryName} description={element.description } key={element._id} />
