@@ -8,16 +8,16 @@ const Footer = () => {
       {/* social media links */}
       <div className="flex items-center gap-4">
         <a href="#">
-          <i class="fa-brands fa-linkedin-in px-3 py-3 bg-gray-200 rounded-full"></i>
+          <i className="fa-brands fa-linkedin-in px-3 py-3 bg-gray-200 rounded-full"></i>
         </a>
         <a href="#">
-          <i class="fa-brands fa-twitter px-3 py-3 bg-gray-200 rounded-full"></i>
+          <i className="fa-brands fa-twitter px-3 py-3 bg-gray-200 rounded-full"></i>
         </a>
         <a href="#">
-          <i class="fa-brands fa-github px-3 py-3 bg-gray-200 rounded-full"></i>
+          <i className="fa-brands fa-github px-3 py-3 bg-gray-200 rounded-full"></i>
         </a>
         <a href="#">
-          <i class="fa-brands fa-instagram px-3 py-3 bg-gray-200 rounded-full"></i>
+          <i className="fa-brands fa-instagram px-3 py-3 bg-gray-200 rounded-full"></i>
         </a>
       </div>
 
