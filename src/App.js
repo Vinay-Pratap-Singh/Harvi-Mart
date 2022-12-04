@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import axios from "axios"
 import Navbar from './components/Navbar'
 import { Routes, Route } from "react-router-dom"
-import Home from "./components/Home"
+import Home from "./components/Home/Home"
 import About from "./components/About"
 import Products from "./components/Products"
 import Wishlist from "./components/Wishlist"

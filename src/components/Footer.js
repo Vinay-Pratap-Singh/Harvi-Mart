@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col sm:flex-row items-center sm:justify-around gap-2 py-4">
+    <div className="flex flex-col sm:flex-row items-center sm:justify-around gap-2 py-10 bg-[#f3f3f3]">
       <p>© 2022 Copyright: Harvi</p>
 
       {/* social media links */}

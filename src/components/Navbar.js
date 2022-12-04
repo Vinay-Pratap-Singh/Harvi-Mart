@@ -9,7 +9,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex flex-row-reverse sm:flex-row sm:items-center justify-around py-4 sticky top-0">
+    <nav className="flex flex-row-reverse sm:flex-row sm:items-center justify-around py-10 sticky top-0 bg-[#f3f3f3]">
       {/* adding the logo here */}
       <NavLink className="font-bold text-xl" to={"/"}>Electro Mart</NavLink>
 
