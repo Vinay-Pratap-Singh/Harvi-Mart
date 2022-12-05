@@ -18,7 +18,7 @@ const Products = () => {
   return <div className="flex gap-10 sm:gap-0 items-center justify-around flex-wrap py-10">
     {
       data.map((element) => {
-        return <ProductCard imageURL={element.imageURL} title={ element.title} description={element.description} price={element.price} brand={element.brand} />
+        return <ProductCard key={element._id} imageURL={element.imageURL} title={ element.title} description={element.description} price={element.price} brand={element.brand} />
       })
     }
   </div>;

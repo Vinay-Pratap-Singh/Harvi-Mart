@@ -4,7 +4,7 @@ const ProductCard = (props) => {
   return (
       <div className='flex flex-col items-center justify-center w-[80%] sm:w-1/4 gap-4 border-2 border-gray-300 px-6 pt-10 rounded-xl relative -z-50'>
           {/* for adding to wishlist */}
-          <i class="fa-solid fa-heart text-3xl text-gray-300 absolute right-4 top-4 cursor-pointer"></i>
+          <i className="fa-solid fa-heart text-3xl text-gray-300 absolute right-4 top-4 cursor-pointer"></i>
 
           {/* for addding details of product */}
           <img className='h-48' src={props.imageURL} alt="image" />
