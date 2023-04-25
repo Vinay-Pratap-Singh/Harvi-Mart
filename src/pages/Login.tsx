@@ -8,12 +8,18 @@ import {
   Heading,
   Image,
   Input,
+  InputGroup,
+  InputLeftElement,
   Link,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../assets/signup.jpg";
+import { useState } from "react";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { HiOutlineMail } from "react-icons/hi";
+import { BiLock } from "react-icons/bi";
 
 // interface for login
 interface IloginData {
@@ -25,13 +31,15 @@ const Login = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitting },
   } = useForm<IloginData>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   // function to login the user
   const handleLogin: SubmitHandler<IloginData> = (data) => {
@@ -46,15 +54,16 @@ const Login = () => {
       justifyContent={"center"}
     >
       <form onSubmit={handleSubmit(handleLogin)}>
-        <HStack gap={3} w={"full"}>
-          <Image src={myImage} h={"450px"} />
+        <HStack gap={8} w={"full"}>
+          <Image src={myImage} alt="login page image" h={"450px"} />
 
           {/* for login form card */}
           <VStack
-            boxShadow={"0 0 5px gray"}
-            h={"100%"}
-            w={80}
+            boxShadow={"md"}
+            h={"full"}
+            w={"23rem"}
             p={5}
+            gap={1}
             borderRadius={"5px"}
           >
             <Heading size={"lg"} alignSelf={"flex-start"}>
@@ -62,54 +71,102 @@ const Login = () => {
             </Heading>
 
             {/* for email */}
-            <FormControl>
+            <FormControl isInvalid={Boolean(errors?.email)}>
               <FormLabel>Your Registered Email</FormLabel>
-              <Input
-                type="email"
-                placeholder="test@gmail.com"
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Please fill your email id",
-                  },
-                  pattern: {
-                    value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                    message: "Please enter a valid email address",
-                  },
-                })}
-              />
+              <InputGroup>
+                <InputLeftElement
+                  fontSize={"xl"}
+                  color={"orange.500"}
+                  children={<HiOutlineMail />}
+                />
+                <Input
+                  type="email"
+                  placeholder="test@gmail.com"
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "Please fill your email id",
+                    },
+                    pattern: {
+                      value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                      message: "Please enter a valid email address",
+                    },
+                  })}
+                />
+              </InputGroup>
+
               <FormErrorMessage>
                 {errors.email && errors.email.message}
               </FormErrorMessage>
             </FormControl>
 
             {/* for password */}
-            <FormControl>
+            <FormControl pos={"relative"} isInvalid={Boolean(errors?.password)}>
               <FormLabel>Your Password</FormLabel>
-              <Input
-                type="password"
-                placeholder="Test@123"
-                {...register("password", {
-                  required: {
-                    value: true,
-                    message: "Please enter your password",
-                  },
-                })}
-              />
+              <InputGroup>
+                <InputLeftElement
+                  fontSize={"xl"}
+                  color={"orange.500"}
+                  children={<BiLock />}
+                />
+                <Input
+                  type={isPasswordVisible ? "text" : "password"}
+                  placeholder="Test@123"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "Please enter your password",
+                    },
+                  })}
+                />
+              </InputGroup>
+
+              <Box
+                pos={"absolute"}
+                right={3}
+                top={"45px"}
+                cursor={"pointer"}
+                color={"#FF735C"}
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              >
+                {isPasswordVisible ? <BsFillEyeFill /> : <BsFillEyeSlashFill />}
+              </Box>
               <FormErrorMessage>
                 {errors.password && errors.password.message}
               </FormErrorMessage>
             </FormControl>
 
             {/* submit button */}
-            <Button type="submit" w={"full"}>
-              Submit
+            <Button
+              type="submit"
+              isLoading={isSubmitting}
+              loadingText="Verifying..."
+              w={"full"}
+              colorScheme="orange"
+            >
+              Login
             </Button>
 
-            <HStack>
-              <Text>Don't have an account</Text>
-              <Link>Create Account</Link>
+            <HStack fontWeight={"500"} fontSize={"sm"}>
+              <Text>Don't have an account ?</Text>
+              <Link color={"orange.500"}>Create Account</Link>
             </HStack>
+
+            {/* adding the section for forget password */}
+            <HStack
+              fontWeight={500}
+              fontSize={"sm"}
+              justifyContent={"space-between"}
+              w={"full"}
+            >
+              <Box h={"0.5px"} bg={"orange.500"} w={"full"}></Box>
+              <Text>OR</Text>
+              <Box h={"0.5px"} bg={"orange.500"} w={"full"}></Box>
+            </HStack>
+
+            <Link fontWeight={500} color={"orange.500"} fontSize={"sm"}>
+              Forget Password
+            </Link>
           </VStack>
         </HStack>
       </form>
