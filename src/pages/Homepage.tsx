@@ -1,5 +1,12 @@
+import { Stack } from "@chakra-ui/react";
+import Header from "../components/Header";
+
 const Homepage = () => {
-  return <div>Homepage</div>;
+  return (
+    <Stack>
+      <Header />
+    </Stack>
+  );
 };
 
 export default Homepage;
