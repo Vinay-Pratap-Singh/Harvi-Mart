@@ -5,26 +5,24 @@ import {
   Image,
   Link,
   ListItem,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
   Text,
   UnorderedList,
   VStack,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { BiPackage, BiUser, BiUserCircle } from "react-icons/bi";
-import { AiOutlineProfile } from "react-icons/ai";
+import { AiOutlineProfile, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link as RouterLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const Header = () => {
   const isUserLoggedIn = true;
   const userProfileImage = "";
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <HStack justifyContent={"space-between"} alignItems={"center"} px={10}>
@@ -58,26 +56,38 @@ const Header = () => {
         </ListItem>
 
         <ListItem>
-          <Link as={RouterLink} href="#">
+          <Link
+            as={RouterLink}
+            href="#"
+            display={"flex"}
+            alignItems={"center"}
+            gap={2}
+          >
+            <AiOutlineShoppingCart fontSize={"20px"} />
             Wishlist
           </Link>
         </ListItem>
 
         {!isUserLoggedIn ? (
           <ListItem>
-            <Button>Login</Button>
+            <Link as={RouterLink} to="/login">
+              <Button colorScheme="orange">Login</Button>
+            </Link>
           </ListItem>
         ) : (
           <ListItem>
-            <BiUser onClick={onOpen} size={20} cursor={"pointer"} />
-            <Modal isOpen={isOpen} onClose={onClose} size={"sm"}>
-              <ModalOverlay
-                bg="blackAlpha.300"
-                backdropFilter="blur(2px) hue-rotate(90deg)"
-              />
-              <ModalContent p={0}>
-                <ModalCloseButton />
-                <ModalBody p={3}>
+            <Popover>
+              <PopoverTrigger>
+                <HStack cursor={"pointer"}>
+                  <BiUser size={20} />
+                  <Text>Account</Text>
+                </HStack>
+              </PopoverTrigger>
+
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverBody>
                   <VStack spacing={0} mb={3}>
                     {userProfileImage ? (
                       <Image src={userProfileImage} alt="profile picture" />
@@ -122,9 +132,9 @@ const Header = () => {
                       <Button colorScheme="red">Logout</Button>
                     </ListItem>
                   </UnorderedList>
-                </ModalBody>
-              </ModalContent>
-            </Modal>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
           </ListItem>
         )}
       </UnorderedList>
