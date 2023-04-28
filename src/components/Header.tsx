@@ -21,7 +21,7 @@ import { Link as RouterLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const Header = () => {
-  const isUserLoggedIn = true;
+  const isUserLoggedIn = false;
   const userProfileImage = "";
 
   return (
@@ -129,7 +129,9 @@ const Header = () => {
                     </ListItem>
 
                     <ListItem>
-                      <Button colorScheme="red">Logout</Button>
+                      <Button w={"full"} colorScheme="red">
+                        Logout
+                      </Button>
                     </ListItem>
                   </UnorderedList>
                 </PopoverBody>

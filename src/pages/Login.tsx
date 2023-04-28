@@ -174,7 +174,7 @@ const Login = () => {
               color={"orange.500"}
               fontSize={"sm"}
             >
-              Forget Password
+              Forget Password ?
             </Link>
           </VStack>
         </HStack>
