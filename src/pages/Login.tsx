@@ -125,7 +125,7 @@ const Login = () => {
               <Box
                 pos={"absolute"}
                 right={3}
-                top={"45px"}
+                top={"41px"}
                 cursor={"pointer"}
                 color={"#FF735C"}
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}

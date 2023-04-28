@@ -3,6 +3,7 @@ import Homepage from "../pages/Homepage";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Forget from "../pages/Password/Forget";
+import Reset from "../pages/Password/Reset";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/password/forget",
     element: <Forget />,
+  },
+  {
+    path: "/auth/reset/:token",
+    element: <Reset />,
   },
 ]);
 
