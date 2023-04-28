@@ -16,18 +16,31 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { BiPackage, BiUser, BiUserCircle } from "react-icons/bi";
-import { AiOutlineProfile, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiFillHeart,
+  AiOutlineProfile,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { Link as RouterLink } from "react-router-dom";
-import logo from "../assets/logo.png";
 
 const Header = () => {
   const isUserLoggedIn = false;
   const userProfileImage = "";
 
   return (
-    <HStack justifyContent={"space-between"} alignItems={"center"} px={10}>
+    <HStack
+      justifyContent={"space-between"}
+      alignItems={"center"}
+      px={10}
+      my={4}
+    >
       {/* adding the logo */}
-      <Image w="28" src={logo} />
+      <Link as={RouterLink} to={"/"}>
+        <HStack fontSize={24} fontWeight={"bold"} color={"orange.500"}>
+          <AiOutlineShoppingCart fontSize={32} />
+          <Text>Harvi Mart</Text>
+        </HStack>
+      </Link>
 
       {/* creating the menu list */}
       <UnorderedList
@@ -63,7 +76,7 @@ const Header = () => {
             alignItems={"center"}
             gap={2}
           >
-            <AiOutlineShoppingCart fontSize={"20px"} />
+            <AiFillHeart color="#e06464" fontSize={"20px"} />
             Wishlist
           </Link>
         </ListItem>
