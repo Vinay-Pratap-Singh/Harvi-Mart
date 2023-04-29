@@ -1,11 +1,13 @@
-import { Stack } from "@chakra-ui/react";
-import Header from "../components/Header";
+import { Heading, Stack } from "@chakra-ui/react";
+import Layout from "./Layout/Layout";
+import Footer from "../components/Footer";
 
 const Homepage = () => {
   return (
-    <Stack>
-      <Header />
-    </Stack>
+    <Layout>
+      <Heading color={"primaryColor"}>Homepage</Heading>
+      <Footer />
+    </Layout>
   );
 };
 

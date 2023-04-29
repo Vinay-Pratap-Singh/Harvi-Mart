@@ -3,6 +3,9 @@ import {
   HStack,
   Heading,
   Image,
+  Input,
+  InputGroup,
+  InputRightElement,
   Link,
   ListItem,
   Popover,
@@ -15,7 +18,7 @@ import {
   UnorderedList,
   VStack,
 } from "@chakra-ui/react";
-import { BiPackage, BiUser, BiUserCircle } from "react-icons/bi";
+import { BiPackage, BiSearch, BiUser, BiUserCircle } from "react-icons/bi";
 import {
   AiFillHeart,
   AiOutlineProfile,
@@ -42,6 +45,20 @@ const Header = () => {
         </HStack>
       </Link>
 
+      {/* adding the search bar */}
+      <HStack>
+        <InputGroup>
+          <Input
+            w={96}
+            focusBorderColor="primaryColor"
+            placeholder="Looking for something specific? "
+          />
+          <InputRightElement
+            children={<BiSearch size={24} color="#e06464" />}
+          />
+        </InputGroup>
+      </HStack>
+
       {/* creating the menu list */}
       <UnorderedList
         display={"flex"}
@@ -50,24 +67,6 @@ const Header = () => {
         gap={10}
         fontWeight={500}
       >
-        <ListItem>
-          <Link as={RouterLink} href="#">
-            Home
-          </Link>
-        </ListItem>
-
-        <ListItem>
-          <Link as={RouterLink} href="#">
-            About
-          </Link>
-        </ListItem>
-
-        <ListItem>
-          <Link as={RouterLink} href="#">
-            Contact
-          </Link>
-        </ListItem>
-
         <ListItem>
           <Link
             as={RouterLink}

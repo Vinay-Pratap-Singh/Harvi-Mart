@@ -1,7 +1,16 @@
-import React from "react";
+import Header from "../../components/Header";
+import { ReactNode, FC } from "react";
 
-const Layout = () => {
-  return <div>Layout</div>;
+// defining the type of prop here
+type Props = { children: ReactNode };
+
+const Layout: FC<Props> = ({ children }) => {
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default Layout;
