@@ -4,7 +4,7 @@ import router from "./router/router";
 
 const theme = extendTheme({
   colors: {
-    primaryColor: "#e06464",
+    primaryColor: "#DD6B20",
   },
 });
 

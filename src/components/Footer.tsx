@@ -10,13 +10,14 @@ import { BsGithub, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import { GrContact } from "react-icons/gr";
 import { GiNewspaper } from "react-icons/gi";
+import { FiExternalLink } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <VStack px={5} fontWeight={"semibold"}>
+    <VStack px={10} mb={5} fontWeight={"semibold"}>
       <HStack w={"full"} justifyContent={"space-between"}>
-        <Text>
+        <Text display={"flex"} alignItems={"center"} gap={1}>
           All rights reserved by{" "}
           <Link
             as={RouterLink}
@@ -25,8 +26,12 @@ const Footer = () => {
             rel="noreferrer"
             color={"orange.500"}
             fontWeight={"bold"}
+            display={"flex"}
+            alignItems={"center"}
+            gap={1}
           >
             Harvi
+            <FiExternalLink />
           </Link>
         </Text>
 
@@ -44,6 +49,7 @@ const Footer = () => {
               display={"flex"}
               alignItems={"center"}
               gap={1}
+              _hover={{ color: "primaryColor" }}
             >
               <GiNewspaper fontSize={20} /> <Text>Terms & Conditions</Text>
             </Link>
@@ -55,6 +61,7 @@ const Footer = () => {
               display={"flex"}
               alignItems={"center"}
               gap={1}
+              _hover={{ color: "primaryColor" }}
             >
               <MdOutlinePrivacyTip fontSize={20} /> <Text>Privacy Policy</Text>
             </Link>
@@ -66,6 +73,7 @@ const Footer = () => {
               display={"flex"}
               alignItems={"center"}
               gap={1}
+              _hover={{ color: "primaryColor" }}
             >
               <GrContact fontSize={20} /> <Text>Contact Us</Text>
             </Link>
@@ -125,7 +133,7 @@ const Footer = () => {
           </ListItem>
         </UnorderedList>
       </HStack>
-      <Text>Made with ❤️ Harvi</Text>
+      <Text>Made with ❤️ by Harvi</Text>
     </VStack>
   );
 };

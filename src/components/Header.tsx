@@ -75,7 +75,7 @@ const Header = () => {
             alignItems={"center"}
             gap={2}
           >
-            <AiFillHeart color="#e06464" fontSize={"20px"} />
+            <AiFillHeart color="red" fontSize={"20px"} />
             Wishlist
           </Link>
         </ListItem>
