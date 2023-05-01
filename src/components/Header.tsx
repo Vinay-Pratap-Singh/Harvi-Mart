@@ -29,6 +29,7 @@ import { Link as RouterLink } from "react-router-dom";
 const Header = () => {
   const isUserLoggedIn = false;
   const userProfileImage = "";
+  const totalWishlistItem = 0;
 
   return (
     <HStack
@@ -67,7 +68,7 @@ const Header = () => {
         gap={10}
         fontWeight={500}
       >
-        <ListItem>
+        <ListItem pos={"relative"}>
           <Link
             as={RouterLink}
             href="#"
@@ -77,6 +78,21 @@ const Header = () => {
           >
             <AiFillHeart color="red" fontSize={"20px"} />
             Wishlist
+            <Text
+              as={"span"}
+              bgColor={"orange.500"}
+              color={"white"}
+              fontWeight={"bold"}
+              fontSize={"sm"}
+              pos={"absolute"}
+              right={-4}
+              top={-4}
+              py={"1px"}
+              px={"7px"}
+              borderRadius={"full"}
+            >
+              {totalWishlistItem}
+            </Text>
           </Link>
         </ListItem>
 

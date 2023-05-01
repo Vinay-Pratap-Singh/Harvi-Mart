@@ -4,7 +4,6 @@ import {
   Heading,
   Image,
   ListItem,
-  Stack,
   Text,
   UnorderedList,
   VStack,
@@ -12,10 +11,34 @@ import {
 import Layout from "./Layout/Layout";
 import Footer from "../components/Footer";
 import homepageImage from "../assets/homepage.jpg";
+import CategoryCard from "../components/CategoryCard";
 
 const Homepage = () => {
+  // category items details
+  const categories = [
+    {
+      imageURL: "jeans",
+      categoryName: "Jeans",
+      categoryDescription:
+        "We have the best collection of the jeans from top brands",
+    },
+    {
+      imageURL: "tshirt",
+      categoryName: "T-shirts",
+      categoryDescription:
+        "We have the best collection of the t-shirts from top brands",
+    },
+    {
+      imageURL: "shoes",
+      categoryName: "Shoes",
+      categoryDescription:
+        "We have the best collection of the shoes from top brands",
+    },
+  ];
+
   return (
     <Layout>
+      {/* main section of the homepage */}
       <HStack gap={10} m={10}>
         {/* adding home page image */}
         <Image w={"50%"} src={homepageImage} alt="home page image" />
@@ -54,6 +77,25 @@ const Homepage = () => {
           <Button colorScheme="orange">Browse Collection</Button>
         </VStack>
       </HStack>
+
+      {/* for categories section */}
+      <VStack my={10} gap={5}>
+        <Heading fontSize={"2xl"}>Our Trendy Clothing Category</Heading>
+
+        {/* adding the categories cards */}
+        <HStack flexWrap={"wrap"} gap={5}>
+          {categories.map((element, index) => {
+            return (
+              <CategoryCard
+                key={index}
+                categoryDescription={element.categoryDescription}
+                categoryName={element.categoryName}
+                imageURL={element.imageURL}
+              />
+            );
+          })}
+        </HStack>
+      </VStack>
       <Footer />
     </Layout>
   );
