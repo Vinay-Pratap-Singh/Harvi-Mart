@@ -14,7 +14,7 @@ const CategoryCard: React.FC<Iprops> = ({
   categoryName,
 }) => {
   return (
-    <VStack w={80} shadow={"0 0 5px gray"} p={3} borderRadius={5}>
+    <VStack w={80} shadow={"md"} p={3} borderRadius={5}>
       <Image
         h={"48"}
         style={{

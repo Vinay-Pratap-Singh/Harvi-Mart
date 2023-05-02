@@ -27,7 +27,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 
 const Header = () => {
-  const isUserLoggedIn = false;
+  const isUserLoggedIn = true;
   const userProfileImage = "";
   const totalWishlistItem = 0;
 
@@ -129,7 +129,7 @@ const Header = () => {
                     <ListItem>
                       <Link
                         as={RouterLink}
-                        href="#"
+                        to="#"
                         display="flex"
                         alignItems={"center"}
                         gap={2}
@@ -144,7 +144,7 @@ const Header = () => {
                     <ListItem>
                       <Link
                         as={RouterLink}
-                        href="#"
+                        to="/user/profile"
                         display="flex"
                         alignItems={"center"}
                         gap={2}
