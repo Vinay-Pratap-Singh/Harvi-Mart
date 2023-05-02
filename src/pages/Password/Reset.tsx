@@ -94,7 +94,7 @@ const Reset = () => {
 
             {/* for password */}
             <FormControl pos={"relative"} isInvalid={Boolean(errors?.password)}>
-              <FormLabel fontSize={"sm"}>Password</FormLabel>
+              <FormLabel fontSize={"sm"}>New Password</FormLabel>
               <InputGroup>
                 <InputLeftElement
                   fontSize={"xl"}
@@ -134,7 +134,7 @@ const Reset = () => {
 
             {/* for confirm password */}
             <FormControl pos={"relative"} isInvalid={Boolean(errors?.password)}>
-              <FormLabel fontSize={"sm"}>Confirm Password</FormLabel>
+              <FormLabel fontSize={"sm"}>Confirm New Password</FormLabel>
               <InputGroup>
                 <InputLeftElement
                   fontSize={"xl"}

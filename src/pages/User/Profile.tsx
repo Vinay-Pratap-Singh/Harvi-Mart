@@ -8,9 +8,11 @@ import {
   Link,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { BiUser } from "react-icons/bi";
 import { Link as RouterLink } from "react-router-dom";
+import UpdateProfile from "../../components/Modals/UpdateProfile";
 
 // defining the type of address
 interface Iaddress {
@@ -27,6 +29,11 @@ const Profile = () => {
   const userImage = "";
   const email = "test@gmail.com";
   const phoneNumber = 9087654321;
+  const {
+    isOpen: isUpdateProfileIsOpen,
+    onOpen: isUpdateProfileOnOpen,
+    onClose: isUpdateProfileOnClose,
+  } = useDisclosure();
 
   const addresses: Iaddress[] = [
     {
@@ -81,11 +88,11 @@ const Profile = () => {
             <GridItem>Phone Number</GridItem>
             <GridItem>{phoneNumber}</GridItem>
             <GridItem>
-              <Link as={RouterLink} to={"#"}>
-                <Button colorScheme="orange" color={"white"}>
-                  Update Profile
-                </Button>
-              </Link>
+              <UpdateProfile
+                isUpdateProfileIsOpen={isUpdateProfileIsOpen}
+                isUpdateProfileOnClose={isUpdateProfileOnClose}
+                isUpdateProfileOnOpen={isUpdateProfileOnOpen}
+              />
             </GridItem>
             <GridItem>
               <Link as={RouterLink} to={"/auth/reset/change-password"}>
