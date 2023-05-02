@@ -15,6 +15,7 @@ import { Link as RouterLink } from "react-router-dom";
 import UpdateProfile from "../../components/Modals/UpdateProfile";
 import DeleteUser from "../../components/Modals/DeleteUser";
 import DeleteAddress from "../../components/Modals/DeleteAddress";
+import UpdateAddress from "../../components/Modals/UpdateAddress";
 
 // defining the type of address
 interface Iaddress {
@@ -45,6 +46,11 @@ const Profile = () => {
     isOpen: deleteAddressIsOpen,
     onOpen: deleteAddressOnOpen,
     onClose: deleteAddressOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: updateAddressIsOpen,
+    onOpen: updateAddressOnOpen,
+    onClose: updateAddressOnClose,
   } = useDisclosure();
 
   const addresses: Iaddress[] = [
@@ -158,7 +164,11 @@ const Profile = () => {
                     <GridItem>Pin Code</GridItem>
                     <GridItem>{element.pinCode}</GridItem>
                     <GridItem>
-                      <Button colorScheme="orange">Update Address</Button>
+                      <UpdateAddress
+                        updateAddressIsOpen={updateAddressIsOpen}
+                        updateAddressOnClose={updateAddressOnClose}
+                        updateAddressOnOpen={updateAddressOnOpen}
+                      />
                     </GridItem>
                     <GridItem>
                       <DeleteAddress

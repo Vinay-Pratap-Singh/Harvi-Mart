@@ -14,23 +14,22 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { BiUser } from "react-icons/bi";
+import { BsPhone } from "react-icons/bs";
 
 interface IupdateProfile {
-  fullName: string;
-  userImage: File;
+  phoneNumber: string;
 }
 
 interface Iprops {
-  updateProfileIsOpen: boolean;
-  updateProfileOnOpen: () => void;
-  updateProfileOnClose: () => void;
+  updateAddressIsOpen: boolean;
+  updateAddressOnOpen: () => void;
+  updateAddressOnClose: () => void;
 }
 
-const UpdateProfile: React.FC<Iprops> = ({
-  updateProfileIsOpen,
-  updateProfileOnClose,
-  updateProfileOnOpen,
+const UpdateAddress: React.FC<Iprops> = ({
+  updateAddressIsOpen,
+  updateAddressOnClose,
+  updateAddressOnOpen,
 }) => {
   const {
     handleSubmit,
@@ -38,7 +37,7 @@ const UpdateProfile: React.FC<Iprops> = ({
     formState: { errors, isSubmitting },
   } = useForm<IupdateProfile>({
     defaultValues: {
-      fullName: "",
+      phoneNumber: "",
     },
   });
 
@@ -50,71 +49,53 @@ const UpdateProfile: React.FC<Iprops> = ({
   return (
     <>
       <Button
-        onClick={updateProfileOnOpen}
+        onClick={updateAddressOnOpen}
         colorScheme="orange"
         color={"white"}
       >
-        Update Profile
+        Update Address
       </Button>
 
       <form onSubmit={handleSubmit(handleUpdate)}>
         <Modal
           size={"xs"}
-          isOpen={updateProfileIsOpen}
-          onClose={updateProfileOnClose}
+          isOpen={updateAddressIsOpen}
+          onClose={updateAddressOnClose}
         >
           <ModalOverlay />
           <ModalContent>
             <ModalHeader textAlign={"center"}>
-              Update your profile details
+              Update your phone number
             </ModalHeader>
 
             <ModalBody>
-              {/* for image input */}
-              <FormControl
-                isInvalid={Boolean(errors?.userImage)}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <FormLabel alignSelf={"center"} cursor="pointer">
-                  <BiUser fontSize={80} />
-                </FormLabel>
-                <Input
-                  type="file"
-                  accept=".png, .jpg, .jpeg"
-                  display="none"
-                  {...register("userImage")}
-                />
-              </FormControl>
-
-              {/* for fullName */}
-              <FormControl isInvalid={Boolean(errors?.fullName)}>
-                <FormLabel fontSize={"sm"}>Your Name</FormLabel>
+              {/* for phoneNumber */}
+              <FormControl isInvalid={Boolean(errors?.phoneNumber)}>
+                <FormLabel fontSize={"sm"}>New Phone Number</FormLabel>
                 <InputGroup>
                   <InputLeftElement
                     fontSize={"xl"}
                     color={"orange.500"}
-                    children={<BiUser />}
+                    children={<BsPhone />}
                   />
                   <Input
                     type="text"
-                    placeholder="Vinay Pratap Singh Harvi"
-                    {...register("fullName", {
+                    placeholder="9087654321"
+                    {...register("phoneNumber", {
                       required: {
                         value: true,
-                        message: "Please enter your full name",
+                        message: "Please enter your phone number",
                       },
-                      minLength: {
-                        value: 5,
-                        message: "Minimum length should be 5 characters",
+                      pattern: {
+                        value: /^[6-9]\d{9}$/gi,
+                        message: "Please enter a valid phone number",
                       },
                     })}
                   />
                 </InputGroup>
 
                 <FormErrorMessage>
-                  {errors.fullName && errors.fullName.message}
+                  {errors.phoneNumber && errors.phoneNumber.message}
                 </FormErrorMessage>
               </FormControl>
             </ModalBody>
@@ -126,7 +107,7 @@ const UpdateProfile: React.FC<Iprops> = ({
                 w={"full"}
                 colorScheme="orange"
               >
-                Update Profile
+                Update Address
               </Button>
             </ModalFooter>
           </ModalContent>
@@ -136,4 +117,4 @@ const UpdateProfile: React.FC<Iprops> = ({
   );
 };
 
-export default UpdateProfile;
+export default UpdateAddress;
