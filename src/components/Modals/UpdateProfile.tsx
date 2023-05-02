@@ -25,15 +25,15 @@ interface IupdateProfile {
 }
 
 interface Iprops {
-  isUpdateProfileIsOpen: boolean;
-  isUpdateProfileOnOpen: () => void;
-  isUpdateProfileOnClose: () => void;
+  updateProfileIsOpen: boolean;
+  updateProfileOnOpen: () => void;
+  updateProfileOnClose: () => void;
 }
 
 const UpdateProfile: React.FC<Iprops> = ({
-  isUpdateProfileIsOpen,
-  isUpdateProfileOnClose,
-  isUpdateProfileOnOpen,
+  updateProfileIsOpen,
+  updateProfileOnClose,
+  updateProfileOnOpen,
 }) => {
   const {
     handleSubmit,
@@ -53,7 +53,7 @@ const UpdateProfile: React.FC<Iprops> = ({
   return (
     <>
       <Button
-        onClick={isUpdateProfileOnOpen}
+        onClick={updateProfileOnOpen}
         colorScheme="orange"
         color={"white"}
       >
@@ -63,13 +63,14 @@ const UpdateProfile: React.FC<Iprops> = ({
       <form onSubmit={handleSubmit(handleUpdate)}>
         <Modal
           size={"xs"}
-          isOpen={isUpdateProfileIsOpen}
-          onClose={isUpdateProfileOnClose}
+          isOpen={updateProfileIsOpen}
+          onClose={updateProfileOnClose}
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Update your profile details</ModalHeader>
-            <ModalCloseButton />
+            <ModalHeader textAlign={"center"}>
+              Update your profile details
+            </ModalHeader>
 
             <ModalBody>
               {/* for image input */}

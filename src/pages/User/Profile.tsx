@@ -13,6 +13,7 @@ import {
 import { BiUser } from "react-icons/bi";
 import { Link as RouterLink } from "react-router-dom";
 import UpdateProfile from "../../components/Modals/UpdateProfile";
+import DeleteUser from "../../components/Modals/DeleteUser";
 
 // defining the type of address
 interface Iaddress {
@@ -30,9 +31,14 @@ const Profile = () => {
   const email = "test@gmail.com";
   const phoneNumber = 9087654321;
   const {
-    isOpen: isUpdateProfileIsOpen,
-    onOpen: isUpdateProfileOnOpen,
-    onClose: isUpdateProfileOnClose,
+    isOpen: updateProfileIsOpen,
+    onOpen: updateProfileOnOpen,
+    onClose: updateProfileOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: deleteUserIsOpen,
+    onOpen: deleteUserOnOpen,
+    onClose: deleteUserOnClose,
   } = useDisclosure();
 
   const addresses: Iaddress[] = [
@@ -89,9 +95,9 @@ const Profile = () => {
             <GridItem>{phoneNumber}</GridItem>
             <GridItem>
               <UpdateProfile
-                isUpdateProfileIsOpen={isUpdateProfileIsOpen}
-                isUpdateProfileOnClose={isUpdateProfileOnClose}
-                isUpdateProfileOnOpen={isUpdateProfileOnOpen}
+                updateProfileIsOpen={updateProfileIsOpen}
+                updateProfileOnClose={updateProfileOnClose}
+                updateProfileOnOpen={updateProfileOnOpen}
               />
             </GridItem>
             <GridItem>
@@ -102,9 +108,11 @@ const Profile = () => {
               </Link>
             </GridItem>
             <GridItem colSpan={2}>
-              <Button w={"full"} colorScheme="red" color={"white"}>
-                Delete Account
-              </Button>
+              <DeleteUser
+                deleteUserIsOpen={deleteUserIsOpen}
+                deleteUserOnClose={deleteUserOnClose}
+                deleteUserOnOpen={deleteUserOnOpen}
+              />
             </GridItem>
           </Grid>
         </VStack>
