@@ -19,12 +19,12 @@ import UpdateAddress from "../../components/Modals/UpdateAddress";
 
 // defining the type of address
 interface Iaddress {
-  name: string;
-  phoneNumber: number;
+  fullName: string;
+  phoneNumber: string;
   houseNumber: string;
   city: string;
   state: string;
-  pinCode: number;
+  pinCode: string;
 }
 
 const Profile = () => {
@@ -55,20 +55,20 @@ const Profile = () => {
 
   const addresses: Iaddress[] = [
     {
-      name: "Vinay",
-      phoneNumber: 9999999999,
+      fullName: "Vinay",
+      phoneNumber: "9999999999",
       houseNumber: "123-45",
       city: "gorakhpur",
       state: "UP",
-      pinCode: 273209,
+      pinCode: "273209",
     },
     {
-      name: "Harvi",
-      phoneNumber: 1234567890,
+      fullName: "Harvi",
+      phoneNumber: "1234567890",
       houseNumber: "123-45",
       city: "Ayodhya",
       state: "UP",
-      pinCode: 213456,
+      pinCode: "213456",
     },
   ];
 
@@ -152,7 +152,7 @@ const Profile = () => {
                     fontWeight={"semibold"}
                   >
                     <GridItem>Full Name</GridItem>
-                    <GridItem>{element.name}</GridItem>
+                    <GridItem>{element.fullName}</GridItem>
                     <GridItem>Phone Number</GridItem>
                     <GridItem>{element.phoneNumber}</GridItem>
                     <GridItem>House Number</GridItem>
@@ -168,6 +168,7 @@ const Profile = () => {
                         updateAddressIsOpen={updateAddressIsOpen}
                         updateAddressOnClose={updateAddressOnClose}
                         updateAddressOnOpen={updateAddressOnOpen}
+                        data={element}
                       />
                     </GridItem>
                     <GridItem>

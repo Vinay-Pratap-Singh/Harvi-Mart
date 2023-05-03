@@ -14,37 +14,51 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { BsPhone } from "react-icons/bs";
+import { BiUser } from "react-icons/bi";
+import { BsHouseCheck, BsPhone } from "react-icons/bs";
+import { FaCity } from "react-icons/fa";
+import { GrLocation } from "react-icons/gr";
+import { TbBuildingEstate } from "react-icons/tb";
 
-interface IupdateProfile {
+interface IupdateAddress {
+  fullName: string;
   phoneNumber: string;
+  houseNumber: string;
+  city: string;
+  state: string;
+  pinCode: string;
 }
 
 interface Iprops {
   updateAddressIsOpen: boolean;
   updateAddressOnOpen: () => void;
   updateAddressOnClose: () => void;
+  data: IupdateAddress;
 }
 
 const UpdateAddress: React.FC<Iprops> = ({
   updateAddressIsOpen,
   updateAddressOnClose,
   updateAddressOnOpen,
+  data,
 }) => {
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<IupdateProfile>({
+  } = useForm<IupdateAddress>({
     defaultValues: {
-      phoneNumber: "",
+      fullName: data.fullName,
+      phoneNumber: data.phoneNumber,
+      houseNumber: data.houseNumber,
+      city: data.city,
+      state: data.state,
+      pinCode: data.pinCode,
     },
   });
 
   // function to login the user
-  const handleUpdate: SubmitHandler<IupdateProfile> = (data) => {
-    console.log(data);
-  };
+  const handleUpdate: SubmitHandler<IupdateAddress> = (data) => {};
 
   return (
     <>
@@ -58,20 +72,51 @@ const UpdateAddress: React.FC<Iprops> = ({
 
       <form onSubmit={handleSubmit(handleUpdate)}>
         <Modal
-          size={"xs"}
+          isCentered
+          size={"md"}
           isOpen={updateAddressIsOpen}
           onClose={updateAddressOnClose}
         >
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent m={0}>
             <ModalHeader textAlign={"center"}>
               Update your phone number
             </ModalHeader>
 
             <ModalBody>
+              {/* for fullName */}
+              <FormControl isInvalid={Boolean(errors?.fullName)}>
+                <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<BiUser />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Vinay Pratap Singh Harvi"
+                    {...register("fullName", {
+                      required: {
+                        value: true,
+                        message: "Please enter your full name",
+                      },
+                      minLength: {
+                        value: 5,
+                        message: "Minimum length should be 5 characters",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.fullName && errors.fullName.message}
+                </FormErrorMessage>
+              </FormControl>
+
               {/* for phoneNumber */}
               <FormControl isInvalid={Boolean(errors?.phoneNumber)}>
-                <FormLabel fontSize={"sm"}>New Phone Number</FormLabel>
+                <FormLabel fontSize={"sm"}>Your Phone Number</FormLabel>
                 <InputGroup>
                   <InputLeftElement
                     fontSize={"xl"}
@@ -96,6 +141,130 @@ const UpdateAddress: React.FC<Iprops> = ({
 
                 <FormErrorMessage>
                   {errors.phoneNumber && errors.phoneNumber.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {/* for houseNumber */}
+              <FormControl isInvalid={Boolean(errors?.houseNumber)}>
+                <FormLabel fontSize={"sm"}>Your House Number</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<BsHouseCheck />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="123 (A)"
+                    {...register("houseNumber", {
+                      required: {
+                        value: true,
+                        message: "Please enter your house number",
+                      },
+                      minLength: {
+                        value: 2,
+                        message: "Enter a proper house number",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.houseNumber && errors.houseNumber.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {/* for city */}
+              <FormControl isInvalid={Boolean(errors?.city)}>
+                <FormLabel fontSize={"sm"}>Your City Name</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<FaCity />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="9087654321"
+                    {...register("city", {
+                      required: {
+                        value: true,
+                        message: "Please enter your city name",
+                      },
+                      minLength: {
+                        value: 3,
+                        message: "Enter a proper city name",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.city && errors.city.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {/* for state */}
+              <FormControl isInvalid={Boolean(errors?.state)}>
+                <FormLabel fontSize={"sm"}>Your State Name</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<TbBuildingEstate />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Uttar Pradesh"
+                    {...register("state", {
+                      required: {
+                        value: true,
+                        message: "Please enter your state name",
+                      },
+                      minLength: {
+                        value: 3,
+                        message: "Enter a valid state name",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.state && errors.state.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {/* for pin code */}
+              <FormControl isInvalid={Boolean(errors?.pinCode)}>
+                <FormLabel fontSize={"sm"}>Your Pin Code</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<GrLocation />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="9087654321"
+                    {...register("pinCode", {
+                      required: {
+                        value: true,
+                        message: "Please enter your pin code",
+                      },
+                      maxLength: {
+                        value: 6,
+                        message: "Pin code should be of 6 character",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Pin code should be of 6 character",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.pinCode && errors.pinCode.message}
                 </FormErrorMessage>
               </FormControl>
             </ModalBody>
