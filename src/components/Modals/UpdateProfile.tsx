@@ -53,6 +53,7 @@ const UpdateProfile: React.FC<Iprops> = ({
         onClick={updateProfileOnOpen}
         colorScheme="orange"
         color={"white"}
+        w={"full"}
       >
         Update Profile
       </Button>

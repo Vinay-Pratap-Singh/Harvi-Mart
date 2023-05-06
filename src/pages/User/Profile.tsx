@@ -11,11 +11,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { BiUser } from "react-icons/bi";
+import { GrFormPrevious } from "react-icons/gr";
+import { GrFormNext } from "react-icons/gr";
 import { Link as RouterLink } from "react-router-dom";
 import UpdateProfile from "../../components/Modals/UpdateProfile";
 import DeleteUser from "../../components/Modals/DeleteUser";
 import DeleteAddress from "../../components/Modals/DeleteAddress";
 import UpdateAddress from "../../components/Modals/UpdateAddress";
+import { useState } from "react";
 
 // defining the type of address
 interface Iaddress {
@@ -32,6 +35,9 @@ const Profile = () => {
   const userImage = "";
   const email = "test@gmail.com";
   const phoneNumber = 9087654321;
+  const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
+
+  // for managing the modals state
   const {
     isOpen: updateProfileIsOpen,
     onOpen: updateProfileOnOpen,
@@ -70,7 +76,33 @@ const Profile = () => {
       state: "UP",
       pinCode: "213456",
     },
+    {
+      fullName: "Vinay Pratap Singh",
+      phoneNumber: "1234567890",
+      houseNumber: "123-45",
+      city: "Ayodhya",
+      state: "UP",
+      pinCode: "213456",
+    },
   ];
+
+  // function to get previous address
+  const getPreviousAddress = () => {
+    if (currentAddressIndex !== 0) {
+      setCurrentAddressIndex(currentAddressIndex - 1);
+      return;
+    }
+    return;
+  };
+
+  // function to get next address
+  const getNextAddress = () => {
+    if (currentAddressIndex + 1 < addresses.length) {
+      setCurrentAddressIndex(currentAddressIndex + 1);
+      return;
+    }
+    return;
+  };
 
   return (
     <VStack h={"100vh"} overflow={"hidden"} p={10} gap={5}>
@@ -82,9 +114,15 @@ const Profile = () => {
         to your profile
       </Heading>
 
-      <HStack gap={10}>
+      <HStack gap={10} alignItems={"stretch"} h={"330px"}>
         {/* for user's personal information */}
-        <VStack alignSelf={"flex-start"} shadow={"md"} p={3} borderRadius={5}>
+        <VStack
+          alignSelf={"center"}
+          alignContent={"center"}
+          shadow={"md"}
+          p={3}
+          borderRadius={5}
+        >
           <Heading fontSize={"xl"}>Personal Details</Heading>
           {userImage ? (
             <Image
@@ -131,56 +169,69 @@ const Profile = () => {
 
         {/* for user's address */}
         <VStack
-          overflowX={"scroll"}
-          minW={96}
-          alignSelf={"flex-start"}
+          alignSelf={"stretch"}
+          justifyContent={"center"}
           shadow={"md"}
           p={3}
           borderRadius={5}
         >
-          <Heading fontSize={"xl"}>Your Address</Heading>
+          <HStack w={"full"} justifyContent={"space-between"}>
+            <Button
+              disabled={currentAddressIndex === 0}
+              onClick={getPreviousAddress}
+            >
+              <GrFormPrevious />
+            </Button>
+            <Heading fontSize={"xl"}>Your Addresses</Heading>
+            <Button
+              disabled={addresses.length === currentAddressIndex + 1}
+              onClick={getNextAddress}
+            >
+              <GrFormNext />
+            </Button>
+          </HStack>
+
           <HStack gap={5}>
             {addresses.length === 0 ? (
               <Text fontWeight={"semibold"}>Oops! No address found</Text>
             ) : (
-              addresses.map((element, index) => {
-                return (
-                  <Grid
-                    key={index}
-                    templateColumns="repeat(2,1fr)"
-                    gap={2}
-                    fontWeight={"semibold"}
-                  >
-                    <GridItem>Full Name</GridItem>
-                    <GridItem>{element.fullName}</GridItem>
-                    <GridItem>Phone Number</GridItem>
-                    <GridItem>{element.phoneNumber}</GridItem>
-                    <GridItem>House Number</GridItem>
-                    <GridItem>{element.houseNumber}</GridItem>
-                    <GridItem>City</GridItem>
-                    <GridItem>{element.city}</GridItem>
-                    <GridItem>State</GridItem>
-                    <GridItem>{element.state}</GridItem>
-                    <GridItem>Pin Code</GridItem>
-                    <GridItem>{element.pinCode}</GridItem>
-                    <GridItem>
-                      <UpdateAddress
-                        updateAddressIsOpen={updateAddressIsOpen}
-                        updateAddressOnClose={updateAddressOnClose}
-                        updateAddressOnOpen={updateAddressOnOpen}
-                        data={element}
-                      />
-                    </GridItem>
-                    <GridItem>
-                      <DeleteAddress
-                        deleteAddressIsOpen={deleteAddressIsOpen}
-                        deleteAddressOnClose={deleteAddressOnClose}
-                        deleteAddressOnOpen={deleteAddressOnOpen}
-                      />
-                    </GridItem>
-                  </Grid>
-                );
-              })
+              <Grid
+                templateColumns="repeat(2,1fr)"
+                gap={2}
+                fontWeight={"semibold"}
+              >
+                <GridItem>Full Name</GridItem>
+                <GridItem>{addresses[currentAddressIndex]?.fullName}</GridItem>
+                <GridItem>Phone Number</GridItem>
+                <GridItem>
+                  {addresses[currentAddressIndex]?.phoneNumber}
+                </GridItem>
+                <GridItem>House Number</GridItem>
+                <GridItem>
+                  {addresses[currentAddressIndex]?.houseNumber}
+                </GridItem>
+                <GridItem>City</GridItem>
+                <GridItem>{addresses[currentAddressIndex]?.city}</GridItem>
+                <GridItem>State</GridItem>
+                <GridItem>{addresses[currentAddressIndex]?.state}</GridItem>
+                <GridItem>Pin Code</GridItem>
+                <GridItem>{addresses[currentAddressIndex]?.pinCode}</GridItem>
+                <GridItem>
+                  <UpdateAddress
+                    updateAddressIsOpen={updateAddressIsOpen}
+                    updateAddressOnClose={updateAddressOnClose}
+                    updateAddressOnOpen={updateAddressOnOpen}
+                    data={addresses[currentAddressIndex]}
+                  />
+                </GridItem>
+                <GridItem>
+                  <DeleteAddress
+                    deleteAddressIsOpen={deleteAddressIsOpen}
+                    deleteAddressOnClose={deleteAddressOnClose}
+                    deleteAddressOnOpen={deleteAddressOnOpen}
+                  />
+                </GridItem>
+              </Grid>
             )}
           </HStack>
         </VStack>
