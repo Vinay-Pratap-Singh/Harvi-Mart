@@ -86,6 +86,7 @@ const Signup = () => {
                 />
                 <Input
                   type="text"
+                  focusBorderColor="primaryColor"
                   placeholder="Vinay Pratap Singh Harvi"
                   {...register("fullName", {
                     required: {
@@ -116,6 +117,7 @@ const Signup = () => {
                 />
                 <Input
                   type="email"
+                  focusBorderColor="primaryColor"
                   placeholder="test@gmail.com"
                   {...register("email", {
                     required: {
@@ -146,6 +148,7 @@ const Signup = () => {
                 />
                 <Input
                   type={isPasswordVisible ? "text" : "password"}
+                  focusBorderColor="primaryColor"
                   placeholder="Test@123"
                   {...register("password", {
                     required: {
@@ -187,6 +190,7 @@ const Signup = () => {
                 />
                 <Input
                   type="text"
+                  focusBorderColor="primaryColor"
                   placeholder="9087654321"
                   {...register("phoneNumber", {
                     required: {

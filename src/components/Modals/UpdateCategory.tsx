@@ -63,7 +63,7 @@ const UpdateCategory: React.FC<Iprops> = ({
 
       <form onSubmit={handleSubmit(handleUpdate)}>
         <Modal
-          size={"xs"}
+          size={"sm"}
           isOpen={updateCategoryIsOpen}
           onClose={updateCategoryOnClose}
         >

@@ -42,7 +42,7 @@ const Category = () => {
   } = useDisclosure();
 
   return (
-    <HStack h={"100vh"} w={"full"}>
+    <HStack h={"100vh"} w={"full"} gap={8}>
       <Image h={"450px"} src={categoryPageImg} alt="category page main image" />
 
       {/* for category card to perform CRUD */}

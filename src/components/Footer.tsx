@@ -69,7 +69,7 @@ const Footer = () => {
           <ListItem>
             <Link
               as={RouterLink}
-              to={"#"}
+              to={"/contact"}
               display={"flex"}
               alignItems={"center"}
               gap={1}

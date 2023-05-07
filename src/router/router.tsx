@@ -6,6 +6,7 @@ import Forget from "../pages/Password/Forget";
 import Reset from "../pages/Password/Reset";
 import Profile from "../pages/User/Profile";
 import Category from "../pages/Admin/Category";
+import Contact from "../pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/category",
     element: <Category />,
+  },
+  {
+    path: "/contact",
+    element: <Contact />,
   },
 ]);
 
