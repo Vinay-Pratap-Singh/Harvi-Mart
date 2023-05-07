@@ -5,6 +5,7 @@ import Signup from "../pages/Signup";
 import Forget from "../pages/Password/Forget";
 import Reset from "../pages/Password/Reset";
 import Profile from "../pages/User/Profile";
+import Category from "../pages/Admin/Category";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/user/profile",
     element: <Profile />,
+  },
+  {
+    path: "/admin/category",
+    element: <Category />,
   },
 ]);
 
