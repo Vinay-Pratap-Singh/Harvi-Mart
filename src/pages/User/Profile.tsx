@@ -15,8 +15,8 @@ import { GrFormPrevious } from "react-icons/gr";
 import { GrFormNext } from "react-icons/gr";
 import { Link as RouterLink } from "react-router-dom";
 import UpdateProfile from "../../components/Modals/UpdateProfile";
-import DeleteUser from "../../components/Modals/DeleteUser";
-import DeleteAddress from "../../components/Modals/DeleteAddress";
+import DeleteUser from "../../components/AlertBox/DeleteUser";
+import DeleteAddress from "../../components/AlertBox/DeleteAddress";
 import UpdateAddress from "../../components/Modals/UpdateAddress";
 import { useState } from "react";
 

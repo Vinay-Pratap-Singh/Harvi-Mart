@@ -66,7 +66,7 @@ const UpdateProfile: React.FC<Iprops> = ({
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader textAlign={"center"}>
+            <ModalHeader textAlign={"center"} fontWeight={"bold"}>
               Update your profile details
             </ModalHeader>
 
@@ -101,6 +101,7 @@ const UpdateProfile: React.FC<Iprops> = ({
                   <Input
                     type="text"
                     placeholder="Vinay Pratap Singh Harvi"
+                    focusBorderColor="primaryColor"
                     {...register("fullName", {
                       required: {
                         value: true,

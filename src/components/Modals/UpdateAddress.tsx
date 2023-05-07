@@ -79,8 +79,8 @@ const UpdateAddress: React.FC<Iprops> = ({
         >
           <ModalOverlay />
           <ModalContent m={0}>
-            <ModalHeader textAlign={"center"}>
-              Update your phone number
+            <ModalHeader textAlign={"center"} fontWeight={"bold"}>
+              Update Your Address
             </ModalHeader>
 
             <ModalBody>
@@ -95,6 +95,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                   />
                   <Input
                     type="text"
+                    focusBorderColor="primaryColor"
                     placeholder="Vinay Pratap Singh Harvi"
                     {...register("fullName", {
                       required: {
@@ -125,6 +126,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                   />
                   <Input
                     type="text"
+                    focusBorderColor="primaryColor"
                     placeholder="9087654321"
                     {...register("phoneNumber", {
                       required: {
@@ -155,6 +157,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                   />
                   <Input
                     type="text"
+                    focusBorderColor="primaryColor"
                     placeholder="123 (A)"
                     {...register("houseNumber", {
                       required: {
@@ -185,6 +188,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                   />
                   <Input
                     type="text"
+                    focusBorderColor="primaryColor"
                     placeholder="9087654321"
                     {...register("city", {
                       required: {
@@ -215,6 +219,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                   />
                   <Input
                     type="text"
+                    focusBorderColor="primaryColor"
                     placeholder="Uttar Pradesh"
                     {...register("state", {
                       required: {
@@ -245,6 +250,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                   />
                   <Input
                     type="text"
+                    focusBorderColor="primaryColor"
                     placeholder="9087654321"
                     {...register("pinCode", {
                       required: {
