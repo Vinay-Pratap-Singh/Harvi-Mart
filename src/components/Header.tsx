@@ -36,10 +36,10 @@ const Header = () => {
       justifyContent={"space-between"}
       alignItems={"center"}
       px={10}
-      my={4}
+      h={"12vh"}
     >
       {/* adding the logo */}
-      <Link as={RouterLink} to={"/"}>
+      <Link as={RouterLink} to={"/"} _hover={{ textDecoration: "none" }}>
         <HStack fontSize={24} fontWeight={"bold"} color={"orange.500"}>
           <AiOutlineShoppingCart fontSize={32} />
           <Text>Harvi Mart</Text>

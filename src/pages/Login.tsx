@@ -82,6 +82,7 @@ const Login = () => {
                 />
                 <Input
                   type="email"
+                  focusBorderColor="primaryColor"
                   placeholder="test@gmail.com"
                   {...register("email", {
                     required: {
@@ -112,6 +113,7 @@ const Login = () => {
                 />
                 <Input
                   type={isPasswordVisible ? "text" : "password"}
+                  focusBorderColor="primaryColor"
                   placeholder="Test@123"
                   {...register("password", {
                     required: {

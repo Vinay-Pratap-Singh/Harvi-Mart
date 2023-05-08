@@ -103,6 +103,7 @@ const Reset = () => {
                 />
                 <Input
                   type={isVisible.isPasswordVisible ? "text" : "password"}
+                  focusBorderColor="primaryColor"
                   placeholder="Test@123"
                   {...register("password", {
                     required: {
@@ -145,6 +146,7 @@ const Reset = () => {
                   type={
                     isVisible.isConfirmPasswordVisible ? "text" : "password"
                   }
+                  focusBorderColor="primaryColor"
                   placeholder="Test@123"
                   {...register("confirmPassword", {
                     required: {

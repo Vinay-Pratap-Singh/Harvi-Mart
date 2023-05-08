@@ -79,6 +79,7 @@ const Forget = () => {
                 />
                 <Input
                   type="email"
+                  focusBorderColor="primaryColor"
                   placeholder="test@gmail.com"
                   {...register("email", {
                     required: {

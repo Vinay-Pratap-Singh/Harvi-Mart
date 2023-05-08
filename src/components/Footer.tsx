@@ -15,7 +15,13 @@ import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <VStack px={10} mb={5} fontWeight={"semibold"}>
+    <VStack
+      px={10}
+      h={"18vh"}
+      fontWeight={"semibold"}
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
       <HStack w={"full"} justifyContent={"space-between"}>
         <Text display={"flex"} alignItems={"center"} gap={1}>
           All rights reserved by{" "}
