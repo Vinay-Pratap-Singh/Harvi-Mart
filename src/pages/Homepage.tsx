@@ -3,6 +3,7 @@ import {
   HStack,
   Heading,
   Image,
+  Link,
   ListItem,
   Text,
   UnorderedList,
@@ -12,6 +13,7 @@ import Layout from "./Layout/Layout";
 import Footer from "../components/Footer";
 import homepageImage from "../assets/homepage.jpg";
 import CategoryCard from "../components/CategoryCard";
+import { Link as RouterLink } from "react-router-dom";
 
 const Homepage = () => {
   // category items details
@@ -74,7 +76,9 @@ const Homepage = () => {
             <ListItem>24/7 customer support</ListItem>
           </UnorderedList>
 
-          <Button colorScheme="orange">Browse Collection</Button>
+          <Link as={RouterLink} to={"/products"}>
+            <Button colorScheme="orange">Browse Collection</Button>
+          </Link>
         </VStack>
       </HStack>
 

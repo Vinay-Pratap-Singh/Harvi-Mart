@@ -8,6 +8,7 @@ const ProductCard = () => {
     description: "Best sports shoe for a stylish look and confortable feel",
     originalPrice: 100,
     productImage: productImage,
+    category: "shoes",
   };
   return (
     <VStack w={60} p={2} rounded={"md"} shadow={"md"} pos={"relative"}>
@@ -16,11 +17,12 @@ const ProductCard = () => {
       </Box>
       <Image h={40} src={productDetail.productImage} />
       <Heading fontSize={"xl"}>{productDetail.title}</Heading>
-      <Text fontWeight={"bold"}>{productDetail.originalPrice} &#x20b9;</Text>
+      <Text fontWeight={"bold"}>
+        {productDetail.originalPrice} &#x20b9; only
+      </Text>
       <Button w={"full"} colorScheme="orange">
         Product Details
-      </Button>
-      s{" "}
+      </Button>{" "}
     </VStack>
   );
 };

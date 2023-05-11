@@ -1,4 +1,3 @@
-import React from "react";
 import ProductCard from "../components/ProductCard";
 import { HStack } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
