@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineRateReview } from "react-icons/md";
 import StarReview from "../components/StarReview";
 import { useEffect, useState } from "react";
+import UserReview from "../components/UserReview";
 
 interface IreviewData {
   title: string;
@@ -54,8 +55,9 @@ const ProductDescription = () => {
         <Image src={myProduct} h={96} alt="product image" />
       </Box>
 
+      {/* right section for product details */}
       <VStack overflowY={"scroll"} w={"60%"} h={"full"} gap={10}>
-        {/* right section for product details */}
+        {/* for product details */}
         <VStack
           alignItems={"self-start"}
           alignSelf={"flex-start"}
@@ -73,6 +75,14 @@ const ProductDescription = () => {
           <Text>Category Name : Shoes</Text>
           <Text>Price : 100 &#x20b9; only</Text>
           <Button colorScheme="orange">Buy Now</Button>
+        </VStack>
+
+        {/* for product review */}
+        <VStack w={"full"} alignItems={"flex-start"}>
+          <Heading fontSize={"2xl"} fontWeight={"bold"}>
+            Users Feedback
+          </Heading>
+          <UserReview />
         </VStack>
 
         {/* creating the review section */}
