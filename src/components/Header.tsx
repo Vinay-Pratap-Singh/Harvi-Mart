@@ -68,10 +68,11 @@ const Header = () => {
         gap={10}
         fontWeight={500}
       >
+        {/* wishlist */}
         <ListItem pos={"relative"}>
           <Link
             as={RouterLink}
-            href="#"
+            to={"/wishlist"}
             display={"flex"}
             alignItems={"center"}
             gap={2}
@@ -93,6 +94,20 @@ const Header = () => {
             >
               {totalWishlistItem}
             </Text>
+          </Link>
+        </ListItem>
+
+        {/* cart */}
+        <ListItem pos={"relative"}>
+          <Link
+            as={RouterLink}
+            href="#"
+            display={"flex"}
+            alignItems={"center"}
+            gap={2}
+          >
+            <AiOutlineShoppingCart fontSize={"20px"} />
+            Cart
           </Link>
         </ListItem>
 

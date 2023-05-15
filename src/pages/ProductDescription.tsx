@@ -56,12 +56,12 @@ const ProductDescription = () => {
       </Box>
 
       {/* right section for product details */}
-      <VStack overflowY={"scroll"} w={"60%"} h={"full"} gap={10}>
+      <VStack overflowY={"scroll"} w={"60%"} h={"full"} gap={10} px={1}>
         {/* for product details */}
         <VStack
           alignItems={"self-start"}
           alignSelf={"flex-start"}
-          w={"60%"}
+          w={"full"}
           fontWeight={"semibold"}
         >
           <Heading fontSize={"2xl"} fontWeight={"bold"}>
@@ -94,7 +94,7 @@ const ProductDescription = () => {
 
           <form
             onSubmit={handleSubmit(handleFormSubmit)}
-            style={{ width: "100%", paddingRight: "10px" }}
+            style={{ width: "100%" }}
           >
             <VStack>
               {/* for review title */}
