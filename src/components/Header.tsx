@@ -101,7 +101,7 @@ const Header = () => {
         <ListItem pos={"relative"}>
           <Link
             as={RouterLink}
-            href="#"
+            to={"/cart"}
             display={"flex"}
             alignItems={"center"}
             gap={2}
