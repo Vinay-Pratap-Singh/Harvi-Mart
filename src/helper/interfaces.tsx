@@ -2,15 +2,13 @@
 export interface IauthSliceState {
   accessToken: string;
   isLoggedIn: boolean;
-  userDetails: {
-    fullName: string;
-    email: string;
-    phoneNumber: string;
-    role: number;
-    avatar: {
-      public_id: string;
-      secure_url: string;
-    };
-    addresses: string[];
-  };
+  userDetails: {};
+}
+
+// interface for signup data
+export interface IsignupData {
+  fullName: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
 }
