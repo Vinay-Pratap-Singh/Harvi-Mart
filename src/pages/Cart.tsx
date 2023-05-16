@@ -6,7 +6,6 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  InputLeftElement,
   InputRightAddon,
   Text,
   VStack,
@@ -14,6 +13,7 @@ import {
 import Layout from "./Layout/Layout";
 import productImage from "../assets/CategoryImages/shoes.png";
 import { useState } from "react";
+import { MdShoppingCartCheckout } from "react-icons/md";
 
 const Cart = () => {
   const [noOfItem, setNoOfItem] = useState(1);
@@ -116,7 +116,11 @@ const Cart = () => {
             />
           </InputGroup>
 
-          <Button w="full" colorScheme="orange">
+          <Button
+            w="full"
+            colorScheme="orange"
+            leftIcon={<MdShoppingCartCheckout size={20} />}
+          >
             Checkout
           </Button>
         </VStack>
