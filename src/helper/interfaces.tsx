@@ -2,7 +2,7 @@
 export interface IauthSliceState {
   accessToken: string;
   isLoggedIn: boolean;
-  userDetails: {};
+  userDetails: any;
 }
 
 // interface for signup data

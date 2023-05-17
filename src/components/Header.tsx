@@ -25,11 +25,28 @@ import {
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { Link as RouterLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import { logout } from "../redux/authSlice";
+import { useState } from "react";
 
 const Header = () => {
-  const isUserLoggedIn = true;
-  const userProfileImage = "";
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoggedIn, userDetails } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const userProfileImage = userDetails?.avatar?.secure_url || "";
   const totalWishlistItem = 0;
+
+  // for handling the button loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // function to handle the user logout
+  const handleLogout = async () => {
+    setIsSubmitting(true);
+    await dispatch(logout());
+    setIsSubmitting(false);
+  };
 
   return (
     <HStack
@@ -77,7 +94,7 @@ const Header = () => {
             alignItems={"center"}
             gap={2}
           >
-            <AiFillHeart color="red" fontSize={"20px"} />
+            <AiFillHeart color="#DD6B20" fontSize={"20px"} />
             Wishlist
             <Text
               as={"span"}
@@ -111,7 +128,7 @@ const Header = () => {
           </Link>
         </ListItem>
 
-        {!isUserLoggedIn ? (
+        {!isLoggedIn ? (
           <ListItem>
             <Link as={RouterLink} to="/login">
               <Button colorScheme="orange">Login</Button>
@@ -133,11 +150,17 @@ const Header = () => {
                 <PopoverBody>
                   <VStack spacing={0} mb={3}>
                     {userProfileImage ? (
-                      <Image src={userProfileImage} alt="profile picture" />
+                      <Image
+                        src={userProfileImage}
+                        w={40}
+                        borderRadius={"full"}
+                        m={2}
+                        alt="profile picture"
+                      />
                     ) : (
                       <BiUserCircle fontSize={"120px"} />
                     )}
-                    <Heading fontSize={"xl"}>Vinay Pratap Singh</Heading>
+                    <Heading fontSize={"xl"}>{userDetails?.fullName}</Heading>
                   </VStack>
 
                   <UnorderedList listStyleType={"none"} m={0} spacing={2}>
@@ -172,7 +195,14 @@ const Header = () => {
                     </ListItem>
 
                     <ListItem>
-                      <Button w={"full"} colorScheme="red">
+                      <Button
+                        w={"full"}
+                        colorScheme="red"
+                        isLoading={isSubmitting}
+                        loadingText="Logging Out..."
+                        spinnerPlacement="start"
+                        onClick={handleLogout}
+                      >
                         Logout
                       </Button>
                     </ListItem>
