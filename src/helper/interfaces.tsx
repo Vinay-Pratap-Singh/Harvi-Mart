@@ -12,3 +12,9 @@ export interface IsignupData {
   password: string;
   phoneNumber: string;
 }
+
+// interface for login data
+export interface IloginData {
+  email: string;
+  password: string;
+}

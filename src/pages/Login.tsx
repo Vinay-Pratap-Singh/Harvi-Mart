@@ -13,20 +13,19 @@ import {
   Link,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../assets/signup.jpg";
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiLock } from "react-icons/bi";
-
-// interface for login data
-interface IloginData {
-  email: string;
-  password: string;
-}
+import { IloginData } from "../helper/interfaces";
+import { AppDispatch } from "../redux/store";
+import { login } from "../redux/authSlice";
 
 const Login = () => {
   const {
@@ -41,10 +40,32 @@ const Login = () => {
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const toast = useToast();
 
   // function to login the user
-  const handleLogin: SubmitHandler<IloginData> = (data) => {
-    console.log(data);
+  const handleLogin: SubmitHandler<IloginData> = async (data) => {
+    const res = await dispatch(login(data));
+    if (res.payload.success) {
+      toast({
+        title: "Login successfull",
+        isClosable: true,
+        status: "success",
+        variant: "left-accent",
+        position: "top",
+      });
+      // sending the user to homepage
+      navigate("/");
+    } else {
+      toast({
+        title: "Failed to create account",
+        isClosable: true,
+        status: "error",
+        variant: "left-accent",
+        position: "top",
+      });
+    }
   };
   return (
     <Box
