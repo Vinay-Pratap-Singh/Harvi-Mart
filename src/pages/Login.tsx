@@ -13,7 +13,6 @@ import {
   Link,
   Text,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../assets/signup.jpg";
@@ -31,7 +30,9 @@ const Login = () => {
   const {
     handleSubmit,
     register,
+    watch,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<IloginData>({
     defaultValues: {
       email: "",
@@ -42,29 +43,16 @@ const Login = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const toast = useToast();
 
   // function to login the user
   const handleLogin: SubmitHandler<IloginData> = async (data) => {
     const res = await dispatch(login(data));
-    if (res.payload.success) {
-      toast({
-        title: "Login successfull",
-        isClosable: true,
-        status: "success",
-        variant: "left-accent",
-        position: "top",
-      });
+    if (res?.payload?.success) {
       // sending the user to homepage
       navigate("/");
     } else {
-      toast({
-        title: "Failed to create account",
-        isClosable: true,
-        status: "error",
-        variant: "left-accent",
-        position: "top",
-      });
+      const { email, password } = watch();
+      reset({ email, password });
     }
   };
   return (

@@ -1,6 +1,7 @@
 import axiosInstance from "../helper/AxiosInstance";
 import { IauthSliceState, IloginData, IsignupData } from "../helper/interfaces";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-hot-toast";
 
 const initialState: IauthSliceState = {
   accessToken: localStorage.getItem("accessToken") || "",
@@ -17,9 +18,8 @@ export const createAccount = createAsyncThunk(
     try {
       const res = await axiosInstance.post("/auth/new", { ...data });
       return res.data;
-    } catch (error) {
-      console.log(error);
-      // error.response.data.message
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
     }
   }
 );
@@ -31,8 +31,8 @@ export const login = createAsyncThunk(
     try {
       const res = await axiosInstance.post("/auth", { ...data });
       return res.data;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
     }
   }
 );
@@ -42,26 +42,49 @@ export const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    //   for handling the create account function
-    builder.addCase(createAccount.fulfilled, (state, action) => {
-      state.isLoggedIn = true;
-      state.userDetails = action.payload?.user;
-      state.accessToken = action.payload?.accessToken;
-      localStorage.setItem("accessToken", action.payload?.accessToken);
-      localStorage.setItem("isLoggedIn", JSON.stringify(true));
-      localStorage.setItem("userDetails", JSON.stringify(action.payload?.user));
-    });
-
-    //   for handling the login functionality
-    builder.addCase(login.fulfilled, (state, action) => {
-      console.log(action.payload);
-      state.isLoggedIn = true;
-      state.userDetails = action.payload?.user;
-      state.accessToken = action.payload?.accessToken;
-      localStorage.setItem("accessToken", action.payload?.accessToken);
-      localStorage.setItem("isLoggedIn", JSON.stringify(true));
-      localStorage.setItem("userDetails", JSON.stringify(action.payload?.user));
-    });
+    builder
+      //   for handling the create account function
+      .addCase(createAccount.fulfilled, (state, action) => {
+        toast.success("Account created successfully");
+        action.payload?.accessToken && (state.isLoggedIn = true);
+        state.userDetails = action.payload?.user;
+        state.accessToken = action.payload?.accessToken;
+        action.payload?.accessToken &&
+          localStorage.setItem("accessToken", action.payload?.accessToken);
+        action.payload?.accessToken &&
+          localStorage.setItem("isLoggedIn", JSON.stringify(true));
+        action.payload?.user &&
+          localStorage.setItem(
+            "userDetails",
+            JSON.stringify(action.payload?.user)
+          );
+      })
+      .addCase(createAccount.rejected, (state) => {
+        toast.error("Failed to create account");
+        state.isLoggedIn = false;
+        localStorage.clear();
+      })
+      //   for handling the login functionality
+      .addCase(login.fulfilled, (state, action) => {
+        toast.success("Login successfull");
+        action.payload?.accessToken && (state.isLoggedIn = true);
+        state.userDetails = action.payload?.user;
+        state.accessToken = action.payload?.accessToken;
+        action.payload?.accessToken &&
+          localStorage.setItem("accessToken", action.payload?.accessToken);
+        action.payload?.accessToken &&
+          localStorage.setItem("isLoggedIn", JSON.stringify(true));
+        action.payload?.user &&
+          localStorage.setItem(
+            "userDetails",
+            JSON.stringify(action.payload?.user)
+          );
+      })
+      .addCase(login.rejected, (state) => {
+        toast.error("Failed to login");
+        state.isLoggedIn = false;
+        localStorage.clear();
+      });
   },
 });
 
