@@ -19,9 +19,12 @@ import myImage from "../../assets/forgetPassword.jpg";
 import myImageLogo from "../../assets/forgetPasswordLogo.png";
 import { Link as RouterLink } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { forgetPassword } from "../../redux/authSlice";
 
 // interface for login data
-interface IloginData {
+interface IforgetPasswordData {
   email: string;
 }
 
@@ -30,16 +33,20 @@ const Forget = () => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<IloginData>({
+  } = useForm<IforgetPasswordData>({
     defaultValues: {
       email: "",
     },
   });
+  const dispatch = useDispatch<AppDispatch>();
 
   // function to get the rese link
-  const handleForgetPassword: SubmitHandler<IloginData> = (data) => {
-    console.log(data);
+  const handleForgetPassword: SubmitHandler<IforgetPasswordData> = async (
+    data
+  ) => {
+    await dispatch(forgetPassword(data.email));
   };
+
   return (
     <Box
       w={"100vw"}

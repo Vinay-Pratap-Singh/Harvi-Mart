@@ -17,13 +17,16 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../../assets/resetPassword.jpg";
 import myImageLogo from "../../assets/forgetPasswordLogo.png";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { BiLock } from "react-icons/bi";
 import { useState } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { resetPassword } from "../../redux/authSlice";
 
 // interface for login data
-interface IloginData {
+interface IresetPasswordData {
   password: string;
   confirmPassword: string;
 }
@@ -33,12 +36,17 @@ const Reset = () => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<IloginData>({
+    reset,
+  } = useForm<IresetPasswordData>({
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
+  const dispatch = useDispatch<AppDispatch>();
+
+  // getting the token from the url
+  const { token } = useParams();
 
   const [isVisible, setIsVisible] = useState<{
     isPasswordVisible: boolean;
@@ -63,7 +71,19 @@ const Reset = () => {
   };
 
   // function to get the rese link
-  const handlePasswordReset: SubmitHandler<IloginData> = (data) => {};
+  const handlePasswordReset: SubmitHandler<IresetPasswordData> = async (
+    data
+  ) => {
+    if (token) {
+      const res = await dispatch(
+        resetPassword({ token, password: data.password })
+      );
+      if (res.payload) {
+        reset();
+      }
+    }
+  };
+
   return (
     <Box
       w={"100vw"}
@@ -86,7 +106,7 @@ const Reset = () => {
             borderRadius={"5px"}
           >
             <Heading display={"flex"} gap={2} size={"lg"} fontSize={"2xl"}>
-              Password Recovery <Text color="orange.500">:)</Text>
+              Change Password <Text color="orange.500">:)</Text>
             </Heading>
 
             {/* logo image for forget password */}

@@ -11,7 +11,7 @@ const initialState: IauthSliceState = {
   userDetails: JSON.parse(localStorage.getItem("userDetails") || "{}"),
 };
 
-// function for creating the new account
+// function for creating a new account
 export const createAccount = createAsyncThunk(
   "/auth/signup",
   async (data: IsignupData) => {
@@ -24,7 +24,7 @@ export const createAccount = createAsyncThunk(
   }
 );
 
-// function to login the user
+// function to handle login
 export const login = createAsyncThunk(
   "/auth/login",
   async (data: IloginData) => {
@@ -37,7 +37,7 @@ export const login = createAsyncThunk(
   }
 );
 
-// function to logout the user
+// function to handle logout
 export const logout = createAsyncThunk("/auth/logout", async () => {
   try {
     const res = await axiosInstance.post("/auth/logout");
@@ -46,6 +46,34 @@ export const logout = createAsyncThunk("/auth/logout", async () => {
     toast.error(error?.response?.data?.message);
   }
 });
+
+// function to handle forget password
+export const forgetPassword = createAsyncThunk(
+  "auth/forget",
+  async (email: string) => {
+    try {
+      const res = await axiosInstance.post("/auth/reset", { email });
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to handle reset password
+export const resetPassword = createAsyncThunk(
+  "/auth/reset",
+  async (data: { token: string; password: string }) => {
+    try {
+      const res = await axiosInstance.post(`/auth/reset/${data.token}`, {
+        password: data.password,
+      });
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -105,6 +133,24 @@ export const authSlice = createSlice({
         state.accessToken = "";
         state.isLoggedIn = false;
         state.userDetails = {};
+      })
+
+      // for handling the forget password
+      .addCase(forgetPassword.fulfilled, () => {
+        toast.success("Please check your email for reset link");
+      })
+      .addCase(forgetPassword.rejected, () => {
+        toast.error("Failed to send the reset link");
+      })
+
+      // for handling the reset password
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        if (action.payload) {
+          toast.success("Password changed successfully");
+        }
+      })
+      .addCase(resetPassword.rejected, () => {
+        toast.error("Failed to change password");
       });
   },
 });
