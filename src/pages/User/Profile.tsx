@@ -19,6 +19,10 @@ import DeleteUser from "../../components/AlertBox/DeleteUser";
 import DeleteAddress from "../../components/AlertBox/DeleteAddress";
 import UpdateAddress from "../../components/Modals/UpdateAddress";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import Layout from "../Layout/Layout";
+import Footer from "../../components/Footer";
 
 // defining the type of address
 interface Iaddress {
@@ -36,6 +40,10 @@ const Profile = () => {
   const email = "test@gmail.com";
   const phoneNumber = 9087654321;
   const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
+
+  // getting the details of user
+  const userDetails = useSelector((state: RootState) => state.auth.userDetails);
+  console.log(userDetails);
 
   // for managing the modals state
   const {
@@ -105,138 +113,149 @@ const Profile = () => {
   };
 
   return (
-    <VStack h={"100vh"} overflow={"hidden"} p={10} gap={5}>
-      <Heading fontSize={"2xl"}>
-        Welcome{" "}
-        <Text as={"span"} color={"orange.500"}>
-          {fullName}
-        </Text>{" "}
-        to your profile
-      </Heading>
+    <Layout>
+      {" "}
+      <VStack p={10} gap={5}>
+        <Heading fontSize={"2xl"}>
+          Welcome{" "}
+          <Text as={"span"} color={"orange.500"}>
+            {fullName}
+          </Text>{" "}
+          to your profile
+        </Heading>
 
-      <HStack gap={10} alignItems={"stretch"} h={"330px"}>
-        {/* for user's personal information */}
-        <VStack
-          alignSelf={"center"}
-          alignContent={"center"}
-          shadow={"md"}
-          p={3}
-          borderRadius={5}
-        >
-          <Heading fontSize={"xl"}>Personal Details</Heading>
-          {userImage ? (
-            <Image
-              h={40}
-              w={40}
-              borderRadius={"full"}
-              src={userImage}
-              alt="user image"
-            />
-          ) : (
-            <BiUser fontSize={80} />
-          )}
-
-          <Grid templateColumns="repeat(2,1fr)" gap={2} fontWeight={"semibold"}>
-            <GridItem>Full Name</GridItem>
-            <GridItem>{fullName}</GridItem>
-            <GridItem>Email</GridItem>
-            <GridItem>{email}</GridItem>
-            <GridItem>Phone Number</GridItem>
-            <GridItem>{phoneNumber}</GridItem>
-            <GridItem>
-              <UpdateProfile
-                updateProfileIsOpen={updateProfileIsOpen}
-                updateProfileOnClose={updateProfileOnClose}
-                updateProfileOnOpen={updateProfileOnOpen}
+        <HStack gap={10} alignItems={"stretch"} h={"330px"}>
+          {/* for user's personal information */}
+          <VStack
+            alignSelf={"center"}
+            alignContent={"center"}
+            shadow={"md"}
+            p={3}
+            borderRadius={5}
+          >
+            <Heading fontSize={"xl"}>Personal Details</Heading>
+            {userImage ? (
+              <Image
+                h={40}
+                w={40}
+                borderRadius={"full"}
+                src={userImage}
+                alt="user image"
               />
-            </GridItem>
-            <GridItem>
-              <Link as={RouterLink} to={"/auth/reset/change-password"}>
-                <Button colorScheme="yellow" color={"white"}>
-                  Change Password
-                </Button>
-              </Link>
-            </GridItem>
-            <GridItem colSpan={2}>
-              <DeleteUser
-                deleteUserIsOpen={deleteUserIsOpen}
-                deleteUserOnClose={deleteUserOnClose}
-                deleteUserOnOpen={deleteUserOnOpen}
-              />
-            </GridItem>
-          </Grid>
-        </VStack>
-
-        {/* for user's address */}
-        <VStack
-          alignSelf={"stretch"}
-          justifyContent={"center"}
-          shadow={"md"}
-          p={3}
-          borderRadius={5}
-        >
-          <HStack w={"full"} justifyContent={"space-between"}>
-            <Button
-              disabled={currentAddressIndex === 0}
-              onClick={getPreviousAddress}
-            >
-              <GrFormPrevious />
-            </Button>
-            <Heading fontSize={"xl"}>Your Addresses</Heading>
-            <Button
-              disabled={addresses.length === currentAddressIndex + 1}
-              onClick={getNextAddress}
-            >
-              <GrFormNext />
-            </Button>
-          </HStack>
-
-          <HStack gap={5}>
-            {addresses.length === 0 ? (
-              <Text fontWeight={"semibold"}>Oops! No address found</Text>
             ) : (
-              <Grid
-                templateColumns="repeat(2,1fr)"
-                gap={2}
-                fontWeight={"semibold"}
-              >
-                <GridItem>Full Name</GridItem>
-                <GridItem>{addresses[currentAddressIndex]?.fullName}</GridItem>
-                <GridItem>Phone Number</GridItem>
-                <GridItem>
-                  {addresses[currentAddressIndex]?.phoneNumber}
-                </GridItem>
-                <GridItem>House Number</GridItem>
-                <GridItem>
-                  {addresses[currentAddressIndex]?.houseNumber}
-                </GridItem>
-                <GridItem>City</GridItem>
-                <GridItem>{addresses[currentAddressIndex]?.city}</GridItem>
-                <GridItem>State</GridItem>
-                <GridItem>{addresses[currentAddressIndex]?.state}</GridItem>
-                <GridItem>Pin Code</GridItem>
-                <GridItem>{addresses[currentAddressIndex]?.pinCode}</GridItem>
-                <GridItem>
-                  <UpdateAddress
-                    updateAddressIsOpen={updateAddressIsOpen}
-                    updateAddressOnClose={updateAddressOnClose}
-                    updateAddressOnOpen={updateAddressOnOpen}
-                    data={addresses[currentAddressIndex]}
-                  />
-                </GridItem>
-                <GridItem>
-                  <DeleteAddress
-                    deleteAddressIsOpen={deleteAddressIsOpen}
-                    deleteAddressOnClose={deleteAddressOnClose}
-                    deleteAddressOnOpen={deleteAddressOnOpen}
-                  />
-                </GridItem>
-              </Grid>
+              <BiUser fontSize={80} />
             )}
-          </HStack>
-        </VStack>
-      </HStack>
-    </VStack>
+
+            <Grid
+              templateColumns="repeat(2,1fr)"
+              gap={2}
+              fontWeight={"semibold"}
+            >
+              <GridItem>Full Name</GridItem>
+              <GridItem>{fullName}</GridItem>
+              <GridItem>Email</GridItem>
+              <GridItem>{email}</GridItem>
+              <GridItem>Phone Number</GridItem>
+              <GridItem>{phoneNumber}</GridItem>
+              <GridItem>
+                <UpdateProfile
+                  updateProfileIsOpen={updateProfileIsOpen}
+                  updateProfileOnClose={updateProfileOnClose}
+                  updateProfileOnOpen={updateProfileOnOpen}
+                />
+              </GridItem>
+              <GridItem>
+                <Link as={RouterLink} to={"/auth/reset/change-password"}>
+                  <Button colorScheme="gray" fontSize={"15px"}>
+                    Change Password
+                  </Button>
+                </Link>
+              </GridItem>
+              <GridItem colSpan={2}>
+                <DeleteUser
+                  deleteUserIsOpen={deleteUserIsOpen}
+                  deleteUserOnClose={deleteUserOnClose}
+                  deleteUserOnOpen={deleteUserOnOpen}
+                />
+              </GridItem>
+            </Grid>
+          </VStack>
+
+          {/* for user's address */}
+          <VStack
+            alignSelf={"stretch"}
+            justifyContent={"center"}
+            shadow={"md"}
+            p={3}
+            borderRadius={5}
+          >
+            <HStack w={"full"} justifyContent={"space-between"}>
+              <Button
+                disabled={currentAddressIndex === 0}
+                onClick={getPreviousAddress}
+              >
+                <GrFormPrevious />
+              </Button>
+              <Heading fontSize={"xl"}>Your Addresses</Heading>
+              <Button
+                disabled={addresses.length === currentAddressIndex + 1}
+                onClick={getNextAddress}
+              >
+                <GrFormNext />
+              </Button>
+            </HStack>
+
+            <HStack gap={5}>
+              {addresses.length === 0 ? (
+                <Text fontWeight={"semibold"}>Oops! No address found</Text>
+              ) : (
+                <Grid
+                  templateColumns="repeat(2,1fr)"
+                  gap={2}
+                  fontWeight={"semibold"}
+                >
+                  <GridItem>Full Name</GridItem>
+                  <GridItem>
+                    {addresses[currentAddressIndex]?.fullName}
+                  </GridItem>
+                  <GridItem>Phone Number</GridItem>
+                  <GridItem>
+                    {addresses[currentAddressIndex]?.phoneNumber}
+                  </GridItem>
+                  <GridItem>House Number</GridItem>
+                  <GridItem>
+                    {addresses[currentAddressIndex]?.houseNumber}
+                  </GridItem>
+                  <GridItem>City</GridItem>
+                  <GridItem>{addresses[currentAddressIndex]?.city}</GridItem>
+                  <GridItem>State</GridItem>
+                  <GridItem>{addresses[currentAddressIndex]?.state}</GridItem>
+                  <GridItem>Pin Code</GridItem>
+                  <GridItem>{addresses[currentAddressIndex]?.pinCode}</GridItem>
+                  <GridItem>
+                    <UpdateAddress
+                      updateAddressIsOpen={updateAddressIsOpen}
+                      updateAddressOnClose={updateAddressOnClose}
+                      updateAddressOnOpen={updateAddressOnOpen}
+                      data={addresses[currentAddressIndex]}
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <DeleteAddress
+                      deleteAddressIsOpen={deleteAddressIsOpen}
+                      deleteAddressOnClose={deleteAddressOnClose}
+                      deleteAddressOnOpen={deleteAddressOnOpen}
+                    />
+                  </GridItem>
+                </Grid>
+              )}
+            </HStack>
+          </VStack>
+        </HStack>
+      </VStack>
+      {/* adding the footer component */}
+      <Footer />
+    </Layout>
   );
 };
 

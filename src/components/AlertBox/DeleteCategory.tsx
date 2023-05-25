@@ -22,8 +22,6 @@ const DeleteCategory: React.FC<Iprops> = ({
   deleteCategoryOnOpen,
   deleteCategoryOnClose,
 }) => {
-  console.log(deleteCategoryIsOpen);
-
   const cancelRef = useRef<HTMLButtonElement>(null);
   return (
     <>

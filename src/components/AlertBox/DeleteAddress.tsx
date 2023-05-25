@@ -28,6 +28,7 @@ const DeleteAddress: React.FC<Iprops> = ({
         w={"full"}
         colorScheme="red"
         color={"white"}
+        fontSize={"15px"}
       >
         Delete Address
       </Button>

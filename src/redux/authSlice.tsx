@@ -75,7 +75,7 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},

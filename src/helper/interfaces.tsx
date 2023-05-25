@@ -18,3 +18,9 @@ export interface IloginData {
   email: string;
   password: string;
 }
+
+// interface for category data
+export interface IcategoryDetails {
+  name: string;
+  description: string;
+}

@@ -54,6 +54,7 @@ const UpdateProfile: React.FC<Iprops> = ({
         colorScheme="orange"
         color={"white"}
         w={"full"}
+        fontSize={"15px"}
       >
         Update Profile
       </Button>
@@ -109,7 +110,8 @@ const UpdateProfile: React.FC<Iprops> = ({
                       },
                       minLength: {
                         value: 5,
-                        message: "Minimum length should be 5 characters",
+                        message:
+                          "Minimum length should be atleast 5 characters",
                       },
                     })}
                   />

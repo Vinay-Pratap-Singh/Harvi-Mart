@@ -28,6 +28,8 @@ const DeleteUser: React.FC<Iprops> = ({
         w={"full"}
         colorScheme="red"
         color={"white"}
+        size={"md"}
+        fontSize={"15px"}
       >
         Delete Account
       </Button>

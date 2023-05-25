@@ -40,7 +40,7 @@ const Forget = () => {
   });
   const dispatch = useDispatch<AppDispatch>();
 
-  // function to get the rese link
+  // function to get the reset link
   const handleForgetPassword: SubmitHandler<IforgetPasswordData> = async (
     data
   ) => {
