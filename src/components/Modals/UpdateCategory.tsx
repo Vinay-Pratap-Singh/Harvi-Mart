@@ -25,25 +25,28 @@ interface Iprops {
   updateCategoryIsOpen: boolean;
   updateCategoryOnOpen: () => void;
   updateCategoryOnClose: () => void;
+  data: { id: string; name: string; description: string };
 }
 
 const UpdateCategory: React.FC<Iprops> = ({
   updateCategoryIsOpen,
   updateCategoryOnClose,
   updateCategoryOnOpen,
+  data,
 }) => {
+  console.log(data);
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm<IupdateCategory>({
     defaultValues: {
-      name: "",
-      description: "",
+      name: data.name || "",
+      description: data.description || "",
     },
   });
 
-  // function to login the user
+  // function to update the category name
   const handleUpdate: SubmitHandler<IupdateCategory> = (data) => {
     console.log(data);
   };

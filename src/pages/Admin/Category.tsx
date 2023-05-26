@@ -1,11 +1,17 @@
 import categoryPageImg from "../../assets/categoryPageImg.jpg";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   ButtonGroup,
   HStack,
   Heading,
   Image,
   ListItem,
+  Text,
   UnorderedList,
   VStack,
   useDisclosure,
@@ -15,19 +21,14 @@ import UpdateCategory from "../../components/Modals/UpdateCategory";
 import Layout from "../Layout/Layout";
 import Footer from "../../components/Footer";
 import AddCategory from "../../components/Modals/AddCategory";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { getAllCategories } from "../../redux/categorySlice";
 
 const Category = () => {
-  const myCategories = [
-    "shoes",
-    "shirt",
-    "t-shirt",
-    "shoes",
-    "shirt",
-    "t-shirt",
-    "shoes",
-    "shirt",
-    "t-shirt",
-  ];
+  const { categories } = useSelector((state: RootState) => state.category);
+
   const {
     isOpen: deleteCategoryIsOpen,
     onOpen: deleteCategoryOnOpen,
@@ -43,6 +44,15 @@ const Category = () => {
     onOpen: addCategoryOnOpen,
     onClose: addCategoryOnClose,
   } = useDisclosure();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  // for loading categories data on page render
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllCategories());
+    })();
+  }, []);
 
   return (
     <Layout>
@@ -73,40 +83,67 @@ const Category = () => {
             />
           </Box>
 
-          <UnorderedList
-            alignSelf={"flex-start"}
-            fontWeight={"semibold"}
+          <Accordion
+            allowToggle
             w={"full"}
+            // minH={"full"}
             overflowY={"scroll"}
             px={1}
           >
-            {myCategories &&
-              myCategories.map((category, index) => {
+            {categories &&
+              categories.map((category: any, index) => {
                 return (
-                  <ListItem
-                    key={index}
-                    display={"flex"}
-                    alignItems={"center"}
-                    justifyContent={"space-between"}
-                    mb={2}
-                  >
-                    {category}
-                    <ButtonGroup>
-                      <UpdateCategory
-                        updateCategoryIsOpen={updateCategoryIsOpen}
-                        updateCategoryOnClose={updateCategoryOnClose}
-                        updateCategoryOnOpen={updateCategoryOnOpen}
-                      />
-                      <DeleteCategory
-                        deleteCategoryIsOpen={deleteCategoryIsOpen}
-                        deleteCategoryOnClose={deleteCategoryOnClose}
-                        deleteCategoryOnOpen={deleteCategoryOnOpen}
-                      />
-                    </ButtonGroup>
-                  </ListItem>
+                  <AccordionItem key={category?._id}>
+                    <h2>
+                      <AccordionButton fontWeight={"semibold"}>
+                        <Box as="span" flex="1" textAlign="left">
+                          {index + 1 > 9 ? index + 1 : "0" + (index + 1)}{" "}
+                          {category?.name}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <HStack justifyContent={"space-between"}>
+                        <VStack>
+                          <Heading
+                            alignSelf={"flex-start"}
+                            fontSize={"lg"}
+                            fontWeight={"semibold"}
+                          >
+                            {category?.name}
+                          </Heading>
+                          <Text alignSelf={"flex-start"} fontSize={"md"}>
+                            {category.description
+                              ? category.description
+                              : "No Description Available"}
+                          </Text>
+                        </VStack>
+
+                        <VStack>
+                          <UpdateCategory
+                            updateCategoryIsOpen={updateCategoryIsOpen}
+                            updateCategoryOnClose={updateCategoryOnClose}
+                            updateCategoryOnOpen={updateCategoryOnOpen}
+                            data={{
+                              id: category?._id,
+                              name: category?.name,
+                              description: category?.description,
+                            }}
+                          />
+                          <DeleteCategory
+                            deleteCategoryIsOpen={deleteCategoryIsOpen}
+                            deleteCategoryOnClose={deleteCategoryOnClose}
+                            deleteCategoryOnOpen={deleteCategoryOnOpen}
+                            id={category?._id}
+                          />
+                        </VStack>
+                      </HStack>
+                    </AccordionPanel>
+                  </AccordionItem>
                 );
               })}
-          </UnorderedList>
+          </Accordion>
         </VStack>
       </HStack>
       {/* adding the footer */}

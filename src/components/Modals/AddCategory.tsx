@@ -17,7 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IcategoryDetails } from "../../helper/interfaces";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { createCategory } from "../../redux/categorySlice";
+import { createCategory, getAllCategories } from "../../redux/categorySlice";
 import { useNavigate } from "react-router-dom";
 
 interface Iprops {
@@ -52,11 +52,12 @@ const AddCategory: React.FC<Iprops> = ({
     data
   ) => {
     const res = await dispatch(createCategory(data));
-    console.log(res.payload);
+
     if (!res.payload) {
       navigate("/login");
     } else if (res.payload?.success) {
       reset();
+      await dispatch(getAllCategories());
     } else {
       const { name, description } = watch();
       reset({ name, description });
