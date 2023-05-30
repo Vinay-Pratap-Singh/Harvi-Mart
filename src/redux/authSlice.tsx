@@ -83,19 +83,18 @@ const authSlice = createSlice({
     builder
       //   for handling the create account function
       .addCase(createAccount.fulfilled, (state, action) => {
-        toast.success("Account created successfully");
-        action.payload?.accessToken && (state.isLoggedIn = true);
-        state.userDetails = action.payload?.user;
-        state.accessToken = action.payload?.accessToken;
-        action.payload?.accessToken &&
-          localStorage.setItem("accessToken", action.payload?.accessToken);
-        action.payload?.accessToken &&
+        if (action.payload) {
+          toast.success("Account created successfully");
+          state.isLoggedIn = true;
+          state.accessToken = action.payload?.accessToken;
+          state.userDetails = action.payload?.user;
           localStorage.setItem("isLoggedIn", JSON.stringify(true));
-        action.payload?.user &&
+          localStorage.setItem("accessToken", action.payload?.accessToken);
           localStorage.setItem(
             "userDetails",
             JSON.stringify(action.payload?.user)
           );
+        }
       })
       .addCase(createAccount.rejected, (state) => {
         toast.error("Failed to create account");
@@ -105,19 +104,18 @@ const authSlice = createSlice({
 
       //   for handling the login functionality
       .addCase(login.fulfilled, (state, action) => {
-        toast.success("Login successfull");
-        action.payload?.accessToken && (state.isLoggedIn = true);
-        state.userDetails = action.payload?.user;
-        state.accessToken = action.payload?.accessToken;
-        action.payload?.accessToken &&
-          localStorage.setItem("accessToken", action.payload?.accessToken);
-        action.payload?.accessToken &&
+        if (action.payload) {
+          toast.success("Login successfull");
+          state.isLoggedIn = true;
+          state.accessToken = action.payload?.accessToken;
+          state.userDetails = action.payload?.user;
           localStorage.setItem("isLoggedIn", JSON.stringify(true));
-        action.payload?.user &&
+          localStorage.setItem("accessToken", action.payload?.accessToken);
           localStorage.setItem(
             "userDetails",
             JSON.stringify(action.payload?.user)
           );
+        }
       })
       .addCase(login.rejected, (state) => {
         toast.error("Failed to login");
@@ -127,7 +125,6 @@ const authSlice = createSlice({
 
       // for handling the logout functionality
       .addCase(logout.fulfilled, (state, action) => {
-        console.log(action.payload);
         toast.success("Logout successfull");
         localStorage.clear();
         state.accessToken = "";
