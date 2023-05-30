@@ -11,11 +11,13 @@ import Products from "../pages/Products";
 import ProductDescription from "../pages/ProductDescription";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Homepage />,
+    errorElement: <NotFound />,
   },
   {
     path: "/login",
