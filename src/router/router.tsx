@@ -12,6 +12,7 @@ import ProductDescription from "../pages/ProductDescription";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
+import NotAuthorized from "../pages/NotAuthorized";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/not-authorized",
+    element: <NotAuthorized />,
   },
 ]);
 
