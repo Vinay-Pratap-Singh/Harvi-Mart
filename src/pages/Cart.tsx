@@ -20,9 +20,9 @@ const Cart = () => {
 
   return (
     <Layout>
-      <HStack m={10} gap={10}>
+      <HStack p={10} gap={10} minH={"70vh"}>
         {/* for displaying the products */}
-        <VStack w={"70%"}>
+        <VStack w={"70%"} alignSelf={"flex-start"}>
           <HStack pb={2} borderBottom={"1px solid gray"}>
             <Image src={productImage} h={32} alt="product image" />
 

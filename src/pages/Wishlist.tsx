@@ -22,7 +22,7 @@ const Wishlist = () => {
   const wishListItem = [{}];
   return (
     <Layout>
-      <HStack gap={10} m={10} overflow={"hidden"} h="73vh">
+      <HStack gap={10} p={5} overflow={"hidden"} h="70vh">
         <Image src={wishlistImg} alt={"wishlist image"} h={"450px"} />
         {/* right side for wishlist */}
         <VStack

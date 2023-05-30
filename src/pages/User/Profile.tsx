@@ -22,7 +22,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Layout from "../Layout/Layout";
-import Footer from "../../components/Footer";
 
 // defining the type of address
 interface Iaddress {
@@ -253,8 +252,6 @@ const Profile = () => {
           </VStack>
         </HStack>
       </VStack>
-      {/* adding the footer component */}
-      <Footer />
     </Layout>
   );
 };

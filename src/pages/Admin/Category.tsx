@@ -6,20 +6,16 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  ButtonGroup,
   HStack,
   Heading,
   Image,
-  ListItem,
   Text,
-  UnorderedList,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import DeleteCategory from "../../components/AlertBox/DeleteCategory";
 import UpdateCategory from "../../components/Modals/UpdateCategory";
 import Layout from "../Layout/Layout";
-import Footer from "../../components/Footer";
 import AddCategory from "../../components/Modals/AddCategory";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -146,8 +142,6 @@ const Category = () => {
           </Accordion>
         </VStack>
       </HStack>
-      {/* adding the footer */}
-      <Footer />
     </Layout>
   );
 };

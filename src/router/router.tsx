@@ -12,37 +12,16 @@ import ProductDescription from "../pages/ProductDescription";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
+import RequireAuth from "../helper/Auth/RequireAuth";
+import NotRequireAuth from "../helper/Auth/NotRequireAuth";
 import NotAuthorized from "../pages/NotAuthorized";
 
 const router = createBrowserRouter([
+  // accessible for everyone without login
   {
     path: "/",
     element: <Homepage />,
     errorElement: <NotFound />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/password/forget",
-    element: <Forget />,
-  },
-  {
-    path: "/auth/reset/:token",
-    element: <Reset />,
-  },
-  {
-    path: "/user/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/admin/category",
-    element: <Category />,
   },
   {
     path: "/contact",
@@ -56,17 +35,68 @@ const router = createBrowserRouter([
     path: "/product/detail",
     element: <ProductDescription />,
   },
+  { path: "/not-authorized", element: <NotAuthorized /> },
+
+  // for admin and normal user access
   {
-    path: "/wishlist",
-    element: <Wishlist />,
+    element: (
+      <RequireAuth
+        allowedRoles={[
+          Number(process.env.REACT_APP_ADMIN_ROLE),
+          Number(process.env.REACT_APP_USER_ROLE),
+        ]}
+      />
+    ),
+    children: [
+      {
+        path: "/password/forget",
+        element: <Forget />,
+      },
+      {
+        path: "/auth/reset/:token",
+        element: <Reset />,
+      },
+      {
+        path: "/user/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/wishlist",
+        element: <Wishlist />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+    ],
   },
+
+  // for admin user only
   {
-    path: "/cart",
-    element: <Cart />,
+    element: (
+      <RequireAuth allowedRoles={[Number(process.env.REACT_APP_ADMIN_ROLE)]} />
+    ),
+    children: [
+      {
+        path: "/admin/category",
+        element: <Category />,
+      },
+    ],
   },
+
+  // not require auth from user
   {
-    path: "/not-authorized",
-    element: <NotAuthorized />,
+    element: <NotRequireAuth />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+    ],
   },
 ]);
 

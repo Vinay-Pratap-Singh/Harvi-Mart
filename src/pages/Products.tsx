@@ -16,7 +16,6 @@ const Products = () => {
       >
         <ProductCard />
       </HStack>
-      <Footer />
     </Layout>
   );
 };

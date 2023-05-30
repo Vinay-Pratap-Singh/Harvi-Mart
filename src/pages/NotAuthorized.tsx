@@ -1,6 +1,5 @@
 import { HStack, Image } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
-import Footer from "../components/Footer";
 import notAuthorized from "../assets/notAuthorized.jpg";
 
 const NotAuthorized = () => {
@@ -14,7 +13,6 @@ const NotAuthorized = () => {
           w={"400px"}
         />
       </HStack>
-      <Footer />
     </Layout>
   );
 };

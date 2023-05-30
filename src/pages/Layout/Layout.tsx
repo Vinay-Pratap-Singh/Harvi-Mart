@@ -1,3 +1,4 @@
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import { ReactNode, FC } from "react";
 
@@ -9,6 +10,7 @@ const Layout: FC<Props> = ({ children }) => {
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 };

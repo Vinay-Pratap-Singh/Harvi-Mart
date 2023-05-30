@@ -100,7 +100,6 @@ const Homepage = () => {
           })}
         </HStack>
       </VStack>
-      <Footer />
     </Layout>
   );
 };
