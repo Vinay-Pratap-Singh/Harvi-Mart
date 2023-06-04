@@ -5,9 +5,13 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
+  Heading,
+  Text,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import { AiOutlineDelete } from "react-icons/ai";
 
 interface Iprops {
   deleteUserIsOpen: boolean;
@@ -38,23 +42,51 @@ const DeleteUser: React.FC<Iprops> = ({
         isOpen={deleteUserIsOpen}
         leastDestructiveRef={cancelRef}
         onClose={deleteUserOnClose}
+        size={"xs"}
       >
         <AlertDialogOverlay>
           <AlertDialogContent p={0}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Account
+            <AlertDialogHeader
+              fontSize="lg"
+              fontWeight="bold"
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              bgColor={"red.100"}
+              margin={5}
+              mb={0}
+              borderRadius={"lg"}
+            >
+              <Box
+                padding={5}
+                bgColor={"red.400"}
+                color={"white"}
+                borderRadius={"full"}
+              >
+                <AiOutlineDelete size={"60px"} />
+              </Box>
             </AlertDialogHeader>
 
             <AlertDialogBody fontWeight={"semibold"}>
-              Are you sure? You can't undo this action afterwards.
+              <Heading fontSize={"xl"}>Delete Account?</Heading>
+              <Text fontSize={"sm"}>
+                Are you sure you want to delete{" "}
+                <Text as={"span"} fontWeight={"bold"}>
+                  your account?
+                </Text>
+              </Text>
             </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={deleteUserOnClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="red" onClick={deleteUserOnClose} ml={3}>
+            <AlertDialogFooter
+              display={"flex"}
+              flexDirection={"column"}
+              gap={2}
+            >
+              <Button colorScheme="red" onClick={deleteUserOnClose} w={"full"}>
                 Delete
+              </Button>
+              <Button ref={cancelRef} onClick={deleteUserOnClose} w={"full"}>
+                Cancel
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

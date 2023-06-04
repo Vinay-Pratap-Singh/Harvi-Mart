@@ -5,14 +5,17 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
+  Heading,
+  Text,
   Tooltip,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import { GrTrash } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { deleteCategory, getAllCategories } from "../../redux/categorySlice";
+import { AiOutlineDelete } from "react-icons/ai";
 
 interface Iprops {
   deleteCategoryIsOpen: boolean;
@@ -55,7 +58,7 @@ const DeleteCategory: React.FC<Iprops> = ({
           size={"sm"}
           colorScheme="red"
         >
-          <GrTrash />{" "}
+          <AiOutlineDelete fontSize={"20px"} />
         </Button>
       </Tooltip>
 
@@ -63,23 +66,55 @@ const DeleteCategory: React.FC<Iprops> = ({
         isOpen={deleteCategoryIsOpen}
         leastDestructiveRef={cancelRef}
         onClose={deleteCategoryOnClose}
+        size={"xs"}
       >
         <AlertDialogOverlay>
           <AlertDialogContent p={0}>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Category
+            <AlertDialogHeader
+              fontSize="lg"
+              fontWeight="bold"
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              bgColor={"red.100"}
+              margin={5}
+              mb={0}
+              borderRadius={"lg"}
+            >
+              <Box
+                padding={5}
+                bgColor={"red.400"}
+                color={"white"}
+                borderRadius={"full"}
+              >
+                <AiOutlineDelete size={"60px"} />
+              </Box>
             </AlertDialogHeader>
 
             <AlertDialogBody fontWeight={"semibold"}>
-              Are you sure? You can't undo this action afterwards.
+              <Heading fontSize={"xl"}>Delete Category?</Heading>
+              <Text fontSize={"sm"}>
+                Are you sure you want to delete{" "}
+                <Text as={"span"} fontWeight={"bold"}>
+                  your category?
+                </Text>
+              </Text>
             </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={deleteCategoryOnClose}>
-                Cancel
+            <AlertDialogFooter
+              display={"flex"}
+              flexDirection={"column"}
+              gap={2}
+            >
+              <Button colorScheme="red" onClick={handleDeleteBtn} w={"full"}>
+                Delete
               </Button>
-              <Button colorScheme="red" onClick={handleDeleteBtn} ml={3}>
-                Delete Category
+              <Button
+                ref={cancelRef}
+                onClick={deleteCategoryOnClose}
+                w={"full"}
+              >
+                Cancel
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
