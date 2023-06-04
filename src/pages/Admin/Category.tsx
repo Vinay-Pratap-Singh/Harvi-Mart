@@ -30,6 +30,8 @@ const Category = () => {
     name: string;
     description: string;
   }>({ id: "", name: "", description: "" });
+  // for managing the delete category
+  const [deleteCategoryID, setDeleteCategoryID] = useState("");
 
   // for managing the modals and alert boxes
   const {
@@ -140,12 +142,16 @@ const Category = () => {
                               data={{ ...updateCategoryData }}
                             />
                           </Box>
-                          <DeleteCategory
-                            deleteCategoryIsOpen={deleteCategoryIsOpen}
-                            deleteCategoryOnClose={deleteCategoryOnClose}
-                            deleteCategoryOnOpen={deleteCategoryOnOpen}
-                            id={category?._id}
-                          />
+                          <Box
+                            onClick={() => setDeleteCategoryID(category?._id)}
+                          >
+                            <DeleteCategory
+                              deleteCategoryIsOpen={deleteCategoryIsOpen}
+                              deleteCategoryOnClose={deleteCategoryOnClose}
+                              deleteCategoryOnOpen={deleteCategoryOnOpen}
+                              id={deleteCategoryID}
+                            />
+                          </Box>
                         </VStack>
                       </HStack>
                     </AccordionPanel>

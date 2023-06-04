@@ -11,7 +11,7 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { deleteCategory, getAllCategories } from "../../redux/categorySlice";
@@ -32,16 +32,19 @@ const DeleteCategory: React.FC<Iprops> = ({
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState(false);
 
   // function to handle delete button action
   const handleDeleteBtn = async () => {
+    setLoading(true);
     const res = await dispatch(deleteCategory(id));
     if (res.payload?.success) {
-      setTimeout(async () => {
-        await dispatch(getAllCategories());
-        deleteCategoryOnClose();
-      }, 2000);
+      await dispatch(getAllCategories());
+      setLoading(false);
+      deleteCategoryOnClose();
+      return;
     }
+    setLoading(false);
   };
 
   return (
@@ -106,7 +109,13 @@ const DeleteCategory: React.FC<Iprops> = ({
               flexDirection={"column"}
               gap={2}
             >
-              <Button colorScheme="red" onClick={handleDeleteBtn} w={"full"}>
+              <Button
+                colorScheme="red"
+                onClick={handleDeleteBtn}
+                w={"full"}
+                isLoading={loading}
+                loadingText="Deleting..."
+              >
                 Delete
               </Button>
               <Button

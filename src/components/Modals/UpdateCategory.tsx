@@ -62,7 +62,7 @@ const UpdateCategory: React.FC<Iprops> = ({
     if (res.payload?.success) {
       reset();
       await dispatch(getAllCategories());
-      updateCategoryIsOpen = false;
+      updateCategoryOnClose();
     } else {
       const { id, name, description } = watch();
       reset({ id, name, description });

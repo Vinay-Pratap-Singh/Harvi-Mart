@@ -58,6 +58,7 @@ const AddCategory: React.FC<Iprops> = ({
     } else if (res.payload?.success) {
       reset();
       await dispatch(getAllCategories());
+      addCategoryOnClose();
     } else {
       const { name, description } = watch();
       reset({ name, description });
