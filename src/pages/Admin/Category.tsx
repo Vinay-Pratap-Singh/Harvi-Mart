@@ -17,14 +17,21 @@ import DeleteCategory from "../../components/AlertBox/DeleteCategory";
 import UpdateCategory from "../../components/Modals/UpdateCategory";
 import Layout from "../Layout/Layout";
 import AddCategory from "../../components/Modals/AddCategory";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getAllCategories } from "../../redux/categorySlice";
 
 const Category = () => {
   const { categories } = useSelector((state: RootState) => state.category);
+  // for managing the update category data
+  const [updateCategoryData, setUpdateCategoryData] = useState<{
+    id: string;
+    name: string;
+    description: string;
+  }>({ id: "", name: "", description: "" });
 
+  // for managing the modals and alert boxes
   const {
     isOpen: deleteCategoryIsOpen,
     onOpen: deleteCategoryOnOpen,
@@ -117,16 +124,22 @@ const Category = () => {
                         </VStack>
 
                         <VStack>
-                          <UpdateCategory
-                            updateCategoryIsOpen={updateCategoryIsOpen}
-                            updateCategoryOnClose={updateCategoryOnClose}
-                            updateCategoryOnOpen={updateCategoryOnOpen}
-                            data={{
-                              id: category?._id,
-                              name: category?.name,
-                              description: category?.description,
-                            }}
-                          />
+                          <Box
+                            onClick={() =>
+                              setUpdateCategoryData({
+                                id: category?._id,
+                                name: category?.name,
+                                description: category?.description,
+                              })
+                            }
+                          >
+                            <UpdateCategory
+                              updateCategoryIsOpen={updateCategoryIsOpen}
+                              updateCategoryOnClose={updateCategoryOnClose}
+                              updateCategoryOnOpen={updateCategoryOnOpen}
+                              data={{ ...updateCategoryData }}
+                            />
+                          </Box>
                           <DeleteCategory
                             deleteCategoryIsOpen={deleteCategoryIsOpen}
                             deleteCategoryOnClose={deleteCategoryOnClose}

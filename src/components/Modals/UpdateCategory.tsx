@@ -13,6 +13,7 @@ import {
   Textarea,
   Tooltip,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { GrEdit } from "react-icons/gr";
 
@@ -34,11 +35,11 @@ const UpdateCategory: React.FC<Iprops> = ({
   updateCategoryOnOpen,
   data,
 }) => {
-  console.log(data);
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<IupdateCategory>({
     defaultValues: {
       name: data.name || "",
@@ -46,10 +47,14 @@ const UpdateCategory: React.FC<Iprops> = ({
     },
   });
 
+  //
+
   // function to update the category name
-  const handleUpdate: SubmitHandler<IupdateCategory> = (data) => {
-    console.log(data);
-  };
+  const handleUpdate: SubmitHandler<IupdateCategory> = (data) => {};
+
+  useEffect(() => {
+    reset({ name: data?.name, description: data?.description });
+  }, [data]);
 
   return (
     <>

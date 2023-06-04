@@ -34,8 +34,10 @@ const DeleteCategory: React.FC<Iprops> = ({
   const handleDeleteBtn = async () => {
     const res = await dispatch(deleteCategory(id));
     if (res.payload?.success) {
-      await dispatch(getAllCategories());
-      deleteCategoryOnClose();
+      setTimeout(async () => {
+        await dispatch(getAllCategories());
+        deleteCategoryOnClose();
+      }, 2000);
     }
   };
 

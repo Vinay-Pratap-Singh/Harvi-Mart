@@ -47,7 +47,6 @@ export const createCategory = createAsyncThunk(
 export const deleteCategory = createAsyncThunk(
   "category/delete",
   async (id: string) => {
-    console.log(id);
     try {
       const res = await axiosInstance.delete(`/categories/${id}`);
       return res.data;
@@ -111,10 +110,12 @@ const categorySlice = createSlice({
 
       // for update category
       .addCase(updateCategory.fulfilled, (state, action) => {
-        console.log(action.payload);
         if (action.payload?.success) {
           toast.success(action.payload?.message);
         }
+      })
+      .addCase(updateCategory.rejected, () => {
+        toast.error("Failed to update category");
       });
   },
 });
