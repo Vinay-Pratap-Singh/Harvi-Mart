@@ -4,7 +4,7 @@ import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 
 const initialState: { coupons: IcouponData[] } = {
-  coupons: [],
+  coupons: [{ id: "dehdkehdekdhekhd", couponCode: "HARVI90", discount: 90 }],
 };
 
 // function to get all coupons data

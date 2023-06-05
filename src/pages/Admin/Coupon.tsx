@@ -74,8 +74,13 @@ const Coupon = () => {
               coupons.map((coupon) => {
                 return (
                   <ListItem key={coupon.id}>
-                    <Text>Code : {coupon.couponCode}</Text>
-                    <Text>Discount : {coupon.discount}</Text>
+                    <VStack>
+                      <Box>
+                        <Text>Code : {coupon.couponCode}</Text>
+                        <Text>Discount : {coupon.discount}</Text>
+                      </Box>
+                      <Box></Box>
+                    </VStack>
                   </ListItem>
                 );
               })}
