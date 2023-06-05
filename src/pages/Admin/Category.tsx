@@ -61,7 +61,6 @@ const Category = () => {
 
   return (
     <Layout>
-      {" "}
       <HStack w={"full"} gap={8}>
         <Image
           h={"450px"}

@@ -15,6 +15,7 @@ import NotFound from "../pages/NotFound";
 import RequireAuth from "../helper/Auth/RequireAuth";
 import NotRequireAuth from "../helper/Auth/NotRequireAuth";
 import NotAuthorized from "../pages/NotAuthorized";
+import Coupon from "../pages/Admin/Coupon";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/category",
         element: <Category />,
+      },
+      {
+        path: "/admin/coupon",
+        element: <Coupon />,
       },
     ],
   },
