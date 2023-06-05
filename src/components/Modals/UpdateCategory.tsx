@@ -69,6 +69,7 @@ const UpdateCategory: React.FC<Iprops> = ({
     }
   };
 
+  // for setting the value on change
   useEffect(() => {
     reset({ id: data?.id, name: data?.name, description: data?.description });
   }, [data]);

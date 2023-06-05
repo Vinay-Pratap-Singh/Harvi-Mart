@@ -67,7 +67,12 @@ const AddCoupon: React.FC<Iprops> = ({
         fontSize={"xl"}
         size={"sm"}
       >
-        <Tooltip hasArrow label="Add Coupon">
+        <Tooltip
+          hasArrow
+          label="Add Coupon"
+          color={"orange.500"}
+          bgColor={"white"}
+        >
           +
         </Tooltip>
       </Button>

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllCoupons } from "../../redux/couponSlice";
 import Layout from "../Layout/Layout";
 import {
@@ -16,10 +16,20 @@ import {
 } from "@chakra-ui/react";
 import couponImage from "../../assets/coupon.jpg";
 import AddCoupon from "../../components/Modals/AddCoupon";
+import UpdateCoupon from "../../components/Modals/UpdateCoupon";
+import DeleteCoupon from "../../components/AlertBox/DeleteCoupon";
 
 const Coupon = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { coupons } = useSelector((state: RootState) => state.coupon);
+  // for managing the update coupon data
+  const [updateCouponData, setUpdateCouponData] = useState<{
+    id: string;
+    discount: number;
+    couponCode: string;
+  }>();
+  // for managing the delete coupon
+  const [deleteCouponID, setDeleteCouponID] = useState("");
 
   // for managing the modals and alert boxes
   const {
@@ -39,11 +49,11 @@ const Coupon = () => {
   } = useDisclosure();
 
   // for loading coupons data on page render
-  //   useEffect(() => {
-  //     (async () => {
-  //       await dispatch(getAllCoupons());
-  //     })();
-  //   }, []);
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllCoupons());
+    })();
+  }, []);
 
   return (
     <Layout>
@@ -69,18 +79,53 @@ const Coupon = () => {
             />
           </Box>
 
-          <UnorderedList>
+          <UnorderedList w={"full"}>
             {coupons &&
               coupons.map((coupon) => {
                 return (
-                  <ListItem key={coupon.id}>
-                    <VStack>
-                      <Box>
+                  <ListItem
+                    key={coupon.id}
+                    listStyleType={"none"}
+                    shadow={"sm"}
+                    borderRadius={"5px"}
+                    padding={1}
+                  >
+                    <HStack justifyContent={"space-between"}>
+                      <Box fontSize={"14px"} fontWeight={"semibold"}>
                         <Text>Code : {coupon.couponCode}</Text>
                         <Text>Discount : {coupon.discount}</Text>
                       </Box>
-                      <Box></Box>
-                    </VStack>
+                      <VStack>
+                        <Box
+                          onClick={() =>
+                            setUpdateCouponData({
+                              id: coupon?.id!,
+                              couponCode: coupon?.couponCode,
+                              discount: coupon?.discount,
+                            })
+                          }
+                        >
+                          <UpdateCoupon
+                            updateCouponIsOpen={updateCouponIsOpen}
+                            updateCouponOnClose={updateCouponOnClose}
+                            updateCouponOnOpen={updateCouponOnOpen}
+                            data={{
+                              id: updateCouponData?.id!,
+                              couponCode: updateCouponData?.couponCode!,
+                              discount: updateCouponData?.discount!,
+                            }}
+                          />
+                        </Box>
+                        <Box onClick={() => setDeleteCouponID(coupon?.id!)}>
+                          <DeleteCoupon
+                            deleteCouponIsOpen={deleteCouponIsOpen}
+                            deleteCouponOnClose={deleteCouponOnClose}
+                            deleteCouponOnOpen={deleteCouponOnOpen}
+                            id={deleteCouponID}
+                          />
+                        </Box>
+                      </VStack>
+                    </HStack>
                   </ListItem>
                 );
               })}

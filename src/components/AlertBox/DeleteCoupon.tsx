@@ -97,7 +97,7 @@ const DeleteCoupon: React.FC<Iprops> = ({
               <Text fontSize={"sm"}>
                 Are you sure you want to delete{" "}
                 <Text as={"span"} fontWeight={"bold"}>
-                  your category?
+                  your coupon?
                 </Text>
               </Text>
             </AlertDialogBody>

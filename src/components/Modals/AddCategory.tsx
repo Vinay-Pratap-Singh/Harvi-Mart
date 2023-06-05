@@ -75,7 +75,12 @@ const AddCategory: React.FC<Iprops> = ({
         fontSize={"xl"}
         size={"sm"}
       >
-        <Tooltip hasArrow label="Add Category">
+        <Tooltip
+          hasArrow
+          label="Add Category"
+          color={"orange.500"}
+          bgColor={"white"}
+        >
           +
         </Tooltip>
       </Button>
