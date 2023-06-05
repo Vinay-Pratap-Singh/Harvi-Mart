@@ -151,7 +151,7 @@ const AddCategory: React.FC<Iprops> = ({
                 w={"full"}
                 colorScheme="orange"
               >
-                Add New Category
+                Create New Category
               </Button>
             </ModalFooter>
           </form>

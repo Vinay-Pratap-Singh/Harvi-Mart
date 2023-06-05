@@ -12,12 +12,31 @@ import {
   Text,
   UnorderedList,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import couponImage from "../../assets/coupon.jpg";
+import AddCoupon from "../../components/Modals/AddCoupon";
 
 const Coupon = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { coupons } = useSelector((state: RootState) => state.coupon);
+
+  // for managing the modals and alert boxes
+  const {
+    isOpen: deleteCouponIsOpen,
+    onOpen: deleteCouponOnOpen,
+    onClose: deleteCouponOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: updateCouponIsOpen,
+    onOpen: updateCouponOnOpen,
+    onClose: updateCouponOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: addCouponIsOpen,
+    onOpen: addCouponOnOpen,
+    onClose: addCouponOnClose,
+  } = useDisclosure();
 
   // for loading coupons data on page render
   //   useEffect(() => {
@@ -43,12 +62,11 @@ const Coupon = () => {
         >
           <Heading fontSize={"2xl"}>Coupon Page</Heading>
           <Box pos="absolute" top={3} right={5}>
-            {/* <AddCategory
-              addCategoryIsOpen={addCategoryIsOpen}
-              addCategoryOnClose={addCategoryOnClose}
-              addCategoryOnOpen={addCategoryOnOpen}
-            /> */}
-            +
+            <AddCoupon
+              addCouponIsOpen={addCouponIsOpen}
+              addCouponOnClose={addCouponOnClose}
+              addCouponOnOpen={addCouponOnOpen}
+            />
           </Box>
 
           <UnorderedList>
