@@ -32,7 +32,6 @@ const AddCoupon: React.FC<Iprops> = ({
   addCouponOnOpen,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -44,11 +43,9 @@ const AddCoupon: React.FC<Iprops> = ({
 
   // function to handle add new coupon
   const handleCreateCoupon: SubmitHandler<IcouponData> = async (data) => {
-    const res = await dispatch(createCoupon(data));
-
-    if (!res.payload) {
-      navigate("/login");
-    } else if (res.payload?.success) {
+    const newData = { couponCode: data.couponCode, discount: +data.discount };
+    const res = await dispatch(createCoupon(newData));
+    if (res.payload?.success) {
       reset();
       await dispatch(getAllCoupons());
       addCouponOnClose();
@@ -57,6 +54,7 @@ const AddCoupon: React.FC<Iprops> = ({
       reset({ couponCode, discount });
     }
   };
+
   return (
     <>
       <Button

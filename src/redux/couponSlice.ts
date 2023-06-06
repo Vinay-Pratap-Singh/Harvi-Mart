@@ -51,7 +51,7 @@ export const updateCoupon = createAsyncThunk(
   "coupon/update",
   async (data: { discount: number; isActive: boolean; id: string }) => {
     try {
-      const res = await axiosInstance.patch(`/categories/${data.id}`, {
+      const res = await axiosInstance.patch(`/coupons/${data.id}`, {
         discount: data.discount,
         isActive: data.isActive,
       });

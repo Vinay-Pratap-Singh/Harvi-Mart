@@ -57,7 +57,7 @@ const UpdateCoupon: React.FC<Iprops> = ({
     const res = await dispatch(
       updateCoupon({
         id: data.id,
-        discount: data.discount,
+        discount: +data.discount,
         isActive: data.isActive,
       })
     );
