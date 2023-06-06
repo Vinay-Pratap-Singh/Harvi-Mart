@@ -3,8 +3,8 @@ import { IcouponData } from "../helper/interfaces";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 
-const initialState: { coupons: IcouponData[] } = {
-  coupons: [{ id: "dehdkehdekdhekhd", couponCode: "HARVI90", discount: 90 }],
+const initialState = {
+  coupons: [],
 };
 
 // function to get all coupons data
@@ -70,7 +70,7 @@ const couponSlice = createSlice({
     // for getting all coupons data
     builder
       .addCase(getAllCoupons.fulfilled, (state, action) => {
-        if (action.payload?.categories) {
+        if (action.payload) {
           state.coupons = action.payload.coupons;
         }
       })

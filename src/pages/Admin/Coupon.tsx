@@ -22,9 +22,10 @@ import DeleteCoupon from "../../components/AlertBox/DeleteCoupon";
 const Coupon = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { coupons } = useSelector((state: RootState) => state.coupon);
+
   // for managing the update coupon data
   const [updateCouponData, setUpdateCouponData] = useState<{
-    id: string;
+    _id: string;
     discount: number;
     couponCode: string;
   }>();
@@ -81,10 +82,10 @@ const Coupon = () => {
 
           <UnorderedList w={"full"}>
             {coupons &&
-              coupons.map((coupon) => {
+              coupons.map((coupon: any) => {
                 return (
                   <ListItem
-                    key={coupon.id}
+                    key={coupon._id}
                     listStyleType={"none"}
                     shadow={"sm"}
                     borderRadius={"5px"}
@@ -99,7 +100,7 @@ const Coupon = () => {
                         <Box
                           onClick={() =>
                             setUpdateCouponData({
-                              id: coupon?.id!,
+                              _id: coupon?._id,
                               couponCode: coupon?.couponCode,
                               discount: coupon?.discount,
                             })
@@ -110,13 +111,13 @@ const Coupon = () => {
                             updateCouponOnClose={updateCouponOnClose}
                             updateCouponOnOpen={updateCouponOnOpen}
                             data={{
-                              id: updateCouponData?.id!,
+                              _id: updateCouponData?._id,
                               couponCode: updateCouponData?.couponCode!,
                               discount: updateCouponData?.discount!,
                             }}
                           />
                         </Box>
-                        <Box onClick={() => setDeleteCouponID(coupon?.id!)}>
+                        <Box onClick={() => setDeleteCouponID(coupon?._id)}>
                           <DeleteCoupon
                             deleteCouponIsOpen={deleteCouponIsOpen}
                             deleteCouponOnClose={deleteCouponOnClose}

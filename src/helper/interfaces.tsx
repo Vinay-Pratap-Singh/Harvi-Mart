@@ -27,7 +27,7 @@ export interface IcategoryDetails {
 
 // interface for the coupon code data
 export interface IcouponData {
-  id?: string;
+  _id?: string;
   couponCode: string;
   discount: number;
 }

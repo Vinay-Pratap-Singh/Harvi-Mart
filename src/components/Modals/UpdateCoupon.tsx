@@ -42,7 +42,7 @@ const UpdateCoupon: React.FC<Iprops> = ({
     watch,
   } = useForm<{ id: string; isActive: boolean; discount: number }>({
     defaultValues: {
-      id: data?.id,
+      id: data?._id!,
       isActive: true,
       discount: data?.discount,
     },
@@ -73,7 +73,7 @@ const UpdateCoupon: React.FC<Iprops> = ({
 
   // for setting the value on change
   useEffect(() => {
-    reset({ id: data?.id, discount: data.discount, isActive: true });
+    reset({ id: data?._id!, discount: data.discount, isActive: true });
   }, [data]);
 
   return (
