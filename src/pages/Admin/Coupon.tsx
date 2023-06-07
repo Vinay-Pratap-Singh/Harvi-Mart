@@ -80,7 +80,7 @@ const Coupon = () => {
             />
           </Box>
 
-          <UnorderedList w={"full"}>
+          <UnorderedList w={"full"} overflowY={"scroll"} pr={1}>
             {coupons &&
               coupons.map((coupon: any) => {
                 return (

@@ -56,6 +56,7 @@ const Category = () => {
   useEffect(() => {
     (async () => {
       await dispatch(getAllCategories());
+      console.log("inside the useEffect");
     })();
   }, []);
 

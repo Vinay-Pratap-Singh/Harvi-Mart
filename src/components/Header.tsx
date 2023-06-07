@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { logout } from "../redux/authSlice";
 import { useState } from "react";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,6 +37,7 @@ const Header = () => {
     (state: RootState) => state.auth
   );
   const userProfileImage = userDetails?.avatar?.secure_url || "";
+  const userRole = userDetails?.role;
   const totalWishlistItem = 0;
 
   // for handling the button loading state
@@ -193,6 +195,24 @@ const Header = () => {
                         </Text>
                       </Link>
                     </ListItem>
+
+                    {/* adding the item for admin panel for admin user */}
+                    {userRole === Number(process.env.REACT_APP_ADMIN_ROLE) && (
+                      <ListItem>
+                        <Link
+                          as={RouterLink}
+                          to="/admin/dashboard"
+                          display="flex"
+                          alignItems={"center"}
+                          gap={2}
+                        >
+                          <MdAdminPanelSettings fontSize={20} />
+                          <Text fontSize={"md"} fontWeight={500}>
+                            Admin Panel
+                          </Text>
+                        </Link>
+                      </ListItem>
+                    )}
 
                     <ListItem>
                       <Button
