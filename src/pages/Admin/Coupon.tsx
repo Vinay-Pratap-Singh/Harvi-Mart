@@ -58,7 +58,7 @@ const Coupon = () => {
 
   return (
     <Layout>
-      <HStack w={"full"} gap={8} justifyContent={"center"}>
+      <HStack w={"full"} h="100vh" pl={60} gap={8} justifyContent={"center"}>
         <Image h={"400px"} src={couponImage} alt="coupon page main image" />
 
         {/* for coupon card to perform CRUD */}

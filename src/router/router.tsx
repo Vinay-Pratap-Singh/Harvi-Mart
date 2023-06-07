@@ -17,6 +17,7 @@ import NotRequireAuth from "../helper/Auth/NotRequireAuth";
 import NotAuthorized from "../pages/NotAuthorized";
 import Coupon from "../pages/Admin/Coupon";
 import Dashboard from "../pages/Admin/Dashboard";
+import Product from "../pages/Admin/Product/Product";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/coupon",
         element: <Coupon />,
+      },
+      {
+        path: "/admin/product",
+        element: <Product />,
       },
     ],
   },

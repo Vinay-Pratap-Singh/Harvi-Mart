@@ -62,7 +62,7 @@ const Category = () => {
 
   return (
     <Layout>
-      <HStack w={"full"} gap={8}>
+      <HStack w={"full"} h="100vh" gap={8} pl={60}>
         <Image
           w={"550px"}
           src={categoryPageImg}

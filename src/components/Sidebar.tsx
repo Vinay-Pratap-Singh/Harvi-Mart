@@ -9,7 +9,6 @@ import {
 import { AiOutlineHome, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import { GrOverview } from "react-icons/gr";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -17,13 +16,12 @@ const Sidebar = () => {
   return (
     <VStack
       h={"100vh"}
-      //   pos={"fixed"}
-      //   left={0}
-      //   zIndex={20}
+      pos={"fixed"}
+      left={0}
+      zIndex={20}
       alignItems={"flex-start"}
       w={60}
       shadow={"md"}
-      //   borderRight={"1px solid gray"}
     >
       {/* adding the logo */}
       <Link as={RouterLink} to={"/"} _hover={{ textDecoration: "none" }}>
