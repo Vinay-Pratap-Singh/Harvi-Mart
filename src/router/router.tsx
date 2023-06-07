@@ -16,6 +16,7 @@ import RequireAuth from "../helper/Auth/RequireAuth";
 import NotRequireAuth from "../helper/Auth/NotRequireAuth";
 import NotAuthorized from "../pages/NotAuthorized";
 import Coupon from "../pages/Admin/Coupon";
+import Dashboard from "../pages/Admin/Dashboard";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       <RequireAuth allowedRoles={[Number(process.env.REACT_APP_ADMIN_ROLE)]} />
     ),
     children: [
+      {
+        path: "/admin/dashboard",
+        element: <Dashboard />,
+      },
       {
         path: "/admin/category",
         element: <Category />,
