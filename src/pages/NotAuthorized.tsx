@@ -5,7 +5,12 @@ import notAuthorized from "../assets/notAuthorized.jpg";
 const NotAuthorized = () => {
   return (
     <Layout>
-      <HStack h={"70vh"} alignItems={"center"} justifyContent={"center"}>
+      <HStack
+        w={"full"}
+        h={"70vh"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
         <Image
           src={notAuthorized}
           alt="Not authorized image"

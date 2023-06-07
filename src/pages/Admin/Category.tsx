@@ -64,7 +64,7 @@ const Category = () => {
     <Layout>
       <HStack w={"full"} gap={8}>
         <Image
-          h={"450px"}
+          w={"550px"}
           src={categoryPageImg}
           alt="category page main image"
         />
@@ -72,7 +72,7 @@ const Category = () => {
         {/* for category card to perform CRUD */}
         <VStack
           w={96}
-          h={96}
+          h={"450px"}
           boxShadow={"md"}
           p={5}
           borderRadius={"5px"}

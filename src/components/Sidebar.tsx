@@ -6,7 +6,7 @@ import {
   UnorderedList,
   VStack,
 } from "@chakra-ui/react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { GrOverview } from "react-icons/gr";
@@ -27,7 +27,13 @@ const Sidebar = () => {
     >
       {/* adding the logo */}
       <Link as={RouterLink} to={"/"} _hover={{ textDecoration: "none" }}>
-        <HStack fontSize={24} fontWeight={"bold"} color={"orange.500"} m={2}>
+        <HStack
+          fontSize={24}
+          fontWeight={"bold"}
+          color={"orange.500"}
+          m={2}
+          mt={5}
+        >
           <AiOutlineShoppingCart fontSize={32} />
           <Text>Harvi Mart</Text>
         </HStack>
@@ -42,7 +48,14 @@ const Sidebar = () => {
         w={"full"}
       >
         {/* for overview */}
-        <ListItem w={"full"} shadow={"sm"} pl={3} py={2}>
+        <ListItem
+          w={"full"}
+          shadow={"sm"}
+          pl={3}
+          py={2}
+          _hover={{ pl: 5, color: "primaryColor" }}
+          transition={"all 0.25s ease-in-out"}
+        >
           <Link
             as={RouterLink}
             to="/admin/overview"
@@ -52,7 +65,7 @@ const Sidebar = () => {
             _hover={{ textDecoration: "none" }}
             _focus={{ textDecoration: "none" }}
           >
-            <GrOverview fontSize={20} />
+            <AiOutlineHome fontSize={20} />
             <Text fontSize={"md"} fontWeight={500}>
               Overview
             </Text>
@@ -60,7 +73,14 @@ const Sidebar = () => {
         </ListItem>
 
         {/* for orders */}
-        <ListItem w={"full"} shadow={"sm"} pl={3} py={2}>
+        <ListItem
+          w={"full"}
+          shadow={"sm"}
+          pl={3}
+          py={2}
+          _hover={{ pl: 5, color: "primaryColor" }}
+          transition={"all 0.25s ease-in-out"}
+        >
           <Link
             as={RouterLink}
             to="/admin/order"
@@ -78,7 +98,14 @@ const Sidebar = () => {
         </ListItem>
 
         {/* for products */}
-        <ListItem w={"full"} shadow={"sm"} pl={3} py={2}>
+        <ListItem
+          w={"full"}
+          shadow={"sm"}
+          pl={3}
+          py={2}
+          _hover={{ pl: 5, color: "primaryColor" }}
+          transition={"all 0.25s ease-in-out"}
+        >
           <Link
             as={RouterLink}
             to="/admin/product"
@@ -96,7 +123,14 @@ const Sidebar = () => {
         </ListItem>
 
         {/* for category */}
-        <ListItem w={"full"} shadow={"sm"} pl={3} py={2}>
+        <ListItem
+          w={"full"}
+          shadow={"sm"}
+          pl={3}
+          py={2}
+          _hover={{ pl: 5, color: "primaryColor" }}
+          transition={"all 0.25s ease-in-out"}
+        >
           <Link
             as={RouterLink}
             to="/admin/category"
@@ -114,7 +148,14 @@ const Sidebar = () => {
         </ListItem>
 
         {/* for coupons */}
-        <ListItem w={"full"} shadow={"sm"} pl={3} py={2}>
+        <ListItem
+          w={"full"}
+          shadow={"sm"}
+          pl={3}
+          py={2}
+          _hover={{ pl: 5, color: "primaryColor" }}
+          transition={"all 0.25s ease-in-out"}
+        >
           <Link
             as={RouterLink}
             to="/admin/coupon"
