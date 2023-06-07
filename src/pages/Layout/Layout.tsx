@@ -10,7 +10,6 @@ type Props = { children: ReactNode };
 
 const Layout: FC<Props> = ({ children }) => {
   const { pathname } = useLocation();
-  console.log(pathname);
 
   return (
     <>

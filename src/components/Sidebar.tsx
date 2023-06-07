@@ -18,8 +18,8 @@ const Sidebar = () => {
       h={"100vh"}
       pos={"fixed"}
       left={0}
+      top={0}
       zIndex={20}
-      alignItems={"flex-start"}
       w={60}
       shadow={"md"}
     >
@@ -29,7 +29,7 @@ const Sidebar = () => {
           fontSize={24}
           fontWeight={"bold"}
           color={"orange.500"}
-          m={2}
+          mb={3}
           mt={5}
         >
           <AiOutlineShoppingCart fontSize={32} />
