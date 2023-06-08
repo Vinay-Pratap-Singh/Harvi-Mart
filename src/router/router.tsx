@@ -18,6 +18,7 @@ import NotAuthorized from "../pages/NotAuthorized";
 import Coupon from "../pages/Admin/Coupon";
 import Dashboard from "../pages/Admin/Dashboard";
 import Product from "../pages/Admin/Product/Product";
+import AddProduct from "../pages/Admin/Product/AddProduct";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/product",
         element: <Product />,
+      },
+      {
+        path: "/admin/product/add",
+        element: <AddProduct />,
       },
     ],
   },

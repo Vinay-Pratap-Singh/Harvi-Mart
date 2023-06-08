@@ -58,81 +58,89 @@ const Coupon = () => {
 
   return (
     <Layout>
-      <HStack w={"full"} h="100vh" pl={60} gap={8} justifyContent={"center"}>
-        <Image h={"400px"} src={couponImage} alt="coupon page main image" />
+      <VStack w={"full"} h="100vh" pl={60} gap={5} pt={5}>
+        <Heading fontSize={"3xl"}>
+          Welcome to the{" "}
+          <Text as={"span"} color={"primaryColor"}>
+            Coupon Page
+          </Text>{" "}
+        </Heading>
+        <HStack gap={8} justifyContent={"center"}>
+          <Image h={"400px"} src={couponImage} alt="coupon page main image" />
 
-        {/* for coupon card to perform CRUD */}
-        <VStack
-          w={96}
-          h={"450px"}
-          boxShadow={"md"}
-          p={5}
-          borderRadius={"5px"}
-          pos="relative"
-          gap={3}
-        >
-          <Heading fontSize={"2xl"}>Coupon Page</Heading>
-          <Box pos="absolute" top={3} right={5}>
-            <AddCoupon
-              addCouponIsOpen={addCouponIsOpen}
-              addCouponOnClose={addCouponOnClose}
-              addCouponOnOpen={addCouponOnOpen}
-            />
-          </Box>
+          {/* for coupon card to perform CRUD */}
+          <VStack
+            w={96}
+            h={"450px"}
+            boxShadow={"md"}
+            p={5}
+            borderRadius={"5px"}
+            pos="relative"
+            gap={3}
+          >
+            <Heading fontSize={"2xl"}>My Coupons</Heading>
+            <Box pos="absolute" top={3} right={5}>
+              <AddCoupon
+                addCouponIsOpen={addCouponIsOpen}
+                addCouponOnClose={addCouponOnClose}
+                addCouponOnOpen={addCouponOnOpen}
+              />
+            </Box>
 
-          <UnorderedList w={"full"} overflowY={"scroll"} pr={1}>
-            {coupons &&
-              coupons.map((coupon: any) => {
-                return (
-                  <ListItem
-                    key={coupon._id}
-                    listStyleType={"none"}
-                    shadow={"sm"}
-                    borderRadius={"5px"}
-                    padding={1}
-                  >
-                    <HStack justifyContent={"space-between"}>
-                      <Box fontSize={"14px"} fontWeight={"semibold"}>
-                        <Text>Code : {coupon.couponCode}</Text>
-                        <Text>Discount : {coupon.discount}</Text>
-                      </Box>
-                      <VStack>
-                        <Box
-                          onClick={() =>
-                            setUpdateCouponData({
-                              _id: coupon?._id,
-                              couponCode: coupon?.couponCode,
-                              discount: coupon?.discount,
-                            })
-                          }
-                        >
-                          <UpdateCoupon
-                            updateCouponIsOpen={updateCouponIsOpen}
-                            updateCouponOnClose={updateCouponOnClose}
-                            updateCouponOnOpen={updateCouponOnOpen}
-                            data={{
-                              _id: updateCouponData?._id,
-                              couponCode: updateCouponData?.couponCode!,
-                              discount: updateCouponData?.discount!,
-                            }}
-                          />
+            <UnorderedList w={"full"} overflowY={"scroll"} pr={1}>
+              {coupons &&
+                coupons.map((coupon: any) => {
+                  return (
+                    <ListItem
+                      key={coupon._id}
+                      listStyleType={"none"}
+                      shadow={"sm"}
+                      borderRadius={"5px"}
+                      padding={1}
+                    >
+                      <HStack justifyContent={"space-between"}>
+                        <Box fontSize={"14px"} fontWeight={"semibold"}>
+                          <Text>Code : {coupon.couponCode}</Text>
+                          <Text>Discount : {coupon.discount}</Text>
                         </Box>
-                        <Box onClick={() => setDeleteCouponID(coupon?._id)}>
-                          <DeleteCoupon
-                            deleteCouponIsOpen={deleteCouponIsOpen}
-                            deleteCouponOnClose={deleteCouponOnClose}
-                            deleteCouponOnOpen={deleteCouponOnOpen}
-                            id={deleteCouponID}
-                          />
-                        </Box>
-                      </VStack>
-                    </HStack>
-                  </ListItem>
-                );
-              })}
-          </UnorderedList>
-        </VStack>
-      </HStack>
+                        <VStack>
+                          <Box
+                            onClick={() =>
+                              setUpdateCouponData({
+                                _id: coupon?._id,
+                                couponCode: coupon?.couponCode,
+                                discount: coupon?.discount,
+                              })
+                            }
+                          >
+                            <UpdateCoupon
+                              updateCouponIsOpen={updateCouponIsOpen}
+                              updateCouponOnClose={updateCouponOnClose}
+                              updateCouponOnOpen={updateCouponOnOpen}
+                              data={{
+                                _id: updateCouponData?._id,
+                                couponCode: updateCouponData?.couponCode!,
+                                discount: updateCouponData?.discount!,
+                              }}
+                            />
+                          </Box>
+                          <Box onClick={() => setDeleteCouponID(coupon?._id)}>
+                            <DeleteCoupon
+                              deleteCouponIsOpen={deleteCouponIsOpen}
+                              deleteCouponOnClose={deleteCouponOnClose}
+                              deleteCouponOnOpen={deleteCouponOnOpen}
+                              id={deleteCouponID}
+                            />
+                          </Box>
+                        </VStack>
+                      </HStack>
+                    </ListItem>
+                  );
+                })}
+            </UnorderedList>
+          </VStack>
+        </HStack>
+      </VStack>
     </Layout>
   );
 };

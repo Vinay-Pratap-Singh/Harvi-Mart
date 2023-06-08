@@ -62,105 +62,113 @@ const Category = () => {
 
   return (
     <Layout>
-      <HStack w={"full"} h="100vh" gap={8} pl={60}>
-        <Image
-          w={"550px"}
-          src={categoryPageImg}
-          alt="category page main image"
-        />
+      <VStack w={"full"} h="100vh" gap={5} pl={60} pt={5}>
+        <Heading fontSize={"3xl"}>
+          Welcome to the{" "}
+          <Text as={"span"} color={"primaryColor"}>
+            Category Page
+          </Text>{" "}
+        </Heading>
+        <HStack gap={8}>
+          <Image
+            w={"550px"}
+            src={categoryPageImg}
+            alt="category page main image"
+          />
 
-        {/* for category card to perform CRUD */}
-        <VStack
-          w={96}
-          h={"450px"}
-          boxShadow={"md"}
-          p={5}
-          borderRadius={"5px"}
-          pos="relative"
-          gap={3}
-        >
-          <Heading fontSize={"2xl"}>Category Page</Heading>
-          <Box pos="absolute" top={3} right={5}>
-            <AddCategory
-              addCategoryIsOpen={addCategoryIsOpen}
-              addCategoryOnClose={addCategoryOnClose}
-              addCategoryOnOpen={addCategoryOnOpen}
-            />
-          </Box>
-
-          <Accordion
-            allowToggle
-            w={"full"}
-            // minH={"full"}
-            overflowY={"scroll"}
-            px={1}
+          {/* for category card to perform CRUD */}
+          <VStack
+            w={96}
+            h={"450px"}
+            boxShadow={"md"}
+            p={5}
+            borderRadius={"5px"}
+            pos="relative"
+            gap={3}
           >
-            {categories &&
-              categories.map((category: any, index) => {
-                return (
-                  <AccordionItem key={category?._id}>
-                    <h2>
-                      <AccordionButton fontWeight={"semibold"}>
-                        <Box as="span" flex="1" textAlign="left">
-                          {index + 1 > 9 ? index + 1 : "0" + (index + 1)}{" "}
-                          {category?.name}
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      <HStack justifyContent={"space-between"}>
-                        <VStack>
-                          <Heading
-                            alignSelf={"flex-start"}
-                            fontSize={"lg"}
-                            fontWeight={"semibold"}
-                          >
-                            {category?.name}
-                          </Heading>
-                          <Text alignSelf={"flex-start"} fontSize={"md"}>
-                            {category.description
-                              ? category.description
-                              : "No Description Available"}
-                          </Text>
-                        </VStack>
+            <Heading fontSize={"2xl"}>My Categories</Heading>
+            <Box pos="absolute" top={3} right={5}>
+              <AddCategory
+                addCategoryIsOpen={addCategoryIsOpen}
+                addCategoryOnClose={addCategoryOnClose}
+                addCategoryOnOpen={addCategoryOnOpen}
+              />
+            </Box>
 
-                        <VStack>
-                          <Box
-                            onClick={() =>
-                              setUpdateCategoryData({
-                                id: category?._id,
-                                name: category?.name,
-                                description: category?.description,
-                              })
-                            }
-                          >
-                            <UpdateCategory
-                              updateCategoryIsOpen={updateCategoryIsOpen}
-                              updateCategoryOnClose={updateCategoryOnClose}
-                              updateCategoryOnOpen={updateCategoryOnOpen}
-                              data={{ ...updateCategoryData }}
-                            />
+            <Accordion
+              allowToggle
+              w={"full"}
+              // minH={"full"}
+              overflowY={"scroll"}
+              px={1}
+            >
+              {categories &&
+                categories.map((category: any, index) => {
+                  return (
+                    <AccordionItem key={category?._id}>
+                      <h2>
+                        <AccordionButton fontWeight={"semibold"}>
+                          <Box as="span" flex="1" textAlign="left">
+                            {index + 1 > 9 ? index + 1 : "0" + (index + 1)}{" "}
+                            {category?.name}
                           </Box>
-                          <Box
-                            onClick={() => setDeleteCategoryID(category?._id)}
-                          >
-                            <DeleteCategory
-                              deleteCategoryIsOpen={deleteCategoryIsOpen}
-                              deleteCategoryOnClose={deleteCategoryOnClose}
-                              deleteCategoryOnOpen={deleteCategoryOnOpen}
-                              id={deleteCategoryID}
-                            />
-                          </Box>
-                        </VStack>
-                      </HStack>
-                    </AccordionPanel>
-                  </AccordionItem>
-                );
-              })}
-          </Accordion>
-        </VStack>
-      </HStack>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        <HStack justifyContent={"space-between"}>
+                          <VStack>
+                            <Heading
+                              alignSelf={"flex-start"}
+                              fontSize={"lg"}
+                              fontWeight={"semibold"}
+                            >
+                              {category?.name}
+                            </Heading>
+                            <Text alignSelf={"flex-start"} fontSize={"md"}>
+                              {category.description
+                                ? category.description
+                                : "No Description Available"}
+                            </Text>
+                          </VStack>
+
+                          <VStack>
+                            <Box
+                              onClick={() =>
+                                setUpdateCategoryData({
+                                  id: category?._id,
+                                  name: category?.name,
+                                  description: category?.description,
+                                })
+                              }
+                            >
+                              <UpdateCategory
+                                updateCategoryIsOpen={updateCategoryIsOpen}
+                                updateCategoryOnClose={updateCategoryOnClose}
+                                updateCategoryOnOpen={updateCategoryOnOpen}
+                                data={{ ...updateCategoryData }}
+                              />
+                            </Box>
+                            <Box
+                              onClick={() => setDeleteCategoryID(category?._id)}
+                            >
+                              <DeleteCategory
+                                deleteCategoryIsOpen={deleteCategoryIsOpen}
+                                deleteCategoryOnClose={deleteCategoryOnClose}
+                                deleteCategoryOnOpen={deleteCategoryOnOpen}
+                                id={deleteCategoryID}
+                              />
+                            </Box>
+                          </VStack>
+                        </HStack>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  );
+                })}
+            </Accordion>
+          </VStack>
+        </HStack>
+      </VStack>
     </Layout>
   );
 };

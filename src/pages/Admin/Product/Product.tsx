@@ -7,6 +7,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Select,
   Table,
   TableContainer,
@@ -25,6 +26,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
 import { BsTrash3 } from "react-icons/bs";
+import { Link as RouterLink } from "react-router-dom";
 
 const Product = () => {
   const { categories } = useSelector((state: RootState) => state.category);
@@ -63,7 +65,9 @@ const Product = () => {
             </form>
 
             {/* button to add new product */}
-            <Button colorScheme="orange">Add Product</Button>
+            <Link as={RouterLink} to={"/admin/product/add"}>
+              <Button colorScheme="orange">Add Product</Button>
+            </Link>
           </HStack>
 
           {/* for displaying the product table */}
