@@ -19,8 +19,9 @@ import Layout from "../../Layout/Layout";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
 import { ChangeEvent, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { addNewProduct } from "../../../redux/productSlice";
 
 // interface for the product data
 interface IproductData {
@@ -35,9 +36,10 @@ interface IproductData {
 }
 
 const AddProduct = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   // for product image preview
   const [productImgPreview, setProductImgPreview] = useState("");
-
   // getting the categories data
   const { categories } = useSelector((state: RootState) => state.category);
 
@@ -67,6 +69,31 @@ const AddProduct = () => {
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
     console.log(data);
+    const res = await dispatch(addNewProduct(data));
+    if (res.payload.success) {
+      reset();
+    } else {
+      const {
+        category,
+        description,
+        discountedPrice,
+        inStock,
+        originalPrice,
+        productImage,
+        quantity,
+        title,
+      } = watch();
+      reset({
+        category,
+        description,
+        discountedPrice,
+        inStock,
+        originalPrice,
+        productImage,
+        quantity,
+        title,
+      });
+    }
   };
 
   return (
@@ -222,11 +249,10 @@ const AddProduct = () => {
                         },
                       })}
                     >
-                      <option value={"none"}>Choose Category</option>
                       {categories &&
                         categories.map((category: any) => {
                           return (
-                            <option key={category?._id} value={category?.name}>
+                            <option key={category?._id} value={category?._id}>
                               {category?.name}
                             </option>
                           );

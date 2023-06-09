@@ -22,14 +22,27 @@ import {
 } from "@chakra-ui/react";
 import Layout from "../../Layout/Layout";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
 import { BsTrash3 } from "react-icons/bs";
 import { Link as RouterLink } from "react-router-dom";
+import { useEffect } from "react";
+import { getAllProducts } from "../../../redux/productSlice";
 
 const Product = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { categories } = useSelector((state: RootState) => state.category);
+  const { products } = useSelector((state: RootState) => state.product);
+  console.log(products);
+
+  // for getting the products data on page load
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllProducts());
+    })();
+  }, []);
+
   return (
     <Layout>
       <VStack minH={"100vh"} w="full" pt={5} pl={60}>
