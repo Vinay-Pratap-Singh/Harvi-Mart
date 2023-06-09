@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import { getAllProducts } from "../../../redux/productSlice";
 import { getAllCategories } from "../../../redux/categorySlice";
 import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
+import { IproductData } from "../../../helper/interfaces";
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,6 +46,13 @@ const Product = () => {
     onOpen: deleteProductOnOpen,
     onClose: deleteProductOnClose,
   } = useDisclosure();
+
+  // for handling the edit button click
+  const handleProductEditBtn = (product: any) => {
+    // const data: IproductData = {
+    //   id:product?._id,category:product?.category?._id,description:product?.description,discountedPrice
+    // }
+  };
 
   // for getting the products data on page load
   useEffect(() => {
@@ -89,7 +97,7 @@ const Product = () => {
             </form>
 
             {/* button to add new product */}
-            <Link as={RouterLink} to={"/admin/product/add"}>
+            <Link as={RouterLink} to={"/admin/product/operation/add"}>
               <Button colorScheme="orange">Add Product</Button>
             </Link>
           </HStack>
@@ -145,11 +153,13 @@ const Product = () => {
               {/* adding the table body */}
               <Tbody fontSize={"14.5px"}>
                 {products.length === 0 ? (
-                  <Tr>
+                  <Tr textAlign={"center"}>
                     <Td colSpan={7}>Oops! There is no products</Td>
                   </Tr>
                 ) : (
                   products.map((product: any, index) => {
+                    console.log(product);
+
                     return (
                       <Tr key={product?._id}>
                         <Td
@@ -218,6 +228,9 @@ const Product = () => {
                                 p="0"
                                 _hover={{ color: "#e06464" }}
                                 fontSize={"xl"}
+                                onClick={() => {
+                                  handleProductEditBtn(product);
+                                }}
                               >
                                 <MdOutlineModeEdit />
                               </Button>

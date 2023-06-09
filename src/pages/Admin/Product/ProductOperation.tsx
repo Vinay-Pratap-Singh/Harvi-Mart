@@ -18,25 +18,18 @@ import {
 import Layout from "../../Layout/Layout";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct } from "../../../redux/productSlice";
+import { IproductData } from "../../../helper/interfaces";
+import { useNavigate, useParams } from "react-router-dom";
 
-// interface for the product data
-interface IproductData {
-  productImage: File;
-  title: string;
-  description: string;
-  originalPrice: number;
-  discountedPrice: number;
-  category: string;
-  quantity: number;
-  inStock: string;
-}
-
-const AddProduct = () => {
+const ProductOperation = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { operationID } = useParams();
+
+  const navigate = useNavigate();
 
   // for product image preview
   const [productImgPreview, setProductImgPreview] = useState("");
@@ -51,9 +44,12 @@ const AddProduct = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<IproductData>({
-    defaultValues: {
-      inStock: "true",
-    },
+    defaultValues:
+      operationID === "add"
+        ? {
+            inStock: "true",
+          }
+        : {},
   });
 
   // function to get the url from the file
@@ -96,13 +92,22 @@ const AddProduct = () => {
     }
   };
 
+  // for checking valid param
+  useEffect(() => {
+    if (!operationID) {
+      navigate(-1);
+    } else if (operationID !== "add" && operationID !== "update") {
+      navigate(-1);
+    }
+  }, [operationID, navigate]);
+
   return (
     <Layout>
       <VStack minH={"100vh"} w="full" pt={5} pl={60}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
-            Add Product Page
+            {operationID === "add" ? "Add Product Page" : "Update Product Page"}
           </Text>{" "}
         </Heading>
 
@@ -320,7 +325,7 @@ const AddProduct = () => {
                   w={"fit-content"}
                   colorScheme="orange"
                 >
-                  Add Product
+                  {operationID === "add" ? " Add Product" : "Update Product"}
                 </Button>
               </GridItem>
             </Grid>
@@ -331,4 +336,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default ProductOperation;

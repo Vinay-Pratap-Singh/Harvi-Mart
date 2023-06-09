@@ -31,3 +31,16 @@ export interface IcouponData {
   couponCode: string;
   discount: number;
 }
+
+// interface for the product data
+export interface IproductData {
+  id?: string;
+  productImage: File;
+  title: string;
+  description: string;
+  originalPrice: number;
+  discountedPrice: number;
+  category: string;
+  quantity: number;
+  inStock: string;
+}
