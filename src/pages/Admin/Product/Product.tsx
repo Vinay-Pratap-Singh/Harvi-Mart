@@ -29,17 +29,18 @@ import { BsTrash3 } from "react-icons/bs";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect } from "react";
 import { getAllProducts } from "../../../redux/productSlice";
+import { getAllCategories } from "../../../redux/categorySlice";
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { categories } = useSelector((state: RootState) => state.category);
   const { products } = useSelector((state: RootState) => state.product);
-  console.log(products);
 
   // for getting the products data on page load
   useEffect(() => {
     (async () => {
       await dispatch(getAllProducts());
+      await dispatch(getAllCategories());
     })();
   }, []);
 
@@ -133,517 +134,105 @@ const Product = () => {
 
               {/* adding the table body */}
               <Tbody fontSize={"14.5px"}>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
+                {products.length === 0 ? (
+                  <Tr>
+                    <Td colSpan={7}>Oops! There is no products</Td>
+                  </Tr>
+                ) : (
+                  products.map((product: any, index) => {
+                    return (
+                      <Tr key={product?._id}>
+                        <Td
+                          p="1"
+                          textAlign={"center"}
+                          verticalAlign={"text-top"}
                         >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
+                          {index < 10 ? `0${index + 1}` : index + 1}
+                        </Td>
+                        <Td p="1" verticalAlign={"text-top"}>
+                          <Box w="32" whiteSpace={"normal"}>
+                            {product?.title}
+                          </Box>
+                        </Td>
+                        <Td p="1" verticalAlign={"text-top"}>
+                          <Box w="60" whiteSpace={"normal"}>
+                            {product?.description}
+                          </Box>
+                        </Td>
+                        <Td
+                          p="1"
+                          textAlign={"center"}
+                          verticalAlign={"text-top"}
                         >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
+                          {product?.originalPrice} Rs
+                        </Td>
+                        <Td p="1" verticalAlign={"text-top"}>
+                          {product.category
+                            ? product?.category?.name
+                            : "Not Available"}
+                        </Td>
+                        <Td
+                          p="1"
+                          textAlign={"center"}
+                          verticalAlign={"text-top"}
                         >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-                <Tr>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    01
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Running Shoes
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <Box w="60" whiteSpace={"normal"}>
-                      Vinay you are a good boy.Vinay you are a good boy.Vinay
-                      you are a good boy.Vinay you are a good boy.Vinay you are
-                      a good boy.Vinay you are a good boy.
-                    </Box>
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    599 Rs
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    Shoes
-                  </Td>
-                  <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                    10
-                  </Td>
-                  <Td p="1" verticalAlign={"text-top"}>
-                    <ButtonGroup>
-                      <Tooltip
-                        hasArrow
-                        label="More Product Detail"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineDescription />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Edit Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <MdOutlineModeEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        hasArrow
-                        label="Delete Product"
-                        color={"orange.500"}
-                        bgColor={"white"}
-                        placement={"top"}
-                      >
-                        <Button
-                          p="0"
-                          _hover={{ color: "#e06464" }}
-                          fontSize={"xl"}
-                        >
-                          <BsTrash3 />
-                        </Button>
-                      </Tooltip>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
+                          {product.quantity
+                            ? product?.quantity
+                            : "Not Available"}
+                        </Td>
+                        <Td p="1" verticalAlign={"text-top"}>
+                          <ButtonGroup>
+                            <Tooltip
+                              hasArrow
+                              label="More Product Detail"
+                              color={"orange.500"}
+                              bgColor={"white"}
+                              placement={"top"}
+                            >
+                              <Button
+                                p="0"
+                                _hover={{ color: "#e06464" }}
+                                fontSize={"xl"}
+                              >
+                                <MdOutlineDescription />
+                              </Button>
+                            </Tooltip>
+                            <Tooltip
+                              hasArrow
+                              label="Edit Product"
+                              color={"orange.500"}
+                              bgColor={"white"}
+                              placement={"top"}
+                            >
+                              <Button
+                                p="0"
+                                _hover={{ color: "#e06464" }}
+                                fontSize={"xl"}
+                              >
+                                <MdOutlineModeEdit />
+                              </Button>
+                            </Tooltip>
+                            <Tooltip
+                              hasArrow
+                              label="Delete Product"
+                              color={"orange.500"}
+                              bgColor={"white"}
+                              placement={"top"}
+                            >
+                              <Button
+                                p="0"
+                                _hover={{ color: "#e06464" }}
+                                fontSize={"xl"}
+                              >
+                                <BsTrash3 />
+                              </Button>
+                            </Tooltip>
+                          </ButtonGroup>
+                        </Td>
+                      </Tr>
+                    );
+                  })
+                )}
               </Tbody>
             </Table>
           </TableContainer>
