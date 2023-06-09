@@ -51,6 +51,19 @@ export const addNewProduct = createAsyncThunk(
   }
 );
 
+// function to delete the product
+export const deleteProduct = createAsyncThunk(
+  "product/delete",
+  async (id: string) => {
+    try {
+      const res = await axiosInstance.delete(`/products/${id}`);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState,
@@ -75,6 +88,16 @@ const productSlice = createSlice({
       })
       .addCase(addNewProduct.rejected, () => {
         toast.error("Failed to add new product");
+      })
+
+      // for delete product
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(deleteProduct.rejected, () => {
+        toast.error("Failed to delete product");
       });
   },
 });

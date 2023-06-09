@@ -19,22 +19,32 @@ import {
   Tooltip,
   Tr,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Layout from "../../Layout/Layout";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
-import { BsTrash3 } from "react-icons/bs";
 import { Link as RouterLink } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllProducts } from "../../../redux/productSlice";
 import { getAllCategories } from "../../../redux/categorySlice";
+import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { categories } = useSelector((state: RootState) => state.category);
   const { products } = useSelector((state: RootState) => state.product);
+  // for storing the id of product to be deleleted
+  const [productToBeDeleted, setProductToBeDeleted] = useState("");
+
+  // for managing the modals and alert boxes
+  const {
+    isOpen: deleteProductIsOpen,
+    onOpen: deleteProductOnOpen,
+    onClose: deleteProductOnClose,
+  } = useDisclosure();
 
   // for getting the products data on page load
   useEffect(() => {
@@ -42,7 +52,7 @@ const Product = () => {
       await dispatch(getAllProducts());
       await dispatch(getAllCategories());
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Layout>
@@ -212,21 +222,19 @@ const Product = () => {
                                 <MdOutlineModeEdit />
                               </Button>
                             </Tooltip>
-                            <Tooltip
-                              hasArrow
-                              label="Delete Product"
-                              color={"orange.500"}
-                              bgColor={"white"}
-                              placement={"top"}
+
+                            <Box
+                              onClick={() =>
+                                setProductToBeDeleted(product?._id)
+                              }
                             >
-                              <Button
-                                p="0"
-                                _hover={{ color: "#e06464" }}
-                                fontSize={"xl"}
-                              >
-                                <BsTrash3 />
-                              </Button>
-                            </Tooltip>
+                              <DeleteProduct
+                                deleteProductIsOpen={deleteProductIsOpen}
+                                deleteProductOnClose={deleteProductOnClose}
+                                deleteProductOnOpen={deleteProductOnOpen}
+                                id={productToBeDeleted}
+                              />
+                            </Box>
                           </ButtonGroup>
                         </Td>
                       </Tr>
