@@ -21,18 +21,21 @@ import { BiImageAdd } from "react-icons/bi";
 import { ChangeEvent, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { addNewProduct } from "../../../redux/productSlice";
+import { addNewProduct, updateProduct } from "../../../redux/productSlice";
 import { IproductData } from "../../../helper/interfaces";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const ProductOperation = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { operationID } = useParams();
-
   const navigate = useNavigate();
+  const { operationID } = useParams();
+  const { state } = useLocation();
+  console.log(state);
 
   // for product image preview
-  const [productImgPreview, setProductImgPreview] = useState("");
+  const [productImgPreview, setProductImgPreview] = useState(
+    state.imageURL || ""
+  );
   // getting the categories data
   const { categories } = useSelector((state: RootState) => state.category);
 
@@ -49,7 +52,15 @@ const ProductOperation = () => {
         ? {
             inStock: "true",
           }
-        : {},
+        : {
+            id: state?.id,
+            category: state?.category,
+            description: state?.description,
+            inStock: state?.inStock,
+            originalPrice: state?.originalPrice,
+            quantity: state?.quantity,
+            title: state?.title,
+          },
   });
 
   // function to get the url from the file
@@ -65,30 +76,55 @@ const ProductOperation = () => {
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
     console.log(data);
-    const res = await dispatch(addNewProduct(data));
-    if (res.payload.success) {
-      reset();
+    if (operationID === "add") {
+      const res = await dispatch(addNewProduct(data));
+      if (res.payload.success) {
+        reset();
+      } else {
+        const {
+          category,
+          description,
+          inStock,
+          originalPrice,
+          productImage,
+          quantity,
+          title,
+        } = watch();
+        reset({
+          category,
+          description,
+          inStock,
+          originalPrice,
+          productImage,
+          quantity,
+          title,
+        });
+      }
     } else {
-      const {
-        category,
-        description,
-        discountedPrice,
-        inStock,
-        originalPrice,
-        productImage,
-        quantity,
-        title,
-      } = watch();
-      reset({
-        category,
-        description,
-        discountedPrice,
-        inStock,
-        originalPrice,
-        productImage,
-        quantity,
-        title,
-      });
+      const res = await dispatch(updateProduct(data));
+      if (res.payload.success) {
+        reset();
+        navigate("/admin/product");
+      } else {
+        const {
+          category,
+          description,
+          inStock,
+          originalPrice,
+          productImage,
+          quantity,
+          title,
+        } = watch();
+        reset({
+          category,
+          description,
+          inStock,
+          originalPrice,
+          productImage,
+          quantity,
+          title,
+        });
+      }
     }
   };
 
@@ -149,7 +185,7 @@ const ProductOperation = () => {
                     accept="image/*"
                     display={"none"}
                     onChange={getPreviewURL}
-                    required
+                    {...(operationID === "add" && { required: true })}
                   />
                 </FormControl>
               </GridItem>
@@ -196,25 +232,6 @@ const ProductOperation = () => {
                     />
                     <FormErrorMessage>
                       {errors.originalPrice && errors.originalPrice.message}
-                    </FormErrorMessage>
-                  </FormControl>
-                  {/* for product discounted price */}
-                  <FormControl isInvalid={Boolean(errors?.discountedPrice)}>
-                    <FormLabel fontSize={"sm"}>Discounted Price</FormLabel>
-                    <Input
-                      type="number"
-                      focusBorderColor="primaryColor"
-                      placeholder="399"
-                      {...register("discountedPrice", {
-                        required: {
-                          value: true,
-                          message:
-                            "Please enter the product's discounted price",
-                        },
-                      })}
-                    />
-                    <FormErrorMessage>
-                      {errors.discountedPrice && errors.discountedPrice.message}
                     </FormErrorMessage>
                   </FormControl>
                 </HStack>
@@ -321,7 +338,9 @@ const ProductOperation = () => {
                 <Button
                   type="submit"
                   isLoading={isSubmitting}
-                  loadingText="Adding..."
+                  loadingText={
+                    operationID === "add" ? "Adding..." : "Updating..."
+                  }
                   w={"fit-content"}
                   colorScheme="orange"
                 >

@@ -26,7 +26,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../../../redux/productSlice";
 import { getAllCategories } from "../../../redux/categorySlice";
@@ -35,6 +35,7 @@ import { IproductData } from "../../../helper/interfaces";
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { categories } = useSelector((state: RootState) => state.category);
   const { products } = useSelector((state: RootState) => state.product);
   // for storing the id of product to be deleleted
@@ -49,9 +50,18 @@ const Product = () => {
 
   // for handling the edit button click
   const handleProductEditBtn = (product: any) => {
-    // const data: IproductData = {
-    //   id:product?._id,category:product?.category?._id,description:product?.description,discountedPrice
-    // }
+    const data: IproductData = {
+      id: product?._id,
+      category: product?.category?._id,
+      description: product?.description,
+      inStock: product?.inStock,
+      originalPrice: product?.originalPrice,
+      productImage: null,
+      quantity: product?.quantity,
+      title: product?.title,
+      imageURL: product?.images?.[0].image?.secure_url,
+    };
+    navigate("/admin/product/operation/update", { state: { ...data } });
   };
 
   // for getting the products data on page load
@@ -151,7 +161,7 @@ const Product = () => {
               </Thead>
 
               {/* adding the table body */}
-              <Tbody fontSize={"14.5px"}>
+              <Tbody fontSize={"14.5px"} fontWeight={"semibold"}>
                 {products.length === 0 ? (
                   <Tr textAlign={"center"}>
                     <Td colSpan={7}>Oops! There is no products</Td>
@@ -228,6 +238,7 @@ const Product = () => {
                                 p="0"
                                 _hover={{ color: "#e06464" }}
                                 fontSize={"xl"}
+                                colorScheme="yellow"
                                 onClick={() => {
                                   handleProductEditBtn(product);
                                 }}

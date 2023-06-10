@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
+import { IproductData } from "../helper/interfaces";
 
 const initialState = {
   products: [],
@@ -22,28 +23,42 @@ export const getAllProducts = createAsyncThunk(
 // function to add new product
 export const addNewProduct = createAsyncThunk(
   "/products/add",
-  async (data: {
-    productImage: File;
-    title: string;
-    description: string;
-    originalPrice: number;
-    discountedPrice: number;
-    category: string;
-    quantity: number;
-    inStock: string;
-  }) => {
+  async (data: IproductData) => {
     try {
       // creating the form data
       const newFormData = new FormData();
       newFormData.append("title", data?.title);
       newFormData.append("description", data?.description);
       newFormData.append("originalPrice", data?.originalPrice.toString());
-      newFormData.append("discountedPrice", data?.discountedPrice.toString());
       newFormData.append("category", data?.category);
       newFormData.append("quantity", data?.quantity.toString());
       newFormData.append("inStock", data?.inStock);
-      newFormData.append("productImage", data?.productImage);
+      data.productImage &&
+        newFormData.append("productImage", data?.productImage);
       const res = await axiosInstance.post("/products", newFormData);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to update product
+export const updateProduct = createAsyncThunk(
+  "/products/update",
+  async (data: IproductData) => {
+    try {
+      // creating the form data
+      const newFormData = new FormData();
+      newFormData.append("title", data?.title);
+      newFormData.append("description", data?.description);
+      newFormData.append("originalPrice", data?.originalPrice.toString());
+      newFormData.append("category", data?.category);
+      newFormData.append("quantity", data?.quantity.toString());
+      newFormData.append("inStock", data?.inStock);
+      data.productImage &&
+        newFormData.append("productImage", data?.productImage);
+      const res = await axiosInstance.put(`/products/${data?.id}`, newFormData);
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -98,6 +113,16 @@ const productSlice = createSlice({
       })
       .addCase(deleteProduct.rejected, () => {
         toast.error("Failed to delete product");
+      })
+
+      // for update product
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(updateProduct.rejected, () => {
+        toast.error("Failed to update product");
       });
   },
 });
