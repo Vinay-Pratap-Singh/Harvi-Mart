@@ -48,6 +48,8 @@ export const updateProduct = createAsyncThunk(
   "/products/update",
   async (data: IproductData) => {
     try {
+      console.log(data.productImage);
+
       // creating the form data
       const newFormData = new FormData();
       newFormData.append("title", data?.title);

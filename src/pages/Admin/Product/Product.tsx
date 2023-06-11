@@ -32,14 +32,27 @@ import { getAllProducts } from "../../../redux/productSlice";
 import { getAllCategories } from "../../../redux/categorySlice";
 import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
 import { IproductData } from "../../../helper/interfaces";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface IuserSearchedText {
+  searchedText: string;
+}
 
 const Product = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { categories } = useSelector((state: RootState) => state.category);
   const { products } = useSelector((state: RootState) => state.product);
+  const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   // for storing the id of product to be deleleted
   const [productToBeDeleted, setProductToBeDeleted] = useState("");
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<IuserSearchedText>();
 
   // for managing the modals and alert boxes
   const {
@@ -64,11 +77,24 @@ const Product = () => {
     navigate("/admin/product/operation/update", { state: { ...data } });
   };
 
+  // function for handling the product search
+  const handleSearch: SubmitHandler<IuserSearchedText> = (data) => {
+    if (!data.searchedText || data.searchedText === "") {
+      setProductToBeDisplayed(products);
+      return;
+    }
+    const newProductData = products.filter((product: any) => {
+      return (product?.title).includes(data.searchedText);
+    });
+    setProductToBeDisplayed(newProductData);
+  };
+
   // for getting the products data on page load
   useEffect(() => {
     (async () => {
       await dispatch(getAllProducts());
       await dispatch(getAllCategories());
+      setProductToBeDisplayed(products);
     })();
   }, [dispatch]);
 
@@ -86,12 +112,13 @@ const Product = () => {
         <VStack w="full" p={5}>
           {/* for search and add product button */}
           <HStack justifyContent={"space-between"} w="full">
-            <form>
+            <form onSubmit={handleSubmit(handleSearch)}>
               <InputGroup w="80">
                 <Input
                   type="text"
                   placeholder="Search product"
                   focusBorderColor="primaryColor"
+                  {...register("searchedText")}
                 />
                 <InputRightElement>
                   <Button
@@ -162,14 +189,12 @@ const Product = () => {
 
               {/* adding the table body */}
               <Tbody fontSize={"14.5px"} fontWeight={"semibold"}>
-                {products.length === 0 ? (
-                  <Tr textAlign={"center"}>
+                {productToBeDisplayed.length === 0 ? (
+                  <Tr>
                     <Td colSpan={7}>Oops! There is no products</Td>
                   </Tr>
                 ) : (
-                  products.map((product: any, index) => {
-                    console.log(product);
-
+                  productToBeDisplayed.map((product: any, index) => {
                     return (
                       <Tr key={product?._id}>
                         <Td

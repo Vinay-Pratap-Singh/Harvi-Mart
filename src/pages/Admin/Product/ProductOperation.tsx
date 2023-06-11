@@ -30,11 +30,10 @@ const ProductOperation = () => {
   const navigate = useNavigate();
   const { operationID } = useParams();
   const { state } = useLocation();
-  console.log(state);
 
   // for product image preview
   const [productImgPreview, setProductImgPreview] = useState(
-    state.imageURL || ""
+    (state && state.imageURL) || ""
   );
   // getting the categories data
   const { categories } = useSelector((state: RootState) => state.category);
@@ -75,7 +74,6 @@ const ProductOperation = () => {
 
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
-    console.log(data);
     if (operationID === "add") {
       const res = await dispatch(addNewProduct(data));
       if (res.payload.success) {
@@ -102,7 +100,8 @@ const ProductOperation = () => {
       }
     } else {
       const res = await dispatch(updateProduct(data));
-      if (res.payload.success) {
+      console.log(res.payload);
+      if (res.payload?.success) {
         reset();
         navigate("/admin/product");
       } else {
