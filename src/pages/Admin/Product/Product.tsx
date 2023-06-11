@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getAllProducts } from "../../../redux/productSlice";
 import { getAllCategories } from "../../../redux/categorySlice";
 import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
@@ -46,13 +46,7 @@ const Product = () => {
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   // for storing the id of product to be deleleted
   const [productToBeDeleted, setProductToBeDeleted] = useState("");
-  const {
-    handleSubmit,
-    register,
-    watch,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<IuserSearchedText>();
+  const { handleSubmit, register } = useForm<IuserSearchedText>();
 
   // for managing the modals and alert boxes
   const {
@@ -85,6 +79,20 @@ const Product = () => {
     }
     const newProductData = products.filter((product: any) => {
       return (product?.title).includes(data.searchedText);
+    });
+    setProductToBeDisplayed(newProductData);
+  };
+
+  // for handling the search by category
+  const searchByCategory = (event: ChangeEvent) => {
+    const element = event.target as HTMLSelectElement;
+    const value = element.value;
+    if (value === "all") {
+      setProductToBeDisplayed(products);
+      return;
+    }
+    const newProductData = products.filter((product: any) => {
+      return product?.category && (product?.category?.name).includes(value);
     });
     setProductToBeDisplayed(newProductData);
   };
@@ -168,6 +176,7 @@ const Product = () => {
                         fontSize={"14px"}
                         fontWeight={"semibold"}
                         px={0}
+                        onChange={searchByCategory}
                       >
                         <option value="all">All</option>
                         {categories.map((category: any) => {
