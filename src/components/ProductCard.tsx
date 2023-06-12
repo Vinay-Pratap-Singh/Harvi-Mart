@@ -2,7 +2,9 @@ import { Box, Button, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import productImage from "../assets/CategoryImages/shoes.png";
 import { AiFillHeart } from "react-icons/ai";
 
-const ProductCard = () => {
+const ProductCard = ({ product }: any) => {
+  console.log(product);
+
   const productDetail = {
     title: "Stylish Shoes",
     description: "Best sports shoe for a stylish look and confortable feel",

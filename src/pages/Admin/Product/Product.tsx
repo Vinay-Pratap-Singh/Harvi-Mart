@@ -63,6 +63,7 @@ const Product = () => {
       description: product?.description,
       inStock: product?.inStock,
       originalPrice: product?.originalPrice,
+      discountedPrice: product?.discountedPrice,
       productImage: null,
       quantity: product?.quantity,
       title: product?.title,

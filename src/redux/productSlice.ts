@@ -30,6 +30,7 @@ export const addNewProduct = createAsyncThunk(
       newFormData.append("title", data?.title);
       newFormData.append("description", data?.description);
       newFormData.append("originalPrice", data?.originalPrice.toString());
+      newFormData.append("discountedPrice", data?.discountedPrice.toString());
       newFormData.append("category", data?.category);
       newFormData.append("quantity", data?.quantity.toString());
       newFormData.append("inStock", data?.inStock);
@@ -48,13 +49,12 @@ export const updateProduct = createAsyncThunk(
   "/products/update",
   async (data: IproductData) => {
     try {
-      console.log(data.productImage);
-
       // creating the form data
       const newFormData = new FormData();
       newFormData.append("title", data?.title);
       newFormData.append("description", data?.description);
       newFormData.append("originalPrice", data?.originalPrice.toString());
+      newFormData.append("discountedPrice", data?.discountedPrice.toString());
       newFormData.append("category", data?.category);
       newFormData.append("quantity", data?.quantity.toString());
       newFormData.append("inStock", data?.inStock);

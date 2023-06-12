@@ -59,6 +59,7 @@ const ProductOperation = () => {
             originalPrice: state?.originalPrice,
             quantity: state?.quantity,
             title: state?.title,
+            discountedPrice: state?.discountedPrice,
           },
   });
 
@@ -78,12 +79,14 @@ const ProductOperation = () => {
       const res = await dispatch(addNewProduct(data));
       if (res.payload.success) {
         reset();
+        setProductImgPreview("");
       } else {
         const {
           category,
           description,
           inStock,
           originalPrice,
+          discountedPrice,
           productImage,
           quantity,
           title,
@@ -93,6 +96,7 @@ const ProductOperation = () => {
           description,
           inStock,
           originalPrice,
+          discountedPrice,
           productImage,
           quantity,
           title,
@@ -100,7 +104,6 @@ const ProductOperation = () => {
       }
     } else {
       const res = await dispatch(updateProduct(data));
-      console.log(res.payload);
       if (res.payload?.success) {
         reset();
         navigate("/admin/product");
@@ -110,6 +113,7 @@ const ProductOperation = () => {
           description,
           inStock,
           originalPrice,
+          discountedPrice,
           productImage,
           quantity,
           title,
@@ -119,6 +123,7 @@ const ProductOperation = () => {
           description,
           inStock,
           originalPrice,
+          discountedPrice,
           productImage,
           quantity,
           title,
@@ -231,6 +236,26 @@ const ProductOperation = () => {
                     />
                     <FormErrorMessage>
                       {errors.originalPrice && errors.originalPrice.message}
+                    </FormErrorMessage>
+                  </FormControl>
+
+                  {/* for product discounted price */}
+                  <FormControl isInvalid={Boolean(errors?.discountedPrice)}>
+                    <FormLabel fontSize={"sm"}>Discounted Price</FormLabel>
+                    <Input
+                      type="number"
+                      focusBorderColor="primaryColor"
+                      placeholder="399"
+                      {...register("discountedPrice", {
+                        required: {
+                          value: true,
+                          message:
+                            "Please enter the product's discounted price",
+                        },
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.discountedPrice && errors.discountedPrice.message}
                     </FormErrorMessage>
                   </FormControl>
                 </HStack>

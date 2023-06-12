@@ -39,6 +39,7 @@ export interface IproductData {
   title: string;
   description: string;
   originalPrice: number;
+  discountedPrice: number;
   category: string;
   quantity: number;
   inStock: string;
