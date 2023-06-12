@@ -1,10 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 import { IproductData } from "../helper/interfaces";
 
 const initialState = {
   products: [],
+  searchedText: "",
 };
 
 // function to get all products
@@ -84,7 +85,11 @@ export const deleteProduct = createAsyncThunk(
 const productSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchedText: (state, action: PayloadAction<string>) => {
+      state.searchedText = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     // for get all product details
     builder
@@ -129,5 +134,5 @@ const productSlice = createSlice({
   },
 });
 
-export const {} = productSlice.actions;
+export const { setSearchedText } = productSlice.actions;
 export default productSlice.reducer;

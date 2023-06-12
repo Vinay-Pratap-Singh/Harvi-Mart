@@ -30,6 +30,8 @@ import { AppDispatch, RootState } from "../redux/store";
 import { logout } from "../redux/authSlice";
 import { useState } from "react";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { setSearchedText } from "../redux/productSlice";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,6 +44,20 @@ const Header = () => {
 
   // for handling the button loading state
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // for search bar input
+  const { handleSubmit, register } = useForm<{ searchedText: string }>({
+    defaultValues: {
+      searchedText: "",
+    },
+  });
+
+  // for handling the search button submit
+  const handleSearchProduct: SubmitHandler<{ searchedText: string }> = (
+    data
+  ) => {
+    dispatch(setSearchedText(data.searchedText));
+  };
 
   // function to handle the user logout
   const handleLogout = async () => {
@@ -67,16 +83,23 @@ const Header = () => {
 
       {/* adding the search bar */}
       <HStack>
-        <InputGroup>
-          <Input
-            w={96}
-            focusBorderColor="primaryColor"
-            placeholder="Looking for something specific? "
-          />
-          <InputRightElement
-            children={<BiSearch size={24} color="#e06464" />}
-          />
-        </InputGroup>
+        <form onSubmit={handleSubmit(handleSearchProduct)}>
+          <InputGroup>
+            <Input
+              w={96}
+              focusBorderColor="primaryColor"
+              placeholder="Looking for something specific? "
+              {...register("searchedText")}
+            />
+            <InputRightElement
+              children={
+                <Button p={0} colorScheme="white" fontSize={"2xl"}>
+                  <BiSearch color="#e06464" />
+                </Button>
+              }
+            />
+          </InputGroup>
+        </form>
       </HStack>
 
       {/* creating the menu list */}

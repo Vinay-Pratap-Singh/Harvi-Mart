@@ -7,7 +7,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import productImage from "../assets/CategoryImages/shoes.png";
 import { AiFillHeart } from "react-icons/ai";
 
 const ProductCard = ({ product }: any) => {

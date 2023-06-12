@@ -3,12 +3,15 @@ import { HStack } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllProducts } from "../redux/productSlice";
 
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { products } = useSelector((state: RootState) => state.product);
+  const { products, searchedText } = useSelector(
+    (state: RootState) => state.product
+  );
+  const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
 
   // getting the products
   useEffect(() => {
@@ -16,6 +19,20 @@ const Products = () => {
       await dispatch(getAllProducts());
     })();
   }, [dispatch]);
+
+  // for handling user product search
+  useEffect(() => {
+    if (searchedText === "") {
+      setProductToBeDisplayed(products);
+    } else {
+      const newData =
+        products &&
+        products.filter((product: any) => {
+          return product?.title.includes(searchedText);
+        });
+      setProductToBeDisplayed(newData);
+    }
+  }, [searchedText, products]);
 
   return (
     <Layout>
@@ -27,9 +44,9 @@ const Products = () => {
         gap={10}
         flexWrap={"wrap"}
       >
-        {products.length === 0
+        {productToBeDisplayed.length === 0
           ? "Oops! No product available"
-          : products.map((product: any) => {
+          : productToBeDisplayed.map((product: any) => {
               return <ProductCard key={product._id} product={product} />;
             })}
         <ProductCard />
