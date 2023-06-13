@@ -6,6 +6,7 @@ import { IproductData } from "../helper/interfaces";
 const initialState = {
   products: [],
   searchedText: "",
+  isLoading: false,
 };
 
 // function to get all products
@@ -93,13 +94,18 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     // for get all product details
     builder
+      .addCase(getAllProducts.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         if (action.payload) {
           state.products = action.payload.products;
+          state.isLoading = false;
         }
       })
-      .addCase(getAllProducts.rejected, () => {
+      .addCase(getAllProducts.rejected, (state) => {
         toast.error("Failed to load all products data");
+        state.isLoading = false;
       })
 
       //  for create new product

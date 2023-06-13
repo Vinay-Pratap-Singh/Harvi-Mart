@@ -33,6 +33,9 @@ const ProductCard = ({ product }: any) => {
           &#x20b9;{product?.originalPrice}
         </Text>
       )}
+      <Text fontSize={"sm"} noOfLines={2}>
+        {product?.description}
+      </Text>
       <Button w={"full"} colorScheme="orange">
         More Details
       </Button>{" "}
