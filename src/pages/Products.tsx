@@ -26,7 +26,7 @@ const Products = () => {
   const { categories } = useSelector((state: RootState) => state.category);
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
 
-  // function to filter by category name
+  // function to handle filter by category name
   const filterByCategoryName = (event: React.MouseEvent<HTMLElement>) => {
     const element = event.target as HTMLLIElement;
     event.stopPropagation();
@@ -39,6 +39,49 @@ const Products = () => {
       products &&
       products.filter((product: any) => {
         return product?.category?.name === element.innerText;
+      });
+    setProductToBeDisplayed(newData);
+  };
+
+  // function to handle filter by price
+  const filterByPrice = (event: React.MouseEvent<HTMLElement>) => {
+    const element = event.target as HTMLLIElement;
+    event.stopPropagation();
+    const priceMin = element.getAttribute("price-min");
+    const priceMax = element.getAttribute("price-max");
+    // checking for the clear button click
+    if (priceMin === "clear" && priceMax === "clear") {
+      setProductToBeDisplayed(products);
+      return;
+    }
+    // when max price is not defined
+    if (priceMax === "") {
+      const newData =
+        products &&
+        products.filter((product: any) => {
+          if (product?.discountedPrice) {
+            return product?.discountedPrice > Number(priceMin);
+          } else {
+            return product?.originalPrice > Number(priceMin);
+          }
+        });
+      setProductToBeDisplayed(newData);
+      return;
+    }
+    const newData =
+      products &&
+      products.filter((product: any) => {
+        if (product?.discountedPrice) {
+          return (
+            product?.discountedPrice > Number(priceMin) &&
+            product?.discountedPrice < Number(priceMax)
+          );
+        } else {
+          return (
+            product?.originalPrice > Number(priceMin) &&
+            product?.originalPrice < Number(priceMax)
+          );
+        }
       });
     setProductToBeDisplayed(newData);
   };
@@ -73,6 +116,7 @@ const Products = () => {
           <Heading as={"h1"} fontSize={"lg"} fontWeight={"semibold"} mb={2}>
             Filter Product
           </Heading>
+          {/* for filter by category */}
           <Heading
             as={"h2"}
             fontSize={"md"}
@@ -105,6 +149,78 @@ const Products = () => {
               cursor={"pointer"}
               _hover={{ color: "#DD6B20" }}
               onClick={filterByCategoryName}
+            >
+              Clear
+            </ListItem>
+          </UnorderedList>
+
+          {/* for filter by price */}
+          <Heading
+            as={"h2"}
+            fontSize={"md"}
+            fontWeight={"semibold"}
+            alignSelf={"flex-start"}
+            px={2}
+          >
+            By Price
+          </Heading>
+          <UnorderedList
+            alignSelf={"flex-start"}
+            listStyleType={"none"}
+            px={2}
+            pb={2}
+          >
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByPrice}
+              price-min="0"
+              price-max="300"
+            >
+              Under &#x20b9;300
+            </ListItem>
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByPrice}
+              price-min="300"
+              price-max="500"
+            >
+              &#x20b9;300 - &#x20b9;500
+            </ListItem>
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByPrice}
+              price-min="500"
+              price-max="1000"
+            >
+              &#x20b9;500 - &#x20b9;1000
+            </ListItem>
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByPrice}
+              price-min="1000"
+              price-max="1500"
+            >
+              &#x20b9;1000 - &#x20b9;1500
+            </ListItem>
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByPrice}
+              price-min="1500"
+              price-max=""
+            >
+              &#x20b9;Over &#x20b9;1500
+            </ListItem>
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByPrice}
+              price-min="clear"
+              price-max="clear"
             >
               Clear
             </ListItem>
