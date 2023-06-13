@@ -1,23 +1,53 @@
 import ProductCard from "../components/ProductCard";
-import { HStack, ListItem, UnorderedList, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Heading,
+  Image,
+  ListItem,
+  Text,
+  UnorderedList,
+  VStack,
+} from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "../redux/productSlice";
 import ProductShimmer from "../shimmer/ProductShimmer";
+import { getAllCategories } from "../redux/categorySlice";
+import noProductFound from "../assets/noProductFound.jpg";
 
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { products, searchedText, isLoading } = useSelector(
     (state: RootState) => state.product
   );
+  const { categories } = useSelector((state: RootState) => state.category);
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
 
-  // getting the products
+  // function to filter by category name
+  const filterByCategoryName = (event: React.MouseEvent<HTMLElement>) => {
+    const element = event.target as HTMLLIElement;
+    event.stopPropagation();
+    // checking for the clear button click
+    if (element.innerText === "Clear") {
+      setProductToBeDisplayed(products);
+      return;
+    }
+    const newData =
+      products &&
+      products.filter((product: any) => {
+        return product?.category?.name === element.innerText;
+      });
+    setProductToBeDisplayed(newData);
+  };
+
+  // getting the products and categories
   useEffect(() => {
     (async () => {
       await dispatch(getAllProducts());
+      await dispatch(getAllCategories());
     })();
   }, [dispatch]);
 
@@ -29,7 +59,7 @@ const Products = () => {
       const newData =
         products &&
         products.filter((product: any) => {
-          return product?.title.includes(searchedText);
+          return product?.title.toLowerCase().includes(searchedText);
         });
       setProductToBeDisplayed(newData);
     }
@@ -37,37 +67,81 @@ const Products = () => {
 
   return (
     <Layout>
-      <VStack>
-        {/* for displaying the filter option */}
-        <HStack>
-          <UnorderedList>
-            <ListItem>
-              By Price
-              <UnorderedList></UnorderedList>
+      <HStack ml={10} my={5} minH={"70vh"}>
+        {/* for displaying the filter options */}
+        <VStack alignSelf={"flex-start"} width={80} boxShadow={"md"}>
+          <Heading as={"h1"} fontSize={"lg"} fontWeight={"semibold"} mb={2}>
+            Filter Product
+          </Heading>
+          <Heading
+            as={"h2"}
+            fontSize={"md"}
+            fontWeight={"semibold"}
+            alignSelf={"flex-start"}
+            px={2}
+          >
+            By Category
+          </Heading>
+          <UnorderedList
+            alignSelf={"flex-start"}
+            listStyleType={"none"}
+            px={2}
+            pb={2}
+          >
+            {categories &&
+              categories.map((category: any) => {
+                return (
+                  <ListItem
+                    key={category?._id}
+                    cursor={"pointer"}
+                    _hover={{ color: "#DD6B20" }}
+                    onClick={filterByCategoryName}
+                  >
+                    {category?.name}
+                  </ListItem>
+                );
+              })}
+            <ListItem
+              cursor={"pointer"}
+              _hover={{ color: "#DD6B20" }}
+              onClick={filterByCategoryName}
+            >
+              Clear
             </ListItem>
           </UnorderedList>
-        </HStack>
+        </VStack>
 
         {/* for displaying the product card */}
         <HStack
-          minH={"70vh"}
-          p={10}
+          w={"full"}
           alignSelf={"baseline"}
           justifyContent={"center"}
           gap={10}
           flexWrap={"wrap"}
         >
-          {isLoading
-            ? [...Array(7)].map((_, i) => {
-                return <ProductShimmer key={i} />;
-              })
-            : productToBeDisplayed.length === 0
-            ? "Oops! No product available"
-            : productToBeDisplayed.map((product: any) => {
-                return <ProductCard key={product._id} product={product} />;
-              })}
+          {isLoading ? (
+            [...Array(7)].map((_, i) => {
+              return <ProductShimmer key={i} />;
+            })
+          ) : productToBeDisplayed.length === 0 ? (
+            <VStack w={"full"}>
+              <Image src={noProductFound} alt="No Product Found" w={"300px"} />
+              <Heading
+                fontSize={"xl"}
+                fontWeight={"semibold"}
+                display={"flex"}
+                gap={1}
+              >
+                Oops! No products found <Text color="orange.500">:(</Text>
+              </Heading>
+            </VStack>
+          ) : (
+            productToBeDisplayed.map((product: any) => {
+              return <ProductCard key={product._id} product={product} />;
+            })
+          )}
         </HStack>
-      </VStack>
+      </HStack>
     </Layout>
   );
 };
