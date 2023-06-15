@@ -31,7 +31,6 @@ interface IreviewData {
 
 const ProductDescription = () => {
   const { state } = useLocation();
-  console.log(state);
 
   const {
     register,

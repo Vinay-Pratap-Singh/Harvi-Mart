@@ -1,11 +1,17 @@
 import { Flex, Heading, IconButton, Text, VStack } from "@chakra-ui/react";
 import { AiFillStar } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { useEffect } from "react";
+import { getAllReviews, getIndividualReview } from "../redux/reviewSlice";
 
 interface Iprop {
   productID: string;
 }
 
-const CustomerReviews: React.FC<Iprop> = ({ productID: string }) => {
+const CustomerReviews: React.FC<Iprop> = ({ productID }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const reviews = [
     {
       title: "Good Product",
@@ -18,6 +24,15 @@ const CustomerReviews: React.FC<Iprop> = ({ productID: string }) => {
       review: "This is my first purchase and i am very sad with this  product",
     },
   ];
+
+  // getting the product review
+  useEffect(() => {
+    (async () => {
+      await dispatch(getIndividualReview(productID));
+      await dispatch(getAllReviews());
+    })();
+  }, []);
+
   return (
     <VStack w={"full"} alignItems={"flex-start"}>
       {reviews.map((review, index) => {
