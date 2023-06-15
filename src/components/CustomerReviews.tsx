@@ -1,7 +1,11 @@
 import { Flex, Heading, IconButton, Text, VStack } from "@chakra-ui/react";
 import { AiFillStar } from "react-icons/ai";
 
-const UserReview = () => {
+interface Iprop {
+  productID: string;
+}
+
+const CustomerReviews: React.FC<Iprop> = ({ productID: string }) => {
   const reviews = [
     {
       title: "Good Product",
@@ -43,4 +47,4 @@ const UserReview = () => {
   );
 };
 
-export default UserReview;
+export default CustomerReviews;

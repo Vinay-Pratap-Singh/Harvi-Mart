@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     element: <Products />,
   },
   {
-    path: "/product/detail",
+    path: "/product/detail/:id",
     element: <ProductDescription />,
   },
   { path: "/not-authorized", element: <NotAuthorized /> },

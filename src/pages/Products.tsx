@@ -68,6 +68,7 @@ const Products = () => {
       setProductToBeDisplayed(newData);
       return;
     }
+    // when both max and min price are there
     const newData =
       products &&
       products.filter((product: any) => {

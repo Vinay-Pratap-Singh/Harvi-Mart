@@ -19,8 +19,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineRateReview } from "react-icons/md";
 import StarReview from "../components/StarReview";
 import { useEffect, useState } from "react";
-import UserReview from "../components/UserReview";
+import UserReview from "../components/CustomerReviews";
 import Layout from "./Layout/Layout";
+import { useLocation } from "react-router-dom";
 
 interface IreviewData {
   title: string;
@@ -29,6 +30,9 @@ interface IreviewData {
 }
 
 const ProductDescription = () => {
+  const { state } = useLocation();
+  console.log(state);
+
   const {
     register,
     handleSubmit,
@@ -38,6 +42,9 @@ const ProductDescription = () => {
     defaultValues: { rating: 0, review: "", title: "" },
   });
   const [rating, setRating] = useState(0);
+
+  // function to handle buy now
+  const handleBuyNow = () => {};
 
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IreviewData> = (data) => {
@@ -51,14 +58,18 @@ const ProductDescription = () => {
 
   return (
     <Layout>
-      <HStack gap={10} h={"70vh"} p={10} overflow={"hidden"}>
+      <HStack gap={10} p={10} pos={"relative"}>
         {/* left section for image */}
-        <Box w={"40%"}>
-          <Image src={myProduct} h={96} alt="product image" />
+        <Box w={96} pos={"fixed"} left={10} top={20}>
+          <Image
+            src={state?.images[0]?.image?.secure_url}
+            h={96}
+            alt="product image"
+          />
         </Box>
 
         {/* right section for product details */}
-        <VStack overflowY={"scroll"} w={"60%"} h={"full"} gap={10} px={1}>
+        <VStack w={"full"} gap={10} pl={"450px"}>
           {/* for product details */}
           <VStack
             alignItems={"self-start"}
@@ -67,32 +78,67 @@ const ProductDescription = () => {
             fontWeight={"semibold"}
           >
             <Heading fontSize={"2xl"} fontWeight={"bold"}>
-              Stylish Shoes
+              {state?.title}
             </Heading>
-            <Text>
-              Best sports shoes for a stylish look and confortable feel. Made
-              with the best carbon material for a long lasting, smoother and
-              comfortable feel
-            </Text>
-            <Text>Category Name : Shoes</Text>
-            <Text>Price : 100 &#x20b9; only</Text>
-            <Button colorScheme="orange">Buy Now</Button>
+            <Text>{state?.description}</Text>
+
+            {/* adding the pricing section */}
+            {state?.discountedPrice ? (
+              <VStack>
+                <HStack fontWeight={"semibold"}>
+                  <Text as={"span"} fontSize={"lg"}>
+                    &#x20b9;
+                  </Text>
+                  <Text as={"p"} fontSize={"2xl"}>
+                    {state?.discountedPrice}
+                  </Text>
+                </HStack>
+                <Text fontSize={"xs"} color={"gray.500"}>
+                  M.R.P : <s>&#x20b9;{state?.originalPrice}</s>
+                </Text>
+              </VStack>
+            ) : (
+              <HStack fontWeight={"semibold"}>
+                <Text as={"span"} fontSize={"lg"}>
+                  &#x20b9;
+                </Text>
+                <Text as={"p"} fontSize={"2xl"}>
+                  {state?.originalPrice}
+                </Text>
+              </HStack>
+            )}
+
+            {/* handling the stocks */}
+            {!state?.inStock ? (
+              <Text color={"red.400"}>Out of Stock</Text>
+            ) : (
+              <Text color={"green.400"}>In Stock</Text>
+            )}
+            {state?.quantity <= 10 && state?.inStock && (
+              <Text>Hurry up! only {state?.quantity} left</Text>
+            )}
+            <Button colorScheme="orange" onClick={handleBuyNow}>
+              Buy Now
+            </Button>
           </VStack>
 
-          {/* for product review */}
+          {/* for customer review */}
           <VStack w={"full"} alignItems={"flex-start"}>
             <Heading fontSize={"2xl"} fontWeight={"bold"}>
-              Users Feedback
+              Customer Reviews
             </Heading>
-            <UserReview />
+            <UserReview productID={state?._id} />
           </VStack>
 
-          {/* creating the review section */}
+          {/* creating the product review section */}
           <VStack alignItems={"flex-start"} w={"full"}>
             {/* for adding the review */}
-            <Heading fontSize={"2xl"} fontWeight={"bold"}>
-              Give Your Feedback
-            </Heading>
+            <Box>
+              <Heading fontSize={"2xl"} fontWeight={"bold"}>
+                Review this product
+              </Heading>
+              <Text>Share your thoughts with other customers</Text>
+            </Box>
 
             <form
               onSubmit={handleSubmit(handleFormSubmit)}
