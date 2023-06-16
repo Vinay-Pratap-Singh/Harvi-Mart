@@ -1,4 +1,4 @@
-import { Box, Flex, IconButton } from "@chakra-ui/react";
+import { Flex, IconButton } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 
@@ -7,7 +7,7 @@ interface Iprop {
 }
 
 const StarReview: FC<Iprop> = ({ onChange }) => {
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0);
 
   const handleStarClick = (value: number) => {
     setRating(value);

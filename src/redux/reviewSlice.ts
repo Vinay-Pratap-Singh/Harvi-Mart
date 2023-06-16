@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
+import { IproductReview } from "../helper/interfaces";
 
 const initialState = {
   reviews: [],
@@ -12,7 +13,7 @@ export const getAllReviews = createAsyncThunk(
   async () => {
     try {
       const res = await axiosInstance.get(`/reviews`);
-      console.log(res.data);
+
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -23,10 +24,38 @@ export const getAllReviews = createAsyncThunk(
 // function to get individual review
 export const getIndividualReview = createAsyncThunk(
   "/get/review/individual",
+  async (reviewID: string) => {
+    try {
+      const res = await axiosInstance.get(`/reviews/${reviewID}`);
+
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to get individual product review
+export const getIndividualProductReview = createAsyncThunk(
+  "/get/review/individual/product",
   async (productID: string) => {
     try {
-      const res = await axiosInstance.get(`/reviews/${productID}`);
-      console.log(res.data);
+      const res = await axiosInstance.get(`/reviews/products/${productID}`);
+
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to create a product review
+export const createProductReview = createAsyncThunk(
+  "/review/create",
+  async (data: IproductReview) => {
+    try {
+      const res = await axiosInstance.post(`/reviews`, { ...data });
+
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -38,7 +67,26 @@ const reviewSlice = createSlice({
   name: "review",
   initialState,
   reducers: {},
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      // for create product review
+      .addCase(createProductReview.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success("Review submitted successfully");
+        }
+      })
+      .addCase(createProductReview.rejected, () => {
+        toast.error("Failed to submit the review");
+      })
+
+      // for get product review by product id
+      .addCase(getIndividualProductReview.fulfilled, (state, action) => {
+        state.reviews = action.payload?.reviews;
+      })
+      .addCase(getIndividualProductReview.rejected, () => {
+        toast.error("Failed to load the product reviews");
+      });
+  },
 });
 
 export const {} = reviewSlice.actions;

@@ -3,7 +3,11 @@ import { AiFillStar } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { useEffect } from "react";
-import { getAllReviews, getIndividualReview } from "../redux/reviewSlice";
+import {
+  getAllReviews,
+  getIndividualProductReview,
+  getIndividualReview,
+} from "../redux/reviewSlice";
 
 interface Iprop {
   productID: string;
@@ -28,8 +32,8 @@ const CustomerReviews: React.FC<Iprop> = ({ productID }) => {
   // getting the product review
   useEffect(() => {
     (async () => {
-      await dispatch(getIndividualReview(productID));
-      await dispatch(getAllReviews());
+      await dispatch(getIndividualProductReview(productID));
+      // await dispatch(getAllReviews());
     })();
   }, []);
 

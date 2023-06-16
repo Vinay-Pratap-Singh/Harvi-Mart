@@ -45,3 +45,11 @@ export interface IproductData {
   inStock: string;
   imageURL?: string;
 }
+
+// interface for the product review
+export interface IproductReview {
+  title: string;
+  rating: number;
+  review: string;
+  reviewedFor: string;
+}

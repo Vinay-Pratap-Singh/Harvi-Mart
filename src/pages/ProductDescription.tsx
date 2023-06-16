@@ -14,7 +14,6 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import myProduct from "../assets/CategoryImages/shoes.png";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineRateReview } from "react-icons/md";
 import StarReview from "../components/StarReview";
@@ -22,23 +21,32 @@ import { useEffect, useState } from "react";
 import UserReview from "../components/CustomerReviews";
 import Layout from "./Layout/Layout";
 import { useLocation } from "react-router-dom";
-
-interface IreviewData {
-  title: string;
-  rating: number;
-  review: string;
-}
+import { IproductReview } from "../helper/interfaces";
+import { useDispatch } from "react-redux";
+import {
+  createProductReview,
+  getIndividualProductReview,
+} from "../redux/reviewSlice";
+import { AppDispatch } from "../redux/store";
 
 const ProductDescription = () => {
   const { state } = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
 
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
+    watch,
     formState: { errors, isSubmitting },
-  } = useForm<IreviewData>({
-    defaultValues: { rating: 0, review: "", title: "" },
+  } = useForm<IproductReview>({
+    defaultValues: {
+      title: "",
+      rating: 0,
+      review: "",
+      reviewedFor: state?._id,
+    },
   });
   const [rating, setRating] = useState(0);
 
@@ -46,8 +54,17 @@ const ProductDescription = () => {
   const handleBuyNow = () => {};
 
   // function to handle form submit
-  const handleFormSubmit: SubmitHandler<IreviewData> = (data) => {
-    console.log(data);
+  const handleFormSubmit: SubmitHandler<IproductReview> = async (data) => {
+    const res = await dispatch(createProductReview(data));
+    if (res.payload && res.payload?.success) {
+      reset();
+      await dispatch(getIndividualProductReview(data.reviewedFor));
+      return;
+    } else {
+      const { rating, review, reviewedFor, title } = watch();
+      reset({ rating, review, reviewedFor, title });
+      return;
+    }
   };
 
   // assigning the rating value to react hook form
@@ -156,7 +173,7 @@ const ProductDescription = () => {
                     <Input
                       type="text"
                       focusBorderColor="primaryColor"
-                      placeholder="Fantastic Product"
+                      placeholder="Loved the product"
                       {...register("title", {
                         required: {
                           value: true,
@@ -179,7 +196,7 @@ const ProductDescription = () => {
                       focusBorderColor="primaryColor"
                       resize={"none"}
                       h={40}
-                      placeholder="This was one of my best purchase i had done till now."
+                      placeholder="Good product in this price range"
                       {...register("review", {
                         required: {
                           value: true,
@@ -200,7 +217,12 @@ const ProductDescription = () => {
                   <StarReview onChange={setRating} />
                 </FormControl>
 
-                <Button colorScheme="orange" type="submit">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  loadingText="Adding review..."
+                  colorScheme="orange"
+                >
                   Submit Review
                 </Button>
               </VStack>
