@@ -53,17 +53,16 @@ const ProductDescription = () => {
   // function to handle buy now
   const handleBuyNow = () => {};
 
-  // function to handle form submit
+  // function to handle review form submit
   const handleFormSubmit: SubmitHandler<IproductReview> = async (data) => {
     const res = await dispatch(createProductReview(data));
-    if (res.payload && res.payload?.success) {
+    if (res?.payload?.success) {
       reset();
+      setRating(0);
       await dispatch(getIndividualProductReview(data.reviewedFor));
-      return;
     } else {
       const { rating, review, reviewedFor, title } = watch();
       reset({ rating, review, reviewedFor, title });
-      return;
     }
   };
 
@@ -140,7 +139,7 @@ const ProductDescription = () => {
 
           {/* for customer review */}
           <VStack w={"full"} alignItems={"flex-start"}>
-            <Heading fontSize={"2xl"} fontWeight={"bold"}>
+            <Heading fontSize={"2xl"} fontWeight={"bold"} mb={5}>
               Customer Reviews
             </Heading>
             <UserReview productID={state?._id} />
@@ -178,6 +177,10 @@ const ProductDescription = () => {
                         required: {
                           value: true,
                           message: "Please enter review title",
+                        },
+                        minLength: {
+                          value: 10,
+                          message: "Title should have at least 10 characters",
                         },
                       })}
                     />
