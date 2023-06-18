@@ -103,7 +103,7 @@ const Category = () => {
               px={1}
             >
               {categories &&
-                categories.map((category: any, index) => {
+                categories.map((category: any, index: number) => {
                   return (
                     <AccordionItem key={category?._id}>
                       <h2>

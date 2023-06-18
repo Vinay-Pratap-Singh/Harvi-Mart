@@ -7,7 +7,7 @@ interface Iprop {
 }
 
 const StarReview: FC<Iprop> = ({ onChange }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
 
   const handleStarClick = (value: number) => {
     setRating(value);

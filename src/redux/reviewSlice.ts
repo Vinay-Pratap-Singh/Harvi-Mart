@@ -55,7 +55,19 @@ export const createProductReview = createAsyncThunk(
   async (data: IproductReview) => {
     try {
       const res = await axiosInstance.post(`/reviews`, { ...data });
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
 
+// function to delete a product review
+export const deleteReview = createAsyncThunk(
+  "/review/delete",
+  async (reviewID: string) => {
+    try {
+      const res = await axiosInstance.delete(`/reviews/${reviewID}`);
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -85,6 +97,14 @@ const reviewSlice = createSlice({
       })
       .addCase(getIndividualProductReview.rejected, () => {
         toast.error("Failed to load the product reviews");
+      })
+
+      // for delete a product review
+      .addCase(deleteReview.fulfilled, () => {
+        toast.success("Review deleted successfully");
+      })
+      .addCase(deleteReview.rejected, () => {
+        toast.error("Failed to delete review");
       });
   },
 });
