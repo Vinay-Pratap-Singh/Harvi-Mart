@@ -18,10 +18,11 @@ import UpdateProfile from "../../components/Modals/UpdateProfile";
 import DeleteUser from "../../components/AlertBox/DeleteUser";
 import DeleteAddress from "../../components/AlertBox/DeleteAddress";
 import UpdateAddress from "../../components/Modals/UpdateAddress";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
 import Layout from "../Layout/Layout";
+import { getUserAddresses } from "../../redux/addressSlice";
 
 // defining the type of address
 interface Iaddress {
@@ -34,10 +35,7 @@ interface Iaddress {
 }
 
 const Profile = () => {
-  const fullName = "Vinay Pratap Singh";
-  const userImage = "";
-  const email = "test@gmail.com";
-  const phoneNumber = 9087654321;
+  const dispatch = useDispatch<AppDispatch>();
   const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
 
   // getting the details of user
@@ -111,6 +109,13 @@ const Profile = () => {
     return;
   };
 
+  useEffect(() => {
+    (async () => {
+      const res = await dispatch(getUserAddresses(userDetails?._id));
+      console.log(res.payload);
+    })();
+  }, []);
+
   return (
     <Layout>
       {" "}
@@ -118,7 +123,7 @@ const Profile = () => {
         <Heading fontSize={"2xl"}>
           Welcome{" "}
           <Text as={"span"} color={"orange.500"}>
-            {fullName}
+            {userDetails?.fullName}
           </Text>{" "}
           to your profile
         </Heading>
@@ -133,13 +138,13 @@ const Profile = () => {
             borderRadius={5}
           >
             <Heading fontSize={"xl"}>Personal Details</Heading>
-            {userImage ? (
+            {userDetails?.avatar?.secure_url ? (
               <Image
-                h={40}
-                w={40}
+                h={32}
+                w={32}
                 borderRadius={"full"}
-                src={userImage}
-                alt="user image"
+                src={userDetails?.avatar?.secure_url}
+                alt="user profile image"
               />
             ) : (
               <BiUser fontSize={80} />
@@ -151,11 +156,11 @@ const Profile = () => {
               fontWeight={"semibold"}
             >
               <GridItem>Full Name</GridItem>
-              <GridItem>{fullName}</GridItem>
+              <GridItem>{userDetails?.fullName}</GridItem>
               <GridItem>Email</GridItem>
-              <GridItem>{email}</GridItem>
+              <GridItem>{userDetails?.email}</GridItem>
               <GridItem>Phone Number</GridItem>
-              <GridItem>{phoneNumber}</GridItem>
+              <GridItem>{userDetails?.phoneNumber}</GridItem>
               <GridItem>
                 <UpdateProfile
                   updateProfileIsOpen={updateProfileIsOpen}
@@ -165,7 +170,7 @@ const Profile = () => {
               </GridItem>
               <GridItem>
                 <Link as={RouterLink} to={"/auth/reset/change-password"}>
-                  <Button colorScheme="gray" fontSize={"15px"}>
+                  <Button colorScheme="gray" fontSize={"15px"} w={"full"}>
                     Change Password
                   </Button>
                 </Link>
