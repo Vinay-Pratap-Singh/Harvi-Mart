@@ -67,6 +67,7 @@ const UpdateAddress: React.FC<Iprops> = ({
         colorScheme="orange"
         color={"white"}
         fontSize={"15px"}
+        w={"full"}
       >
         Update Address
       </Button>

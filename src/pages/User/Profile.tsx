@@ -40,7 +40,7 @@ const Profile = () => {
 
   // getting the details of user
   const userDetails = useSelector((state: RootState) => state.auth.userDetails);
-  console.log(userDetails);
+  const addresses = userDetails.addresses;
 
   // for managing the modals state
   const {
@@ -64,33 +64,6 @@ const Profile = () => {
     onClose: updateAddressOnClose,
   } = useDisclosure();
 
-  const addresses: Iaddress[] = [
-    {
-      fullName: "Vinay",
-      phoneNumber: "9999999999",
-      houseNumber: "123-45",
-      city: "gorakhpur",
-      state: "UP",
-      pinCode: "273209",
-    },
-    {
-      fullName: "Harvi",
-      phoneNumber: "1234567890",
-      houseNumber: "123-45",
-      city: "Ayodhya",
-      state: "UP",
-      pinCode: "213456",
-    },
-    {
-      fullName: "Vinay Pratap Singh",
-      phoneNumber: "1234567890",
-      houseNumber: "123-45",
-      city: "Ayodhya",
-      state: "UP",
-      pinCode: "213456",
-    },
-  ];
-
   // function to get previous address
   const getPreviousAddress = () => {
     if (currentAddressIndex !== 0) {
@@ -109,17 +82,17 @@ const Profile = () => {
     return;
   };
 
-  useEffect(() => {
-    (async () => {
-      const res = await dispatch(getUserAddresses(userDetails?._id));
-      console.log(res.payload);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await dispatch(getUserAddresses(userDetails?._id));
+  //     console.log(res.payload);
+  //   })();
+  // }, []);
 
   return (
     <Layout>
       {" "}
-      <VStack p={10} gap={5}>
+      <VStack p={5} gap={10}>
         <Heading fontSize={"2xl"}>
           Welcome{" "}
           <Text as={"span"} color={"orange.500"}>
@@ -128,7 +101,7 @@ const Profile = () => {
           to your profile
         </Heading>
 
-        <HStack gap={10} alignItems={"stretch"} h={"330px"}>
+        <HStack gap={10} alignItems={"stretch"}>
           {/* for user's personal information */}
           <VStack
             alignSelf={"center"}
@@ -136,6 +109,7 @@ const Profile = () => {
             shadow={"md"}
             p={3}
             borderRadius={5}
+            width={96}
           >
             <Heading fontSize={"xl"}>Personal Details</Heading>
             {userDetails?.avatar?.secure_url ? (
@@ -188,35 +162,61 @@ const Profile = () => {
           {/* for user's address */}
           <VStack
             alignSelf={"stretch"}
-            justifyContent={"center"}
+            justifyContent={"flex-start"}
             shadow={"md"}
             p={3}
             borderRadius={5}
+            width={96}
+            pos={"relative"}
           >
             <HStack w={"full"} justifyContent={"space-between"}>
               <Button
                 disabled={currentAddressIndex === 0}
+                size={"sm"}
+                p={0}
                 onClick={getPreviousAddress}
               >
-                <GrFormPrevious />
+                <GrFormPrevious size={"25px"} />
               </Button>
               <Heading fontSize={"xl"}>Your Addresses</Heading>
               <Button
                 disabled={addresses.length === currentAddressIndex + 1}
+                size={"sm"}
+                p={0}
                 onClick={getNextAddress}
               >
-                <GrFormNext />
+                <GrFormNext size={"25px"} />
               </Button>
             </HStack>
 
-            <HStack gap={5}>
+            <HStack w={"full"} gap={5}>
               {addresses.length === 0 ? (
-                <Text fontWeight={"semibold"}>Oops! No address found</Text>
+                <VStack w={"full"} fontWeight={"semibold"} textAlign={"center"}>
+                  <HStack>
+                    <Text>Oops! No address found</Text>
+                    <Text
+                      as={"span"}
+                      color={"primaryColor"}
+                      fontWeight={"bold"}
+                    >
+                      :(
+                    </Text>
+                  </HStack>
+                  <Button
+                    colorScheme="orange"
+                    w={"93%"}
+                    pos={"absolute"}
+                    bottom={3}
+                  >
+                    Add New Address
+                  </Button>
+                </VStack>
               ) : (
                 <Grid
                   templateColumns="repeat(2,1fr)"
                   gap={2}
                   fontWeight={"semibold"}
+                  w={"full"}
                 >
                   <GridItem>Full Name</GridItem>
                   <GridItem>
@@ -250,6 +250,11 @@ const Profile = () => {
                       deleteAddressOnClose={deleteAddressOnClose}
                       deleteAddressOnOpen={deleteAddressOnOpen}
                     />
+                  </GridItem>
+                  <GridItem colSpan={2}>
+                    <Button colorScheme="orange" w={"full"}>
+                      Add New Address
+                    </Button>
                   </GridItem>
                 </Grid>
               )}

@@ -98,7 +98,12 @@ const Footer = () => {
             _hover={{ color: "primaryColor" }}
             transition={"all 0.15s ease-in-out"}
           >
-            <Link as={RouterLink} to={"https://github.com/Vinay-Pratap-Singh"}>
+            <Link
+              as={RouterLink}
+              to={"https://github.com/Vinay-Pratap-Singh"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <BsGithub />
             </Link>
           </ListItem>
@@ -112,6 +117,8 @@ const Footer = () => {
               to={
                 "https://www.linkedin.com/in/vinay-pratap-singh-harvi-4b265a212/"
               }
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <BsLinkedin />
             </Link>
@@ -124,6 +131,8 @@ const Footer = () => {
             <Link
               as={RouterLink}
               to={"https://www.instagram.com/itsmevinayhere/"}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <BsInstagram />
             </Link>
@@ -133,7 +142,12 @@ const Footer = () => {
             _hover={{ color: "primaryColor" }}
             transition={"all 0.15s ease-in-out"}
           >
-            <Link as={RouterLink} to={"https://twitter.com/harvi2001"}>
+            <Link
+              as={RouterLink}
+              to={"https://twitter.com/harvi2001"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <BsTwitter />
             </Link>
           </ListItem>
