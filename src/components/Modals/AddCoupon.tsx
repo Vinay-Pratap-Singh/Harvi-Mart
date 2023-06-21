@@ -2,9 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IcouponData } from "../../helper/interfaces";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
 import {
-  Box,
   Button,
   FormControl,
   FormErrorMessage,

@@ -19,21 +19,13 @@ import { BsHouseCheck, BsPhone } from "react-icons/bs";
 import { FaCity } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 import { TbBuildingEstate } from "react-icons/tb";
-
-interface IupdateAddress {
-  fullName: string;
-  phoneNumber: string;
-  houseNumber: string;
-  city: string;
-  state: string;
-  pinCode: string;
-}
+import { Iaddress } from "../../helper/interfaces";
 
 interface Iprops {
   updateAddressIsOpen: boolean;
   updateAddressOnOpen: () => void;
   updateAddressOnClose: () => void;
-  data: IupdateAddress;
+  data: Iaddress;
 }
 
 const UpdateAddress: React.FC<Iprops> = ({
@@ -46,19 +38,19 @@ const UpdateAddress: React.FC<Iprops> = ({
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<IupdateAddress>({
+  } = useForm<Iaddress>({
     defaultValues: {
-      fullName: data.fullName,
-      phoneNumber: data.phoneNumber,
-      houseNumber: data.houseNumber,
-      city: data.city,
-      state: data.state,
-      pinCode: data.pinCode,
+      name: data?.name,
+      phoneNumber: data?.phoneNumber,
+      houseNumber: data?.houseNumber,
+      city: data?.city,
+      state: data?.state,
+      pinCode: data?.pinCode,
     },
   });
 
   // function to login the user
-  const handleUpdate: SubmitHandler<IupdateAddress> = (data) => {};
+  const handleUpdate: SubmitHandler<Iaddress> = (data) => {};
 
   return (
     <>
@@ -87,7 +79,7 @@ const UpdateAddress: React.FC<Iprops> = ({
 
             <ModalBody>
               {/* for fullName */}
-              <FormControl isInvalid={Boolean(errors?.fullName)}>
+              <FormControl isInvalid={Boolean(errors?.name)}>
                 <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
                 <InputGroup>
                   <InputLeftElement
@@ -99,7 +91,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                     type="text"
                     focusBorderColor="primaryColor"
                     placeholder="Vinay Pratap Singh Harvi"
-                    {...register("fullName", {
+                    {...register("name", {
                       required: {
                         value: true,
                         message: "Please enter your full name",
@@ -113,7 +105,7 @@ const UpdateAddress: React.FC<Iprops> = ({
                 </InputGroup>
 
                 <FormErrorMessage>
-                  {errors.fullName && errors.fullName.message}
+                  {errors.name && errors.name.message}
                 </FormErrorMessage>
               </FormControl>
 

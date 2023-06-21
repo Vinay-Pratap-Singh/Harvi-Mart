@@ -75,6 +75,19 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// function to get logged in user details
+export const getLoggedInUserData = createAsyncThunk(
+  "get/user/details",
+  async () => {
+    try {
+      const res = await axiosInstance.get("/users/me");
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -148,6 +161,24 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, () => {
         toast.error("Failed to change password");
+      })
+
+      // for getting logged in user data
+      .addCase(getLoggedInUserData.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.isLoggedIn = true;
+          state.accessToken = action.payload?.accessToken;
+          state.userDetails = action.payload?.user;
+          localStorage.setItem("isLoggedIn", JSON.stringify(true));
+          localStorage.setItem("accessToken", action.payload?.accessToken);
+          localStorage.setItem(
+            "userDetails",
+            JSON.stringify(action.payload?.user)
+          );
+        }
+      })
+      .addCase(getLoggedInUserData.rejected, () => {
+        toast.error("Failed to load user data");
       });
   },
 });

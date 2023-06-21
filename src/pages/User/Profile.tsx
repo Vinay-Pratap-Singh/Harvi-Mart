@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Grid,
   GridItem,
@@ -18,29 +19,19 @@ import UpdateProfile from "../../components/Modals/UpdateProfile";
 import DeleteUser from "../../components/AlertBox/DeleteUser";
 import DeleteAddress from "../../components/AlertBox/DeleteAddress";
 import UpdateAddress from "../../components/Modals/UpdateAddress";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { useState } from "react";
 import Layout from "../Layout/Layout";
-import { getUserAddresses } from "../../redux/addressSlice";
-
-// defining the type of address
-interface Iaddress {
-  fullName: string;
-  phoneNumber: string;
-  houseNumber: string;
-  city: string;
-  state: string;
-  pinCode: string;
-}
+import { Iaddress } from "../../helper/interfaces";
+import AddAddress from "../../components/Modals/AddAddress";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
 
   // getting the details of user
   const userDetails = useSelector((state: RootState) => state.auth.userDetails);
-  const addresses = userDetails.addresses;
+  const addresses: Iaddress[] = userDetails.addresses;
 
   // for managing the modals state
   const {
@@ -63,6 +54,11 @@ const Profile = () => {
     onOpen: updateAddressOnOpen,
     onClose: updateAddressOnClose,
   } = useDisclosure();
+  const {
+    isOpen: addAddressIsOpen,
+    onOpen: addAddressOnOpen,
+    onClose: addAddressOnClose,
+  } = useDisclosure();
 
   // function to get previous address
   const getPreviousAddress = () => {
@@ -81,13 +77,6 @@ const Profile = () => {
     }
     return;
   };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await dispatch(getUserAddresses(userDetails?._id));
-  //     console.log(res.payload);
-  //   })();
-  // }, []);
 
   return (
     <Layout>
@@ -202,61 +191,86 @@ const Profile = () => {
                       :(
                     </Text>
                   </HStack>
-                  <Button
-                    colorScheme="orange"
-                    w={"93%"}
-                    pos={"absolute"}
-                    bottom={3}
-                  >
-                    Add New Address
-                  </Button>
+                  <Box w={"93%"} pos={"absolute"} bottom={3}>
+                    <AddAddress
+                      addAddressIsOpen={addAddressIsOpen}
+                      addAddressOnClose={addAddressOnClose}
+                      addAddressOnOpen={addAddressOnOpen}
+                    />
+                  </Box>
                 </VStack>
               ) : (
-                <Grid
-                  templateColumns="repeat(2,1fr)"
-                  gap={2}
-                  fontWeight={"semibold"}
-                  w={"full"}
-                >
-                  <GridItem>Full Name</GridItem>
-                  <GridItem>
-                    {addresses[currentAddressIndex]?.fullName}
-                  </GridItem>
-                  <GridItem>Phone Number</GridItem>
-                  <GridItem>
-                    {addresses[currentAddressIndex]?.phoneNumber}
-                  </GridItem>
-                  <GridItem>House Number</GridItem>
-                  <GridItem>
-                    {addresses[currentAddressIndex]?.houseNumber}
-                  </GridItem>
-                  <GridItem>City</GridItem>
-                  <GridItem>{addresses[currentAddressIndex]?.city}</GridItem>
-                  <GridItem>State</GridItem>
-                  <GridItem>{addresses[currentAddressIndex]?.state}</GridItem>
-                  <GridItem>Pin Code</GridItem>
-                  <GridItem>{addresses[currentAddressIndex]?.pinCode}</GridItem>
-                  <GridItem>
-                    <UpdateAddress
-                      updateAddressIsOpen={updateAddressIsOpen}
-                      updateAddressOnClose={updateAddressOnClose}
-                      updateAddressOnOpen={updateAddressOnOpen}
-                      data={addresses[currentAddressIndex]}
-                    />
-                  </GridItem>
-                  <GridItem>
+                <VStack w={"full"}>
+                  <Grid
+                    templateColumns="repeat(2,1fr)"
+                    gap={2}
+                    fontWeight={"semibold"}
+                    w={"full"}
+                  >
+                    <GridItem>Full Name</GridItem>
+                    <GridItem>{addresses[currentAddressIndex]?.name}</GridItem>
+                    <GridItem>Phone Number</GridItem>
+                    <GridItem>
+                      {addresses[currentAddressIndex]?.phoneNumber}
+                    </GridItem>
+                    <GridItem>House Number</GridItem>
+                    <GridItem>
+                      {addresses[currentAddressIndex]?.houseNumber}
+                    </GridItem>
+                    <GridItem>City</GridItem>
+                    <GridItem>{addresses[currentAddressIndex]?.city}</GridItem>
+                    <GridItem>State</GridItem>
+                    <GridItem>{addresses[currentAddressIndex]?.state}</GridItem>
+                    <GridItem>Pin Code</GridItem>
+                    <GridItem>
+                      {addresses[currentAddressIndex]?.pinCode}
+                    </GridItem>
+                    {/* <GridItem>
+                      <UpdateAddress
+                        updateAddressIsOpen={updateAddressIsOpen}
+                        updateAddressOnClose={updateAddressOnClose}
+                        updateAddressOnOpen={updateAddressOnOpen}
+                        data={addresses[currentAddressIndex]}
+                      />
+                    </GridItem>
+                    <GridItem>
+                      <AddAddress
+                        addAddressIsOpen={addAddressIsOpen}
+                        addAddressOnClose={addAddressOnClose}
+                        addAddressOnOpen={addAddressOnOpen}
+                      />
+                    </GridItem>
+                    <GridItem colSpan={2}>
+                      <DeleteAddress
+                        deleteAddressIsOpen={deleteAddressIsOpen}
+                        deleteAddressOnClose={deleteAddressOnClose}
+                        deleteAddressOnOpen={deleteAddressOnOpen}
+                      />
+                    </GridItem> */}
+                  </Grid>
+
+                  {/* adding the buttons */}
+                  <VStack w={"93%"} pos={"absolute"} bottom={3}>
+                    <HStack w={"full"}>
+                      <UpdateAddress
+                        updateAddressIsOpen={updateAddressIsOpen}
+                        updateAddressOnClose={updateAddressOnClose}
+                        updateAddressOnOpen={updateAddressOnOpen}
+                        data={addresses[currentAddressIndex]}
+                      />
+                      <AddAddress
+                        addAddressIsOpen={addAddressIsOpen}
+                        addAddressOnClose={addAddressOnClose}
+                        addAddressOnOpen={addAddressOnOpen}
+                      />
+                    </HStack>
                     <DeleteAddress
                       deleteAddressIsOpen={deleteAddressIsOpen}
                       deleteAddressOnClose={deleteAddressOnClose}
                       deleteAddressOnOpen={deleteAddressOnOpen}
                     />
-                  </GridItem>
-                  <GridItem colSpan={2}>
-                    <Button colorScheme="orange" w={"full"}>
-                      Add New Address
-                    </Button>
-                  </GridItem>
-                </Grid>
+                  </VStack>
+                </VStack>
               )}
             </HStack>
           </VStack>

@@ -53,3 +53,14 @@ export interface IproductReview {
   review: string;
   reviewedFor: string;
 }
+
+// interface for the address
+export interface Iaddress {
+  id?: string;
+  name: string;
+  phoneNumber: string;
+  houseNumber: string;
+  city: string;
+  state: string;
+  pinCode: string;
+}

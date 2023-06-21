@@ -1,11 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
+import { Iaddress } from "../helper/interfaces";
 
-const initialState: any = [];
+interface IState {
+  address: Iaddress[];
+}
+
+const initialState: IState = {
+  address: [],
+};
 
 // function to get all addresses
-export const getAllAddresses = createAsyncThunk("address/get/all", async () => {
+export const getAllAddresses = createAsyncThunk("get/address/all", async () => {
   try {
     const res = await axiosInstance.get("/addresses");
     return res.data;
@@ -16,10 +23,26 @@ export const getAllAddresses = createAsyncThunk("address/get/all", async () => {
 
 // function to get address of the user
 export const getUserAddresses = createAsyncThunk(
-  "address/get/user/all",
+  "get/address/user/all",
   async (userID: string) => {
     try {
       const res = await axiosInstance.get(`/addresses/${userID}`);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to add new address
+export const createAddress = createAsyncThunk(
+  "create/address",
+  async (addressData: Iaddress) => {
+    try {
+      const res = await axiosInstance.post(`/addresses`, { ...addressData });
+      if (res.data?.success) {
+        toast.success(res?.data?.message);
+      }
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
