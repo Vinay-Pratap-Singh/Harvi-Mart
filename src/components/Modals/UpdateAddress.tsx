@@ -3,6 +3,8 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Grid,
+  GridItem,
   Input,
   InputGroup,
   InputLeftElement,
@@ -17,9 +19,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { BiUser } from "react-icons/bi";
 import { BsHouseCheck, BsPhone } from "react-icons/bs";
 import { FaCity } from "react-icons/fa";
-import { GrLocation } from "react-icons/gr";
 import { TbBuildingEstate } from "react-icons/tb";
 import { Iaddress } from "../../helper/interfaces";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { useEffect } from "react";
+import { updateAddress } from "../../redux/addressSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { getLoggedInUserData } from "../../redux/authSlice";
 
 interface Iprops {
   updateAddressIsOpen: boolean;
@@ -37,9 +44,12 @@ const UpdateAddress: React.FC<Iprops> = ({
   const {
     handleSubmit,
     register,
+    reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<Iaddress>({
     defaultValues: {
+      _id: data?._id,
       name: data?.name,
       phoneNumber: data?.phoneNumber,
       houseNumber: data?.houseNumber,
@@ -48,9 +58,35 @@ const UpdateAddress: React.FC<Iprops> = ({
       pinCode: data?.pinCode,
     },
   });
+  const dispatch = useDispatch<AppDispatch>();
 
   // function to login the user
-  const handleUpdate: SubmitHandler<Iaddress> = (data) => {};
+  const handleUpdate: SubmitHandler<Iaddress> = async (data) => {
+    console.log(data._id);
+    const res = await dispatch(updateAddress(data));
+    if (res.payload?.success) {
+      reset();
+      await dispatch(getLoggedInUserData());
+      updateAddressOnClose();
+    } else {
+      const { _id, name, city, houseNumber, phoneNumber, pinCode, state } =
+        watch();
+      reset({ _id, name, city, houseNumber, phoneNumber, pinCode, state });
+    }
+  };
+
+  // for setting the value on change
+  useEffect(() => {
+    reset({
+      _id: data?._id,
+      city: data?.city,
+      houseNumber: data?.houseNumber,
+      name: data?.name,
+      phoneNumber: data?.phoneNumber,
+      pinCode: data?.pinCode,
+      state: data?.state,
+    });
+  }, [data]);
 
   return (
     <>
@@ -64,209 +100,228 @@ const UpdateAddress: React.FC<Iprops> = ({
         Update Address
       </Button>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Modal
-          isCentered
-          size={"md"}
-          isOpen={updateAddressIsOpen}
-          onClose={updateAddressOnClose}
-        >
-          <ModalOverlay />
-          <ModalContent m={0}>
-            <ModalHeader textAlign={"center"} fontWeight={"bold"}>
-              Update Your Address
-            </ModalHeader>
-
+      <Modal
+        isCentered
+        size={"lg"}
+        isOpen={updateAddressIsOpen}
+        onClose={updateAddressOnClose}
+      >
+        <ModalOverlay />
+        <ModalContent m={0}>
+          <ModalHeader textAlign={"center"} fontWeight={"bold"}>
+            Update Your Address
+          </ModalHeader>
+          <form onSubmit={handleSubmit(handleUpdate)}>
             <ModalBody>
-              {/* for fullName */}
-              <FormControl isInvalid={Boolean(errors?.name)}>
-                <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<BiUser />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="Vinay Pratap Singh Harvi"
-                    {...register("name", {
-                      required: {
-                        value: true,
-                        message: "Please enter your full name",
-                      },
-                      minLength: {
-                        value: 5,
-                        message: "Minimum length should be 5 characters",
-                      },
-                    })}
-                  />
-                </InputGroup>
+              <Grid templateColumns="repeat(2,1fr)" rowGap={2} columnGap={5}>
+                {/* for full user name */}
+                <GridItem>
+                  <FormControl isInvalid={Boolean(errors?.name)}>
+                    <FormLabel fontSize={"sm"}>Full Name</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<BiUser />}
+                      />
+                      <Input
+                        type="text"
+                        placeholder="Vinay Pratap Singh"
+                        focusBorderColor="primaryColor"
+                        {...register("name", {
+                          required: {
+                            value: true,
+                            message: "Please enter your full name",
+                          },
+                          minLength: {
+                            value: 5,
+                            message: "Name should be atleast of 5 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
-                <FormErrorMessage>
-                  {errors.name && errors.name.message}
-                </FormErrorMessage>
-              </FormControl>
+                    <FormErrorMessage>
+                      {errors.name && errors.name.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
 
-              {/* for phoneNumber */}
-              <FormControl isInvalid={Boolean(errors?.phoneNumber)}>
-                <FormLabel fontSize={"sm"}>Your Phone Number</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<BsPhone />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="9087654321"
-                    {...register("phoneNumber", {
-                      required: {
-                        value: true,
-                        message: "Please enter your phone number",
-                      },
-                      pattern: {
-                        value: /^[6-9]\d{9}$/gi,
-                        message: "Please enter a valid phone number",
-                      },
-                    })}
-                  />
-                </InputGroup>
+                {/* for phoneNumber */}
+                <GridItem>
+                  <FormControl isInvalid={Boolean(errors?.phoneNumber)}>
+                    <FormLabel fontSize={"sm"}>Phone Number</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<BsPhone />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="9087654321"
+                        {...register("phoneNumber", {
+                          required: {
+                            value: true,
+                            message: "Please enter your phone number",
+                          },
+                          pattern: {
+                            value: /^[6-9]\d{9}$/gi,
+                            message: "Please enter a valid phone number",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
-                <FormErrorMessage>
-                  {errors.phoneNumber && errors.phoneNumber.message}
-                </FormErrorMessage>
-              </FormControl>
+                    <FormErrorMessage>
+                      {errors.phoneNumber && errors.phoneNumber.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
 
-              {/* for houseNumber */}
-              <FormControl isInvalid={Boolean(errors?.houseNumber)}>
-                <FormLabel fontSize={"sm"}>Your House Number</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<BsHouseCheck />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="123 (A)"
-                    {...register("houseNumber", {
-                      required: {
-                        value: true,
-                        message: "Please enter your house number",
-                      },
-                      minLength: {
-                        value: 2,
-                        message: "Enter a proper house number",
-                      },
-                    })}
-                  />
-                </InputGroup>
+                {/* for houseNumber */}
+                <GridItem>
+                  <FormControl isInvalid={Boolean(errors?.houseNumber)}>
+                    <FormLabel fontSize={"sm"}>House Number</FormLabel>
 
-                <FormErrorMessage>
-                  {errors.houseNumber && errors.houseNumber.message}
-                </FormErrorMessage>
-              </FormControl>
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<BsHouseCheck />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="123-45"
+                        {...register("houseNumber", {
+                          required: {
+                            value: true,
+                            message: "Please enter your house number",
+                          },
+                          minLength: {
+                            value: 3,
+                            message: "Please enter a valid house number",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
-              {/* for city */}
-              <FormControl isInvalid={Boolean(errors?.city)}>
-                <FormLabel fontSize={"sm"}>Your City Name</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<FaCity />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="9087654321"
-                    {...register("city", {
-                      required: {
-                        value: true,
-                        message: "Please enter your city name",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Enter a proper city name",
-                      },
-                    })}
-                  />
-                </InputGroup>
+                    <FormErrorMessage>
+                      {errors.houseNumber && errors.houseNumber?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
 
-                <FormErrorMessage>
-                  {errors.city && errors.city.message}
-                </FormErrorMessage>
-              </FormControl>
+                {/* for city name */}
+                <GridItem>
+                  <FormControl isInvalid={Boolean(errors?.city)}>
+                    <FormLabel fontSize={"sm"}>City Name</FormLabel>
 
-              {/* for state */}
-              <FormControl isInvalid={Boolean(errors?.state)}>
-                <FormLabel fontSize={"sm"}>Your State Name</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<TbBuildingEstate />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="Uttar Pradesh"
-                    {...register("state", {
-                      required: {
-                        value: true,
-                        message: "Please enter your state name",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Enter a valid state name",
-                      },
-                    })}
-                  />
-                </InputGroup>
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<FaCity />}
+                      />
+                      <Input
+                        type="text"
+                        placeholder="Gorakhpur"
+                        focusBorderColor="primaryColor"
+                        {...register("city", {
+                          required: {
+                            value: true,
+                            message: "Please enter your city name",
+                          },
+                          minLength: {
+                            value: 3,
+                            message:
+                              "City name should be of atleast 3 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
-                <FormErrorMessage>
-                  {errors.state && errors.state.message}
-                </FormErrorMessage>
-              </FormControl>
+                    <FormErrorMessage>
+                      {errors.city && errors.city.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
 
-              {/* for pin code */}
-              <FormControl isInvalid={Boolean(errors?.pinCode)}>
-                <FormLabel fontSize={"sm"}>Your Pin Code</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<GrLocation />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="9087654321"
-                    {...register("pinCode", {
-                      required: {
-                        value: true,
-                        message: "Please enter your pin code",
-                      },
-                      maxLength: {
-                        value: 6,
-                        message: "Pin code should be of 6 character",
-                      },
-                      minLength: {
-                        value: 6,
-                        message: "Pin code should be of 6 character",
-                      },
-                    })}
-                  />
-                </InputGroup>
+                {/* for state name */}
+                <GridItem>
+                  <FormControl isInvalid={Boolean(errors?.state)}>
+                    <FormLabel fontSize={"sm"}>State Name</FormLabel>
 
-                <FormErrorMessage>
-                  {errors.pinCode && errors.pinCode.message}
-                </FormErrorMessage>
-              </FormControl>
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<TbBuildingEstate />}
+                      />
+                      <Input
+                        type="text"
+                        placeholder="U.P"
+                        focusBorderColor="primaryColor"
+                        {...register("state", {
+                          required: {
+                            value: true,
+                            message: "Please enter your state name",
+                          },
+                          minLength: {
+                            value: 2,
+                            message:
+                              "State name should be of atleast 3 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
+
+                    <FormErrorMessage>
+                      {errors.state && errors.state.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+
+                {/* for pin code */}
+                <GridItem>
+                  <FormControl isInvalid={Boolean(errors?.pinCode)}>
+                    <FormLabel fontSize={"sm"}>Pin Code</FormLabel>
+
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<HiOutlineLocationMarker />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="908078"
+                        {...register("pinCode", {
+                          required: {
+                            value: true,
+                            message: "Please enter your pincode",
+                          },
+                          minLength: {
+                            value: 6,
+                            message: "Please enter a valid pincode",
+                          },
+                          maxLength: {
+                            value: 6,
+                            message: "Please enter a valid pincode",
+                          },
+                        })}
+                      />
+                    </InputGroup>
+
+                    <FormErrorMessage>
+                      {errors.pinCode && errors.pinCode?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </GridItem>
+              </Grid>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -279,9 +334,9 @@ const UpdateAddress: React.FC<Iprops> = ({
                 Update Address
               </Button>
             </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </form>
+          </form>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

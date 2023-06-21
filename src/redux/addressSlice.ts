@@ -50,6 +50,34 @@ export const createAddress = createAsyncThunk(
   }
 );
 
+// function to update address
+export const updateAddress = createAsyncThunk(
+  "update/address",
+  async (addressData: Iaddress) => {
+    console.log(addressData._id);
+
+    try {
+      const data = {
+        name: addressData?.name,
+        city: addressData?.city,
+        houseNumber: addressData?.houseNumber,
+        phoneNumber: addressData?.phoneNumber,
+        state: addressData?.state,
+        pinCode: addressData?.pinCode,
+      };
+      const res = await axiosInstance.patch(`/addresses/${addressData?._id}`, {
+        ...data,
+      });
+      if (res.data?.success) {
+        toast.success(res?.data?.message);
+      }
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const addressSlice = createSlice({
   name: "address",
   initialState,

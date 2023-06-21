@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Iaddress, IcouponData } from "../../helper/interfaces";
+import { Iaddress } from "../../helper/interfaces";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import {
@@ -10,18 +10,22 @@ import {
   Grid,
   GridItem,
   Input,
+  InputGroup,
+  InputLeftElement,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Stack,
-  Tooltip,
 } from "@chakra-ui/react";
-import { createCoupon, getAllCoupons } from "../../redux/couponSlice";
 import { createAddress } from "../../redux/addressSlice";
 import { getLoggedInUserData } from "../../redux/authSlice";
+import { BiUser } from "react-icons/bi";
+import { BsHouseCheck, BsPhone } from "react-icons/bs";
+import { FaCity } from "react-icons/fa";
+import { TbBuildingEstate } from "react-icons/tb";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 interface Iprops {
   addAddressIsOpen: boolean;
@@ -63,7 +67,12 @@ const AddAddress: React.FC<Iprops> = ({
         Add new address
       </Button>
 
-      <Modal isOpen={addAddressIsOpen} onClose={addAddressOnClose}>
+      <Modal
+        isCentered
+        size={"lg"}
+        isOpen={addAddressIsOpen}
+        onClose={addAddressOnClose}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign={"center"} fontWeight={"bold"}>
@@ -77,22 +86,28 @@ const AddAddress: React.FC<Iprops> = ({
                 <GridItem>
                   <FormControl isInvalid={Boolean(errors?.name)}>
                     <FormLabel fontSize={"sm"}>Full Name</FormLabel>
-
-                    <Input
-                      type="text"
-                      placeholder="Vinay Pratap Singh"
-                      focusBorderColor="primaryColor"
-                      {...register("name", {
-                        required: {
-                          value: true,
-                          message: "Please enter your full name",
-                        },
-                        minLength: {
-                          value: 5,
-                          message: "Name should be atleast of 5 characters",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<BiUser />}
+                      />
+                      <Input
+                        type="text"
+                        placeholder="Vinay Pratap Singh"
+                        focusBorderColor="primaryColor"
+                        {...register("name", {
+                          required: {
+                            value: true,
+                            message: "Please enter your full name",
+                          },
+                          minLength: {
+                            value: 5,
+                            message: "Name should be atleast of 5 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
                     <FormErrorMessage>
                       {errors.name && errors.name.message}
@@ -104,22 +119,28 @@ const AddAddress: React.FC<Iprops> = ({
                 <GridItem>
                   <FormControl isInvalid={Boolean(errors?.phoneNumber)}>
                     <FormLabel fontSize={"sm"}>Phone Number</FormLabel>
-
-                    <Input
-                      type="text"
-                      focusBorderColor="primaryColor"
-                      placeholder="9087654321"
-                      {...register("phoneNumber", {
-                        required: {
-                          value: true,
-                          message: "Please enter your phone number",
-                        },
-                        pattern: {
-                          value: /^[6-9]\d{9}$/gi,
-                          message: "Please enter a valid phone number",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<BsPhone />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="9087654321"
+                        {...register("phoneNumber", {
+                          required: {
+                            value: true,
+                            message: "Please enter your phone number",
+                          },
+                          pattern: {
+                            value: /^[6-9]\d{9}$/gi,
+                            message: "Please enter a valid phone number",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
                     <FormErrorMessage>
                       {errors.phoneNumber && errors.phoneNumber.message}
@@ -132,21 +153,28 @@ const AddAddress: React.FC<Iprops> = ({
                   <FormControl isInvalid={Boolean(errors?.houseNumber)}>
                     <FormLabel fontSize={"sm"}>House Number</FormLabel>
 
-                    <Input
-                      type="text"
-                      focusBorderColor="primaryColor"
-                      placeholder="123-45"
-                      {...register("houseNumber", {
-                        required: {
-                          value: true,
-                          message: "Please enter your house number",
-                        },
-                        minLength: {
-                          value: 3,
-                          message: "Please enter a valid house number",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<BsHouseCheck />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="123-45"
+                        {...register("houseNumber", {
+                          required: {
+                            value: true,
+                            message: "Please enter your house number",
+                          },
+                          minLength: {
+                            value: 3,
+                            message: "Please enter a valid house number",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
                     <FormErrorMessage>
                       {errors.houseNumber && errors.houseNumber?.message}
@@ -159,22 +187,29 @@ const AddAddress: React.FC<Iprops> = ({
                   <FormControl isInvalid={Boolean(errors?.city)}>
                     <FormLabel fontSize={"sm"}>City Name</FormLabel>
 
-                    <Input
-                      type="text"
-                      placeholder="Gorakhpur"
-                      focusBorderColor="primaryColor"
-                      {...register("city", {
-                        required: {
-                          value: true,
-                          message: "Please enter your city name",
-                        },
-                        minLength: {
-                          value: 3,
-                          message:
-                            "City name should be of atleast 3 characters",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<FaCity />}
+                      />
+                      <Input
+                        type="text"
+                        placeholder="Gorakhpur"
+                        focusBorderColor="primaryColor"
+                        {...register("city", {
+                          required: {
+                            value: true,
+                            message: "Please enter your city name",
+                          },
+                          minLength: {
+                            value: 3,
+                            message:
+                              "City name should be of atleast 3 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
                     <FormErrorMessage>
                       {errors.city && errors.city.message}
@@ -187,22 +222,29 @@ const AddAddress: React.FC<Iprops> = ({
                   <FormControl isInvalid={Boolean(errors?.state)}>
                     <FormLabel fontSize={"sm"}>State Name</FormLabel>
 
-                    <Input
-                      type="text"
-                      placeholder="U.P"
-                      focusBorderColor="primaryColor"
-                      {...register("state", {
-                        required: {
-                          value: true,
-                          message: "Please enter your state name",
-                        },
-                        minLength: {
-                          value: 2,
-                          message:
-                            "State name should be of atleast 3 characters",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<TbBuildingEstate />}
+                      />
+                      <Input
+                        type="text"
+                        placeholder="U.P"
+                        focusBorderColor="primaryColor"
+                        {...register("state", {
+                          required: {
+                            value: true,
+                            message: "Please enter your state name",
+                          },
+                          minLength: {
+                            value: 2,
+                            message:
+                              "State name should be of atleast 3 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
                     <FormErrorMessage>
                       {errors.state && errors.state.message}
@@ -215,25 +257,32 @@ const AddAddress: React.FC<Iprops> = ({
                   <FormControl isInvalid={Boolean(errors?.pinCode)}>
                     <FormLabel fontSize={"sm"}>Pin Code</FormLabel>
 
-                    <Input
-                      type="text"
-                      focusBorderColor="primaryColor"
-                      placeholder="908078"
-                      {...register("pinCode", {
-                        required: {
-                          value: true,
-                          message: "Please enter your pincode",
-                        },
-                        minLength: {
-                          value: 6,
-                          message: "Please enter a valid pincode",
-                        },
-                        maxLength: {
-                          value: 6,
-                          message: "Please enter a valid pincode",
-                        },
-                      })}
-                    />
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<HiOutlineLocationMarker />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="908078"
+                        {...register("pinCode", {
+                          required: {
+                            value: true,
+                            message: "Please enter your pincode",
+                          },
+                          minLength: {
+                            value: 6,
+                            message: "Please enter a valid pincode",
+                          },
+                          maxLength: {
+                            value: 6,
+                            message: "Please enter a valid pincode",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
                     <FormErrorMessage>
                       {errors.pinCode && errors.pinCode?.message}

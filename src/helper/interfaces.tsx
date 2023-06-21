@@ -56,7 +56,7 @@ export interface IproductReview {
 
 // interface for the address
 export interface Iaddress {
-  id?: string;
+  _id?: string;
   name: string;
   phoneNumber: string;
   houseNumber: string;
