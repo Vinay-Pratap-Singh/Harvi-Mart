@@ -167,10 +167,8 @@ const authSlice = createSlice({
       .addCase(getLoggedInUserData.fulfilled, (state, action) => {
         if (action.payload) {
           state.isLoggedIn = true;
-          state.accessToken = action.payload?.accessToken;
           state.userDetails = action.payload?.user;
           localStorage.setItem("isLoggedIn", JSON.stringify(true));
-          localStorage.setItem("accessToken", action.payload?.accessToken);
           localStorage.setItem(
             "userDetails",
             JSON.stringify(action.payload?.user)
