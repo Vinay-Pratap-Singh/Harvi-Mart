@@ -64,3 +64,9 @@ export interface Iaddress {
   state: string;
   pinCode: string;
 }
+
+// interface for update profile
+export interface IupdateProfile {
+  fullName: string;
+  userImage: File;
+}

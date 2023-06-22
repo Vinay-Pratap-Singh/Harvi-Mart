@@ -34,6 +34,12 @@ const Profile = () => {
   // getting the details of user
   const userDetails = useSelector((state: RootState) => state.auth.userDetails);
   const addresses: Iaddress[] = userDetails.addresses;
+  const [userData, setUserData] = useState({
+    imageURL: userDetails?.avatar?.secure_url
+      ? userDetails?.avatar?.secure_url
+      : "",
+    name: userDetails?.fullName,
+  });
 
   // for managing the modals state
   const {
@@ -138,6 +144,9 @@ const Profile = () => {
                   updateProfileIsOpen={updateProfileIsOpen}
                   updateProfileOnClose={updateProfileOnClose}
                   updateProfileOnOpen={updateProfileOnOpen}
+                  data={{
+                    ...userData,
+                  }}
                 />
               </GridItem>
               <GridItem>

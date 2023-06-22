@@ -1,0 +1,44 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axiosInstance from "../helper/AxiosInstance";
+import { toast } from "react-hot-toast";
+import { IupdateProfile } from "../helper/interfaces";
+
+const initialState = {};
+
+// function to update user details
+export const updateUserDetails = createAsyncThunk(
+  "category/update",
+  async (data: IupdateProfile) => {
+    try {
+      const newData = new FormData();
+      data.userImage && newData.append("userImage", data.userImage);
+      newData.append("fullName", data.fullName);
+
+      const res = await axiosInstance.put(`/users`, newData);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+const userSlice = createSlice({
+  name: "userSlice",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // for update category
+      .addCase(updateUserDetails.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(updateUserDetails.rejected, () => {
+        toast.error("Failed to update user details");
+      });
+  },
+});
+
+export const {} = userSlice.actions;
+export default userSlice.reducer;

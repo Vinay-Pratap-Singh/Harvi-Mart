@@ -3,6 +3,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -14,37 +15,67 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { BiUser } from "react-icons/bi";
-
-interface IupdateProfile {
-  fullName: string;
-  userImage: File;
-}
+import { BiImageAdd, BiUser } from "react-icons/bi";
+import { useState, ChangeEvent } from "react";
+import { IupdateProfile } from "../../helper/interfaces";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { updateUserDetails } from "../../redux/userSlice";
+import { getLoggedInUserData } from "../../redux/authSlice";
 
 interface Iprops {
   updateProfileIsOpen: boolean;
   updateProfileOnOpen: () => void;
   updateProfileOnClose: () => void;
+  data: { imageURL: string; name: string };
 }
 
 const UpdateProfile: React.FC<Iprops> = ({
   updateProfileIsOpen,
   updateProfileOnClose,
   updateProfileOnOpen,
+  data,
 }) => {
   const {
     handleSubmit,
     register,
+    setValue,
+    reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<IupdateProfile>({
     defaultValues: {
-      fullName: "",
+      fullName: data?.name || "",
     },
   });
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  // for product image preview
+  const [userImgPreview, setUserImgPreview] = useState(data?.imageURL);
+
+  // function to get the url from the file
+  const getPreviewURL = (event: ChangeEvent) => {
+    const imageFile = (event.target as HTMLInputElement)?.files?.[0];
+    if (imageFile) {
+      setValue("userImage", imageFile);
+      const imageURL = URL.createObjectURL(imageFile);
+      setUserImgPreview(imageURL);
+    }
+  };
+
   // function to login the user
-  const handleUpdate: SubmitHandler<IupdateProfile> = (data) => {
-    console.log(data);
+  const handleUpdate: SubmitHandler<IupdateProfile> = async (data) => {
+    const res = await dispatch(updateUserDetails(data));
+    if (res.payload?.success) {
+      reset();
+      setUserImgPreview("");
+      await dispatch(getLoggedInUserData());
+      updateProfileOnClose();
+    } else {
+      const { fullName, userImage } = watch();
+      reset({ fullName, userImage });
+    }
   };
 
   return (
@@ -59,34 +90,57 @@ const UpdateProfile: React.FC<Iprops> = ({
         Update Profile
       </Button>
 
-      <form onSubmit={handleSubmit(handleUpdate)}>
-        <Modal
-          size={"xs"}
-          isOpen={updateProfileIsOpen}
-          onClose={updateProfileOnClose}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader textAlign={"center"} fontWeight={"bold"}>
-              Update your profile details
-            </ModalHeader>
+      <Modal
+        size={"xs"}
+        isOpen={updateProfileIsOpen}
+        onClose={updateProfileOnClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign={"center"} fontWeight={"bold"}>
+            Update your profile details
+          </ModalHeader>
 
+          <form onSubmit={handleSubmit(handleUpdate)}>
             <ModalBody>
               {/* for image input */}
               <FormControl
-                isInvalid={Boolean(errors?.userImage)}
                 display={"flex"}
+                flexDirection={"column"}
                 alignItems={"center"}
                 justifyContent={"center"}
               >
-                <FormLabel alignSelf={"center"} cursor="pointer">
-                  <BiUser fontSize={80} />
+                <FormLabel
+                  htmlFor="userImage"
+                  shadow={"md"}
+                  borderRadius={"full"}
+                  p={2}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  h={44}
+                  w={44}
+                  cursor={"pointer"}
+                >
+                  {userImgPreview ? (
+                    <Image
+                      h={"full"}
+                      w={"full"}
+                      src={userImgPreview}
+                      alt="User Image"
+                      borderRadius={"full"}
+                    />
+                  ) : (
+                    <BiImageAdd fontSize={60} />
+                  )}
                 </FormLabel>
                 <Input
+                  id="userImage"
                   type="file"
-                  accept=".png, .jpg, .jpeg"
-                  display="none"
-                  {...register("userImage")}
+                  multiple={false}
+                  accept="image/*"
+                  display={"none"}
+                  onChange={getPreviewURL}
                 />
               </FormControl>
 
@@ -133,9 +187,9 @@ const UpdateProfile: React.FC<Iprops> = ({
                 Update Profile
               </Button>
             </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </form>
+          </form>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

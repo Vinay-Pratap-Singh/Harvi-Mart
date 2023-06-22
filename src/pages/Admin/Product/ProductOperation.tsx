@@ -159,7 +159,7 @@ const ProductOperation = () => {
                 {/* for product image */}
                 <FormControl>
                   <FormLabel
-                    htmlFor="userProfileImage"
+                    htmlFor="userProductImage"
                     shadow={"md"}
                     borderRadius={"full"}
                     p={2}
@@ -183,7 +183,7 @@ const ProductOperation = () => {
                     )}
                   </FormLabel>
                   <Input
-                    id="userProfileImage"
+                    id="userProductImage"
                     type="file"
                     multiple={false}
                     accept="image/*"
