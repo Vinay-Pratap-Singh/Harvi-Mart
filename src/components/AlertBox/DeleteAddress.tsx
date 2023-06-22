@@ -56,7 +56,7 @@ const DeleteAddress: React.FC<Iprops> = ({
         color={"white"}
         fontSize={"15px"}
       >
-        Delete Address
+        Delete
       </Button>
 
       <AlertDialog

@@ -64,7 +64,7 @@ const AddAddress: React.FC<Iprops> = ({
   return (
     <>
       <Button onClick={addAddressOnOpen} w={"full"}>
-        Add new address
+        Add
       </Button>
 
       <Modal
@@ -76,7 +76,7 @@ const AddAddress: React.FC<Iprops> = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign={"center"} fontWeight={"bold"}>
-            Add new address
+            Add New
           </ModalHeader>
 
           <form onSubmit={handleSubmit(handleCreateAddress)}>

@@ -96,7 +96,7 @@ const UpdateAddress: React.FC<Iprops> = ({
         fontSize={"15px"}
         w={"full"}
       >
-        Update Address
+        Update
       </Button>
 
       <Modal

@@ -22,6 +22,19 @@ export const updateUserDetails = createAsyncThunk(
   }
 );
 
+// function to delete user account
+export const deleteUserAccount = createAsyncThunk(
+  "category/delete",
+  async (id: string) => {
+    try {
+      const res = await axiosInstance.delete(`/users/${id}`);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
@@ -36,6 +49,16 @@ const userSlice = createSlice({
       })
       .addCase(updateUserDetails.rejected, () => {
         toast.error("Failed to update user details");
+      })
+
+      // for delete category
+      .addCase(deleteUserAccount.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(deleteUserAccount.rejected, () => {
+        toast.error("Failed to delete your aaccount");
       });
   },
 });

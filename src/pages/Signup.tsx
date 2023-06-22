@@ -49,10 +49,12 @@ const Signup = () => {
   // function to create new user account
   const handleSignup: SubmitHandler<IsignupData> = async (data) => {
     const res = await dispatch(createAccount(data));
-    if (res.payload.success) {
+    if (res.payload?.success) {
       // sending the user to homepage
       navigate("/");
     } else {
+      console.log("failed");
+
       const { email, password, fullName, phoneNumber } = watch();
       reset({ email, password, fullName, phoneNumber });
     }

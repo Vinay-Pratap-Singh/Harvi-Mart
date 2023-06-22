@@ -10,21 +10,45 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { deleteUserAccount } from "../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 interface Iprops {
   deleteUserIsOpen: boolean;
   deleteUserOnOpen: () => void;
   deleteUserOnClose: () => void;
+  id: string;
 }
 
 const DeleteUser: React.FC<Iprops> = ({
   deleteUserIsOpen,
   deleteUserOnOpen,
   deleteUserOnClose,
+  id,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  // function to handle delete button action
+  const handleDeleteBtn = async () => {
+    setLoading(true);
+    const res = await dispatch(deleteUserAccount(id));
+    if (res.payload?.success) {
+      setLoading(false);
+      deleteUserOnClose();
+      localStorage.clear();
+      navigate("/login");
+      return;
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <Button
@@ -82,7 +106,13 @@ const DeleteUser: React.FC<Iprops> = ({
               flexDirection={"column"}
               gap={2}
             >
-              <Button colorScheme="red" onClick={deleteUserOnClose} w={"full"}>
+              <Button
+                colorScheme="red"
+                onClick={handleDeleteBtn}
+                w={"full"}
+                isLoading={loading}
+                loadingText="Deleting..."
+              >
                 Delete
               </Button>
               <Button ref={cancelRef} onClick={deleteUserOnClose} w={"full"}>

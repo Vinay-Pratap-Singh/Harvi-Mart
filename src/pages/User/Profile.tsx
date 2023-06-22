@@ -156,13 +156,14 @@ const Profile = () => {
                   </Button>
                 </Link>
               </GridItem>
-              <GridItem colSpan={2}>
+              {/* <GridItem colSpan={2}>
                 <DeleteUser
                   deleteUserIsOpen={deleteUserIsOpen}
                   deleteUserOnClose={deleteUserOnClose}
                   deleteUserOnOpen={deleteUserOnOpen}
+                  id={userDetails?._id}
                 />
-              </GridItem>
+              </GridItem> */}
             </Grid>
           </VStack>
 
@@ -254,19 +255,24 @@ const Profile = () => {
                         updateAddressOnOpen={updateAddressOnOpen}
                         data={addresses[currentAddressIndex]}
                       />
-
+                      <DeleteAddress
+                        deleteAddressIsOpen={deleteAddressIsOpen}
+                        deleteAddressOnClose={deleteAddressOnClose}
+                        deleteAddressOnOpen={deleteAddressOnOpen}
+                        id={addresses[currentAddressIndex]._id!}
+                      />{" "}
                       <AddAddress
                         addAddressIsOpen={addAddressIsOpen}
                         addAddressOnClose={addAddressOnClose}
                         addAddressOnOpen={addAddressOnOpen}
                       />
                     </HStack>
-                    <DeleteAddress
+                    {/* <DeleteAddress
                       deleteAddressIsOpen={deleteAddressIsOpen}
                       deleteAddressOnClose={deleteAddressOnClose}
                       deleteAddressOnOpen={deleteAddressOnOpen}
                       id={addresses[currentAddressIndex]._id!}
-                    />
+                    /> */}
                   </VStack>
                 </VStack>
               )}
