@@ -239,14 +239,13 @@ const Profile = () => {
                   {/* adding the buttons */}
                   <VStack w={"93%"} pos={"absolute"} bottom={3}>
                     <HStack w={"full"}>
-                      {/* <Box> */}
                       <UpdateAddress
                         updateAddressIsOpen={updateAddressIsOpen}
                         updateAddressOnClose={updateAddressOnClose}
                         updateAddressOnOpen={updateAddressOnOpen}
                         data={addresses[currentAddressIndex]}
                       />
-                      {/* </Box> */}
+
                       <AddAddress
                         addAddressIsOpen={addAddressIsOpen}
                         addAddressOnClose={addAddressOnClose}
@@ -257,6 +256,7 @@ const Profile = () => {
                       deleteAddressIsOpen={deleteAddressIsOpen}
                       deleteAddressOnClose={deleteAddressOnClose}
                       deleteAddressOnOpen={deleteAddressOnOpen}
+                      id={addresses[currentAddressIndex]._id!}
                     />
                   </VStack>
                 </VStack>

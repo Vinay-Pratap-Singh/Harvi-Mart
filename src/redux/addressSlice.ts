@@ -54,7 +54,7 @@ export const createAddress = createAsyncThunk(
 export const updateAddress = createAsyncThunk(
   "update/address",
   async (addressData: Iaddress) => {
-    console.log(addressData._id);
+    console.log(addressData);
 
     try {
       const data = {
@@ -71,6 +71,20 @@ export const updateAddress = createAsyncThunk(
       if (res.data?.success) {
         toast.success(res?.data?.message);
       }
+      return res.data;
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to delete a category
+export const deleteAddress = createAsyncThunk(
+  "category/delete",
+  async (id: string) => {
+    try {
+      const res = await axiosInstance.delete(`/addresses/${id}`);
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -98,6 +112,16 @@ const addressSlice = createSlice({
       })
       .addCase(getUserAddresses.rejected, () => {
         toast.error("Failed to get user addresses");
+      })
+
+      // for delete addresses
+      .addCase(deleteAddress.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(deleteAddress.rejected, () => {
+        toast.error("Failed to delete address");
       });
   },
 });

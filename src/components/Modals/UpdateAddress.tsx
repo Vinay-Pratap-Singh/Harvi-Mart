@@ -59,10 +59,10 @@ const UpdateAddress: React.FC<Iprops> = ({
     },
   });
   const dispatch = useDispatch<AppDispatch>();
+  console.log(data);
 
   // function to login the user
   const handleUpdate: SubmitHandler<Iaddress> = async (data) => {
-    console.log(data._id);
     const res = await dispatch(updateAddress(data));
     if (res.payload?.success) {
       reset();
@@ -77,6 +77,8 @@ const UpdateAddress: React.FC<Iprops> = ({
 
   // for setting the value on change
   useEffect(() => {
+    console.log("running");
+
     reset({
       _id: data?._id,
       city: data?.city,

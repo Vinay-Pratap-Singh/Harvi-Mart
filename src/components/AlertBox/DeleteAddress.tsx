@@ -10,21 +10,43 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import { AppDispatch } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { deleteAddress } from "../../redux/addressSlice";
+import { getLoggedInUserData } from "../../redux/authSlice";
 
 interface Iprops {
   deleteAddressIsOpen: boolean;
   deleteAddressOnOpen: () => void;
   deleteAddressOnClose: () => void;
+  id: string;
 }
 
 const DeleteAddress: React.FC<Iprops> = ({
   deleteAddressIsOpen,
   deleteAddressOnOpen,
   deleteAddressOnClose,
+  id,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState(false);
+
+  // function to handle delete button action
+  const handleDeleteBtn = async () => {
+    setLoading(true);
+    const res = await dispatch(deleteAddress(id));
+    if (res.payload?.success) {
+      await dispatch(getLoggedInUserData());
+      setLoading(false);
+      deleteAddressOnClose();
+      return;
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <Button
@@ -83,8 +105,10 @@ const DeleteAddress: React.FC<Iprops> = ({
             >
               <Button
                 colorScheme="red"
-                onClick={deleteAddressOnClose}
+                onClick={handleDeleteBtn}
                 w={"full"}
+                isLoading={loading}
+                loadingText="Deleting..."
               >
                 Delete
               </Button>
