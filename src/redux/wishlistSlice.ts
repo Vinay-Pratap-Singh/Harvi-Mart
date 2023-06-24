@@ -95,6 +95,16 @@ const wishlistSlice = createSlice({
       })
       .addCase(addProductToWishlist.rejected, () => {
         toast.error("Failed to add in wishlist");
+      })
+
+      // for delete category
+      .addCase(deleteWishlist.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(deleteWishlist.rejected, () => {
+        toast.error("Failed to delete wishlist");
       });
   },
 });

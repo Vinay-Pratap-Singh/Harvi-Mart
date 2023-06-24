@@ -17,22 +17,27 @@ import {
 import Layout from "./Layout/Layout";
 import wishlistImg from "../assets/wishlist.jpg";
 import { AiOutlineDelete, AiOutlineShoppingCart } from "react-icons/ai";
-import productImage from "../assets/CategoryImages/t-shirt.png";
 import AddWishlist from "../components/Modals/AddWishlist";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllWishlists } from "../redux/wishlistSlice";
+import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { wishlists } = useSelector((state: RootState) => state.wishlist);
-  console.log(wishlists);
+  const [deleteWishlistID, setDeleteWishlistID] = useState("");
 
   const {
     isOpen: addWishlistIsOpen,
     onOpen: addWishlistOnOpen,
     onClose: addWishlistOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: deleteWishlistIsOpen,
+    onOpen: deleteWishlistOnOpen,
+    onClose: deleteWishlistOnClose,
   } = useDisclosure();
 
   // loading the wishlist data
@@ -79,6 +84,14 @@ const Wishlist = () => {
                       <AccordionButton fontWeight={"semibold"}>
                         <Box as="span" flex="1" textAlign="left">
                           {wishlist?.name}
+                        </Box>
+                        <Box onClick={() => setDeleteWishlistID(wishlist?._id)}>
+                          <DeleteWishlist
+                            deleteWishlistIsOpen={deleteWishlistIsOpen}
+                            deleteWishlistOnClose={deleteWishlistOnClose}
+                            deleteWishlistOnOpen={deleteWishlistOnOpen}
+                            id={deleteWishlistID}
+                          />
                         </Box>
                         <AccordionIcon />
                       </AccordionButton>
@@ -135,6 +148,7 @@ const Wishlist = () => {
                                     <Text
                                       fontSize={"sm"}
                                       fontWeight={"semibold"}
+                                      alignSelf={"flex-start"}
                                     >
                                       &#x20b9;{product?.originalPrice}
                                     </Text>
