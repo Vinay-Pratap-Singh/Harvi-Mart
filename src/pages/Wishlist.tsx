@@ -19,14 +19,29 @@ import wishlistImg from "../assets/wishlist.jpg";
 import { AiOutlineDelete, AiOutlineShoppingCart } from "react-icons/ai";
 import productImage from "../assets/CategoryImages/t-shirt.png";
 import AddWishlist from "../components/Modals/AddWishlist";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import { useEffect } from "react";
+import { getAllWishlists } from "../redux/wishlistSlice";
 
 const Wishlist = () => {
-  const wishListItem = [{}];
+  const dispatch = useDispatch<AppDispatch>();
+  const { wishlists } = useSelector((state: RootState) => state.wishlist);
+  console.log(wishlists);
+
   const {
     isOpen: addWishlistIsOpen,
     onOpen: addWishlistOnOpen,
     onClose: addWishlistOnClose,
   } = useDisclosure();
+
+  // loading the wishlist data
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllWishlists());
+    })();
+  }, []);
+
   return (
     <Layout>
       <HStack gap={10} p={5} overflow={"hidden"} h="70vh">
@@ -52,340 +67,90 @@ const Wishlist = () => {
 
           {/* displaying all the wishlist with their items */}
           <Accordion allowToggle w={"full"}>
-            <AccordionItem>
-              <h2>
-                <AccordionButton fontWeight={"bold"}>
-                  <Box as="span" flex="1" textAlign="left">
-                    First Wishlist
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <HStack>
-                  <Image h={28} src={productImage} alt="Product Image" />
-                  {/* for product details */}
-                  <HStack gap={2}>
-                    <VStack alignSelf={"flex-start"}>
-                      <Heading
-                        fontSize={"md"}
-                        fontWeight={"bold"}
-                        alignSelf={"flex-start"}
-                      >
-                        Product Title
-                      </Heading>
-                      <Text fontWeight={"medium"} noOfLines={3}>
-                        Product Description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Magnam facilis maiores
-                        laudantium, velit asperiores, consectetur aut deserunt
-                        vero ducimus sequi quidem odio est voluptatum! Voluptate
-                        ex recusandae totam eaque laudantium.
-                      </Text>
-                      <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                        Price : 100 &#x20b9; only
-                      </Text>
-                    </VStack>
+            {wishlists.length === 0 ? (
+              <Text>Oops! No wishlist found</Text>
+            ) : (
+              wishlists.map((wishlist: any) => {
+                return (
+                  <AccordionItem key={wishlist?._id}>
+                    <h2>
+                      <AccordionButton fontWeight={"semibold"}>
+                        <Box as="span" flex="1" textAlign="left">
+                          {wishlist?.name}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    {wishlist?.products.length === 0 ? (
+                      <AccordionPanel pb={4}>
+                        Oops! No products are there
+                      </AccordionPanel>
+                    ) : (
+                      <AccordionPanel pb={4}>
+                        <HStack>
+                          <Image
+                            h={28}
+                            src={productImage}
+                            alt="Product Image"
+                          />
+                          {/* for product details */}
+                          <HStack gap={2}>
+                            <VStack alignSelf={"flex-start"}>
+                              <Heading
+                                fontSize={"md"}
+                                fontWeight={"bold"}
+                                alignSelf={"flex-start"}
+                              >
+                                Product Title
+                              </Heading>
+                              <Text fontWeight={"medium"} noOfLines={3}>
+                                Product Description Lorem ipsum dolor sit amet
+                                consectetur adipisicing elit. Magnam facilis
+                                maiores laudantium, velit asperiores,
+                                consectetur aut deserunt vero ducimus sequi
+                                quidem odio est voluptatum! Voluptate ex
+                                recusandae totam eaque laudantium.
+                              </Text>
+                              <Text
+                                alignSelf={"flex-start"}
+                                fontWeight={"medium"}
+                              >
+                                Price : 100 &#x20b9; only
+                              </Text>
+                            </VStack>
 
-                    {/*for product details  */}
-                    <VStack alignItems={"flex-start"}>
-                      <Tooltip
-                        hasArrow
-                        label="Add to Shopping Cart"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineShoppingCart size={22} />
-                        </Button>
-                      </Tooltip>
+                            {/*for product details  */}
+                            <VStack alignItems={"flex-start"}>
+                              <Tooltip
+                                hasArrow
+                                label="Add to Shopping Cart"
+                                placement="top"
+                                bg="primaryColor"
+                              >
+                                <Button _hover={{ color: "primaryColor" }}>
+                                  <AiOutlineShoppingCart size={22} />
+                                </Button>
+                              </Tooltip>
 
-                      <Tooltip
-                        hasArrow
-                        label="Remove from Wishlist"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineDelete size={22} />
-                        </Button>
-                      </Tooltip>
-                    </VStack>
-                  </HStack>
-                </HStack>
-              </AccordionPanel>
-              <AccordionPanel pb={4}>
-                <HStack>
-                  <Image h={28} src={productImage} alt="Product Image" />
-                  {/* for product details */}
-                  <HStack gap={2}>
-                    <VStack alignSelf={"flex-start"}>
-                      <Heading
-                        fontSize={"md"}
-                        fontWeight={"bold"}
-                        alignSelf={"flex-start"}
-                      >
-                        Product Title
-                      </Heading>
-                      <Text fontWeight={"medium"} noOfLines={3}>
-                        Product Description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Magnam facilis maiores
-                        laudantium, velit asperiores, consectetur aut deserunt
-                        vero ducimus sequi quidem odio est voluptatum! Voluptate
-                        ex recusandae totam eaque laudantium.
-                      </Text>
-                      <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                        Price : 100 &#x20b9; only
-                      </Text>
-                    </VStack>
-
-                    {/*for product details  */}
-                    <VStack alignItems={"flex-start"}>
-                      <Tooltip
-                        hasArrow
-                        label="Add to Shopping Cart"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineShoppingCart size={22} />
-                        </Button>
-                      </Tooltip>
-
-                      <Tooltip
-                        hasArrow
-                        label="Remove from Wishlist"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineDelete size={22} />
-                        </Button>
-                      </Tooltip>
-                    </VStack>
-                  </HStack>
-                </HStack>
-              </AccordionPanel>
-              <AccordionPanel pb={4}>
-                <HStack>
-                  <Image h={28} src={productImage} alt="Product Image" />
-                  {/* for product details */}
-                  <HStack gap={2}>
-                    <VStack alignSelf={"flex-start"}>
-                      <Heading
-                        fontSize={"md"}
-                        fontWeight={"bold"}
-                        alignSelf={"flex-start"}
-                      >
-                        Product Title
-                      </Heading>
-                      <Text fontWeight={"medium"} noOfLines={3}>
-                        Product Description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Magnam facilis maiores
-                        laudantium, velit asperiores, consectetur aut deserunt
-                        vero ducimus sequi quidem odio est voluptatum! Voluptate
-                        ex recusandae totam eaque laudantium.
-                      </Text>
-                      <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                        Price : 100 &#x20b9; only
-                      </Text>
-                    </VStack>
-
-                    {/*for product details  */}
-                    <VStack alignItems={"flex-start"}>
-                      <Tooltip
-                        hasArrow
-                        label="Add to Shopping Cart"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineShoppingCart size={22} />
-                        </Button>
-                      </Tooltip>
-
-                      <Tooltip
-                        hasArrow
-                        label="Remove from Wishlist"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineDelete size={22} />
-                        </Button>
-                      </Tooltip>
-                    </VStack>
-                  </HStack>
-                </HStack>
-              </AccordionPanel>
-            </AccordionItem>
-
-            {/* second item */}
-            <AccordionItem>
-              <h2>
-                <AccordionButton fontWeight={"bold"}>
-                  <Box as="span" flex="1" textAlign="left">
-                    Second Wishlist
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <HStack>
-                  <Image h={28} src={productImage} alt="Product Image" />
-                  {/* for product details */}
-                  <HStack gap={2}>
-                    <VStack alignSelf={"flex-start"}>
-                      <Heading
-                        fontSize={"md"}
-                        fontWeight={"bold"}
-                        alignSelf={"flex-start"}
-                      >
-                        Product Title
-                      </Heading>
-                      <Text fontWeight={"medium"} noOfLines={3}>
-                        Product Description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Magnam facilis maiores
-                        laudantium, velit asperiores, consectetur aut deserunt
-                        vero ducimus sequi quidem odio est voluptatum! Voluptate
-                        ex recusandae totam eaque laudantium.
-                      </Text>
-                      <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                        Price : 100 &#x20b9; only
-                      </Text>
-                    </VStack>
-
-                    {/*for product details  */}
-                    <VStack alignItems={"flex-start"}>
-                      <Tooltip
-                        hasArrow
-                        label="Add to Shopping Cart"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineShoppingCart size={22} />
-                        </Button>
-                      </Tooltip>
-
-                      <Tooltip
-                        hasArrow
-                        label="Remove from Wishlist"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineDelete size={22} />
-                        </Button>
-                      </Tooltip>
-                    </VStack>
-                  </HStack>
-                </HStack>
-              </AccordionPanel>
-              <AccordionPanel pb={4}>
-                <HStack>
-                  <Image h={28} src={productImage} alt="Product Image" />
-                  {/* for product details */}
-                  <HStack gap={2}>
-                    <VStack alignSelf={"flex-start"}>
-                      <Heading
-                        fontSize={"md"}
-                        fontWeight={"bold"}
-                        alignSelf={"flex-start"}
-                      >
-                        Product Title
-                      </Heading>
-                      <Text fontWeight={"medium"} noOfLines={3}>
-                        Product Description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Magnam facilis maiores
-                        laudantium, velit asperiores, consectetur aut deserunt
-                        vero ducimus sequi quidem odio est voluptatum! Voluptate
-                        ex recusandae totam eaque laudantium.
-                      </Text>
-                      <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                        Price : 100 &#x20b9; only
-                      </Text>
-                    </VStack>
-
-                    {/*for product details  */}
-                    <VStack alignItems={"flex-start"}>
-                      <Tooltip
-                        hasArrow
-                        label="Add to Shopping Cart"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineShoppingCart size={22} />
-                        </Button>
-                      </Tooltip>
-
-                      <Tooltip
-                        hasArrow
-                        label="Remove from Wishlist"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineDelete size={22} />
-                        </Button>
-                      </Tooltip>
-                    </VStack>
-                  </HStack>
-                </HStack>
-              </AccordionPanel>
-              <AccordionPanel pb={4}>
-                <HStack>
-                  <Image h={28} src={productImage} alt="Product Image" />
-                  {/* for product details */}
-                  <HStack gap={2}>
-                    <VStack alignSelf={"flex-start"}>
-                      <Heading
-                        fontSize={"md"}
-                        fontWeight={"bold"}
-                        alignSelf={"flex-start"}
-                      >
-                        Product Title
-                      </Heading>
-                      <Text fontWeight={"medium"} noOfLines={3}>
-                        Product Description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Magnam facilis maiores
-                        laudantium, velit asperiores, consectetur aut deserunt
-                        vero ducimus sequi quidem odio est voluptatum! Voluptate
-                        ex recusandae totam eaque laudantium.
-                      </Text>
-                      <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                        Price : 100 &#x20b9; only
-                      </Text>
-                    </VStack>
-
-                    {/*for product details  */}
-                    <VStack alignItems={"flex-start"}>
-                      <Tooltip
-                        hasArrow
-                        label="Add to Shopping Cart"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineShoppingCart size={22} />
-                        </Button>
-                      </Tooltip>
-
-                      <Tooltip
-                        hasArrow
-                        label="Remove from Wishlist"
-                        placement="top"
-                        bg="primaryColor"
-                      >
-                        <Button _hover={{ color: "primaryColor" }}>
-                          <AiOutlineDelete size={22} />
-                        </Button>
-                      </Tooltip>
-                    </VStack>
-                  </HStack>
-                </HStack>
-              </AccordionPanel>
-            </AccordionItem>
+                              <Tooltip
+                                hasArrow
+                                label="Remove from Wishlist"
+                                placement="top"
+                                bg="primaryColor"
+                              >
+                                <Button _hover={{ color: "primaryColor" }}>
+                                  <AiOutlineDelete size={22} />
+                                </Button>
+                              </Tooltip>
+                            </VStack>
+                          </HStack>
+                        </HStack>
+                      </AccordionPanel>
+                    )}
+                  </AccordionItem>
+                );
+              })
+            )}
           </Accordion>
         </VStack>
       </HStack>

@@ -19,7 +19,7 @@ import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { createCategory, getAllCategories } from "../../redux/categorySlice";
 import { useNavigate } from "react-router-dom";
-import { createWishlist } from "../../redux/wishlistSlice";
+import { createWishlist, getAllWishlists } from "../../redux/wishlistSlice";
 
 interface Iwishlist {
   name: string;
@@ -59,7 +59,7 @@ const AddWishlist: React.FC<Iprops> = ({
       navigate("/login");
     } else if (res.payload?.success) {
       reset();
-      //   await dispatch(getAllCategories());
+      await dispatch(getAllWishlists());
       addWishlistOnClose();
     } else {
       const { name } = watch();

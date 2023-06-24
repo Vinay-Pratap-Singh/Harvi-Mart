@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
-const initialState = {};
+
+const initialState = {
+  wishlists: [],
+};
 
 // function to get all wishlists
 export const getAllWishlists = createAsyncThunk(
@@ -48,6 +51,16 @@ const wishlistSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // for getting all categories data
+      .addCase(getAllWishlists.fulfilled, (state, action) => {
+        if (action.payload?.wishlists) {
+          state.wishlists = action.payload.wishlists;
+        }
+      })
+      .addCase(getAllWishlists.rejected, () => {
+        toast.error("Failed to load all wishlist data");
+      })
+
       //   for create new category
       .addCase(createWishlist.fulfilled, (state, action) => {
         if (action.payload?.success) {
