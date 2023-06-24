@@ -12,14 +12,21 @@ import {
   Text,
   Tooltip,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import wishlistImg from "../assets/wishlist.jpg";
 import { AiOutlineDelete, AiOutlineShoppingCart } from "react-icons/ai";
 import productImage from "../assets/CategoryImages/t-shirt.png";
+import AddWishlist from "../components/Modals/AddWishlist";
 
 const Wishlist = () => {
   const wishListItem = [{}];
+  const {
+    isOpen: addWishlistIsOpen,
+    onOpen: addWishlistOnOpen,
+    onClose: addWishlistOnClose,
+  } = useDisclosure();
   return (
     <Layout>
       <HStack gap={10} p={5} overflow={"hidden"} h="70vh">
@@ -32,9 +39,16 @@ const Wishlist = () => {
           overflowY={"scroll"}
           h="full"
         >
-          <Heading fontSize={"2xl"} fontWeight={"bold"}>
-            Your Wishlist
-          </Heading>
+          <HStack w={"full"} justifyContent={"space-between"} pr={5}>
+            <Heading fontSize={"2xl"} fontWeight={"bold"}>
+              Your Wishlist
+            </Heading>
+            <AddWishlist
+              addWishlistIsOpen={addWishlistIsOpen}
+              addWishlistOnClose={addWishlistOnClose}
+              addWishlistOnOpen={addWishlistOnOpen}
+            />
+          </HStack>
 
           {/* displaying all the wishlist with their items */}
           <Accordion allowToggle w={"full"}>
