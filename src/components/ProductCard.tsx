@@ -6,17 +6,43 @@ import {
   Image,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import DisplayWishlists from "./Modals/DisplayWishlists";
 
 const ProductCard = ({ product }: any) => {
   const navigate = useNavigate();
+  const {
+    isOpen: displayWishlistIsOpen,
+    onOpen: displayWishlistOnOpen,
+    onClose: displayWishlistOnClose,
+  } = useDisclosure();
 
   return (
-    <VStack w={60} p={2} rounded={"md"} shadow={"md"} pos={"relative"}>
-      <Box pos={"absolute"} right={2} cursor={"pointer"}>
-        <AiFillHeart fontSize={"25px"} />
+    <VStack
+      key={product?._id}
+      w={60}
+      p={2}
+      rounded={"md"}
+      shadow={"md"}
+      pos={"relative"}
+    >
+      <Box
+        pos={"absolute"}
+        right={2}
+        cursor={"pointer"}
+        color={"gray.300"}
+        _hover={{ color: "#f92a2a" }}
+        transition={"all 0.2s ease-in-out"}
+      >
+        <DisplayWishlists
+          displayWishlistIsOpen={displayWishlistIsOpen}
+          displayWishlistOnClose={displayWishlistOnClose}
+          displayWishlistOnOpen={displayWishlistOnOpen}
+          productID={product?._id}
+        />
       </Box>
       <Image h={40} src={product?.images[0]?.image?.secure_url} />
       <Heading fontSize={"md"} fontWeight={"semibold"}>

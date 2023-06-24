@@ -58,11 +58,13 @@ const Wishlist = () => {
             <Heading fontSize={"2xl"} fontWeight={"bold"}>
               Your Wishlist
             </Heading>
-            <AddWishlist
-              addWishlistIsOpen={addWishlistIsOpen}
-              addWishlistOnClose={addWishlistOnClose}
-              addWishlistOnOpen={addWishlistOnOpen}
-            />
+            <Box w={"fit-content"}>
+              <AddWishlist
+                addWishlistIsOpen={addWishlistIsOpen}
+                addWishlistOnClose={addWishlistOnClose}
+                addWishlistOnOpen={addWishlistOnOpen}
+              />
+            </Box>
           </HStack>
 
           {/* displaying all the wishlist with their items */}
@@ -86,66 +88,88 @@ const Wishlist = () => {
                         Oops! No products are there
                       </AccordionPanel>
                     ) : (
-                      <AccordionPanel pb={4}>
-                        <HStack>
-                          <Image
-                            h={28}
-                            src={productImage}
-                            alt="Product Image"
-                          />
-                          {/* for product details */}
-                          <HStack gap={2}>
-                            <VStack alignSelf={"flex-start"}>
-                              <Heading
-                                fontSize={"md"}
-                                fontWeight={"bold"}
-                                alignSelf={"flex-start"}
+                      wishlist?.products.map((product: any) => {
+                        return (
+                          <AccordionPanel key={product?._id} pb={4}>
+                            <HStack>
+                              <Image
+                                h={28}
+                                src={product?.images[0]?.image?.secure_url}
+                                alt="Product Image"
+                              />
+                              {/* for product details */}
+                              <HStack
+                                w={"full"}
+                                gap={2}
+                                justifyContent={"space-between"}
                               >
-                                Product Title
-                              </Heading>
-                              <Text fontWeight={"medium"} noOfLines={3}>
-                                Product Description Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Magnam facilis
-                                maiores laudantium, velit asperiores,
-                                consectetur aut deserunt vero ducimus sequi
-                                quidem odio est voluptatum! Voluptate ex
-                                recusandae totam eaque laudantium.
-                              </Text>
-                              <Text
-                                alignSelf={"flex-start"}
-                                fontWeight={"medium"}
-                              >
-                                Price : 100 &#x20b9; only
-                              </Text>
-                            </VStack>
+                                <VStack alignSelf={"flex-start"}>
+                                  <Heading
+                                    fontSize={"md"}
+                                    fontWeight={"bold"}
+                                    alignSelf={"flex-start"}
+                                  >
+                                    {product?.title}
+                                  </Heading>
+                                  <Text
+                                    fontWeight={"medium"}
+                                    noOfLines={3}
+                                    alignSelf={"flex-start"}
+                                  >
+                                    {product?.description}
+                                  </Text>
 
-                            {/*for product details  */}
-                            <VStack alignItems={"flex-start"}>
-                              <Tooltip
-                                hasArrow
-                                label="Add to Shopping Cart"
-                                placement="top"
-                                bg="primaryColor"
-                              >
-                                <Button _hover={{ color: "primaryColor" }}>
-                                  <AiOutlineShoppingCart size={22} />
-                                </Button>
-                              </Tooltip>
+                                  {product?.discountedPrice ? (
+                                    <HStack alignSelf={"flex-start"}>
+                                      <Text fontWeight={"semibold"}>
+                                        &#x20b9;{product?.discountedPrice}
+                                      </Text>
+                                      <Text
+                                        fontSize={"xs"}
+                                        fontWeight={"semibold"}
+                                      >
+                                        <s>&#x20b9;{product?.originalPrice}</s>
+                                      </Text>
+                                    </HStack>
+                                  ) : (
+                                    <Text
+                                      fontSize={"sm"}
+                                      fontWeight={"semibold"}
+                                    >
+                                      &#x20b9;{product?.originalPrice}
+                                    </Text>
+                                  )}
+                                </VStack>
 
-                              <Tooltip
-                                hasArrow
-                                label="Remove from Wishlist"
-                                placement="top"
-                                bg="primaryColor"
-                              >
-                                <Button _hover={{ color: "primaryColor" }}>
-                                  <AiOutlineDelete size={22} />
-                                </Button>
-                              </Tooltip>
-                            </VStack>
-                          </HStack>
-                        </HStack>
-                      </AccordionPanel>
+                                {/*for product buttons  */}
+                                <VStack alignItems={"flex-start"}>
+                                  <Tooltip
+                                    hasArrow
+                                    label="Add to Shopping Cart"
+                                    placement="top"
+                                    bg="primaryColor"
+                                  >
+                                    <Button _hover={{ color: "primaryColor" }}>
+                                      <AiOutlineShoppingCart size={22} />
+                                    </Button>
+                                  </Tooltip>
+
+                                  <Tooltip
+                                    hasArrow
+                                    label="Remove from Wishlist"
+                                    placement="top"
+                                    bg="primaryColor"
+                                  >
+                                    <Button _hover={{ color: "primaryColor" }}>
+                                      <AiOutlineDelete size={22} />
+                                    </Button>
+                                  </Tooltip>
+                                </VStack>
+                              </HStack>
+                            </HStack>
+                          </AccordionPanel>
+                        );
+                      })
                     )}
                   </AccordionItem>
                 );

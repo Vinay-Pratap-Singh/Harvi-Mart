@@ -45,6 +45,22 @@ export const deleteWishlist = createAsyncThunk(
   }
 );
 
+// function to create a new wishlist
+export const addProductToWishlist = createAsyncThunk(
+  "/wishlist/add/product",
+  async (id: { wishlistID: string; productID: string }) => {
+    try {
+      const res = await axiosInstance.patch(
+        `/wishlists/${id.wishlistID}/products/${id.productID}`
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
@@ -69,6 +85,16 @@ const wishlistSlice = createSlice({
       })
       .addCase(createWishlist.rejected, () => {
         toast.error("Failed to create new wishlist");
+      })
+
+      //   for add product to be wishlist
+      .addCase(addProductToWishlist.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(addProductToWishlist.rejected, () => {
+        toast.error("Failed to add in wishlist");
       });
   },
 });

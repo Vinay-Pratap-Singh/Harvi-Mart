@@ -10,14 +10,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Textarea,
   Tooltip,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IcategoryDetails } from "../../helper/interfaces";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { createCategory, getAllCategories } from "../../redux/categorySlice";
 import { useNavigate } from "react-router-dom";
 import { createWishlist, getAllWishlists } from "../../redux/wishlistSlice";
 
