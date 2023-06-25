@@ -23,11 +23,13 @@ import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import { getAllWishlists } from "../redux/wishlistSlice";
 import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
+import RemoveFromWishlist from "../components/AlertBox/RemoveFromWishlist";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { wishlists } = useSelector((state: RootState) => state.wishlist);
   const [deleteWishlistID, setDeleteWishlistID] = useState("");
+  const [id, setID] = useState({ wishlistID: "", productID: "" });
 
   const {
     isOpen: addWishlistIsOpen,
@@ -38,6 +40,11 @@ const Wishlist = () => {
     isOpen: deleteWishlistIsOpen,
     onOpen: deleteWishlistOnOpen,
     onClose: deleteWishlistOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: deleteFromWishlistIsOpen,
+    onOpen: deleteFromWishlistOnOpen,
+    onClose: deleteFromWishlistOnClose,
   } = useDisclosure();
 
   // loading the wishlist data
@@ -168,16 +175,27 @@ const Wishlist = () => {
                                     </Button>
                                   </Tooltip>
 
-                                  <Tooltip
-                                    hasArrow
-                                    label="Remove from Wishlist"
-                                    placement="top"
-                                    bg="primaryColor"
+                                  <Box
+                                    onClick={() =>
+                                      setID({
+                                        wishlistID: wishlist?._id,
+                                        productID: product?._id,
+                                      })
+                                    }
                                   >
-                                    <Button _hover={{ color: "primaryColor" }}>
-                                      <AiOutlineDelete size={22} />
-                                    </Button>
-                                  </Tooltip>
+                                    <RemoveFromWishlist
+                                      deleteFromWishlistIsOpen={
+                                        deleteFromWishlistIsOpen
+                                      }
+                                      deleteFromWishlistOnClose={
+                                        deleteFromWishlistOnClose
+                                      }
+                                      deleteFromWishlistOnOpen={
+                                        deleteFromWishlistOnOpen
+                                      }
+                                      id={id}
+                                    />
+                                  </Box>
                                 </VStack>
                               </HStack>
                             </HStack>

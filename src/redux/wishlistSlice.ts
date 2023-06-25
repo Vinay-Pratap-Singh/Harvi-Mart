@@ -53,7 +53,21 @@ export const addProductToWishlist = createAsyncThunk(
       const res = await axiosInstance.patch(
         `/wishlists/${id.wishlistID}/products/${id.productID}`
       );
-      console.log(res.data);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
+// function to remove product from wishlist
+export const removeFromWishlist = createAsyncThunk(
+  "wishlist/remove/product",
+  async (id: { wishlistID: string; productID: string }) => {
+    try {
+      const res = await axiosInstance.delete(
+        `/wishlists/${id.wishlistID}/products/${id.productID}`
+      );
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -105,6 +119,16 @@ const wishlistSlice = createSlice({
       })
       .addCase(deleteWishlist.rejected, () => {
         toast.error("Failed to delete wishlist");
+      })
+
+      //   for remove product from wishlist
+      .addCase(removeFromWishlist.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(removeFromWishlist.rejected, () => {
+        toast.error("Failed to remove product from wishlist");
       });
   },
 });

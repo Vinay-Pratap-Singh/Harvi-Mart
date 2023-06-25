@@ -13,10 +13,12 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AppDispatch } from "../../redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createWishlist, getAllWishlists } from "../../redux/wishlistSlice";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 interface Iwishlist {
   name: string;
@@ -47,6 +49,7 @@ const AddWishlist: React.FC<Iprops> = ({
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   // function to handle add new category
   const handleCreateCategory: SubmitHandler<Iwishlist> = async (data) => {
@@ -63,6 +66,14 @@ const AddWishlist: React.FC<Iprops> = ({
       reset({ name });
     }
   };
+
+  // checking the logged in user
+  useEffect(() => {
+    if (!isLoggedIn) {
+      addWishlistOnClose();
+      toast.error("Please login to access wishlist");
+    }
+  }, []);
 
   return (
     <>
