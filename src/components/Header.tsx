@@ -28,10 +28,11 @@ import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { logout } from "../redux/authSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setSearchedText } from "../redux/productSlice";
+import { getAllWishlists } from "../redux/wishlistSlice";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +41,8 @@ const Header = () => {
   );
   const userProfileImage = userDetails?.avatar?.secure_url || "";
   const userRole = userDetails?.role;
-  const totalWishlistItem = 0;
+  const { wishlists } = useSelector((state: RootState) => state.wishlist);
+  const [totalWishlistItem, setTotalWishlistItem] = useState(0);
 
   // for handling the button loading state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,6 +67,18 @@ const Header = () => {
     await dispatch(logout());
     setIsSubmitting(false);
   };
+
+  // getting the latest wishlist data
+  useEffect(() => {
+    (async () => {
+      await dispatch(getAllWishlists());
+    })();
+    let totalProducts = 0;
+    wishlists.forEach((wishlist: any) => {
+      totalProducts += wishlist?.products?.length;
+    });
+    setTotalWishlistItem(totalProducts);
+  }, [wishlists]);
 
   return (
     <HStack
