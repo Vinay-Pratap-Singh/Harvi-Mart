@@ -22,12 +22,15 @@ import UserReview from "../components/CustomerReviews";
 import Layout from "./Layout/Layout";
 import { useLocation } from "react-router-dom";
 import { IproductReview } from "../helper/interfaces";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createProductReview,
   getIndividualProductReview,
 } from "../redux/reviewSlice";
-import { AppDispatch } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { addProductToCart } from "../redux/cartSlice";
+import { toast } from "react-hot-toast";
 
 const ProductDescription = () => {
   const { state } = useLocation();
@@ -49,9 +52,24 @@ const ProductDescription = () => {
     },
   });
   const [rating, setRating] = useState(0);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
 
   // function to handle buy now
   const handleBuyNow = () => {};
+
+  // function to add the product into cart
+  const addToCart = (product: any) => {
+    // checking for the item already in cart or not
+    if (cartItems.length !== 0) {
+      for (let i = 0; i < cartItems.length; i++) {
+        if (cartItems[i]?._id === product?._id) {
+          toast.error("Product is already in the cart");
+          return;
+        }
+      }
+    }
+    dispatch(addProductToCart(product));
+  };
 
   // function to handle review form submit
   const handleFormSubmit: SubmitHandler<IproductReview> = async (data) => {
@@ -132,9 +150,17 @@ const ProductDescription = () => {
             {state?.quantity <= 10 && state?.inStock && (
               <Text>Hurry up! only {state?.quantity} left</Text>
             )}
-            <Button colorScheme="orange" onClick={handleBuyNow}>
-              Buy Now
-            </Button>
+            <HStack>
+              <Button colorScheme="orange" onClick={handleBuyNow}>
+                Buy Now
+              </Button>
+              <Button
+                _hover={{ color: "primaryColor" }}
+                onClick={() => addToCart(state)}
+              >
+                <AiOutlineShoppingCart size={22} />
+              </Button>
+            </HStack>
           </VStack>
 
           {/* for customer review */}

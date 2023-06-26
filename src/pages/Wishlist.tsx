@@ -25,10 +25,12 @@ import { getAllWishlists, removeFromWishlist } from "../redux/wishlistSlice";
 import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
 import RemoveFromWishlist from "../components/AlertBox/RemoveFromWishlist";
 import { addProductToCart } from "../redux/cartSlice";
+import { toast } from "react-hot-toast";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { wishlists } = useSelector((state: RootState) => state.wishlist);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
   const [deleteWishlistID, setDeleteWishlistID] = useState("");
   const [idToDelete, setIdToDelete] = useState({
     wishlistID: "",
@@ -53,6 +55,15 @@ const Wishlist = () => {
 
   // function to move item to the cart
   const moveToCart = async (wishlistID: string, product: any) => {
+    // checking for the item already in cart or not
+    if (cartItems.length !== 0) {
+      for (let i = 0; i < cartItems.length; i++) {
+        if (cartItems[i]?._id === product?._id) {
+          toast.error("Product is already in the cart");
+          return;
+        }
+      }
+    }
     dispatch(addProductToCart(product));
     // removing the item from wishlist
     const id = { wishlistID, productID: product?._id };
