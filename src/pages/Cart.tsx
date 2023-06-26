@@ -14,9 +14,13 @@ import Layout from "./Layout/Layout";
 import productImage from "../assets/CategoryImages/shoes.png";
 import { useState } from "react";
 import { MdShoppingCartCheckout } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Cart = () => {
   const [noOfItem, setNoOfItem] = useState(1);
+  const { cartItems } = useSelector((state: RootState) => state.cart);
+  console.log(cartItems);
 
   return (
     <Layout>

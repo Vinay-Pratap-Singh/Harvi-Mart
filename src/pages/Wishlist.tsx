@@ -16,20 +16,24 @@ import {
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import wishlistImg from "../assets/wishlist.jpg";
-import { AiOutlineDelete, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import AddWishlist from "../components/Modals/AddWishlist";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
-import { getAllWishlists } from "../redux/wishlistSlice";
+import { getAllWishlists, removeFromWishlist } from "../redux/wishlistSlice";
 import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
 import RemoveFromWishlist from "../components/AlertBox/RemoveFromWishlist";
+import { addProductToCart } from "../redux/cartSlice";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { wishlists } = useSelector((state: RootState) => state.wishlist);
   const [deleteWishlistID, setDeleteWishlistID] = useState("");
-  const [id, setID] = useState({ wishlistID: "", productID: "" });
+  const [idToDelete, setIdToDelete] = useState({
+    wishlistID: "",
+    productID: "",
+  });
 
   const {
     isOpen: addWishlistIsOpen,
@@ -46,6 +50,14 @@ const Wishlist = () => {
     onOpen: deleteFromWishlistOnOpen,
     onClose: deleteFromWishlistOnClose,
   } = useDisclosure();
+
+  // function to move item to the cart
+  const moveToCart = async (wishlistID: string, product: any) => {
+    dispatch(addProductToCart(product));
+    // removing the item from wishlist
+    const id = { wishlistID, productID: product?._id };
+    await dispatch(removeFromWishlist(id));
+  };
 
   // loading the wishlist data
   useEffect(() => {
@@ -170,14 +182,19 @@ const Wishlist = () => {
                                     placement="top"
                                     bg="primaryColor"
                                   >
-                                    <Button _hover={{ color: "primaryColor" }}>
+                                    <Button
+                                      _hover={{ color: "primaryColor" }}
+                                      onClick={() =>
+                                        moveToCart(wishlist?._id, product)
+                                      }
+                                    >
                                       <AiOutlineShoppingCart size={22} />
                                     </Button>
                                   </Tooltip>
 
                                   <Box
                                     onClick={() =>
-                                      setID({
+                                      setIdToDelete({
                                         wishlistID: wishlist?._id,
                                         productID: product?._id,
                                       })
@@ -193,7 +210,7 @@ const Wishlist = () => {
                                       deleteFromWishlistOnOpen={
                                         deleteFromWishlistOnOpen
                                       }
-                                      id={id}
+                                      id={idToDelete}
                                     />
                                   </Box>
                                 </VStack>

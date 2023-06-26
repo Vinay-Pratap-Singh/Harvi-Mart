@@ -78,7 +78,7 @@ const Header = () => {
       totalProducts += wishlist?.products?.length;
     });
     setTotalWishlistItem(totalProducts);
-  }, [wishlists]);
+  }, []);
 
   return (
     <HStack
