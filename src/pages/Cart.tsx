@@ -12,8 +12,18 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import CartItem from "../components/CartItem";
+import { useState } from "react";
+
+interface Istate {
+  totalPrice: number;
+  totalDiscount: number;
+}
 
 const Cart = () => {
+  const [price, setPrice] = useState<Istate>({
+    totalDiscount: 0,
+    totalPrice: 0,
+  });
   const { cartItems } = useSelector((state: RootState) => state.cart);
   console.log(cartItems);
 
@@ -28,7 +38,14 @@ const Cart = () => {
             </Text>
           ) : (
             cartItems.map((cartItem: any) => {
-              return <CartItem key={cartItem?._id} cartItem={cartItem} />;
+              return (
+                <CartItem
+                  key={cartItem?._id}
+                  cartItem={cartItem}
+                  price={price}
+                  setPrice={setPrice}
+                />
+              );
             })
           )}
         </VStack>
@@ -38,11 +55,11 @@ const Cart = () => {
           <VStack w="full" fontWeight={"medium"}>
             <HStack w="full" justifyContent={"space-between"}>
               <Text>Price</Text>
-              <Text>&#x20b9; 500</Text>
+              <Text>&#x20b9; {price?.totalPrice}</Text>
             </HStack>
             <HStack w="full" justifyContent={"space-between"}>
               <Text>Discount</Text>
-              <Text>&#x20b9; 100</Text>
+              <Text>&#x20b9; {price?.totalDiscount}</Text>
             </HStack>
             <HStack
               w="full"
@@ -52,7 +69,7 @@ const Cart = () => {
               py={1}
             >
               <Text>Total Amount</Text>
-              <Text>&#x20b9; 400</Text>
+              <Text>&#x20b9; {price?.totalPrice - price?.totalDiscount}</Text>
             </HStack>
           </VStack>
 

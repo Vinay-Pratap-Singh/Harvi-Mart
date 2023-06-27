@@ -9,14 +9,78 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-interface Iprop {
+interface Iprops {
   cartItem: any;
+  price: { totalPrice: number; totalDiscount: number };
+  setPrice: React.Dispatch<
+    React.SetStateAction<{
+      totalPrice: number;
+      totalDiscount: number;
+    }>
+  >;
 }
 
-const CartItem = ({ cartItem }: Iprop) => {
+const CartItem: React.FC<Iprops> = ({ cartItem, setPrice }) => {
   const [noOfItem, setNoOfItem] = useState(1);
+
+  // function to increase the product count
+  const increaseProductCount = () => {
+    if (noOfItem > 9) {
+      return;
+    }
+    setNoOfItem(noOfItem + 1);
+    setPrice((prev) => {
+      return {
+        ...prev,
+        totalPrice: cartItem?.discountedPrice
+          ? prev.totalPrice + cartItem?.discountedPrice
+          : prev.totalPrice + cartItem?.originalPrice,
+        totalDiscount: cartItem?.discountedPrice
+          ? prev.totalDiscount +
+            (cartItem?.originalPrice - cartItem?.discountedPrice)
+          : prev.totalDiscount,
+      };
+    });
+  };
+
+  // function to decrease the product count
+  const decreaseProductCount = () => {
+    if (noOfItem === 1) {
+      return;
+    }
+    setNoOfItem(noOfItem - 1);
+    setPrice((prev) => {
+      return {
+        ...prev,
+        totalPrice: cartItem?.discountedPrice
+          ? prev.totalPrice - cartItem?.discountedPrice
+          : prev.totalPrice - cartItem?.originalPrice,
+        totalDiscount: cartItem?.discountedPrice
+          ? prev.totalDiscount +
+            (cartItem?.originalPrice - cartItem?.discountedPrice)
+          : prev.totalDiscount,
+      };
+    });
+  };
+
+  // handle price on first render
+  useEffect(() => {
+    setPrice((prev) => {
+      return {
+        ...prev,
+        totalPrice: cartItem?.discountedPrice
+          ? prev.totalPrice + noOfItem * cartItem?.discountedPrice
+          : prev.totalPrice + noOfItem * cartItem?.originalPrice,
+        totalDiscount: cartItem?.discountedPrice
+          ? prev.totalDiscount +
+            (cartItem?.originalPrice - cartItem?.discountedPrice)
+          : prev.totalDiscount,
+      };
+    });
+  }, []);
+
   return (
     <HStack
       pb={2}
@@ -67,7 +131,7 @@ const CartItem = ({ cartItem }: Iprop) => {
             cursor={"pointer"}
             _hover={{ color: "primaryColor" }}
             children="-"
-            onClick={() => noOfItem > 1 && setNoOfItem(noOfItem - 1)}
+            onClick={decreaseProductCount}
           />
 
           <Input
@@ -84,7 +148,7 @@ const CartItem = ({ cartItem }: Iprop) => {
             cursor={"pointer"}
             _hover={{ color: "primaryColor" }}
             children="+"
-            onClick={() => noOfItem < 10 && setNoOfItem(noOfItem + 1)}
+            onClick={increaseProductCount}
           />
         </InputGroup>
         <Text fontWeight={"semibold"}>
