@@ -1,24 +1,19 @@
 import {
   Button,
   HStack,
-  Heading,
-  Image,
   Input,
   InputGroup,
-  InputLeftAddon,
   InputRightAddon,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
-import productImage from "../assets/CategoryImages/shoes.png";
-import { useState } from "react";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import CartItem from "../components/CartItem";
 
 const Cart = () => {
-  const [noOfItem, setNoOfItem] = useState(1);
   const { cartItems } = useSelector((state: RootState) => state.cart);
   console.log(cartItems);
 
@@ -27,60 +22,15 @@ const Cart = () => {
       <HStack p={10} gap={10} minH={"70vh"}>
         {/* for displaying the products */}
         <VStack w={"70%"} alignSelf={"flex-start"}>
-          <HStack pb={2} borderBottom={"1px solid gray"}>
-            <Image src={productImage} h={32} alt="product image" />
-
-            <VStack alignSelf={"flex-start"}>
-              <Heading
-                fontSize={"md"}
-                fontWeight={"bold"}
-                alignSelf={"flex-start"}
-              >
-                Product Title
-              </Heading>
-              <Text fontWeight={"medium"} noOfLines={3}>
-                Product Description Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Magnam facilis maiores laudantium, velit
-                asperiores, consectetur aut deserunt vero ducimus sequi quidem
-                odio est voluptatum! Voluptate ex recusandae totam eaque
-                laudantium.
-              </Text>
-              <Text alignSelf={"flex-start"} fontWeight={"medium"}>
-                Price : 100 &#x20b9; only
-              </Text>
-            </VStack>
-
-            <VStack>
-              <InputGroup>
-                <InputLeftAddon
-                  fontWeight={"bold"}
-                  fontSize={20}
-                  cursor={"pointer"}
-                  _hover={{ color: "primaryColor" }}
-                  children="+"
-                  onClick={() => noOfItem < 10 && setNoOfItem(noOfItem + 1)}
-                />
-
-                <Input
-                  type="number"
-                  placeholder="1"
-                  value={noOfItem}
-                  textAlign={"center"}
-                  fontWeight={"bold"}
-                  w={14}
-                />
-                <InputRightAddon
-                  fontWeight={"bold"}
-                  fontSize={20}
-                  cursor={"pointer"}
-                  _hover={{ color: "primaryColor" }}
-                  children="-"
-                  onClick={() => noOfItem > 0 && setNoOfItem(noOfItem - 1)}
-                />
-              </InputGroup>
-              <Text fontWeight={"semibold"}>Total : 500 &#x20b9;</Text>
-            </VStack>
-          </HStack>
+          {!cartItems?.length ? (
+            <Text fontWeight={"semibold"}>
+              "Oops! there is no product in cart
+            </Text>
+          ) : (
+            cartItems.map((cartItem: any) => {
+              return <CartItem key={cartItem?._id} cartItem={cartItem} />;
+            })
+          )}
         </VStack>
 
         {/* for displaying the checkout */}
