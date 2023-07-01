@@ -82,12 +82,7 @@ const CartItem: React.FC<Iprops> = ({ cartItem, setPrice }) => {
   }, []);
 
   return (
-    <HStack
-      pb={2}
-      borderBottom={"1px solid gray"}
-      w={"full"}
-      justifyContent={"space-between"}
-    >
+    <HStack p={2} boxShadow={"md"} w={"full"} justifyContent={"space-between"}>
       <HStack>
         <Image
           src={cartItem?.images[0]?.image?.secure_url}

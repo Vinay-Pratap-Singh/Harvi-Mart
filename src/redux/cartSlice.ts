@@ -12,6 +12,8 @@ const cartSlice = createSlice({
     addProductToCart: (state, action) => {
       state.cartItems.push(action.payload);
       toast.success("Product added to cart");
+      // setting cart data inside localstorage
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
   },
 });

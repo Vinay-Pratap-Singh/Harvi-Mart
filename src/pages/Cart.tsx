@@ -31,7 +31,7 @@ const Cart = () => {
     <Layout>
       <HStack p={10} gap={10} minH={"70vh"}>
         {/* for displaying the products */}
-        <VStack w={"70%"} alignSelf={"flex-start"}>
+        <VStack w={"70%"} alignSelf={"flex-start"} gap={5}>
           {!cartItems?.length ? (
             <Text fontWeight={"semibold"}>
               "Oops! there is no product in cart
