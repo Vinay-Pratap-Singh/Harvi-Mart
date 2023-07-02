@@ -68,16 +68,23 @@ const Header = () => {
     setIsSubmitting(false);
   };
 
+  // for getting the total number of items in wishlist
+  useEffect(() => {
+    let totalProducts = 0;
+    wishlists.length !== 0
+      ? wishlists.forEach((wishlist: any) => {
+          totalProducts += wishlist?.products?.length;
+        })
+      : (totalProducts = 0);
+    setTotalWishlistItem(totalProducts);
+    console.log(totalProducts);
+  }, [wishlists]);
+
   // getting the latest wishlist data
   useEffect(() => {
     (async () => {
       await dispatch(getAllWishlists());
     })();
-    let totalProducts = 0;
-    wishlists.forEach((wishlist: any) => {
-      totalProducts += wishlist?.products?.length;
-    });
-    setTotalWishlistItem(totalProducts);
   }, []);
 
   return (
