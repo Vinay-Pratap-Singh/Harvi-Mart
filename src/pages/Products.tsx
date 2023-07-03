@@ -32,59 +32,6 @@ const Products = () => {
   const [categoryValue, setCategoryValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
 
-  // function to handle filter by category name
-  const filterByCategoryName = () => {
-    const newData =
-      products &&
-      products.filter((product: any) => {
-        return (
-          product?.category?.name?.toLowerCase() ===
-          categoryValue?.toLowerCase()
-        );
-      });
-    setProductToBeDisplayed(newData);
-  };
-
-  // function to handle filter by price
-  const filterByPrice = () => {
-    const price = priceValue.split(",");
-    const priceMin = price[0];
-    const priceMax = price[1];
-
-    // when max price is not defined
-    if (priceMax === " ") {
-      const newData =
-        products &&
-        products.filter((product: any) => {
-          if (product?.discountedPrice) {
-            return product?.discountedPrice > Number(priceMin);
-          } else {
-            return product?.originalPrice > Number(priceMin);
-          }
-        });
-      setProductToBeDisplayed(newData);
-      return;
-    }
-
-    // when both max and min price are there
-    const newData =
-      products &&
-      products.filter((product: any) => {
-        if (product?.discountedPrice) {
-          return (
-            product?.discountedPrice > Number(priceMin) &&
-            product?.discountedPrice < Number(priceMax)
-          );
-        } else {
-          return (
-            product?.originalPrice > Number(priceMin) &&
-            product?.originalPrice < Number(priceMax)
-          );
-        }
-      });
-    setProductToBeDisplayed(newData);
-  };
-
   // function to clear all the filters
   const clearFilters = () => {
     setCategoryValue("");
@@ -94,10 +41,104 @@ const Products = () => {
 
   // for invoking the filters
   useEffect(() => {
-    if (categoryValue) {
-      filterByCategoryName();
-    } else if (priceValue) {
-      filterByPrice();
+    if (priceValue === "" && categoryValue === "") {
+      setProductToBeDisplayed(products);
+    } else if (priceValue === "" && categoryValue !== "") {
+      const newData =
+        products &&
+        products.filter((product: any) => {
+          return (
+            product?.category?.name?.toLowerCase() ===
+            categoryValue?.toLowerCase()
+          );
+        });
+      setProductToBeDisplayed(newData);
+    } else if (priceValue !== "" && categoryValue === "") {
+      const price = priceValue.split(",");
+      const priceMin = price[0];
+      const priceMax = price[1];
+
+      // when max price is not defined
+      if (priceMax === " ") {
+        const newData =
+          products &&
+          products.filter((product: any) => {
+            if (product?.discountedPrice) {
+              return product?.discountedPrice > Number(priceMin);
+            } else {
+              return product?.originalPrice > Number(priceMin);
+            }
+          });
+        setProductToBeDisplayed(newData);
+        return;
+      }
+
+      // when both max and min price are there
+      const newData =
+        products &&
+        products.filter((product: any) => {
+          if (product?.discountedPrice) {
+            return (
+              product?.discountedPrice > Number(priceMin) &&
+              product?.discountedPrice < Number(priceMax)
+            );
+          } else {
+            return (
+              product?.originalPrice > Number(priceMin) &&
+              product?.originalPrice < Number(priceMax)
+            );
+          }
+        });
+      setProductToBeDisplayed(newData);
+    } else {
+      const price = priceValue.split(",");
+      const priceMin = price[0];
+      const priceMax = price[1];
+
+      // when max price is not defined
+      if (priceMax === " ") {
+        const newData =
+          products &&
+          products.filter((product: any) => {
+            if (product?.discountedPrice) {
+              return (
+                product?.discountedPrice > Number(priceMin) &&
+                product?.category?.name?.toLowerCase() ===
+                  categoryValue?.toLowerCase()
+              );
+            } else {
+              return (
+                product?.originalPrice > Number(priceMin) &&
+                product?.category?.name?.toLowerCase() ===
+                  categoryValue?.toLowerCase()
+              );
+            }
+          });
+        setProductToBeDisplayed(newData);
+        return;
+      }
+
+      // when both max and min price are there
+      const newData =
+        products &&
+        products.filter((product: any) => {
+          if (product?.discountedPrice) {
+            return (
+              product?.discountedPrice > Number(priceMin) &&
+              product?.discountedPrice < Number(priceMax) &&
+              product?.category?.name?.toLowerCase() ===
+                categoryValue?.toLowerCase()
+            );
+          } else {
+            return (
+              product?.originalPrice > Number(priceMin) &&
+              product?.originalPrice < Number(priceMax) &&
+              product?.category?.name?.toLowerCase() ===
+                categoryValue?.toLowerCase()
+            );
+          }
+        });
+      setProductToBeDisplayed(newData);
     }
   }, [priceValue, categoryValue]);
 
@@ -107,7 +148,9 @@ const Products = () => {
       await dispatch(getAllProducts());
       await dispatch(getAllCategories());
     })();
-  }, [dispatch]);
+    setCategoryValue("");
+    setPriceValue("");
+  }, []);
 
   // for handling user product search
   useEffect(() => {
