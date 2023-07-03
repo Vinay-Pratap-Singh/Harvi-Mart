@@ -8,7 +8,6 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AiFillHeart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import DisplayWishlists from "./Modals/DisplayWishlists";
 

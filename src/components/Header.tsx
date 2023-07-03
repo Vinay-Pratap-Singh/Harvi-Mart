@@ -70,21 +70,24 @@ const Header = () => {
 
   // for getting the total number of items in wishlist
   useEffect(() => {
-    let totalProducts = 0;
-    wishlists.length !== 0
-      ? wishlists.forEach((wishlist: any) => {
-          totalProducts += wishlist?.products?.length;
-        })
-      : (totalProducts = 0);
-    setTotalWishlistItem(totalProducts);
-    console.log(totalProducts);
+    if (isLoggedIn) {
+      let totalProducts = 0;
+      wishlists.length !== 0
+        ? wishlists.forEach((wishlist: any) => {
+            totalProducts += wishlist?.products?.length;
+          })
+        : (totalProducts = 0);
+      setTotalWishlistItem(totalProducts);
+    }
   }, [wishlists]);
 
   // getting the latest wishlist data
   useEffect(() => {
-    (async () => {
-      await dispatch(getAllWishlists());
-    })();
+    if (isLoggedIn) {
+      (async () => {
+        await dispatch(getAllWishlists());
+      })();
+    }
   }, []);
 
   return (
@@ -132,47 +135,51 @@ const Header = () => {
         fontWeight={500}
       >
         {/* wishlist */}
-        <ListItem pos={"relative"}>
-          <Link
-            as={RouterLink}
-            to={"/wishlist"}
-            display={"flex"}
-            alignItems={"center"}
-            gap={2}
-          >
-            <AiFillHeart color="#DD6B20" fontSize={"20px"} />
-            Wishlist
-            <Text
-              as={"span"}
-              bgColor={"orange.500"}
-              color={"white"}
-              fontWeight={"bold"}
-              fontSize={"sm"}
-              pos={"absolute"}
-              right={-4}
-              top={-4}
-              py={"1px"}
-              px={"7px"}
-              borderRadius={"full"}
+        {isLoggedIn && (
+          <ListItem pos={"relative"}>
+            <Link
+              as={RouterLink}
+              to={"/wishlist"}
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
             >
-              {totalWishlistItem}
-            </Text>
-          </Link>
-        </ListItem>
+              <AiFillHeart color="#DD6B20" fontSize={"20px"} />
+              Wishlist
+              <Text
+                as={"span"}
+                bgColor={"orange.500"}
+                color={"white"}
+                fontWeight={"bold"}
+                fontSize={"sm"}
+                pos={"absolute"}
+                right={-4}
+                top={-4}
+                py={"1px"}
+                px={"7px"}
+                borderRadius={"full"}
+              >
+                {totalWishlistItem}
+              </Text>
+            </Link>
+          </ListItem>
+        )}
 
         {/* cart */}
-        <ListItem pos={"relative"}>
-          <Link
-            as={RouterLink}
-            to={"/cart"}
-            display={"flex"}
-            alignItems={"center"}
-            gap={2}
-          >
-            <AiOutlineShoppingCart fontSize={"20px"} />
-            Cart
-          </Link>
-        </ListItem>
+        {isLoggedIn && (
+          <ListItem pos={"relative"}>
+            <Link
+              as={RouterLink}
+              to={"/cart"}
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
+            >
+              <AiOutlineShoppingCart fontSize={"20px"} />
+              Cart
+            </Link>
+          </ListItem>
+        )}
 
         {!isLoggedIn ? (
           <ListItem>
