@@ -32,7 +32,6 @@ import { useState, useEffect } from "react";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setSearchedText } from "../redux/productSlice";
-import { getAllWishlists } from "../redux/wishlistSlice";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -80,15 +79,6 @@ const Header = () => {
       setTotalWishlistItem(totalProducts);
     }
   }, [wishlists]);
-
-  // getting the latest wishlist data
-  useEffect(() => {
-    if (isLoggedIn) {
-      (async () => {
-        await dispatch(getAllWishlists());
-      })();
-    }
-  }, []);
 
   return (
     <HStack

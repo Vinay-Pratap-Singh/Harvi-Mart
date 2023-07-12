@@ -3,7 +3,7 @@ import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 
 const initialState = {
-  wishlists: [],
+  wishlists: JSON.parse(localStorage.getItem("wishlist") || "[]"),
 };
 
 // function to get all wishlists
@@ -88,6 +88,10 @@ const wishlistSlice = createSlice({
       .addCase(getAllWishlists.fulfilled, (state, action) => {
         if (action.payload?.wishlists) {
           state.wishlists = action.payload.wishlists;
+          localStorage.setItem(
+            "wishlist",
+            JSON.stringify(action?.payload?.wishlists)
+          );
         }
       })
       .addCase(getAllWishlists.rejected, () => {

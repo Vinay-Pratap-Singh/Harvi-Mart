@@ -4,7 +4,6 @@ import axios, {
   AxiosError,
   AxiosRequestConfig,
 } from "axios";
-import { useNavigate } from "react-router-dom";
 
 const BASEURL = process.env.REACT_APP_BASEURL;
 const axiosInstance: AxiosInstance = axios.create({
@@ -53,8 +52,7 @@ axiosInstance.interceptors.response.use(
         } catch (error) {
           console.log(error);
           localStorage.clear();
-          const navigate = useNavigate();
-          navigate("/login");
+          window.location.href = "/login";
           return Promise.reject(error);
         } finally {
           retryAttempts.delete(originalConfig.url!);
