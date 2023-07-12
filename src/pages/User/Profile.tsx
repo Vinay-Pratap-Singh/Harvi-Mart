@@ -31,7 +31,7 @@ const Profile = () => {
   const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
 
   // getting the details of user
-  const userDetails = useSelector((state: RootState) => state.auth.userDetails);
+  const { userDetails } = useSelector((state: RootState) => state.auth);
   const addresses: Iaddress[] = userDetails.addresses;
   const [userData, setUserData] = useState({
     imageURL: userDetails?.avatar?.secure_url
@@ -86,6 +86,11 @@ const Profile = () => {
       await dispatch(getLoggedInUserData());
     })();
   }, []);
+
+  // for updating the currentIndex
+  useEffect(() => {
+    setCurrentAddressIndex(0);
+  }, [userDetails]);
 
   return (
     <Layout>
@@ -250,7 +255,7 @@ const Profile = () => {
                         deleteAddressIsOpen={deleteAddressIsOpen}
                         deleteAddressOnClose={deleteAddressOnClose}
                         deleteAddressOnOpen={deleteAddressOnOpen}
-                        id={addresses[currentAddressIndex]._id!}
+                        id={addresses[currentAddressIndex]?._id ?? ""}
                       />
                     </HStack>
                   </VStack>

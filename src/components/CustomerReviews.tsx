@@ -21,7 +21,7 @@ interface Iprop {
   productID: string;
 }
 
-const CustomerReviews: React.FC<Iprop> = ({ productID }) => {
+const CustomerReviews = ({ productID }: Iprop) => {
   const dispatch = useDispatch<AppDispatch>();
   const { reviews } = useSelector((state: RootState) => state.review);
   const { userDetails } = useSelector((state: RootState) => state.auth);

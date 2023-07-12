@@ -10,7 +10,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
-import Footer from "../components/Footer";
 import homepageImage from "../assets/homepage.jpg";
 import CategoryCard from "../components/CategoryCard";
 import { Link as RouterLink } from "react-router-dom";

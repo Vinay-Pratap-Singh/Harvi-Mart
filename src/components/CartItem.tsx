@@ -22,7 +22,7 @@ interface Iprops {
   >;
 }
 
-const CartItem: React.FC<Iprops> = ({ cartItem, setPrice }) => {
+const CartItem = ({ cartItem, setPrice }: Iprops) => {
   const [noOfItem, setNoOfItem] = useState(1);
 
   // function to increase the product count

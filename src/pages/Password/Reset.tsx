@@ -17,7 +17,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../../assets/resetPassword.jpg";
 import myImageLogo from "../../assets/forgetPasswordLogo.png";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BiLock } from "react-icons/bi";
 import { useState } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";

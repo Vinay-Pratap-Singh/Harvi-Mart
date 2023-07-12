@@ -8,11 +8,11 @@ interface Iprops {
   categoryName: string;
   categoryDescription: string;
 }
-const CategoryCard: React.FC<Iprops> = ({
+const CategoryCard = ({
   imageURL,
   categoryDescription,
   categoryName,
-}) => {
+}: Iprops) => {
   return (
     <VStack w={80} shadow={"md"} p={3} borderRadius={5}>
       <Image
