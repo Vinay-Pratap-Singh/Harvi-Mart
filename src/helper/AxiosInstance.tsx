@@ -41,9 +41,10 @@ axiosInstance.interceptors.response.use(
       ) {
         retryAttempts.add(originalConfig.url!);
         try {
+          console.log("getting refresh token");
           // getting the new refresh token
           const res = await axiosInstance.post("/auth/refresh");
-          console.log(res.data);
+          console.log(res);
           localStorage.setItem("accessToken", res.data.accessToken);
           // retrying the original request with the new access token
           originalConfig.headers &&

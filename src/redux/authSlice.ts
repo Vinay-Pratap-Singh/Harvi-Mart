@@ -9,6 +9,7 @@ const initialState: IauthSliceState = {
     localStorage.getItem("isLoggedIn") || "false"
   ) as boolean,
   userDetails: JSON.parse(localStorage.getItem("userDetails") || "{}"),
+  loading: false,
 };
 
 // function for creating a new account
@@ -164,6 +165,9 @@ const authSlice = createSlice({
       })
 
       // for getting logged in user data
+      .addCase(getLoggedInUserData.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(getLoggedInUserData.fulfilled, (state, action) => {
         if (action.payload) {
           state.isLoggedIn = true;
@@ -174,12 +178,13 @@ const authSlice = createSlice({
             JSON.stringify(action.payload?.user)
           );
         }
+        state.loading = false;
       })
-      .addCase(getLoggedInUserData.rejected, () => {
+      .addCase(getLoggedInUserData.rejected, (state) => {
         toast.error("Failed to load user data");
+        state.loading = false;
       });
   },
 });
 
-export const {} = authSlice.actions;
 export default authSlice.reducer;

@@ -25,13 +25,17 @@ import AddAddress from "../../components/Modals/AddAddress";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUserData } from "../../redux/authSlice";
+import UserProfileShimmer from "../../shimmer/UserProfileShimmer";
+import AddressShimmer from "../../shimmer/AddressShimmer";
 
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
 
   // getting the details of user
-  const { userDetails } = useSelector((state: RootState) => state.auth);
+  const { userDetails, loading } = useSelector(
+    (state: RootState) => state.auth
+  );
   const addresses: Iaddress[] = userDetails.addresses;
   const [userData, setUserData] = useState({
     imageURL: userDetails?.avatar?.secure_url
@@ -106,163 +110,181 @@ const Profile = () => {
 
         <HStack gap={10} alignItems={"stretch"}>
           {/* for user's personal information */}
-          <VStack
-            alignSelf={"center"}
-            alignContent={"center"}
-            shadow={"md"}
-            p={3}
-            borderRadius={5}
-            width={96}
-          >
-            <Heading fontSize={"xl"}>Personal Details</Heading>
-            {userDetails?.avatar?.secure_url ? (
-              <Image
-                h={32}
-                w={32}
-                borderRadius={"full"}
-                src={userDetails?.avatar?.secure_url}
-                alt="user profile image"
-              />
-            ) : (
-              <BiUser fontSize={80} />
-            )}
-
-            <Grid
-              templateColumns="repeat(2,1fr)"
-              gap={2}
-              fontWeight={"semibold"}
+          {loading ? (
+            <UserProfileShimmer />
+          ) : (
+            <VStack
+              alignSelf={"center"}
+              alignContent={"center"}
+              shadow={"md"}
+              p={3}
+              borderRadius={5}
+              width={96}
             >
-              <GridItem>Full Name</GridItem>
-              <GridItem>{userDetails?.fullName}</GridItem>
-              <GridItem>Email</GridItem>
-              <GridItem>{userDetails?.email}</GridItem>
-              <GridItem>Phone Number</GridItem>
-              <GridItem>{userDetails?.phoneNumber}</GridItem>
-              <GridItem>
-                <UpdateProfile
-                  updateProfileIsOpen={updateProfileIsOpen}
-                  updateProfileOnClose={updateProfileOnClose}
-                  updateProfileOnOpen={updateProfileOnOpen}
-                  data={{
-                    ...userData,
-                  }}
+              <Heading fontSize={"xl"}>Personal Details</Heading>
+              {userDetails?.avatar?.secure_url ? (
+                <Image
+                  h={32}
+                  w={32}
+                  borderRadius={"full"}
+                  src={userDetails?.avatar?.secure_url}
+                  alt="user profile image"
                 />
-              </GridItem>
-              <GridItem>
-                <Link as={RouterLink} to={"/auth/reset/change-password"}>
-                  <Button colorScheme="gray" fontSize={"15px"} w={"full"}>
-                    Change Password
-                  </Button>
-                </Link>
-              </GridItem>
-            </Grid>
-          </VStack>
+              ) : (
+                <BiUser fontSize={80} />
+              )}
+
+              <Grid
+                templateColumns="repeat(2,1fr)"
+                gap={2}
+                fontWeight={"semibold"}
+              >
+                <GridItem>Full Name</GridItem>
+                <GridItem>{userDetails?.fullName}</GridItem>
+                <GridItem>Email</GridItem>
+                <GridItem>{userDetails?.email}</GridItem>
+                <GridItem>Phone Number</GridItem>
+                <GridItem>{userDetails?.phoneNumber}</GridItem>
+                <GridItem>
+                  <UpdateProfile
+                    updateProfileIsOpen={updateProfileIsOpen}
+                    updateProfileOnClose={updateProfileOnClose}
+                    updateProfileOnOpen={updateProfileOnOpen}
+                    data={{
+                      ...userData,
+                    }}
+                  />
+                </GridItem>
+                <GridItem>
+                  <Link as={RouterLink} to={"/auth/reset/change-password"}>
+                    <Button colorScheme="gray" fontSize={"15px"} w={"full"}>
+                      Change Password
+                    </Button>
+                  </Link>
+                </GridItem>
+              </Grid>
+            </VStack>
+          )}
 
           {/* for user's address */}
-          <VStack
-            alignSelf={"stretch"}
-            justifyContent={"flex-start"}
-            shadow={"md"}
-            p={3}
-            borderRadius={5}
-            width={96}
-            pos={"relative"}
-          >
-            <HStack w={"full"} justifyContent={"space-between"}>
-              <Button
-                disabled={currentAddressIndex === 0}
-                size={"sm"}
-                p={0}
-                onClick={getPreviousAddress}
-              >
-                <GrFormPrevious size={"25px"} />
-              </Button>
-              <Heading fontSize={"xl"}>Your Addresses</Heading>
-              <Button
-                disabled={addresses.length === currentAddressIndex + 1}
-                size={"sm"}
-                p={0}
-                onClick={getNextAddress}
-              >
-                <GrFormNext size={"25px"} />
-              </Button>
-            </HStack>
+          {loading ? (
+            <AddressShimmer />
+          ) : (
+            <VStack
+              alignSelf={"stretch"}
+              justifyContent={"flex-start"}
+              shadow={"md"}
+              p={3}
+              borderRadius={5}
+              width={96}
+              pos={"relative"}
+            >
+              <HStack w={"full"} justifyContent={"space-between"}>
+                <Button
+                  disabled={currentAddressIndex === 0}
+                  size={"sm"}
+                  p={0}
+                  onClick={getPreviousAddress}
+                >
+                  <GrFormPrevious size={"25px"} />
+                </Button>
+                <Heading fontSize={"xl"}>Your Addresses</Heading>
+                <Button
+                  disabled={addresses.length === currentAddressIndex + 1}
+                  size={"sm"}
+                  p={0}
+                  onClick={getNextAddress}
+                >
+                  <GrFormNext size={"25px"} />
+                </Button>
+              </HStack>
 
-            <HStack w={"full"} gap={5}>
-              {addresses.length === 0 ? (
-                <VStack w={"full"} fontWeight={"semibold"} textAlign={"center"}>
-                  <HStack>
-                    <Text>Oops! No address found</Text>
-                    <Text
-                      as={"span"}
-                      color={"primaryColor"}
-                      fontWeight={"bold"}
-                    >
-                      :(
-                    </Text>
-                  </HStack>
-                  <Box w={"93%"} pos={"absolute"} bottom={3}>
-                    <AddAddress
-                      addAddressIsOpen={addAddressIsOpen}
-                      addAddressOnClose={addAddressOnClose}
-                      addAddressOnOpen={addAddressOnOpen}
-                    />
-                  </Box>
-                </VStack>
-              ) : (
-                <VStack w={"full"}>
-                  <Grid
-                    templateColumns="repeat(2,1fr)"
-                    gap={2}
-                    fontWeight={"semibold"}
+              <HStack w={"full"} gap={5}>
+                {addresses.length === 0 ? (
+                  <VStack
                     w={"full"}
+                    fontWeight={"semibold"}
+                    textAlign={"center"}
                   >
-                    <GridItem>Full Name</GridItem>
-                    <GridItem>{addresses[currentAddressIndex]?.name}</GridItem>
-                    <GridItem>Phone Number</GridItem>
-                    <GridItem>
-                      {addresses[currentAddressIndex]?.phoneNumber}
-                    </GridItem>
-                    <GridItem>House Number</GridItem>
-                    <GridItem>
-                      {addresses[currentAddressIndex]?.houseNumber}
-                    </GridItem>
-                    <GridItem>City</GridItem>
-                    <GridItem>{addresses[currentAddressIndex]?.city}</GridItem>
-                    <GridItem>State</GridItem>
-                    <GridItem>{addresses[currentAddressIndex]?.state}</GridItem>
-                    <GridItem>Pin Code</GridItem>
-                    <GridItem>
-                      {addresses[currentAddressIndex]?.pinCode}
-                    </GridItem>
-                  </Grid>
-
-                  {/* adding the buttons */}
-                  <VStack w={"93%"} pos={"absolute"} bottom={3}>
-                    <HStack w={"full"}>
+                    <HStack>
+                      <Text>Oops! No address found</Text>
+                      <Text
+                        as={"span"}
+                        color={"primaryColor"}
+                        fontWeight={"bold"}
+                      >
+                        :(
+                      </Text>
+                    </HStack>
+                    <Box w={"93%"} pos={"absolute"} bottom={3}>
                       <AddAddress
                         addAddressIsOpen={addAddressIsOpen}
                         addAddressOnClose={addAddressOnClose}
                         addAddressOnOpen={addAddressOnOpen}
                       />
-                      <UpdateAddress
-                        updateAddressIsOpen={updateAddressIsOpen}
-                        updateAddressOnClose={updateAddressOnClose}
-                        updateAddressOnOpen={updateAddressOnOpen}
-                        data={addresses[currentAddressIndex]}
-                      />
-                      <DeleteAddress
-                        deleteAddressIsOpen={deleteAddressIsOpen}
-                        deleteAddressOnClose={deleteAddressOnClose}
-                        deleteAddressOnOpen={deleteAddressOnOpen}
-                        id={addresses[currentAddressIndex]?._id ?? ""}
-                      />
-                    </HStack>
+                    </Box>
                   </VStack>
-                </VStack>
-              )}
-            </HStack>
-          </VStack>
+                ) : (
+                  <VStack w={"full"}>
+                    <Grid
+                      templateColumns="repeat(2,1fr)"
+                      gap={2}
+                      fontWeight={"semibold"}
+                      w={"full"}
+                    >
+                      <GridItem>Full Name</GridItem>
+                      <GridItem>
+                        {addresses[currentAddressIndex]?.name}
+                      </GridItem>
+                      <GridItem>Phone Number</GridItem>
+                      <GridItem>
+                        {addresses[currentAddressIndex]?.phoneNumber}
+                      </GridItem>
+                      <GridItem>House Number</GridItem>
+                      <GridItem>
+                        {addresses[currentAddressIndex]?.houseNumber}
+                      </GridItem>
+                      <GridItem>City</GridItem>
+                      <GridItem>
+                        {addresses[currentAddressIndex]?.city}
+                      </GridItem>
+                      <GridItem>State</GridItem>
+                      <GridItem>
+                        {addresses[currentAddressIndex]?.state}
+                      </GridItem>
+                      <GridItem>Pin Code</GridItem>
+                      <GridItem>
+                        {addresses[currentAddressIndex]?.pinCode}
+                      </GridItem>
+                    </Grid>
+
+                    {/* adding the buttons */}
+                    <VStack w={"93%"} pos={"absolute"} bottom={3}>
+                      <HStack w={"full"}>
+                        <AddAddress
+                          addAddressIsOpen={addAddressIsOpen}
+                          addAddressOnClose={addAddressOnClose}
+                          addAddressOnOpen={addAddressOnOpen}
+                        />
+                        <UpdateAddress
+                          updateAddressIsOpen={updateAddressIsOpen}
+                          updateAddressOnClose={updateAddressOnClose}
+                          updateAddressOnOpen={updateAddressOnOpen}
+                          data={addresses[currentAddressIndex]}
+                        />
+                        <DeleteAddress
+                          deleteAddressIsOpen={deleteAddressIsOpen}
+                          deleteAddressOnClose={deleteAddressOnClose}
+                          deleteAddressOnOpen={deleteAddressOnOpen}
+                          id={addresses[currentAddressIndex]?._id ?? ""}
+                        />
+                      </HStack>
+                    </VStack>
+                  </VStack>
+                )}
+              </HStack>
+            </VStack>
+          )}
         </HStack>
       </VStack>
     </Layout>
