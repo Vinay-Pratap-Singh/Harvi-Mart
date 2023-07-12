@@ -2,19 +2,20 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 import { IupdateProfile } from "../helper/interfaces";
+import { getLoggedInUserData } from "./authSlice";
 
 const initialState = {};
 
 // function to update user details
 export const updateUserDetails = createAsyncThunk(
   "category/update",
-  async (data: IupdateProfile) => {
+  async (data: IupdateProfile, { dispatch }) => {
     try {
       const newData = new FormData();
       data.userImage && newData.append("userImage", data.userImage);
       newData.append("fullName", data.fullName);
-
       const res = await axiosInstance.put(`/users`, newData);
+      await dispatch(getLoggedInUserData());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -63,5 +64,4 @@ const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
 export default userSlice.reducer;

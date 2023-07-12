@@ -23,18 +23,22 @@ export const getAllCategories = createAsyncThunk(
 // function to create a new category
 export const createCategory = createAsyncThunk(
   "/category/create",
-  async (data: IcategoryDetails) => {
+  async (data: IcategoryDetails, { dispatch }) => {
     try {
       if (data.description === "") {
         const res = await axiosInstance.post("/categories", {
           name: data.name,
         });
+        // getting all the categories
+        await dispatch(getAllCategories());
         return res.data;
       } else {
         const res = await axiosInstance.post("/categories", {
           name: data.name,
           description: data.description,
         });
+        // getting all the categories
+        await dispatch(getAllCategories());
         return res.data;
       }
     } catch (error: any) {
@@ -46,9 +50,11 @@ export const createCategory = createAsyncThunk(
 // function to delete a category
 export const deleteCategory = createAsyncThunk(
   "category/delete",
-  async (id: string) => {
+  async (id: string, { dispatch }) => {
     try {
       const res = await axiosInstance.delete(`/categories/${id}`);
+      // getting all the categories
+      await dispatch(getAllCategories());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -59,12 +65,17 @@ export const deleteCategory = createAsyncThunk(
 // function to update category details
 export const updateCategory = createAsyncThunk(
   "category/update",
-  async (data: { id: string; name: string; description?: string }) => {
+  async (
+    data: { id: string; name: string; description?: string },
+    { dispatch }
+  ) => {
     try {
       const res = await axiosInstance.put(`/categories/${data.id}`, {
         name: data.name,
         description: data?.description,
       });
+      // getting all the categories
+      await dispatch(getAllCategories());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -120,5 +131,4 @@ const categorySlice = createSlice({
   },
 });
 
-export const {} = categorySlice.actions;
 export default categorySlice.reducer;

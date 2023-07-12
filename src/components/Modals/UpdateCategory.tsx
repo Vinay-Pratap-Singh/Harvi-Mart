@@ -19,7 +19,6 @@ import { GrEdit } from "react-icons/gr";
 import { updateCategory } from "../../redux/categorySlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { getAllCategories } from "../../redux/categorySlice";
 
 interface IupdateCategory {
   id: string;
@@ -61,7 +60,6 @@ const UpdateCategory: React.FC<Iprops> = ({
     const res = await dispatch(updateCategory(data));
     if (res.payload?.success) {
       reset();
-      await dispatch(getAllCategories());
       updateCategoryOnClose();
     } else {
       const { id, name, description } = watch();

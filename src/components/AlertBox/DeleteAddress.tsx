@@ -10,12 +10,11 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef, useState, Dispatch, SetStateAction } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { deleteAddress } from "../../redux/addressSlice";
-import { getLoggedInUserData } from "../../redux/authSlice";
 
 interface Iprops {
   deleteAddressIsOpen: boolean;
@@ -39,7 +38,6 @@ const DeleteAddress: React.FC<Iprops> = ({
     setLoading(true);
     const res = await dispatch(deleteAddress(id));
     if (res.payload?.success) {
-      await dispatch(getLoggedInUserData());
       setLoading(false);
       deleteAddressOnClose();
       return;

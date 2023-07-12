@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { deleteCoupon, getAllCoupons } from "../../redux/couponSlice";
+import { deleteCoupon } from "../../redux/couponSlice";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -38,7 +38,6 @@ const DeleteCoupon: React.FC<Iprops> = ({
     setLoading(true);
     const res = await dispatch(deleteCoupon(id));
     if (res.payload?.success) {
-      await dispatch(getAllCoupons());
       setLoading(false);
       deleteCouponOnClose();
       return;

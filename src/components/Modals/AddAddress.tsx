@@ -53,7 +53,6 @@ const AddAddress: React.FC<Iprops> = ({
     const res = await dispatch(createAddress(data));
     if (res.payload?.success) {
       reset();
-      await dispatch(getLoggedInUserData());
       addAddressOnClose();
     } else {
       const { city, houseNumber, name, phoneNumber, pinCode, state } = watch();

@@ -43,7 +43,6 @@ const RemoveFromWishlist: React.FC<Iprops> = ({
     setLoading(true);
     const res = await dispatch(removeFromWishlist(id));
     if (res.payload?.success) {
-      await dispatch(getAllWishlists());
       setLoading(false);
       deleteFromWishlistOnClose();
       return;

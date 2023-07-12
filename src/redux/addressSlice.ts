@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 import { Iaddress } from "../helper/interfaces";
+import { getLoggedInUserData } from "./authSlice";
 
 interface IState {
   address: Iaddress[];
@@ -37,12 +38,11 @@ export const getUserAddresses = createAsyncThunk(
 // function to add new address
 export const createAddress = createAsyncThunk(
   "create/address",
-  async (addressData: Iaddress) => {
+  async (addressData: Iaddress, { dispatch }) => {
     try {
       const res = await axiosInstance.post(`/addresses`, { ...addressData });
-      if (res.data?.success) {
-        toast.success(res?.data?.message);
-      }
+      // getting the data
+      await dispatch(getLoggedInUserData());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -53,9 +53,7 @@ export const createAddress = createAsyncThunk(
 // function to update address
 export const updateAddress = createAsyncThunk(
   "update/address",
-  async (addressData: Iaddress) => {
-    console.log(addressData);
-
+  async (addressData: Iaddress, { dispatch }) => {
     try {
       const data = {
         name: addressData?.name,
@@ -68,12 +66,10 @@ export const updateAddress = createAsyncThunk(
       const res = await axiosInstance.patch(`/addresses/${addressData?._id}`, {
         ...data,
       });
-      if (res.data?.success) {
-        toast.success(res?.data?.message);
-      }
+      // getting the data
+      await dispatch(getLoggedInUserData());
       return res.data;
     } catch (error: any) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   }
@@ -82,9 +78,11 @@ export const updateAddress = createAsyncThunk(
 // function to delete a category
 export const deleteAddress = createAsyncThunk(
   "category/delete",
-  async (id: string) => {
+  async (id: string, { dispatch }) => {
     try {
       const res = await axiosInstance.delete(`/addresses/${id}`);
+      // getting the data
+      await dispatch(getLoggedInUserData());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -114,6 +112,26 @@ const addressSlice = createSlice({
         toast.error("Failed to get user addresses");
       })
 
+      // for create address
+      .addCase(createAddress.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(createAddress.rejected, () => {
+        toast.error("Failed to create address");
+      })
+
+      // for update address
+      .addCase(updateAddress.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success(action.payload?.message);
+        }
+      })
+      .addCase(updateAddress.rejected, () => {
+        toast.error("Failed to update address");
+      })
+
       // for delete addresses
       .addCase(deleteAddress.fulfilled, (state, action) => {
         if (action.payload?.success) {
@@ -126,5 +144,4 @@ const addressSlice = createSlice({
   },
 });
 
-export const {} = addressSlice.actions;
 export default addressSlice.reducer;

@@ -16,7 +16,7 @@ import {
   ModalOverlay,
   Tooltip,
 } from "@chakra-ui/react";
-import { createCoupon, getAllCoupons } from "../../redux/couponSlice";
+import { createCoupon } from "../../redux/couponSlice";
 
 interface Iprops {
   addCouponIsOpen: boolean;
@@ -45,7 +45,6 @@ const AddCoupon: React.FC<Iprops> = ({
     const res = await dispatch(createCoupon(newData));
     if (res.payload?.success) {
       reset();
-      await dispatch(getAllCoupons());
       addCouponOnClose();
     } else {
       const { couponCode, discount } = watch();

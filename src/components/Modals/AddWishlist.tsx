@@ -16,7 +16,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createWishlist, getAllWishlists } from "../../redux/wishlistSlice";
+import { createWishlist } from "../../redux/wishlistSlice";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
@@ -59,7 +59,6 @@ const AddWishlist: React.FC<Iprops> = ({
       navigate("/login");
     } else if (res.payload?.success) {
       reset();
-      await dispatch(getAllWishlists());
       addWishlistOnClose();
     } else {
       const { name } = watch();

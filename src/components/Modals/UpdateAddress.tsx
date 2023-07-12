@@ -65,7 +65,6 @@ const UpdateAddress: React.FC<Iprops> = ({
     const res = await dispatch(updateAddress(data));
     if (res.payload?.success) {
       reset();
-      await dispatch(getLoggedInUserData());
       updateAddressOnClose();
     } else {
       const { _id, name, city, houseNumber, phoneNumber, pinCode, state } =

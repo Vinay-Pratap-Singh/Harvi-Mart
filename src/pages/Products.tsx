@@ -1,10 +1,8 @@
 import ProductCard from "../components/ProductCard";
 import {
-  Box,
   HStack,
   Heading,
   Image,
-  ListItem,
   Radio,
   RadioGroup,
   Stack,

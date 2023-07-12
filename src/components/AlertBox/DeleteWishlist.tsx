@@ -15,7 +15,7 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { AiOutlineDelete } from "react-icons/ai";
-import { deleteWishlist, getAllWishlists } from "../../redux/wishlistSlice";
+import { deleteWishlist } from "../../redux/wishlistSlice";
 
 interface Iprops {
   deleteWishlistIsOpen: boolean;
@@ -39,7 +39,6 @@ const DeleteWishlist: React.FC<Iprops> = ({
     setLoading(true);
     const res = await dispatch(deleteWishlist(id));
     if (res.payload?.success) {
-      await dispatch(getAllWishlists());
       setLoading(false);
       deleteWishlistOnClose();
       return;

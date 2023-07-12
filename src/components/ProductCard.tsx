@@ -27,6 +27,7 @@ const ProductCard = ({ product }: any) => {
       rounded={"md"}
       shadow={"md"}
       pos={"relative"}
+      alignSelf={"stretch"}
     >
       <Box
         pos={"absolute"}

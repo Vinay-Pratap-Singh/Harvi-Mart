@@ -22,9 +22,10 @@ export const getAllWishlists = createAsyncThunk(
 // function to create a new wishlist
 export const createWishlist = createAsyncThunk(
   "/wishlist/create",
-  async (name: string) => {
+  async (name: string, { dispatch }) => {
     try {
       const res = await axiosInstance.post("/wishlists", { name });
+      await dispatch(getAllWishlists());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -35,9 +36,10 @@ export const createWishlist = createAsyncThunk(
 // function to delete a wishlist
 export const deleteWishlist = createAsyncThunk(
   "wishlist/delete",
-  async (id: string) => {
+  async (id: string, { dispatch }) => {
     try {
       const res = await axiosInstance.delete(`/wishlists/${id}`);
+      await dispatch(getAllWishlists());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -63,11 +65,12 @@ export const addProductToWishlist = createAsyncThunk(
 // function to remove product from wishlist
 export const removeFromWishlist = createAsyncThunk(
   "wishlist/remove/product",
-  async (id: { wishlistID: string; productID: string }) => {
+  async (id: { wishlistID: string; productID: string }, { dispatch }) => {
     try {
       const res = await axiosInstance.delete(
         `/wishlists/${id.wishlistID}/products/${id.productID}`
       );
+      await dispatch(getAllWishlists());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -133,5 +136,4 @@ const wishlistSlice = createSlice({
   },
 });
 
-export const {} = wishlistSlice.actions;
 export default wishlistSlice.reducer;

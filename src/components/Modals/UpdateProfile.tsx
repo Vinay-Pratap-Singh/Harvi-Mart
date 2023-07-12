@@ -70,7 +70,6 @@ const UpdateProfile: React.FC<Iprops> = ({
     if (res.payload?.success) {
       reset();
       setUserImgPreview("");
-      await dispatch(getLoggedInUserData());
       updateProfileOnClose();
     } else {
       const { fullName, userImage } = watch();

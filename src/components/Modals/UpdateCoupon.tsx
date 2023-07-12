@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { IcouponData } from "../../helper/interfaces";
 import { AppDispatch } from "../../redux/store";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getAllCoupons, updateCoupon } from "../../redux/couponSlice";
+import { updateCoupon } from "../../redux/couponSlice";
 import { useEffect } from "react";
 import {
   Button,
@@ -63,7 +63,6 @@ const UpdateCoupon: React.FC<Iprops> = ({
     );
     if (res.payload?.success) {
       reset();
-      await dispatch(getAllCoupons());
       updateCouponOnClose();
     } else {
       const { id, isActive, discount } = watch();

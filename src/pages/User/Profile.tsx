@@ -16,7 +16,6 @@ import { GrFormPrevious } from "react-icons/gr";
 import { GrFormNext } from "react-icons/gr";
 import { Link as RouterLink } from "react-router-dom";
 import UpdateProfile from "../../components/Modals/UpdateProfile";
-import DeleteUser from "../../components/AlertBox/DeleteUser";
 import DeleteAddress from "../../components/AlertBox/DeleteAddress";
 import UpdateAddress from "../../components/Modals/UpdateAddress";
 import { useState, useEffect } from "react";
@@ -46,11 +45,6 @@ const Profile = () => {
     isOpen: updateProfileIsOpen,
     onOpen: updateProfileOnOpen,
     onClose: updateProfileOnClose,
-  } = useDisclosure();
-  const {
-    isOpen: deleteUserIsOpen,
-    onOpen: deleteUserOnOpen,
-    onClose: deleteUserOnClose,
   } = useDisclosure();
   const {
     isOpen: deleteAddressIsOpen,
@@ -156,14 +150,6 @@ const Profile = () => {
                   </Button>
                 </Link>
               </GridItem>
-              {/* <GridItem colSpan={2}>
-                <DeleteUser
-                  deleteUserIsOpen={deleteUserIsOpen}
-                  deleteUserOnClose={deleteUserOnClose}
-                  deleteUserOnOpen={deleteUserOnOpen}
-                  id={userDetails?._id}
-                />
-              </GridItem> */}
             </Grid>
           </VStack>
 
@@ -249,6 +235,11 @@ const Profile = () => {
                   {/* adding the buttons */}
                   <VStack w={"93%"} pos={"absolute"} bottom={3}>
                     <HStack w={"full"}>
+                      <AddAddress
+                        addAddressIsOpen={addAddressIsOpen}
+                        addAddressOnClose={addAddressOnClose}
+                        addAddressOnOpen={addAddressOnOpen}
+                      />
                       <UpdateAddress
                         updateAddressIsOpen={updateAddressIsOpen}
                         updateAddressOnClose={updateAddressOnClose}
@@ -260,19 +251,8 @@ const Profile = () => {
                         deleteAddressOnClose={deleteAddressOnClose}
                         deleteAddressOnOpen={deleteAddressOnOpen}
                         id={addresses[currentAddressIndex]._id!}
-                      />{" "}
-                      <AddAddress
-                        addAddressIsOpen={addAddressIsOpen}
-                        addAddressOnClose={addAddressOnClose}
-                        addAddressOnOpen={addAddressOnOpen}
                       />
                     </HStack>
-                    {/* <DeleteAddress
-                      deleteAddressIsOpen={deleteAddressIsOpen}
-                      deleteAddressOnClose={deleteAddressOnClose}
-                      deleteAddressOnOpen={deleteAddressOnOpen}
-                      id={addresses[currentAddressIndex]._id!}
-                    /> */}
                   </VStack>
                 </VStack>
               )}

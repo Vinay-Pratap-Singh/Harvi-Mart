@@ -14,7 +14,7 @@ import {
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { deleteCategory, getAllCategories } from "../../redux/categorySlice";
+import { deleteCategory } from "../../redux/categorySlice";
 import { AiOutlineDelete } from "react-icons/ai";
 
 interface Iprops {
@@ -38,8 +38,7 @@ const DeleteCategory: React.FC<Iprops> = ({
   const handleDeleteBtn = async () => {
     setLoading(true);
     const res = await dispatch(deleteCategory(id));
-    if (res.payload?.success) {
-      await dispatch(getAllCategories());
+    if (res?.payload?.success) {
       setLoading(false);
       deleteCategoryOnClose();
       return;
