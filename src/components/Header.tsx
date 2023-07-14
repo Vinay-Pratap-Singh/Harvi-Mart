@@ -32,6 +32,7 @@ import { useState, useEffect } from "react";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setSearchedText } from "../redux/productSlice";
+import { getAllWishlists } from "../redux/wishlistSlice";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,6 +46,8 @@ const Header = () => {
 
   // for handling the button loading state
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // for handling the wishlist api calls
+  const [apiCalled, setApiCalled] = useState(false);
 
   // for search bar input
   const { handleSubmit, register } = useForm<{ searchedText: string }>({
@@ -79,6 +82,21 @@ const Header = () => {
       setTotalWishlistItem(totalProducts);
     }
   }, [wishlists]);
+
+  // getting the latest wishlist data
+  useEffect(() => {
+    if (isLoggedIn && !apiCalled) {
+      const data = localStorage.getItem("wishlist");
+      if (data) {
+        setApiCalled(true);
+      } else {
+        (async () => {
+          await dispatch(getAllWishlists());
+          setApiCalled(true);
+        })();
+      }
+    }
+  }, []);
 
   return (
     <HStack

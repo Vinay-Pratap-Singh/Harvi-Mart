@@ -13,10 +13,6 @@ import Layout from "./Layout/Layout";
 import homepageImage from "../assets/homepage.jpg";
 import CategoryCard from "../components/CategoryCard";
 import { Link as RouterLink } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
-import { getAllWishlists } from "../redux/wishlistSlice";
 
 const Homepage = () => {
   // category items details
@@ -40,25 +36,6 @@ const Homepage = () => {
         "We have the best collection of the shoes from top brands",
     },
   ];
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch<AppDispatch>();
-  // for handling the wishlist api calls
-  const [apiCalled, setApiCalled] = useState(false);
-
-  // getting the latest wishlist data
-  useEffect(() => {
-    if (isLoggedIn && !apiCalled) {
-      const data = localStorage.getItem("wishlist");
-      if (data) {
-        setApiCalled(true);
-      } else {
-        (async () => {
-          await dispatch(getAllWishlists());
-          setApiCalled(true);
-        })();
-      }
-    }
-  }, []);
 
   return (
     <Layout>
