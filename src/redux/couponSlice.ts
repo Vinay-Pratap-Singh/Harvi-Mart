@@ -71,6 +71,19 @@ export const updateCoupon = createAsyncThunk(
   }
 );
 
+// function to apply coupon
+export const applyCoupon = createAsyncThunk(
+  "/apply/coupon",
+  async (data: { couponCode: string; orderTotal: number }) => {
+    try {
+      const res = await axiosInstance.post(`/coupons/apply`, data);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const couponSlice = createSlice({
   name: "coupon",
   initialState,
@@ -115,6 +128,13 @@ const couponSlice = createSlice({
       })
       .addCase(updateCoupon.rejected, () => {
         toast.error("Failed to update coupon");
+      })
+
+      // for applying coupon
+      .addCase(applyCoupon.fulfilled, (state, action) => {
+        if (action?.payload?.success) {
+          toast.success("Coupon applied");
+        }
       });
   },
 });
