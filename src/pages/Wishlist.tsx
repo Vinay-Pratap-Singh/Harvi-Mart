@@ -48,11 +48,10 @@ const Wishlist = () => {
     onClose: deleteWishlistOnClose,
   } = useDisclosure();
   const {
-    isOpen: deleteFromWishlistIsOpen,
-    onOpen: deleteFromWishlistOnOpen,
-    onClose: deleteFromWishlistOnClose,
+    isOpen: removeFromWishlistIsOpen,
+    onOpen: removeFromWishlistOnOpen,
+    onClose: removeFromWishlistOnClose,
   } = useDisclosure();
-
   // function to move item to the cart
   const moveToCart = async (wishlistID: string, product: any) => {
     // checking for the item already in cart or not
@@ -212,14 +211,14 @@ const Wishlist = () => {
                                     }
                                   >
                                     <RemoveFromWishlist
-                                      deleteFromWishlistIsOpen={
-                                        deleteFromWishlistIsOpen
+                                      removeFromWishlistIsOpen={
+                                        removeFromWishlistIsOpen
                                       }
-                                      deleteFromWishlistOnClose={
-                                        deleteFromWishlistOnClose
+                                      removeFromWishlistOnClose={
+                                        removeFromWishlistOnClose
                                       }
-                                      deleteFromWishlistOnOpen={
-                                        deleteFromWishlistOnOpen
+                                      removeFromWishlistOnOpen={
+                                        removeFromWishlistOnOpen
                                       }
                                       id={idToDelete}
                                     />

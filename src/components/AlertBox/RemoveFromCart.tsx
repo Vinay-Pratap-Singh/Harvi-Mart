@@ -15,19 +15,19 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { AiOutlineDelete } from "react-icons/ai";
-import { removeFromWishlist } from "../../redux/wishlistSlice";
+import { removeProductFromCart } from "../../redux/cartSlice";
 
 interface Iprops {
-  removeFromWishlistIsOpen: boolean;
-  removeFromWishlistOnOpen: () => void;
-  removeFromWishlistOnClose: () => void;
+  removeFromCartIsOpen: boolean;
+  removeFromCartOnOpen: () => void;
+  removeFromCartOnClose: () => void;
   id: { wishlistID: string; productID: string };
 }
 
-const RemoveFromWishlist: React.FC<Iprops> = ({
-  removeFromWishlistIsOpen,
-  removeFromWishlistOnOpen,
-  removeFromWishlistOnClose,
+const RemoveFromCart: React.FC<Iprops> = ({
+  removeFromCartIsOpen,
+  removeFromCartOnOpen,
+  removeFromCartOnClose,
   id,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -35,12 +35,12 @@ const RemoveFromWishlist: React.FC<Iprops> = ({
   const [loading, setLoading] = useState(false);
 
   // function to handle delete button action
-  const handleDeleteBtn = async () => {
+  const handleDeleteBtn = () => {
     setLoading(true);
-    const res = await dispatch(removeFromWishlist(id));
+    const res = dispatch(removeProductFromCart(id));
     if (res.payload?.success) {
       setLoading(false);
-      removeFromWishlistOnClose();
+      removeFromCartOnClose();
       return;
     }
     setLoading(false);
@@ -54,15 +54,20 @@ const RemoveFromWishlist: React.FC<Iprops> = ({
         color={"orange.500"}
         bgColor={"white"}
       >
-        <Button onClick={removeFromWishlistOnOpen} colorScheme="red">
+        <Button
+          onClick={removeFromCartOnOpen}
+          colorScheme="red"
+          alignSelf={"flex-end"}
+          px={0}
+        >
           <AiOutlineDelete fontSize={"20px"} />
         </Button>
       </Tooltip>
 
       <AlertDialog
-        isOpen={removeFromWishlistIsOpen}
+        isOpen={removeFromCartIsOpen}
         leastDestructiveRef={cancelRef}
-        onClose={removeFromWishlistOnClose}
+        onClose={removeFromCartOnClose}
         size={"xs"}
       >
         <AlertDialogOverlay>
@@ -93,7 +98,7 @@ const RemoveFromWishlist: React.FC<Iprops> = ({
               <Text fontSize={"sm"}>
                 Are you sure you want to remove{" "}
                 <Text as={"span"} fontWeight={"bold"}>
-                  from your wishlist?
+                  from your cart?
                 </Text>
               </Text>
             </AlertDialogBody>
@@ -114,7 +119,7 @@ const RemoveFromWishlist: React.FC<Iprops> = ({
               </Button>
               <Button
                 ref={cancelRef}
-                onClick={removeFromWishlistOnClose}
+                onClick={removeFromCartOnClose}
                 w={"full"}
               >
                 Cancel
@@ -127,4 +132,4 @@ const RemoveFromWishlist: React.FC<Iprops> = ({
   );
 };
 
-export default RemoveFromWishlist;
+export default RemoveFromCart;

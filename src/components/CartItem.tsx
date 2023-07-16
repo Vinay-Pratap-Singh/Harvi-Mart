@@ -8,8 +8,10 @@ import {
   InputRightAddon,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
+import RemoveFromCart from "./AlertBox/RemoveFromCart";
 
 interface Iprops {
   cartItem: any;
@@ -24,6 +26,11 @@ interface Iprops {
 
 const CartItem = ({ cartItem, setPrice }: Iprops) => {
   const [noOfItem, setNoOfItem] = useState(1);
+  const {
+    isOpen: removeFromCartIsOpen,
+    onOpen: removeFromCartOnOpen,
+    onClose: removeFromCartOnClose,
+  } = useDisclosure();
 
   // function to increase the product count
   const increaseProductCount = () => {
@@ -82,7 +89,13 @@ const CartItem = ({ cartItem, setPrice }: Iprops) => {
   }, []);
 
   return (
-    <HStack p={2} boxShadow={"md"} w={"full"} justifyContent={"space-between"}>
+    <HStack
+      key={cartItem?._id}
+      p={2}
+      boxShadow={"md"}
+      w={"full"}
+      justifyContent={"space-between"}
+    >
       <HStack>
         <Image
           src={cartItem?.images[0]?.image?.secure_url}
@@ -119,6 +132,14 @@ const CartItem = ({ cartItem, setPrice }: Iprops) => {
       </HStack>
 
       <VStack>
+        {/* adding button to remove from cart */}
+        <RemoveFromCart
+          id={cartItem?._id}
+          removeFromCartIsOpen={removeFromCartIsOpen}
+          removeFromCartOnClose={removeFromCartOnClose}
+          removeFromCartOnOpen={removeFromCartOnOpen}
+        />
+
         <InputGroup>
           <InputLeftAddon
             fontWeight={"bold"}

@@ -50,11 +50,12 @@ export const deleteWishlist = createAsyncThunk(
 // function to create a new wishlist
 export const addProductToWishlist = createAsyncThunk(
   "/wishlist/add/product",
-  async (id: { wishlistID: string; productID: string }) => {
+  async (id: { wishlistID: string; productID: string }, { dispatch }) => {
     try {
       const res = await axiosInstance.patch(
         `/wishlists/${id.wishlistID}/products/${id.productID}`
       );
+      await dispatch(getAllWishlists());
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
