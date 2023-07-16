@@ -1,14 +1,17 @@
 import {
+  Box,
   Button,
   HStack,
+  Image,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputRightElement,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
-import { MdShoppingCartCheckout } from "react-icons/md";
+import { MdOutlineLocalOffer, MdShoppingCartCheckout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import CartItem from "../components/CartItem";
@@ -16,6 +19,8 @@ import { useState } from "react";
 import { applyCoupon } from "../redux/couponSlice";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import noProductInCart from "../assets/noProductInCart.jpg";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface Istate {
   totalPrice: number;
@@ -40,7 +45,10 @@ const Cart = () => {
     totalDiscount: 0,
     totalPrice: 0,
   });
-  const [isCouponApplied, setIsCouponApplied] = useState(false);
+  const [couponData, setCouponData] = useState({
+    isCouponApplied: false,
+    discountedTotal: 0,
+  });
   const { cartItems } = useSelector((state: RootState) => state.cart);
 
   // function to handle apply coupon
@@ -58,7 +66,10 @@ const Cart = () => {
     console.log(res.payload);
     if (res?.payload?.success) {
       reset();
-      setIsCouponApplied(true);
+      setCouponData({
+        discountedTotal: res?.payload?.discountedTotal,
+        isCouponApplied: true,
+      });
     }
   };
 
@@ -68,9 +79,12 @@ const Cart = () => {
         {/* for displaying the products */}
         <VStack w={"70%"} alignSelf={"flex-start"} gap={5}>
           {!cartItems?.length ? (
-            <Text fontWeight={"semibold"}>
-              "Oops! there is no product in cart
-            </Text>
+            <VStack gap={5}>
+              <Text fontWeight={"semibold"}>
+                "Oops! there is no product in cart
+              </Text>
+              <Image w={"25rem"} src={noProductInCart} />
+            </VStack>
           ) : (
             cartItems.map((cartItem: any) => {
               return (
@@ -94,7 +108,13 @@ const Cart = () => {
             </HStack>
             <HStack w="full" justifyContent={"space-between"}>
               <Text>Discount</Text>
-              <Text>&#x20b9; {price?.totalDiscount}</Text>
+              <Text>
+                &#x20b9;{" "}
+                {couponData.isCouponApplied
+                  ? price?.totalDiscount +
+                    (price?.totalPrice - couponData.discountedTotal)
+                  : price?.totalDiscount}
+              </Text>
             </HStack>
             <HStack
               w="full"
@@ -104,7 +124,14 @@ const Cart = () => {
               py={1}
             >
               <Text>Total Amount</Text>
-              <Text>&#x20b9; {price?.totalPrice - price?.totalDiscount}</Text>
+              <Text>
+                &#x20b9;{" "}
+                {couponData.isCouponApplied
+                  ? price?.totalPrice -
+                    price?.totalDiscount -
+                    (price?.totalPrice - couponData.discountedTotal)
+                  : price?.totalPrice - price?.totalDiscount}
+              </Text>
             </HStack>
           </VStack>
 
@@ -113,6 +140,7 @@ const Cart = () => {
             style={{ width: "100%" }}
           >
             <InputGroup>
+              <InputLeftAddon children={<MdOutlineLocalOffer />} />
               <Input
                 type="text"
                 placeholder="COUPON10"
@@ -126,14 +154,35 @@ const Cart = () => {
                   isLoading={isSubmitting}
                   loadingText="Applying..."
                 >
-                  Apply Coupon
+                  Apply
                 </Button>
               </InputRightElement>
             </InputGroup>
           </form>
 
           {/* for displaying the coupon code applied */}
-          {isCouponApplied && <Text color={"green.500"}>Coupon applied</Text>}
+          {couponData.isCouponApplied && (
+            <Box
+              w={"full"}
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+              color={"green.500"}
+            >
+              <Text fontSize={"sm"}>Coupon applied successfully </Text>
+              <Box
+                cursor={"pointer"}
+                onClick={() =>
+                  setCouponData({
+                    isCouponApplied: false,
+                    discountedTotal: 0,
+                  })
+                }
+              >
+                <AiOutlineCloseCircle />
+              </Box>
+            </Box>
+          )}
 
           <Button
             w="full"
