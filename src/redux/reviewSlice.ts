@@ -13,7 +13,6 @@ export const getAllReviews = createAsyncThunk(
   async () => {
     try {
       const res = await axiosInstance.get(`/reviews`);
-
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);

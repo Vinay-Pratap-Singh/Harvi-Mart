@@ -33,7 +33,7 @@ export interface IcouponData {
   discount: number;
 }
 
-// interface for the product data
+// interface for creating the new product
 export interface IproductData {
   id?: string;
   productImage: File | null;
@@ -45,6 +45,26 @@ export interface IproductData {
   quantity: number;
   inStock: string;
   imageURL?: string;
+}
+
+// interface for images
+interface Iimage {
+  image: { public_id: string; secure_url: string };
+  _id: string;
+}
+
+// interface for the single product data
+export interface Iproduct {
+  _id: string;
+  category: { _id: string; name: string };
+  description: string;
+  discountedPrice: number;
+  images: Iimage[];
+  inStock: boolean;
+  numOfUnitsSold: number;
+  originalPrice: number;
+  quantity: number;
+  title: string;
 }
 
 // interface for the product review
@@ -70,4 +90,11 @@ export interface Iaddress {
 export interface IupdateProfile {
   fullName: string;
   userImage: File;
+}
+
+// interface for wishlist
+export interface Iwishlist {
+  name: string;
+  products: Iproduct[];
+  _id: string;
 }

@@ -19,6 +19,7 @@ import ProductShimmer from "../shimmer/ProductShimmer";
 import { getAllCategories } from "../redux/categorySlice";
 import noProductFound from "../assets/noProductFound.jpg";
 import { AiOutlineClear } from "react-icons/ai";
+import { Iproduct } from "../helper/interfaces";
 
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -257,62 +258,6 @@ const Products = () => {
                 </Radio>
               </Stack>
             </RadioGroup>
-            <UnorderedList listStyleType={"none"} px={2} pb={2}>
-              {/* <ListItem
-                cursor={"pointer"}
-                _hover={{ color: "#DD6B20" }}
-                onClick={filterByPrice}
-                price-min="0"
-                price-max="300"
-              >
-                Under &#x20b9;300
-              </ListItem> */}
-              {/* <ListItem
-                cursor={"pointer"}
-                _hover={{ color: "#DD6B20" }}
-                onClick={filterByPrice}
-                price-min="300"
-                price-max="500"
-              >
-                &#x20b9;300 - &#x20b9;500
-              </ListItem> */}
-              {/* <ListItem
-                cursor={"pointer"}
-                _hover={{ color: "#DD6B20" }}
-                onClick={filterByPrice}
-                price-min="500"
-                price-max="1000"
-              >
-                &#x20b9;500 - &#x20b9;1000
-              </ListItem> */}
-              {/* <ListItem
-                cursor={"pointer"}
-                _hover={{ color: "#DD6B20" }}
-                onClick={filterByPrice}
-                price-min="1000"
-                price-max="1500"
-              >
-                &#x20b9;1000 - &#x20b9;1500
-              </ListItem> */}
-              {/* <ListItem
-                cursor={"pointer"}
-                _hover={{ color: "#DD6B20" }}
-                onClick={filterByPrice}
-                price-min="1500"
-                price-max=""
-              >
-                &#x20b9;Over &#x20b9;1500
-              </ListItem> */}
-              {/* <ListItem
-                cursor={"pointer"}
-                _hover={{ color: "#DD6B20" }}
-                onClick={filterByPrice}
-                price-min="clear"
-                price-max="clear"
-              >
-                Clear
-              </ListItem> */}
-            </UnorderedList>
           </Stack>
         </VStack>
 
@@ -365,7 +310,7 @@ const Products = () => {
                 </Heading>
               </VStack>
             ) : (
-              productToBeDisplayed.map((product: any) => {
+              productToBeDisplayed.map((product: Iproduct) => {
                 return <ProductCard key={product._id} product={product} />;
               })
             )}

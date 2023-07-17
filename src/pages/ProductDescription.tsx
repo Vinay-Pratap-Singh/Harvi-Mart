@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import UserReview from "../components/CustomerReviews";
 import Layout from "./Layout/Layout";
 import { useLocation } from "react-router-dom";
-import { IproductReview } from "../helper/interfaces";
+import { Iproduct, IproductReview } from "../helper/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProductReview,
@@ -58,7 +58,7 @@ const ProductDescription = () => {
   const handleBuyNow = () => {};
 
   // function to add the product into cart
-  const addToCart = (product: any) => {
+  const addToCart = (product: Iproduct) => {
     // checking for the item already in cart or not
     if (cartItems.length !== 0) {
       for (let i = 0; i < cartItems.length; i++) {

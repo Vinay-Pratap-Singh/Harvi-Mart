@@ -10,8 +10,13 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import DisplayWishlists from "./Modals/DisplayWishlists";
+import { Iproduct } from "../helper/interfaces";
 
-const ProductCard = ({ product }: any) => {
+interface Iprop {
+  product: Iproduct;
+}
+
+const ProductCard = ({ product }: Iprop) => {
   const navigate = useNavigate();
   const {
     isOpen: displayWishlistIsOpen,
@@ -44,7 +49,8 @@ const ProductCard = ({ product }: any) => {
           productID={product?._id}
         />
       </Box>
-      <Image h={40} src={product?.images[0]?.image?.secure_url} />
+
+      <Image h={40} src={product?.images?.[0]?.image?.secure_url} />
       <Heading fontSize={"md"} fontWeight={"semibold"}>
         {product?.title}
       </Heading>

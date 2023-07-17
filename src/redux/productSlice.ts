@@ -1,9 +1,14 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
-import { IproductData } from "../helper/interfaces";
+import { Iproduct, IproductData } from "../helper/interfaces";
 
-const initialState = {
+interface Istate {
+  products: Iproduct[];
+  searchedText: string;
+  isLoading: boolean;
+}
+const initialState: Istate = {
   products: [],
   searchedText: "",
   isLoading: false,
@@ -99,7 +104,7 @@ const productSlice = createSlice({
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         if (action.payload) {
-          state.products = action.payload.products;
+          state.products = action.payload.products as Iproduct[];
           state.isLoading = false;
         }
       })

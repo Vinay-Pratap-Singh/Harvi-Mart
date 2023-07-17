@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
+import { Iwishlist } from "../helper/interfaces";
 
-const initialState = {
+interface Istate {
+  wishlists: Iwishlist[];
+}
+
+const initialState: Istate = {
   wishlists: JSON.parse(localStorage.getItem("wishlist") || "[]"),
 };
 
@@ -88,7 +93,7 @@ const wishlistSlice = createSlice({
       // for getting all categories data
       .addCase(getAllWishlists.fulfilled, (state, action) => {
         if (action.payload?.wishlists) {
-          state.wishlists = action.payload.wishlists;
+          state.wishlists = action.payload.wishlists as Iwishlist[];
           localStorage.setItem(
             "wishlist",
             JSON.stringify(action?.payload?.wishlists)

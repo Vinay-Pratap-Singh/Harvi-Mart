@@ -26,6 +26,7 @@ import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
 import RemoveFromWishlist from "../components/AlertBox/RemoveFromWishlist";
 import { addProductToCart } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
+import { Iproduct, Iwishlist } from "../helper/interfaces";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -106,7 +107,7 @@ const Wishlist = () => {
             {wishlists.length === 0 ? (
               <Text>Oops! No wishlist found</Text>
             ) : (
-              wishlists.map((wishlist: any) => {
+              wishlists.map((wishlist: Iwishlist) => {
                 return (
                   <AccordionItem key={wishlist?._id}>
                     <h2>
@@ -130,7 +131,7 @@ const Wishlist = () => {
                         Oops! No products are there
                       </AccordionPanel>
                     ) : (
-                      wishlist?.products.map((product: any) => {
+                      wishlist?.products.map((product: Iproduct) => {
                         return (
                           <AccordionPanel key={product?._id} pb={4}>
                             <HStack>
