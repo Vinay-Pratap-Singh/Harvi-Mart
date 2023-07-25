@@ -21,7 +21,7 @@ interface Iprops {
   removeFromCartIsOpen: boolean;
   removeFromCartOnOpen: () => void;
   removeFromCartOnClose: () => void;
-  id: { wishlistID: string; productID: string };
+  id: string;
 }
 
 const RemoveFromCart: React.FC<Iprops> = ({

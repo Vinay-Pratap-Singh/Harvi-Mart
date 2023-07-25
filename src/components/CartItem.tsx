@@ -12,20 +12,17 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import RemoveFromCart from "./AlertBox/RemoveFromCart";
+import { Iproduct, IupdateCartItem } from "../helper/interfaces";
+import { useDispatch } from "react-redux";
+import { calculateAmount, manageProductCount } from "../redux/cartSlice";
 
 interface Iprops {
-  cartItem: any;
-  price: { totalPrice: number; totalDiscount: number };
-  setPrice: React.Dispatch<
-    React.SetStateAction<{
-      totalPrice: number;
-      totalDiscount: number;
-    }>
-  >;
+  cartItem: IupdateCartItem;
 }
 
-const CartItem = ({ cartItem, setPrice }: Iprops) => {
-  const [noOfItem, setNoOfItem] = useState(1);
+const CartItem = ({ cartItem }: Iprops) => {
+  const dispatch = useDispatch();
+  const noOfItem = cartItem?.userSelectedQuantity;
   const {
     isOpen: removeFromCartIsOpen,
     onOpen: removeFromCartOnOpen,
@@ -37,19 +34,8 @@ const CartItem = ({ cartItem, setPrice }: Iprops) => {
     if (noOfItem > 9) {
       return;
     }
-    setNoOfItem(noOfItem + 1);
-    setPrice((prev) => {
-      return {
-        ...prev,
-        totalPrice: cartItem?.discountedPrice
-          ? prev.totalPrice + cartItem?.discountedPrice
-          : prev.totalPrice + cartItem?.originalPrice,
-        totalDiscount: cartItem?.discountedPrice
-          ? prev.totalDiscount +
-            (cartItem?.originalPrice - cartItem?.discountedPrice)
-          : prev.totalDiscount,
-      };
-    });
+    dispatch(manageProductCount({ id: cartItem?._id, value: 1 }));
+    dispatch(calculateAmount());
   };
 
   // function to decrease the product count
@@ -57,36 +43,9 @@ const CartItem = ({ cartItem, setPrice }: Iprops) => {
     if (noOfItem === 1) {
       return;
     }
-    setNoOfItem(noOfItem - 1);
-    setPrice((prev) => {
-      return {
-        ...prev,
-        totalPrice: cartItem?.discountedPrice
-          ? prev.totalPrice - cartItem?.discountedPrice
-          : prev.totalPrice - cartItem?.originalPrice,
-        totalDiscount: cartItem?.discountedPrice
-          ? prev.totalDiscount +
-            (cartItem?.originalPrice - cartItem?.discountedPrice)
-          : prev.totalDiscount,
-      };
-    });
+    dispatch(manageProductCount({ id: cartItem?._id, value: -1 }));
+    dispatch(calculateAmount());
   };
-
-  // handle price on first render
-  useEffect(() => {
-    setPrice((prev) => {
-      return {
-        ...prev,
-        totalPrice: cartItem?.discountedPrice
-          ? prev.totalPrice + noOfItem * cartItem?.discountedPrice
-          : prev.totalPrice + noOfItem * cartItem?.originalPrice,
-        totalDiscount: cartItem?.discountedPrice
-          ? prev.totalDiscount +
-            (cartItem?.originalPrice - cartItem?.discountedPrice)
-          : prev.totalDiscount,
-      };
-    });
-  }, []);
 
   return (
     <HStack

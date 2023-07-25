@@ -47,7 +47,7 @@ export interface IproductData {
   imageURL?: string;
 }
 
-// interface for images
+// interface for images array of product
 interface Iimage {
   image: { public_id: string; secure_url: string };
   _id: string;
@@ -97,4 +97,26 @@ export interface Iwishlist {
   name: string;
   products: Iproduct[];
   _id: string;
+}
+
+// for checkout product
+interface IcheckoutProduct {
+  product: string;
+  quantity: number;
+  price: number;
+}
+
+// interface for checkout data
+export interface IcheckoutData {
+  address: string;
+  phoneNumber: string;
+  paymentMethod: string;
+  total: number;
+  coupon: string;
+  products: IcheckoutProduct[];
+}
+
+// for updated cart items after adding the user selected quantity as a field
+export interface IupdateCartItem extends Iproduct {
+  userSelectedQuantity: number;
 }
