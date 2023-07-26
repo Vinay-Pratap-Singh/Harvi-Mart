@@ -15,7 +15,11 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { AiOutlineDelete } from "react-icons/ai";
-import { removeProductFromCart } from "../../redux/cartSlice";
+import {
+  calculateAmount,
+  createUpdatedCart,
+  removeProductFromCart,
+} from "../../redux/cartSlice";
 
 interface Iprops {
   removeFromCartIsOpen: boolean;
@@ -37,13 +41,11 @@ const RemoveFromCart: React.FC<Iprops> = ({
   // function to handle delete button action
   const handleDeleteBtn = () => {
     setLoading(true);
-    const res = dispatch(removeProductFromCart(id));
-    if (res.payload?.success) {
-      setLoading(false);
-      removeFromCartOnClose();
-      return;
-    }
+    dispatch(removeProductFromCart(id));
     setLoading(false);
+    dispatch(createUpdatedCart());
+    dispatch(calculateAmount());
+    removeFromCartOnClose();
   };
 
   return (

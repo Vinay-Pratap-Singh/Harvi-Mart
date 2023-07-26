@@ -10,11 +10,11 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
 import RemoveFromCart from "./AlertBox/RemoveFromCart";
-import { Iproduct, IupdateCartItem } from "../helper/interfaces";
+import { IupdateCartItem } from "../helper/interfaces";
 import { useDispatch } from "react-redux";
 import { calculateAmount, manageProductCount } from "../redux/cartSlice";
+import { toast } from "react-hot-toast";
 
 interface Iprops {
   cartItem: IupdateCartItem;
@@ -22,7 +22,8 @@ interface Iprops {
 
 const CartItem = ({ cartItem }: Iprops) => {
   const dispatch = useDispatch();
-  const noOfItem = cartItem?.userSelectedQuantity;
+  const noOfItem = cartItem?.userSelectedQuantity || 1;
+  const totalProductCount = cartItem?.quantity;
   const {
     isOpen: removeFromCartIsOpen,
     onOpen: removeFromCartOnOpen,
@@ -31,16 +32,20 @@ const CartItem = ({ cartItem }: Iprops) => {
 
   // function to increase the product count
   const increaseProductCount = () => {
-    if (noOfItem > 9) {
-      return;
+    if (totalProductCount === noOfItem) {
+      toast.error("Sorry, we do not have enough products");
+    } else if (noOfItem > 9) {
+      toast.error("Out of product limit for one purchase");
+    } else {
+      dispatch(manageProductCount({ id: cartItem?._id, value: 1 }));
+      dispatch(calculateAmount());
     }
-    dispatch(manageProductCount({ id: cartItem?._id, value: 1 }));
-    dispatch(calculateAmount());
   };
 
   // function to decrease the product count
   const decreaseProductCount = () => {
     if (noOfItem === 1) {
+      toast.error("Minimum one product is required");
       return;
     }
     dispatch(manageProductCount({ id: cartItem?._id, value: -1 }));
@@ -93,6 +98,7 @@ const CartItem = ({ cartItem }: Iprops) => {
       <VStack>
         {/* adding button to remove from cart */}
         <RemoveFromCart
+          key={cartItem?._id}
           id={cartItem?._id}
           removeFromCartIsOpen={removeFromCartIsOpen}
           removeFromCartOnClose={removeFromCartOnClose}
@@ -108,11 +114,11 @@ const CartItem = ({ cartItem }: Iprops) => {
             children="-"
             onClick={decreaseProductCount}
           />
-
           <Input
             type="number"
             placeholder="1"
             value={noOfItem}
+            readOnly
             textAlign={"center"}
             fontWeight={"bold"}
             w={14}

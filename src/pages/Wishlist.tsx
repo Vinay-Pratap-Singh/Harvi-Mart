@@ -54,7 +54,7 @@ const Wishlist = () => {
     onClose: removeFromWishlistOnClose,
   } = useDisclosure();
   // function to move item to the cart
-  const moveToCart = async (wishlistID: string, product: any) => {
+  const moveToCart = async (wishlistID: string, product: Iproduct) => {
     // checking for the item already in cart or not
     if (cartItems.length !== 0) {
       for (let i = 0; i < cartItems.length; i++) {
@@ -63,6 +63,10 @@ const Wishlist = () => {
           return;
         }
       }
+    }
+    if (!product.inStock) {
+      toast.error("Sorry! Product is out of stock");
+      return;
     }
     dispatch(addProductToCart(product));
     // removing the item from wishlist

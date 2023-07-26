@@ -21,7 +21,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import noProductInCart from "../assets/noProductInCart.jpg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { Iproduct, IupdateCartItem } from "../helper/interfaces";
+import { IupdateCartItem } from "../helper/interfaces";
 import { calculateAmount, createUpdatedCart } from "../redux/cartSlice";
 
 interface Iform {

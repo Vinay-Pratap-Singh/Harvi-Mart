@@ -12,7 +12,9 @@ interface Istate {
 
 const initialState: Istate = {
   cartItems: JSON.parse(localStorage.getItem("cartItems") || "[]"),
-  updatedCartItems: [],
+  updatedCartItems: JSON.parse(
+    localStorage.getItem("cartItemsUpdated") || "[]"
+  ),
   totalPrice: 0,
   totalDiscount: 0,
 };
@@ -23,7 +25,7 @@ export const handleCheckout = createAsyncThunk(
   async (data: IcheckoutData) => {
     try {
       const res = await axiosInstance.post("/orders", data);
-      console.log(res.data);
+
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -44,6 +46,11 @@ const cartSlice = createSlice({
         updatedCart.push(newItem);
       });
       state.updatedCartItems = [...updatedCart];
+      // setting updated cart data inside localstorage
+      localStorage.setItem(
+        "cartItemsUpdated",
+        JSON.stringify(state.updatedCartItems)
+      );
     },
     // to add new product to cart
     addProductToCart: (state, action) => {
@@ -54,7 +61,7 @@ const cartSlice = createSlice({
     },
     // to remove product from cart
     removeProductFromCart: (state, action) => {
-      const newProductCart = state.cartItems.filter((element: any) => {
+      const newProductCart = state.cartItems.filter((element: Iproduct) => {
         return element?._id !== action.payload;
       });
       state.cartItems = newProductCart;
@@ -83,8 +90,8 @@ const cartSlice = createSlice({
       const value = action.payload?.value;
       let products = [...state.updatedCartItems];
       for (let i = 0; i < products.length; i++) {
-        if (products[0]._id === id) {
-          products[0].userSelectedQuantity += value;
+        if (products[i]._id === id) {
+          products[i].userSelectedQuantity += value;
           break;
         }
       }
