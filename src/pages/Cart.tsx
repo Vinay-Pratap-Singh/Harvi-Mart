@@ -7,23 +7,38 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightElement,
+  Radio,
+  RadioGroup,
+  Stack,
   Text,
+  Tooltip,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import { MdOutlineLocalOffer, MdShoppingCartCheckout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import CartItem from "../components/CartItem";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { applyCoupon } from "../redux/couponSlice";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import noProductInCart from "../assets/noProductInCart.jpg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { IupdateCartItem } from "../helper/interfaces";
-import { calculateAmount, createUpdatedCart } from "../redux/cartSlice";
+import {
+  Iaddress,
+  IcheckoutData,
+  IcheckoutProduct,
+  IupdateCartItem,
+} from "../helper/interfaces";
+import {
+  calculateAmount,
+  createUpdatedCart,
+  handleCheckout,
+} from "../redux/cartSlice";
 import { Helmet } from "react-helmet";
+import AddAddress from "../components/Modals/AddAddress";
 
 interface Iform {
   couponCode: string;
@@ -41,13 +56,24 @@ const Cart = () => {
   });
 
   const [couponData, setCouponData] = useState({
+    couponCode: "",
     isCouponApplied: false,
     discountedTotal: 0,
   });
+  const [selectedAddress, setSelectedAddress] = useState("");
   const { updatedCartItems } = useSelector((state: RootState) => state.cart);
+  const { userDetails } = useSelector((state: RootState) => state.auth);
+  const addresses: Iaddress[] = userDetails.addresses;
   const { totalPrice, totalDiscount } = useSelector(
     (state: RootState) => state.cart
   );
+
+  const {
+    isOpen: addAddressIsOpen,
+    onClose: addAddressOnClose,
+    onOpen: addAddressOnOpen,
+  } = useDisclosure();
+  const randomID = useId();
 
   // function to handle apply coupon
   const handleApplyCoupon: SubmitHandler<Iform> = async (data) => {
@@ -63,12 +89,43 @@ const Cart = () => {
     );
     console.log(res.payload);
     if (res?.payload?.success) {
-      reset();
       setCouponData({
+        couponCode: data.couponCode,
         discountedTotal: res?.payload?.discountedTotal,
         isCouponApplied: true,
       });
+      reset();
     }
+  };
+
+  // function to handle checkout
+  const handleCheckoutBtn = async () => {
+    // checking for the address
+    if (!selectedAddress) {
+      toast.error("Please select an address");
+      return;
+    }
+    const products: IcheckoutProduct[] = [];
+    updatedCartItems.forEach((item) => {
+      const product: IcheckoutProduct = {
+        price: item?.discountedPrice
+          ? item?.discountedPrice
+          : item?.originalPrice,
+        product: item?._id,
+        quantity: item?.userSelectedQuantity,
+      };
+      products.push(product);
+    });
+    const data: IcheckoutData = {
+      address: "",
+      coupon: couponData.couponCode,
+      paymentMethod: "COD",
+      phoneNumber: "9874563210",
+      products,
+      total: totalPrice,
+    };
+    const res = await dispatch(handleCheckout(data));
+    console.log(res.payload);
   };
 
   // using useEffect to calculate the price and discount on component loading
@@ -184,6 +241,7 @@ const Cart = () => {
                   cursor={"pointer"}
                   onClick={() =>
                     setCouponData({
+                      couponCode: "",
                       isCouponApplied: false,
                       discountedTotal: 0,
                     })
@@ -192,6 +250,77 @@ const Cart = () => {
                   <AiOutlineCloseCircle />
                 </Box>
               </Box>
+            )}
+
+            {/* displaying the address */}
+            {addresses.length ? (
+              <>
+                <RadioGroup
+                  alignSelf={"flex-start"}
+                  onChange={setSelectedAddress}
+                  value={selectedAddress}
+                  w={"full"}
+                >
+                  <Stack
+                    direction="column"
+                    spacing={1}
+                    pos={"relative"}
+                    w={"full"}
+                  >
+                    {addresses.map((address: Iaddress, index: number) => {
+                      return (
+                        <Radio size="sm" value={address._id}>
+                          <Tooltip
+                            hasArrow
+                            bg={"gray.100"}
+                            color={"gray.600"}
+                            p={3}
+                            label={
+                              <>
+                                <Text>{address.name}</Text>
+                                <Text>
+                                  {"House no. " +
+                                    address.houseNumber +
+                                    " pincode " +
+                                    address.pinCode +
+                                    " , " +
+                                    address.city +
+                                    " " +
+                                    address.state}
+                                </Text>
+                                <Text>
+                                  {"Phone number " + address.phoneNumber}
+                                </Text>
+                              </>
+                            }
+                          >
+                            <Text>
+                              {address.name +
+                                " house no. " +
+                                address.houseNumber}
+                            </Text>
+                          </Tooltip>
+                        </Radio>
+                      );
+                    })}
+                  </Stack>
+                </RadioGroup>
+                <AddAddress
+                  key={randomID}
+                  addAddressIsOpen={addAddressIsOpen}
+                  addAddressOnClose={addAddressOnClose}
+                  addAddressOnOpen={addAddressOnOpen}
+                  title="Add new address"
+                />
+              </>
+            ) : (
+              <AddAddress
+                key={randomID}
+                addAddressIsOpen={addAddressIsOpen}
+                addAddressOnClose={addAddressOnClose}
+                addAddressOnOpen={addAddressOnOpen}
+                title="Add new address"
+              />
             )}
 
             <Button

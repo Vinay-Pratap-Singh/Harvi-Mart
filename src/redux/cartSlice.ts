@@ -25,7 +25,7 @@ export const handleCheckout = createAsyncThunk(
   async (data: IcheckoutData) => {
     try {
       const res = await axiosInstance.post("/orders", data);
-
+      console.log(res);
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);

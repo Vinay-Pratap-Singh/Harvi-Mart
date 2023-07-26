@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
   useDisclosure,
+  useId,
 } from "@chakra-ui/react";
 import { BiUser } from "react-icons/bi";
 import { GrFormPrevious } from "react-icons/gr";
@@ -44,6 +45,7 @@ const Profile = () => {
       : "",
     name: userDetails?.fullName,
   });
+  const randomID = useId();
 
   // for managing the modals state
   const {
@@ -227,9 +229,11 @@ const Profile = () => {
                     </HStack>
                     <Box w={"93%"} pos={"absolute"} bottom={3}>
                       <AddAddress
+                        key={randomID}
                         addAddressIsOpen={addAddressIsOpen}
                         addAddressOnClose={addAddressOnClose}
                         addAddressOnOpen={addAddressOnOpen}
+                        title="Add"
                       />
                     </Box>
                   </VStack>
@@ -274,6 +278,8 @@ const Profile = () => {
                           addAddressIsOpen={addAddressIsOpen}
                           addAddressOnClose={addAddressOnClose}
                           addAddressOnOpen={addAddressOnOpen}
+                          title="Add"
+                          key={randomID}
                         />
                         <UpdateAddress
                           updateAddressIsOpen={updateAddressIsOpen}

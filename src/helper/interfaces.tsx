@@ -100,7 +100,7 @@ export interface Iwishlist {
 }
 
 // for checkout product
-interface IcheckoutProduct {
+export interface IcheckoutProduct {
   product: string;
   quantity: number;
   price: number;

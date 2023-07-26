@@ -31,12 +31,14 @@ interface Iprops {
   addAddressIsOpen: boolean;
   addAddressOnOpen: () => void;
   addAddressOnClose: () => void;
+  title: string;
 }
 
 const AddAddress: React.FC<Iprops> = ({
   addAddressIsOpen,
   addAddressOnClose,
   addAddressOnOpen,
+  title,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -63,7 +65,7 @@ const AddAddress: React.FC<Iprops> = ({
   return (
     <>
       <Button onClick={addAddressOnOpen} w={"full"}>
-        Add
+        {title}
       </Button>
 
       <Modal
