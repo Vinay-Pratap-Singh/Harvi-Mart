@@ -33,6 +33,7 @@ import { getAllCategories } from "../../../redux/categorySlice";
 import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
 import { IproductData } from "../../../helper/interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 
 interface IuserSearchedText {
   searchedText: string;
@@ -109,6 +110,15 @@ const Product = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Products</title>
+        <meta
+          name="description"
+          content="Discover Harvi Mart's Diverse Product Catalog - Explore, update, and manage all products effortlessly with our intuitive admin interface. Showcase a wide range of top-quality items to delight your customers. Keep your product offerings fresh and exciting with Harvi Mart's dynamic Product page."
+        />
+      </Helmet>
+
       <VStack minH={"100vh"} w="full" pt={5} pl={60}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}

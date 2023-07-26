@@ -7,7 +7,6 @@ import {
   RadioGroup,
   Stack,
   Text,
-  UnorderedList,
   VStack,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
@@ -20,6 +19,7 @@ import { getAllCategories } from "../redux/categorySlice";
 import noProductFound from "../assets/noProductFound.jpg";
 import { AiOutlineClear } from "react-icons/ai";
 import { Iproduct } from "../helper/interfaces";
+import { Helmet } from "react-helmet";
 
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -167,6 +167,15 @@ const Products = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Products</title>
+        <meta
+          name="description"
+          content="Discover an extensive range of top-quality products at Harvi Mart's Products page. Explore and filter by price or category to find the perfect electronics, clothing, fashion, and more. Enjoy a seamless shopping experience as you explore our diverse collection. Start shopping smart at Harvi Mart today."
+        />
+      </Helmet>
+
       <HStack ml={10} my={5} minH={"70vh"}>
         {/* for displaying the filter options */}
         <VStack alignSelf={"flex-start"} width={80} boxShadow={"md"} gap={3}>

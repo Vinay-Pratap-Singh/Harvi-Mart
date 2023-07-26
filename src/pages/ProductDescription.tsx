@@ -31,6 +31,7 @@ import { AppDispatch, RootState } from "../redux/store";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { addProductToCart } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 const ProductDescription = () => {
   const { state } = useLocation();
@@ -91,6 +92,15 @@ const ProductDescription = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Product : {state?.title}</title>
+        <meta
+          name="description"
+          content="Delve into the details of the finest products at Harvi Mart. Explore comprehensive product descriptions, reviews, ratings, prices, and availability. Find everything you need to make an informed decision and shop confidently. Your ultimate source for quality products is just a click away."
+        />
+      </Helmet>
+
       <HStack gap={10} p={10} pos={"relative"}>
         {/* left section for image */}
         <Box w={96} pos={"fixed"} left={10} top={20}>

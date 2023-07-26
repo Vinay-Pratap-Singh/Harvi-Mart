@@ -27,6 +27,7 @@ import RemoveFromWishlist from "../components/AlertBox/RemoveFromWishlist";
 import { addProductToCart } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
 import { Iproduct, Iwishlist } from "../helper/interfaces";
+import { Helmet } from "react-helmet";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -83,6 +84,15 @@ const Wishlist = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Wishlist</title>
+        <meta
+          name="description"
+          content="Discover the wishlist feature at Harvi Mart - Your ultimate shopping destination. Save your favorite products and plan your perfect shopping spree with ease. Move items to your cart or remove them from the wishlist anytime. Shop smart and enjoy a personalized shopping experience at Harvi Mart."
+        />
+      </Helmet>
+
       <HStack gap={10} p={5} overflow={"hidden"} h="70vh">
         <Image src={wishlistImg} alt={"wishlist image"} h={"450px"} />
         {/* right side for wishlist */}

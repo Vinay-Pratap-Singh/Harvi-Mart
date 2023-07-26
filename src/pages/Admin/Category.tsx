@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getAllCategories } from "../../redux/categorySlice";
+import { Helmet } from "react-helmet";
 
 const Category = () => {
   const { categories } = useSelector((state: RootState) => state.category);
@@ -62,6 +63,15 @@ const Category = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Categories</title>
+        <meta
+          name="description"
+          content="Effortlessly Manage Product Categories - Harvi Mart's Category page empowers administrators to organize and update product categories with ease. Streamline your inventory and enhance user experience. Stay in control of your product catalog with Harvi Mart's intuitive Category management."
+        />
+      </Helmet>
+
       <VStack w={"full"} h="100vh" gap={5} pl={60} pt={5}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}

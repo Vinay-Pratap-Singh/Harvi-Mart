@@ -13,6 +13,7 @@ import Layout from "./Layout/Layout";
 import homepageImage from "../assets/homepage.jpg";
 import CategoryCard from "../components/CategoryCard";
 import { Link as RouterLink } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Homepage = () => {
   // category items details
@@ -39,6 +40,15 @@ const Homepage = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Harvi Mart</title>
+        <meta
+          name="description"
+          content="Welcome to Harvi Mart - Your Ultimate Shopping Destination. Discover a world of top-quality products, from electronics and fashion to home decor. Explore our website and start your shopping journey with confidence. Click to browse our extensive collection and find the perfect items that match your style and preferences."
+        />
+      </Helmet>
+
       {/* main section of the homepage */}
       <HStack gap={10} m={10}>
         {/* adding home page image */}

@@ -25,6 +25,7 @@ import { BiLock, BiUser } from "react-icons/bi";
 import { IsignupData } from "../helper/interfaces";
 import { AppDispatch } from "../redux/store";
 import { createAccount } from "../redux/authSlice";
+import { Helmet } from "react-helmet";
 
 const Signup = () => {
   const {
@@ -67,6 +68,15 @@ const Signup = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Signup</title>
+        <meta
+          name="description"
+          content="Unlock a world of endless possibilities at Harvi Mart - Your go-to e-commerce destination. Join us today for a seamless signup experience and access a wide selection of products, including electronics, clothing, fashion, and more. Enjoy exclusive offers and hassle-free shopping with your free Harvi Mart account."
+        />
+      </Helmet>
+
       <form onSubmit={handleSubmit(handleSignup)}>
         <HStack gap={8} w={"full"}>
           <Image src={myImage} alt="login page image" h={"450px"} />

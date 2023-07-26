@@ -20,6 +20,7 @@ import myImage from "../assets/contactPage.jpg";
 import { Link as RouterLink } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiArrowBack, BiUser } from "react-icons/bi";
+import { Helmet } from "react-helmet";
 
 // interface for contact data
 interface IcontactData {
@@ -49,6 +50,15 @@ const Contact = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Contact Us</title>
+        <meta
+          name="description"
+          content="Get in touch with Harvi Mart - We're here to assist you! Whether you have questions, feedback, or good wishes, our friendly team is ready to help. Contact us for a seamless shopping experience and excellent customer support. We value your input and look forward to hearing from you."
+        />
+      </Helmet>
+
       <form onSubmit={handleSubmit(handleLogin)}>
         <HStack gap={8} w={"full"}>
           <Image src={myImage} alt="login page image" h={"450px"} w={"60%"} />

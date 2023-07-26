@@ -18,6 +18,7 @@ import couponImage from "../../assets/coupon.jpg";
 import AddCoupon from "../../components/Modals/AddCoupon";
 import UpdateCoupon from "../../components/Modals/UpdateCoupon";
 import DeleteCoupon from "../../components/AlertBox/DeleteCoupon";
+import { Helmet } from "react-helmet";
 
 const Coupon = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -58,6 +59,15 @@ const Coupon = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Coupons</title>
+        <meta
+          name="description"
+          content="Manage Coupons with Ease - Harvi Mart's Admin Dashboard lets you create, edit, and delete coupons effortlessly. Boost sales with exclusive discounts and promotions. Unlock growth opportunities and increase customer engagement. Stay in control with Harvi Mart's Coupons management."
+        />
+      </Helmet>
+
       <VStack w={"full"} h="100vh" pl={60} gap={5} pt={5}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}

@@ -22,6 +22,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { forgetPassword } from "../../redux/authSlice";
+import { Helmet } from "react-helmet";
 
 // interface for login data
 interface IforgetPasswordData {
@@ -55,6 +56,15 @@ const Forget = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Forget Password</title>
+        <meta
+          name="description"
+          content="Forgot Your Password? No worries! Retrieve access to your Harvi Mart account. Enter your email and receive a secure password reset link. Regain control of your account with ease. Your account security matters at Harvi Mart."
+        />
+      </Helmet>
+
       <form onSubmit={handleSubmit(handleForgetPassword)}>
         <HStack gap={8} w={"full"}>
           <Image src={myImage} alt="login page image" h={"450px"} />

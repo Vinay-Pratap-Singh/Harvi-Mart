@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUserData } from "../../redux/authSlice";
 import UserProfileShimmer from "../../shimmer/UserProfileShimmer";
 import AddressShimmer from "../../shimmer/AddressShimmer";
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -98,7 +99,15 @@ const Profile = () => {
 
   return (
     <Layout>
-      {" "}
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Profile</title>
+        <meta
+          name="description"
+          content="Your Personal Profile at Harvi Mart - Your one-stop hub for account details, saved addresses, and personalized information. Access and manage your account settings effortlessly. Experience seamless user control and enjoy a tailor-made shopping experience. Your preferences matter at Harvi Mart."
+        />
+      </Helmet>
+
       <VStack p={5} gap={10}>
         <Heading fontSize={"2xl"}>
           Welcome{" "}

@@ -24,6 +24,7 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { resetPassword } from "../../redux/authSlice";
+import { Helmet } from "react-helmet";
 
 // interface for login data
 interface IresetPasswordData {
@@ -92,6 +93,15 @@ const Reset = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Reset Password</title>
+        <meta
+          name="description"
+          content="Secure Your Account with Harvi Mart - Reset your password and regain access to your account. Our simple and secure password reset process ensures your account remains protected. Take control of your login credentials and shop confidently at Harvi Mart."
+        />
+      </Helmet>
+
       <form onSubmit={handleSubmit(handlePasswordReset)}>
         <HStack gap={8} w={"full"}>
           <Image src={myImage} alt="login page image" h={"450px"} />

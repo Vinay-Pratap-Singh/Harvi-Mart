@@ -23,6 +23,7 @@ import noProductInCart from "../assets/noProductInCart.jpg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { IupdateCartItem } from "../helper/interfaces";
 import { calculateAmount, createUpdatedCart } from "../redux/cartSlice";
+import { Helmet } from "react-helmet";
 
 interface Iform {
   couponCode: string;
@@ -78,6 +79,15 @@ const Cart = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Cart</title>
+        <meta
+          name="description"
+          content="Your Cart Awaits! View and manage your selected products at Harvi Mart. Easily checkout and turn your wishlist into reality. Secure your purchases and enjoy a seamless shopping experience. Shop smart with Harvi Mart's convenient Cart page."
+        />
+      </Helmet>
+
       <HStack p={10} gap={10} minH={"70vh"}>
         {/* for displaying the products */}
         <VStack

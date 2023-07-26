@@ -25,6 +25,7 @@ import { BiLock } from "react-icons/bi";
 import { IloginData } from "../helper/interfaces";
 import { AppDispatch } from "../redux/store";
 import { login } from "../redux/authSlice";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const {
@@ -64,6 +65,15 @@ const Login = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Login</title>
+        <meta
+          name="description"
+          content="Welcome back to Harvi Mart! Access your account and enjoy personalized shopping experiences. Log in securely and explore a vast collection of top-quality products, including electronics, clothing, fashion, and more. Your shopping journey begins with Harvi Mart's seamless login process."
+        />
+      </Helmet>
+
       <form onSubmit={handleSubmit(handleLogin)}>
         <HStack gap={8} w={"full"}>
           <Image src={myImage} alt="login page image" h={"450px"} />

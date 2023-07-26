@@ -24,6 +24,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct, updateProduct } from "../../../redux/productSlice";
 import { IproductData } from "../../../helper/interfaces";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const ProductOperation = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -143,6 +144,15 @@ const ProductOperation = () => {
 
   return (
     <Layout>
+      {/* adding the dynamic meta data */}
+      <Helmet>
+        <title>Product Operation</title>
+        <meta
+          name="description"
+          content="Effortlessly Add and Update Products - Harvi Mart's Product Operation page offers seamless product management for administrators. Add new items or update existing ones with ease. Stay in control of your inventory and keep your product offerings up-to-date. Streamline your e-commerce operations with Harvi Mart's user-friendly Product Operation."
+        />
+      </Helmet>
+
       <VStack minH={"100vh"} w="full" pt={5} pl={60}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
