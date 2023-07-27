@@ -101,6 +101,7 @@ export interface Iwishlist {
 
 // for checkout product
 export interface IcheckoutProduct {
+  _id?: string;
   product: string;
   quantity: number;
   price: number;
@@ -112,7 +113,7 @@ export interface IcheckoutData {
   phoneNumber: string;
   paymentMethod: string;
   total: number;
-  coupon: string;
+  coupon?: string;
   products: IcheckoutProduct[];
 }
 

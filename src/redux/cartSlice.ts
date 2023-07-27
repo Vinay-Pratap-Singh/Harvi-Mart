@@ -8,6 +8,7 @@ interface Istate {
   updatedCartItems: IupdateCartItem[];
   totalPrice: number;
   totalDiscount: number;
+  isLoading: boolean;
 }
 
 const initialState: Istate = {
@@ -17,6 +18,7 @@ const initialState: Istate = {
   ),
   totalPrice: 0,
   totalDiscount: 0,
+  isLoading: false,
 };
 
 // function to perform checkout
@@ -25,7 +27,6 @@ export const handleCheckout = createAsyncThunk(
   async (data: IcheckoutData) => {
     try {
       const res = await axiosInstance.post("/orders", data);
-      console.log(res);
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -97,6 +98,22 @@ const cartSlice = createSlice({
       }
       state.updatedCartItems = [...products];
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(handleCheckout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(handleCheckout.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          window.location.href = action.payload?.url;
+          state.isLoading = false;
+        }
+      })
+      .addCase(handleCheckout.rejected, (state) => {
+        toast.error("Oops! failed to checkout");
+        state.isLoading = false;
+      });
   },
 });
 

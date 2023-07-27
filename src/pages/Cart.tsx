@@ -39,6 +39,7 @@ import {
 } from "../redux/cartSlice";
 import { Helmet } from "react-helmet";
 import AddAddress from "../components/Modals/AddAddress";
+import { getLoggedInUserData } from "../redux/authSlice";
 
 interface Iform {
   couponCode: string;
@@ -61,7 +62,9 @@ const Cart = () => {
     discountedTotal: 0,
   });
   const [selectedAddress, setSelectedAddress] = useState("");
-  const { updatedCartItems } = useSelector((state: RootState) => state.cart);
+  const { updatedCartItems, isLoading } = useSelector(
+    (state: RootState) => state.cart
+  );
   const { userDetails } = useSelector((state: RootState) => state.auth);
   const addresses: Iaddress[] = userDetails.addresses;
   const { totalPrice, totalDiscount } = useSelector(
@@ -112,26 +115,29 @@ const Cart = () => {
           ? item?.discountedPrice
           : item?.originalPrice,
         product: item?._id,
+        _id: item?._id,
         quantity: item?.userSelectedQuantity,
       };
       products.push(product);
     });
     const data: IcheckoutData = {
-      address: "",
-      coupon: couponData.couponCode,
+      address: selectedAddress,
       paymentMethod: "COD",
       phoneNumber: "9874563210",
       products,
       total: totalPrice,
     };
+    couponData?.couponCode && (data.coupon = couponData?.couponCode);
     const res = await dispatch(handleCheckout(data));
-    console.log(res.payload);
   };
 
   // using useEffect to calculate the price and discount on component loading
   useEffect(() => {
     dispatch(createUpdatedCart());
     dispatch(calculateAmount());
+    (async () => {
+      await dispatch(getLoggedInUserData());
+    })();
   }, []);
 
   return (
@@ -267,9 +273,9 @@ const Cart = () => {
                     pos={"relative"}
                     w={"full"}
                   >
-                    {addresses.map((address: Iaddress, index: number) => {
+                    {addresses.map((address: Iaddress) => {
                       return (
-                        <Radio size="sm" value={address._id}>
+                        <Radio key={address?._id} size="sm" value={address._id}>
                           <Tooltip
                             hasArrow
                             bg={"gray.100"}
@@ -327,8 +333,10 @@ const Cart = () => {
               w="full"
               colorScheme="orange"
               leftIcon={<MdShoppingCartCheckout size={20} />}
+              disabled={isLoading}
+              onClick={handleCheckoutBtn}
             >
-              Checkout
+              {isLoading ? "Processing the request..." : "Checkout"}
             </Button>
           </VStack>
         )}
