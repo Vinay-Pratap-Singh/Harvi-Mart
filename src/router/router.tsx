@@ -19,6 +19,7 @@ import Coupon from "../pages/Admin/Coupon";
 import Dashboard from "../pages/Admin/Dashboard";
 import Product from "../pages/Admin/Product/Product";
 import AddProduct from "../pages/Admin/Product/ProductOperation";
+import PaymentSuccess from "../pages/PaymentSuccess";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Cart />,
       },
+      { path: "/payment/success", element: <PaymentSuccess /> },
     ],
   },
 
