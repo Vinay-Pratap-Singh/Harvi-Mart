@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -16,15 +18,21 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Layout from "../../Layout/Layout";
-import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useEffect, useId } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct, updateProduct } from "../../../redux/productSlice";
 import { IproductData } from "../../../helper/interfaces";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { AiOutlineClose } from "react-icons/ai";
 
 const ProductOperation = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,10 +40,6 @@ const ProductOperation = () => {
   const { operationID } = useParams();
   const { state } = useLocation();
 
-  // for product image preview
-  const [productImgPreview, setProductImgPreview] = useState(
-    (state && state.imageURL) || ""
-  );
   // getting the categories data
   const { categories } = useSelector((state: RootState) => state.category);
 
@@ -44,6 +48,7 @@ const ProductOperation = () => {
     register,
     watch,
     setValue,
+    control,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<IproductData>({
@@ -64,73 +69,91 @@ const ProductOperation = () => {
           },
   });
 
+  // for handling the image input
+  const { fields, append, remove } = useFieldArray({
+    control,
+    // @ts-ignore
+    name: "productImage",
+  });
+
+  const { imageURL, productImage } = watch();
+
   // function to get the url from the file
   const getPreviewURL = (event: ChangeEvent) => {
     const imageFile = (event.target as HTMLInputElement)?.files?.[0];
     if (imageFile) {
-      setValue("productImage", imageFile);
-      const imageURL = URL.createObjectURL(imageFile);
-      setProductImgPreview(imageURL);
+      const url = URL.createObjectURL(imageFile);
+      const { imageURL, productImage } = watch();
+      if (productImage) {
+        setValue("productImage", [...productImage, imageFile]);
+      } else {
+        setValue("productImage", [imageFile]);
+      }
+      if (imageURL) {
+        setValue("imageURL", [...imageURL, url]);
+      } else {
+        setValue("imageURL", [url]);
+      }
     }
   };
 
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
-    if (operationID === "add") {
-      const res = await dispatch(addNewProduct(data));
-      if (res.payload.success) {
-        reset();
-        setProductImgPreview("");
-      } else {
-        const {
-          category,
-          description,
-          inStock,
-          originalPrice,
-          discountedPrice,
-          productImage,
-          quantity,
-          title,
-        } = watch();
-        reset({
-          category,
-          description,
-          inStock,
-          originalPrice,
-          discountedPrice,
-          productImage,
-          quantity,
-          title,
-        });
-      }
-    } else {
-      const res = await dispatch(updateProduct(data));
-      if (res.payload?.success) {
-        reset();
-        navigate("/admin/product");
-      } else {
-        const {
-          category,
-          description,
-          inStock,
-          originalPrice,
-          discountedPrice,
-          productImage,
-          quantity,
-          title,
-        } = watch();
-        reset({
-          category,
-          description,
-          inStock,
-          originalPrice,
-          discountedPrice,
-          productImage,
-          quantity,
-          title,
-        });
-      }
-    }
+    // if (operationID === "add") {
+    //   const res = await dispatch(addNewProduct(data));
+    //   if (res.payload.success) {
+    //     reset();
+    //     setProductImgPreview("");
+    //   } else {
+    //     const {
+    //       category,
+    //       description,
+    //       inStock,
+    //       originalPrice,
+    //       discountedPrice,
+    //       productImage,
+    //       quantity,
+    //       title,
+    //     } = watch();
+    //     reset({
+    //       category,
+    //       description,
+    //       inStock,
+    //       originalPrice,
+    //       discountedPrice,
+    //       productImage,
+    //       quantity,
+    //       title,
+    //     });
+    //   }
+    // } else {
+    //   const res = await dispatch(updateProduct(data));
+    //   if (res.payload?.success) {
+    //     reset();
+    //     navigate("/admin/product");
+    //   } else {
+    //     const {
+    //       category,
+    //       description,
+    //       inStock,
+    //       originalPrice,
+    //       discountedPrice,
+    //       productImage,
+    //       quantity,
+    //       title,
+    //     } = watch();
+    //     reset({
+    //       category,
+    //       description,
+    //       inStock,
+    //       originalPrice,
+    //       discountedPrice,
+    //       productImage,
+    //       quantity,
+    //       title,
+    //     });
+    //   }
+    // }
   };
 
   // for checking valid param
@@ -166,7 +189,7 @@ const ProductOperation = () => {
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid templateColumns={"repeat(2,1fr)"} gap={5}>
               <GridItem m={"auto"}>
-                {/* for product image */}
+                {/* for main product image */}
                 <FormControl>
                   <FormLabel
                     htmlFor="userProductImage"
@@ -179,12 +202,13 @@ const ProductOperation = () => {
                     h={80}
                     w={80}
                     cursor={"pointer"}
+                    _hover={{ color: "primaryColor" }}
                   >
-                    {productImgPreview ? (
+                    {imageURL && imageURL[0] ? (
                       <Image
                         h={"full"}
                         w={"full"}
-                        src={productImgPreview}
+                        src={imageURL[0]}
                         alt="Product Image"
                         borderRadius={"full"}
                       />
@@ -202,6 +226,85 @@ const ProductOperation = () => {
                     {...(operationID === "add" && { required: true })}
                   />
                 </FormControl>
+
+                {/* for multiple products image */}
+                <HStack flexWrap={"wrap"}>
+                  {fields.map((field, index) => (
+                    <Box key={field.id}>
+                      <Controller
+                        name={`productImage`}
+                        control={control}
+                        // Set default value to undefined for File type
+                        defaultValue={undefined}
+                        render={() => (
+                          <FormControl pos={"relative"}>
+                            <FormLabel
+                              htmlFor={`productImage${index}`}
+                              w={28}
+                              h={28}
+                              shadow={"md"}
+                              borderRadius={5}
+                              display={"flex"}
+                              alignItems={"center"}
+                              justifyContent={"center"}
+                              cursor={"pointer"}
+                              _hover={{ color: "primaryColor" }}
+                            >
+                              {imageURL && imageURL[index] ? (
+                                <Image
+                                  id={`productImage${index}`}
+                                  h={"full"}
+                                  w={"full"}
+                                  src={imageURL[index]}
+                                  alt="Product Image"
+                                  borderRadius={"full"}
+                                />
+                              ) : (
+                                <BiImageAdd fontSize={40} />
+                              )}
+                            </FormLabel>
+                            <Input
+                              id={`productImage${index}`}
+                              type="file"
+                              multiple={false}
+                              accept="image/*"
+                              display={"none"}
+                              {...register(`productImage.${index}`)}
+                            />
+                            <Button
+                              onClick={() => remove(index)}
+                              pos={"absolute"}
+                              top={1}
+                              right={3}
+                              m={0}
+                              colorScheme="red"
+                              size={"xs"}
+                            >
+                              <AiOutlineClose />
+                            </Button>
+                          </FormControl>
+                        )}
+                      />
+                    </Box>
+                  ))}
+
+                  {/* button to allow adding new image */}
+                  <VStack
+                    w={28}
+                    h={28}
+                    shadow={"md"}
+                    borderRadius={5}
+                    cursor={"pointer"}
+                    justifyContent={"center"}
+                    _hover={{ color: "primaryColor" }}
+                    onClick={() => append({})}
+                  >
+                    <BiImageAdd fontSize={40} />
+                    <Text fontSize={"sm"} fontWeight={"semibold"}>
+                      Add Image
+                    </Text>
+                  </VStack>
+                </HStack>
               </GridItem>
 
               <GridItem>
@@ -338,9 +441,7 @@ const ProductOperation = () => {
                     {errors.quantity && errors.quantity.message}
                   </FormErrorMessage>
                 </FormControl>
-              </GridItem>
 
-              <GridItem colSpan={2}>
                 {/* for product description */}
                 <FormControl isInvalid={Boolean(errors?.description)}>
                   <FormLabel fontSize={"sm"}>Product Description</FormLabel>

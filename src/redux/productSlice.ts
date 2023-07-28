@@ -31,23 +31,23 @@ export const getAllProducts = createAsyncThunk(
 export const addNewProduct = createAsyncThunk(
   "/products/add",
   async (data: IproductData) => {
-    try {
-      // creating the form data
-      const newFormData = new FormData();
-      newFormData.append("title", data?.title);
-      newFormData.append("description", data?.description);
-      newFormData.append("originalPrice", data?.originalPrice.toString());
-      newFormData.append("discountedPrice", data?.discountedPrice.toString());
-      newFormData.append("category", data?.category);
-      newFormData.append("quantity", data?.quantity.toString());
-      newFormData.append("inStock", data?.inStock);
-      data.productImage &&
-        newFormData.append("productImage", data?.productImage);
-      const res = await axiosInstance.post("/products", newFormData);
-      return res.data;
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message);
-    }
+    // try {
+    //   // creating the form data
+    //   const newFormData = new FormData();
+    //   newFormData.append("title", data?.title);
+    //   newFormData.append("description", data?.description);
+    //   newFormData.append("originalPrice", data?.originalPrice.toString());
+    //   newFormData.append("discountedPrice", data?.discountedPrice.toString());
+    //   newFormData.append("category", data?.category);
+    //   newFormData.append("quantity", data?.quantity.toString());
+    //   newFormData.append("inStock", data?.inStock);
+    //   data.productImage &&
+    //     newFormData.append("productImage", data?.productImage);
+    //   const res = await axiosInstance.post("/products", newFormData);
+    //   return res.data;
+    // } catch (error: any) {
+    //   toast.error(error?.response?.data?.message);
+    // }
   }
 );
 
@@ -55,23 +55,23 @@ export const addNewProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "/products/update",
   async (data: IproductData) => {
-    try {
-      // creating the form data
-      const newFormData = new FormData();
-      newFormData.append("title", data?.title);
-      newFormData.append("description", data?.description);
-      newFormData.append("originalPrice", data?.originalPrice.toString());
-      newFormData.append("discountedPrice", data?.discountedPrice.toString());
-      newFormData.append("category", data?.category);
-      newFormData.append("quantity", data?.quantity.toString());
-      newFormData.append("inStock", data?.inStock);
-      data.productImage &&
-        newFormData.append("productImage", data?.productImage);
-      const res = await axiosInstance.put(`/products/${data?.id}`, newFormData);
-      return res.data;
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message);
-    }
+    // try {
+    //   // creating the form data
+    //   const newFormData = new FormData();
+    //   newFormData.append("title", data?.title);
+    //   newFormData.append("description", data?.description);
+    //   newFormData.append("originalPrice", data?.originalPrice.toString());
+    //   newFormData.append("discountedPrice", data?.discountedPrice.toString());
+    //   newFormData.append("category", data?.category);
+    //   newFormData.append("quantity", data?.quantity.toString());
+    //   newFormData.append("inStock", data?.inStock);
+    //   data.productImage &&
+    //     newFormData.append("productImage", data?.productImage);
+    //   const res = await axiosInstance.put(`/products/${data?.id}`, newFormData);
+    //   return res.data;
+    // } catch (error: any) {
+    //   toast.error(error?.response?.data?.message);
+    // }
   }
 );
 
@@ -115,9 +115,9 @@ const productSlice = createSlice({
 
       //  for create new product
       .addCase(addNewProduct.fulfilled, (state, action) => {
-        if (action.payload?.success) {
-          toast.success(action.payload?.message);
-        }
+        // if (action.payload?.success) {
+        //   toast.success(action.payload?.message);
+        // }
       })
       .addCase(addNewProduct.rejected, () => {
         toast.error("Failed to add new product");
@@ -135,9 +135,9 @@ const productSlice = createSlice({
 
       // for update product
       .addCase(updateProduct.fulfilled, (state, action) => {
-        if (action.payload?.success) {
-          toast.success(action.payload?.message);
-        }
+        // if (action.payload?.success) {
+        //   toast.success(action.payload?.message);
+        // }
       })
       .addCase(updateProduct.rejected, () => {
         toast.error("Failed to update product");

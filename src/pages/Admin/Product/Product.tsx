@@ -106,7 +106,7 @@ const Product = () => {
       await dispatch(getAllCategories());
       setProductToBeDisplayed(products);
     })();
-  }, [dispatch]);
+  }, []);
 
   return (
     <Layout>
