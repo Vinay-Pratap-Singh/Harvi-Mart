@@ -25,20 +25,27 @@ import {
   useForm,
 } from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
-import { ChangeEvent, useEffect, useId } from "react";
+import { ChangeEvent, useEffect, useId, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct, updateProduct } from "../../../redux/productSlice";
 import { IproductData } from "../../../helper/interfaces";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { AiOutlineClose } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineLeft,
+  AiOutlineLeftCircle,
+  AiOutlineRight,
+  AiOutlineRightCircle,
+} from "react-icons/ai";
 
 const ProductOperation = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { operationID } = useParams();
   const { state } = useLocation();
+  const slideContainerRef = useRef<HTMLDivElement>(null);
 
   // getting the categories data
   const { categories } = useSelector((state: RootState) => state.category);
@@ -156,6 +163,26 @@ const ProductOperation = () => {
     // }
   };
 
+  // function to scroll container left
+  const handleLeftSlider = () => {
+    if (slideContainerRef.current) {
+      slideContainerRef.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // function to scroll container right
+  const handleRightSlider = () => {
+    if (slideContainerRef.current) {
+      slideContainerRef.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
   // for checking valid param
   useEffect(() => {
     if (!operationID) {
@@ -188,9 +215,13 @@ const ProductOperation = () => {
         <Stack py={5} maxW={"90%"}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid templateColumns={"repeat(2,1fr)"} gap={5}>
-              <GridItem m={"auto"}>
+              <GridItem m={"auto"} w={"500px"} pos={"relative"}>
                 {/* for main product image */}
-                <FormControl>
+                <FormControl
+                  display="flex"
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
                   <FormLabel
                     htmlFor="userProductImage"
                     shadow={"md"}
@@ -228,7 +259,17 @@ const ProductOperation = () => {
                 </FormControl>
 
                 {/* for multiple products image */}
-                <HStack flexWrap={"wrap"}>
+                <HStack
+                  maxWidth={"full"}
+                  overflowX="scroll"
+                  ref={slideContainerRef}
+                  mt={5}
+                  sx={{
+                    "::-webkit-scrollbar": {
+                      display: "none",
+                    },
+                  }}
+                >
                   {fields.map((field, index) => (
                     <Box key={field.id}>
                       <Controller
@@ -292,6 +333,7 @@ const ProductOperation = () => {
                   <VStack
                     w={28}
                     h={28}
+                    flexShrink={0}
                     shadow={"md"}
                     borderRadius={5}
                     cursor={"pointer"}
@@ -305,6 +347,33 @@ const ProductOperation = () => {
                     </Text>
                   </VStack>
                 </HStack>
+                {/* left slider button */}
+                <Button
+                  borderRadius={"full"}
+                  p="0"
+                  pos="absolute"
+                  bottom={12}
+                  left={0}
+                  zIndex={10}
+                  size={"sm"}
+                  onClick={handleLeftSlider}
+                >
+                  <AiOutlineLeft fontSize={"20px"} />
+                </Button>
+
+                {/* right slider button */}
+                <Button
+                  borderRadius={"full"}
+                  p="0"
+                  pos="absolute"
+                  bottom={12}
+                  right={0}
+                  zIndex={10}
+                  size={"sm"}
+                  onClick={handleRightSlider}
+                >
+                  <AiOutlineRight fontSize={"20px"} />
+                </Button>
               </GridItem>
 
               <GridItem>
