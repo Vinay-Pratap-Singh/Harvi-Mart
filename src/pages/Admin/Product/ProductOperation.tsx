@@ -52,6 +52,7 @@ const ProductOperation = () => {
   const [totalImages, setTotalImages] = useState<
     { imageFile: File | null; imageUrl: string }[]
   >([]);
+  const [currentImagePreview, setCurrentImagePreview] = useState(0);
 
   const {
     handleSubmit,
@@ -79,20 +80,18 @@ const ProductOperation = () => {
           },
   });
 
-  const { imageURL, productImage } = watch();
-
   // function to get the url from the file
-  const getPreviewURL = (event: ChangeEvent, index: number) => {
+  const getPreviewURL = (
+    event: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const imageFile = (event.target as HTMLInputElement)?.files?.[0];
-    const { productImage, imageURL } = watch();
     if (imageFile) {
       const url = URL.createObjectURL(imageFile);
-      const newThumbnails = productImage ? [...productImage] : [];
-      const urls = imageURL ? [...imageURL] : [];
-      newThumbnails[index] = imageFile;
-      urls[index] = url;
-      setValue("productImage", newThumbnails);
-      setValue("imageURL", urls);
+      const data = [...totalImages];
+      data[index].imageFile = imageFile;
+      data[index].imageUrl = url;
+      setTotalImages([...data]);
     }
   };
 
@@ -209,14 +208,13 @@ const ProductOperation = () => {
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid templateColumns={"repeat(2,1fr)"} gap={5}>
               <GridItem m={"auto"} w={"500px"} pos={"relative"}>
-                {/* for main product image */}
+                {/* for main image preview */}
                 <FormControl
                   display="flex"
                   alignItems={"center"}
                   justifyContent={"center"}
                 >
                   <FormLabel
-                    htmlFor="userProductImage"
                     shadow={"md"}
                     borderRadius={"full"}
                     p={2}
@@ -228,11 +226,12 @@ const ProductOperation = () => {
                     cursor={"pointer"}
                     _hover={{ color: "primaryColor" }}
                   >
-                    {imageURL && imageURL[0] ? (
+                    {totalImages[currentImagePreview] &&
+                    totalImages[currentImagePreview].imageUrl ? (
                       <Image
                         h={"full"}
                         w={"full"}
-                        src={imageURL[0]}
+                        src={totalImages[currentImagePreview].imageUrl}
                         alt="Product Image"
                         borderRadius={"full"}
                       />
@@ -240,16 +239,6 @@ const ProductOperation = () => {
                       <BiImageAdd fontSize={60} />
                     )}
                   </FormLabel>
-                  <Input
-                    id="userProductImage"
-                    name="userProductImage"
-                    type="file"
-                    multiple={false}
-                    accept="image/*"
-                    display={"none"}
-                    // onChange={getPreviewURL}
-                    {...(operationID === "add" && { required: true })}
-                  />
                 </FormControl>
 
                 {/* for multiple products image */}
@@ -275,9 +264,14 @@ const ProductOperation = () => {
                             display="flex"
                             alignItems={"center"}
                             justifyContent={"center"}
+                            onMouseEnter={() => {
+                              totalImages[index].imageUrl &&
+                                setCurrentImagePreview(index);
+                            }}
+                            onMouseLeave={() => setCurrentImagePreview(0)}
                           >
                             <FormLabel
-                              htmlFor="userProductImage"
+                              htmlFor={`productImage${index}`}
                               shadow={"md"}
                               p={2}
                               display={"flex"}
@@ -302,13 +296,13 @@ const ProductOperation = () => {
                               )}
                             </FormLabel>
                             <Input
-                              id="userProductImage"
-                              name="userProductImage"
+                              id={`productImage${index}`}
+                              name={`productImage${index}`}
                               type="file"
                               multiple={false}
                               accept="image/*"
                               display={"none"}
-                              // onChange={getPreviewURL}
+                              onChange={(event) => getPreviewURL(event, index)}
                               {...(operationID === "add" && { required: true })}
                             />
                             <Button
@@ -318,6 +312,14 @@ const ProductOperation = () => {
                               pos={"absolute"}
                               top={0}
                               right={"11px"}
+                              onClick={() =>
+                                setTotalImages((prevTotalImages) =>
+                                  prevTotalImages.filter(
+                                    (image, currentIndex) =>
+                                      currentIndex !== index
+                                  )
+                                )
+                              }
                             >
                               <AiOutlineClose />
                             </Button>
