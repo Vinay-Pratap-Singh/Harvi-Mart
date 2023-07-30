@@ -25,7 +25,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
-import { ChangeEvent, useEffect, useId, useRef } from "react";
+import { ChangeEvent, useEffect, useId, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct, updateProduct } from "../../../redux/productSlice";
@@ -49,6 +49,9 @@ const ProductOperation = () => {
 
   // getting the categories data
   const { categories } = useSelector((state: RootState) => state.category);
+  const [totalImages, setTotalImages] = useState<
+    { imageFile: File | null; imageUrl: string }[]
+  >([]);
 
   const {
     handleSubmit,
@@ -76,36 +79,26 @@ const ProductOperation = () => {
           },
   });
 
-  // for handling the image input
-  const { fields, append, remove } = useFieldArray({
-    control,
-    // @ts-ignore
-    name: "productImage",
-  });
-
   const { imageURL, productImage } = watch();
 
   // function to get the url from the file
-  const getPreviewURL = (event: ChangeEvent) => {
+  const getPreviewURL = (event: ChangeEvent, index: number) => {
     const imageFile = (event.target as HTMLInputElement)?.files?.[0];
+    const { productImage, imageURL } = watch();
     if (imageFile) {
       const url = URL.createObjectURL(imageFile);
-      const { imageURL, productImage } = watch();
-      if (productImage) {
-        setValue("productImage", [...productImage, imageFile]);
-      } else {
-        setValue("productImage", [imageFile]);
-      }
-      if (imageURL) {
-        setValue("imageURL", [...imageURL, url]);
-      } else {
-        setValue("imageURL", [url]);
-      }
+      const newThumbnails = productImage ? [...productImage] : [];
+      const urls = imageURL ? [...imageURL] : [];
+      newThumbnails[index] = imageFile;
+      urls[index] = url;
+      setValue("productImage", newThumbnails);
+      setValue("imageURL", urls);
     }
   };
 
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
+    console.log(data);
     // if (operationID === "add") {
     //   const res = await dispatch(addNewProduct(data));
     //   if (res.payload.success) {
@@ -249,19 +242,20 @@ const ProductOperation = () => {
                   </FormLabel>
                   <Input
                     id="userProductImage"
+                    name="userProductImage"
                     type="file"
                     multiple={false}
                     accept="image/*"
                     display={"none"}
-                    onChange={getPreviewURL}
+                    // onChange={getPreviewURL}
                     {...(operationID === "add" && { required: true })}
                   />
                 </FormControl>
 
                 {/* for multiple products image */}
                 <HStack
-                  maxWidth={"full"}
                   overflowX="scroll"
+                  alignItems={"left"}
                   ref={slideContainerRef}
                   mt={5}
                   sx={{
@@ -270,33 +264,36 @@ const ProductOperation = () => {
                     },
                   }}
                 >
-                  {fields.map((field, index) => (
-                    <Box key={field.id}>
-                      <Controller
-                        name={`productImage`}
-                        control={control}
-                        // Set default value to undefined for File type
-                        defaultValue={undefined}
-                        render={() => (
-                          <FormControl pos={"relative"}>
+                  {totalImages.length &&
+                    totalImages.map(
+                      (
+                        image: { imageFile: File | null; imageUrl: string },
+                        index
+                      ) => {
+                        return (
+                          <FormControl
+                            display="flex"
+                            alignItems={"center"}
+                            justifyContent={"center"}
+                          >
                             <FormLabel
-                              htmlFor={`productImage${index}`}
-                              w={28}
-                              h={28}
+                              htmlFor="userProductImage"
                               shadow={"md"}
-                              borderRadius={5}
+                              p={2}
                               display={"flex"}
                               alignItems={"center"}
                               justifyContent={"center"}
+                              w={28}
+                              h={28}
+                              borderRadius={5}
                               cursor={"pointer"}
                               _hover={{ color: "primaryColor" }}
                             >
-                              {imageURL && imageURL[index] ? (
+                              {image.imageUrl ? (
                                 <Image
-                                  id={`productImage${index}`}
                                   h={"full"}
                                   w={"full"}
-                                  src={imageURL[index]}
+                                  src={image.imageUrl}
                                   alt="Product Image"
                                   borderRadius={"full"}
                                 />
@@ -305,29 +302,29 @@ const ProductOperation = () => {
                               )}
                             </FormLabel>
                             <Input
-                              id={`productImage${index}`}
+                              id="userProductImage"
+                              name="userProductImage"
                               type="file"
                               multiple={false}
                               accept="image/*"
                               display={"none"}
-                              {...register(`productImage.${index}`)}
+                              // onChange={getPreviewURL}
+                              {...(operationID === "add" && { required: true })}
                             />
                             <Button
-                              onClick={() => remove(index)}
-                              pos={"absolute"}
-                              top={1}
-                              right={3}
-                              m={0}
-                              colorScheme="red"
                               size={"xs"}
+                              colorScheme="red"
+                              p={0}
+                              pos={"absolute"}
+                              top={0}
+                              right={"11px"}
                             >
                               <AiOutlineClose />
                             </Button>
                           </FormControl>
-                        )}
-                      />
-                    </Box>
-                  ))}
+                        );
+                      }
+                    )}
 
                   {/* button to allow adding new image */}
                   <VStack
@@ -339,7 +336,15 @@ const ProductOperation = () => {
                     cursor={"pointer"}
                     justifyContent={"center"}
                     _hover={{ color: "primaryColor" }}
-                    onClick={() => append({})}
+                    onClick={() =>
+                      setTotalImages((prevTotalImages) => [
+                        ...prevTotalImages,
+                        {
+                          imageFile: null,
+                          imageUrl: "",
+                        },
+                      ])
+                    }
                   >
                     <BiImageAdd fontSize={40} />
                     <Text fontSize={"sm"} fontWeight={"semibold"}>
