@@ -31,23 +31,24 @@ export const getAllProducts = createAsyncThunk(
 export const addNewProduct = createAsyncThunk(
   "/products/add",
   async (data: IproductData) => {
-    // try {
-    //   // creating the form data
-    //   const newFormData = new FormData();
-    //   newFormData.append("title", data?.title);
-    //   newFormData.append("description", data?.description);
-    //   newFormData.append("originalPrice", data?.originalPrice.toString());
-    //   newFormData.append("discountedPrice", data?.discountedPrice.toString());
-    //   newFormData.append("category", data?.category);
-    //   newFormData.append("quantity", data?.quantity.toString());
-    //   newFormData.append("inStock", data?.inStock);
-    //   data.productImage &&
-    //     newFormData.append("productImage", data?.productImage);
-    //   const res = await axiosInstance.post("/products", newFormData);
-    //   return res.data;
-    // } catch (error: any) {
-    //   toast.error(error?.response?.data?.message);
-    // }
+    try {
+      // creating the form data
+      const newFormData = new FormData();
+      newFormData.append("title", data?.title);
+      newFormData.append("description", data?.description);
+      newFormData.append("originalPrice", data?.originalPrice.toString());
+      newFormData.append("discountedPrice", data?.discountedPrice.toString());
+      newFormData.append("category", data?.category);
+      newFormData.append("quantity", data?.quantity.toString());
+      newFormData.append("inStock", data?.inStock);
+      data.productImage.map((image) =>
+        newFormData.append("productImage", image)
+      );
+      const res = await axiosInstance.post("/products", newFormData);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
   }
 );
 

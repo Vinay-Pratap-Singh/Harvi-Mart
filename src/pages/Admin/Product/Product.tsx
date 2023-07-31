@@ -58,19 +58,19 @@ const Product = () => {
 
   // for handling the edit button click
   const handleProductEditBtn = (product: any) => {
-    const data: IproductData = {
-      id: product?._id,
-      category: product?.category?._id,
-      description: product?.description,
-      inStock: product?.inStock,
-      originalPrice: product?.originalPrice,
-      discountedPrice: product?.discountedPrice,
-      productImage: null,
-      quantity: product?.quantity,
-      title: product?.title,
-      imageURL: product?.images?.[0].image?.secure_url,
-    };
-    navigate("/admin/product/operation/update", { state: { ...data } });
+    // const data: IproductData = {
+    //   id: product?._id,
+    //   category: product?.category?._id,
+    //   description: product?.description,
+    //   inStock: product?.inStock,
+    //   originalPrice: product?.originalPrice,
+    //   discountedPrice: product?.discountedPrice,
+    //   productImage: null,
+    //   quantity: product?.quantity,
+    //   title: product?.title,
+    //   imageURL: product?.images?.[0].image?.secure_url,
+    // };
+    // navigate("/admin/product/operation/update", { state: { ...data } });
   };
 
   // function for handling the product search

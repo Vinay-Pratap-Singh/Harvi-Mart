@@ -39,6 +39,7 @@ import {
   AiOutlineRight,
   AiOutlineRightCircle,
 } from "react-icons/ai";
+import { toast } from "react-hot-toast";
 
 const ProductOperation = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -97,62 +98,74 @@ const ProductOperation = () => {
 
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
-    console.log(data);
-    // if (operationID === "add") {
-    //   const res = await dispatch(addNewProduct(data));
-    //   if (res.payload.success) {
-    //     reset();
-    //     setProductImgPreview("");
-    //   } else {
-    //     const {
-    //       category,
-    //       description,
-    //       inStock,
-    //       originalPrice,
-    //       discountedPrice,
-    //       productImage,
-    //       quantity,
-    //       title,
-    //     } = watch();
-    //     reset({
-    //       category,
-    //       description,
-    //       inStock,
-    //       originalPrice,
-    //       discountedPrice,
-    //       productImage,
-    //       quantity,
-    //       title,
-    //     });
-    //   }
-    // } else {
-    //   const res = await dispatch(updateProduct(data));
-    //   if (res.payload?.success) {
-    //     reset();
-    //     navigate("/admin/product");
-    //   } else {
-    //     const {
-    //       category,
-    //       description,
-    //       inStock,
-    //       originalPrice,
-    //       discountedPrice,
-    //       productImage,
-    //       quantity,
-    //       title,
-    //     } = watch();
-    //     reset({
-    //       category,
-    //       description,
-    //       inStock,
-    //       originalPrice,
-    //       discountedPrice,
-    //       productImage,
-    //       quantity,
-    //       title,
-    //     });
-    //   }
-    // }
+    if (!totalImages.length) {
+      toast.error("Please add atleast one image");
+      return;
+    } else if (!totalImages[0].imageFile) {
+      toast.error("First image is required");
+      return;
+    }
+    const newData: IproductData = { ...data };
+    const imageFiles = totalImages
+      .map((image) => image.imageFile)
+      .filter(Boolean) as File[];
+    newData["productImage"] = imageFiles;
+    setValue("productImage", imageFiles);
+    if (operationID === "add") {
+      const res = await dispatch(addNewProduct(newData));
+      if (res.payload?.success) {
+        setTotalImages([]);
+        reset();
+      } else {
+        const {
+          category,
+          description,
+          inStock,
+          originalPrice,
+          discountedPrice,
+          productImage,
+          quantity,
+          title,
+        } = watch();
+        reset({
+          category,
+          description,
+          inStock,
+          originalPrice,
+          discountedPrice,
+          productImage,
+          quantity,
+          title,
+        });
+      }
+    } else {
+      const res = await dispatch(updateProduct(data));
+      // if (res.payload?.success) {
+      //   reset();
+      //   navigate("/admin/product");
+      // } else {
+      //   const {
+      //     category,
+      //     description,
+      //     inStock,
+      //     originalPrice,
+      //     discountedPrice,
+      //     productImage,
+      //     quantity,
+      //     title,
+      //   } = watch();
+      //   reset({
+      //     category,
+      //     description,
+      //     inStock,
+      //     originalPrice,
+      //     discountedPrice,
+      //     productImage,
+      //     quantity,
+      //     title,
+      //   });
+      // }
+    }
   };
 
   // function to scroll container left
@@ -245,6 +258,7 @@ const ProductOperation = () => {
                 <HStack
                   overflowX="scroll"
                   alignItems={"left"}
+                  justifyContent={"left"}
                   ref={slideContainerRef}
                   mt={5}
                   sx={{
@@ -261,9 +275,11 @@ const ProductOperation = () => {
                       ) => {
                         return (
                           <FormControl
+                            key={Date.now() + index}
                             display="flex"
                             alignItems={"center"}
                             justifyContent={"center"}
+                            w={"fit-content"}
                             onMouseEnter={() => {
                               totalImages[index].imageUrl &&
                                 setCurrentImagePreview(index);
@@ -303,7 +319,6 @@ const ProductOperation = () => {
                               accept="image/*"
                               display={"none"}
                               onChange={(event) => getPreviewURL(event, index)}
-                              {...(operationID === "add" && { required: true })}
                             />
                             <Button
                               size={"xs"}
