@@ -16,6 +16,7 @@ import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import { getIndividualProductReview } from "../redux/reviewSlice";
 import DeleteReview from "./AlertBox/DeleteReview";
+import StarReview from "./StarReview";
 
 interface Iprop {
   productID: string;
@@ -31,41 +32,72 @@ const CustomerReviews = ({ productID }: Iprop) => {
     onClose: deleteReviewOnClose,
   } = useDisclosure();
   const [idToBeDeleted, setIdToBeDeleted] = useState("");
-  const reviewStar = {
+  const [reviewStar, setReviewStar] = useState({
     oneStar: 0,
     twoStar: 0,
     threeStar: 0,
     fourStar: 0,
     fiveStar: 0,
-  };
+  });
 
   // calculating the each number of stars
-  reviews.length > 0 &&
-    reviews.map((review: any) => {
-      const rating = review?.rating;
-      switch (rating) {
-        case 1: {
-          reviewStar.oneStar += 1;
-          break;
+  // reviews.length &&
+  //   reviews.map((review: any) => {
+  //     const rating = review?.rating;
+  //     switch (rating) {
+  //       case 1: {
+  //         reviewStar.oneStar += 1;
+  //         break;
+  //       }
+  //       case 2: {
+  //         reviewStar.twoStar += 1;
+  //         break;
+  //       }
+  //       case 3: {
+  //         reviewStar.threeStar += 1;
+  //         break;
+  //       }
+  //       case 4: {
+  //         reviewStar.fourStar += 1;
+  //         break;
+  //       }
+  //       case 5: {
+  //         reviewStar.fiveStar += 1;
+  //         break;
+  //       }
+  //     }
+  //   });
+
+  useEffect(() => {
+    const stars = { ...reviewStar };
+    reviews.length &&
+      reviews.forEach((review: any) => {
+        const rating = review?.rating;
+        switch (rating) {
+          case 1: {
+            reviewStar.oneStar += 1;
+            break;
+          }
+          case 2: {
+            reviewStar.twoStar += 1;
+            break;
+          }
+          case 3: {
+            reviewStar.threeStar += 1;
+            break;
+          }
+          case 4: {
+            reviewStar.fourStar += 1;
+            break;
+          }
+          case 5: {
+            reviewStar.fiveStar += 1;
+            break;
+          }
         }
-        case 2: {
-          reviewStar.twoStar += 1;
-          break;
-        }
-        case 3: {
-          reviewStar.threeStar += 1;
-          break;
-        }
-        case 4: {
-          reviewStar.fourStar += 1;
-          break;
-        }
-        case 5: {
-          reviewStar.fiveStar += 1;
-          break;
-        }
-      }
-    });
+      });
+    setReviewStar({ ...stars });
+  }, [reviews]);
 
   // getting the product review
   useEffect(() => {
@@ -73,25 +105,27 @@ const CustomerReviews = ({ productID }: Iprop) => {
       await dispatch(getIndividualProductReview(productID));
     })();
   }, []);
-
+  console.log(reviewStar);
   return (
     <VStack w={"full"} alignItems={"flex-start"}>
       {/* adding the reviews rating chart */}
       <HStack gap={20} mb={5}>
         <VStack fontWeight={"semibold"}>
           <Heading fontSize={"4xl"}>
-            {(
-              (reviewStar?.fiveStar * 5 +
-                reviewStar?.fourStar * 4 +
-                reviewStar?.threeStar * 3 +
-                reviewStar?.twoStar * 2 +
-                reviewStar?.oneStar * 1) /
-              (reviewStar?.fiveStar +
-                reviewStar?.fourStar +
-                reviewStar?.threeStar +
-                reviewStar?.twoStar +
-                reviewStar?.oneStar)
-            ).toFixed(1)}{" "}
+            {reviews.length
+              ? (
+                  (reviewStar?.fiveStar * 5 +
+                    reviewStar?.fourStar * 4 +
+                    reviewStar?.threeStar * 3 +
+                    reviewStar?.twoStar * 2 +
+                    reviewStar?.oneStar * 1) /
+                  (reviewStar?.fiveStar +
+                    reviewStar?.fourStar +
+                    reviewStar?.threeStar +
+                    reviewStar?.twoStar +
+                    reviewStar?.oneStar)
+                ).toFixed(1)
+              : "0"}{" "}
             <IconButton
               icon={<AiFillStar fontSize={20} />}
               variant={"ghost"}
@@ -123,14 +157,21 @@ const CustomerReviews = ({ productID }: Iprop) => {
               />
             </Text>
             <Progress
-              value={(reviewStar.fiveStar / reviews.length) * 100}
+              value={
+                reviews.length
+                  ? (reviewStar.fiveStar / reviews.length) * 100
+                  : 0
+              }
               colorScheme="green"
               size="sm"
               w={60}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
-              {((reviewStar.fiveStar / reviews.length) * 100).toFixed(1)}%
+              {reviews.length
+                ? ((reviewStar.fiveStar / reviews.length) * 100).toFixed(1)
+                : 0}
+              %
             </Text>
           </HStack>
 
@@ -148,14 +189,21 @@ const CustomerReviews = ({ productID }: Iprop) => {
               />
             </Text>
             <Progress
-              value={(reviewStar.fourStar / reviews.length) * 100}
+              value={
+                reviews.length
+                  ? (reviewStar.fourStar / reviews.length) * 100
+                  : 0
+              }
               colorScheme="green"
               size="sm"
               w={60}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
-              {((reviewStar.fourStar / reviews.length) * 100).toFixed(1)}%
+              {reviews.length
+                ? ((reviewStar.fourStar / reviews.length) * 100).toFixed(1)
+                : 0}
+              %
             </Text>
           </HStack>
 
@@ -173,14 +221,21 @@ const CustomerReviews = ({ productID }: Iprop) => {
               />
             </Text>
             <Progress
-              value={(reviewStar.threeStar / reviews.length) * 100}
+              value={
+                reviews.length
+                  ? (reviewStar.threeStar / reviews.length) * 100
+                  : 0
+              }
               colorScheme="green"
               size="sm"
               w={60}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
-              {((reviewStar.threeStar / reviews.length) * 100).toFixed(1)}%
+              {reviews.length
+                ? ((reviewStar.threeStar / reviews.length) * 100).toFixed(1)
+                : 0}
+              %
             </Text>
           </HStack>
 
@@ -198,14 +253,19 @@ const CustomerReviews = ({ productID }: Iprop) => {
               />
             </Text>
             <Progress
-              value={(reviewStar.twoStar / reviews.length) * 100}
+              value={
+                reviews.length ? (reviewStar.twoStar / reviews.length) * 100 : 0
+              }
               colorScheme="yellow"
               size="sm"
               w={60}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
-              {((reviewStar.twoStar / reviews.length) * 100).toFixed(1)}%
+              {reviews.length
+                ? ((reviewStar.twoStar / reviews.length) * 100).toFixed(1)
+                : 0}
+              %
             </Text>
           </HStack>
 
@@ -223,14 +283,19 @@ const CustomerReviews = ({ productID }: Iprop) => {
               />
             </Text>
             <Progress
-              value={(reviewStar.oneStar / reviews.length) * 100}
+              value={
+                reviews.length ? (reviewStar.oneStar / reviews.length) * 100 : 0
+              }
               colorScheme="red"
               size="sm"
               w={60}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
-              {((reviewStar.oneStar / reviews.length) * 100).toFixed(1)}%
+              {reviews.length
+                ? ((reviewStar.oneStar / reviews.length) * 100).toFixed(1)
+                : 0}
+              %
             </Text>
           </HStack>
         </Stack>
@@ -238,7 +303,12 @@ const CustomerReviews = ({ productID }: Iprop) => {
 
       <VStack gap={3} w={"full"}>
         {reviews.length === 0 ? (
-          <Text>No reviews available for this product :(</Text>
+          <Text fontWeight={"semibold"} fontSize={"lg"}>
+            No reviews available for this product{" "}
+            <Text as={"span"} color={"primaryColor"} fontWeight={"bold"}>
+              :(
+            </Text>
+          </Text>
         ) : (
           reviews.map((review: any) => {
             const formattedDate = new Date(review?.createdAt).toLocaleString(
