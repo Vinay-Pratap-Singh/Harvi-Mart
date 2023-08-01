@@ -36,7 +36,7 @@ export interface IcouponData {
 // interface for creating the new product
 export interface IproductData {
   id?: string;
-  productImage: File[];
+  productImage: File[] | null;
   title: string;
   description: string;
   originalPrice: number;
@@ -48,7 +48,7 @@ export interface IproductData {
 }
 
 // interface for images array of product
-interface Iimage {
+export interface Iimage {
   image: { public_id: string; secure_url: string };
   _id: string;
 }

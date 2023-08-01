@@ -41,9 +41,10 @@ export const addNewProduct = createAsyncThunk(
       newFormData.append("category", data?.category);
       newFormData.append("quantity", data?.quantity.toString());
       newFormData.append("inStock", data?.inStock);
-      data.productImage.map((image) =>
-        newFormData.append("productImage", image)
-      );
+      data.productImage &&
+        data.productImage.map((image) =>
+          newFormData.append("productImage", image)
+        );
       const res = await axiosInstance.post("/products", newFormData);
       return res.data;
     } catch (error: any) {
@@ -56,23 +57,25 @@ export const addNewProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "/products/update",
   async (data: IproductData) => {
-    // try {
-    //   // creating the form data
-    //   const newFormData = new FormData();
-    //   newFormData.append("title", data?.title);
-    //   newFormData.append("description", data?.description);
-    //   newFormData.append("originalPrice", data?.originalPrice.toString());
-    //   newFormData.append("discountedPrice", data?.discountedPrice.toString());
-    //   newFormData.append("category", data?.category);
-    //   newFormData.append("quantity", data?.quantity.toString());
-    //   newFormData.append("inStock", data?.inStock);
-    //   data.productImage &&
-    //     newFormData.append("productImage", data?.productImage);
-    //   const res = await axiosInstance.put(`/products/${data?.id}`, newFormData);
-    //   return res.data;
-    // } catch (error: any) {
-    //   toast.error(error?.response?.data?.message);
-    // }
+    try {
+      // creating the form data
+      const newFormData = new FormData();
+      newFormData.append("title", data?.title);
+      newFormData.append("description", data?.description);
+      newFormData.append("originalPrice", data?.originalPrice.toString());
+      newFormData.append("discountedPrice", data?.discountedPrice.toString());
+      newFormData.append("category", data?.category);
+      newFormData.append("quantity", data?.quantity.toString());
+      newFormData.append("inStock", data?.inStock);
+      data.productImage &&
+        data.productImage.map((image) =>
+          newFormData.append("productImage", image)
+        );
+      const res = await axiosInstance.put(`/products/${data?.id}`, newFormData);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
   }
 );
 

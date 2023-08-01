@@ -1,7 +1,5 @@
 import {
-  Box,
   Button,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -18,27 +16,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Layout from "../../Layout/Layout";
-import {
-  Controller,
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
-import { ChangeEvent, useEffect, useId, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct, updateProduct } from "../../../redux/productSlice";
 import { IproductData } from "../../../helper/interfaces";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import {
-  AiOutlineClose,
-  AiOutlineLeft,
-  AiOutlineLeftCircle,
-  AiOutlineRight,
-  AiOutlineRightCircle,
-} from "react-icons/ai";
+import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { toast } from "react-hot-toast";
 
 const ProductOperation = () => {
@@ -60,7 +47,7 @@ const ProductOperation = () => {
     register,
     watch,
     setValue,
-    control,
+
     formState: { errors, isSubmitting },
     reset,
   } = useForm<IproductData>({
@@ -78,6 +65,7 @@ const ProductOperation = () => {
             quantity: state?.quantity,
             title: state?.title,
             discountedPrice: state?.discountedPrice,
+            imageURL: state?.imageURL,
           },
   });
 
@@ -98,10 +86,10 @@ const ProductOperation = () => {
 
   // function to handle form submit
   const handleFormSubmit: SubmitHandler<IproductData> = async (data) => {
-    if (!totalImages.length) {
+    if (!totalImages.length && operationID === "add") {
       toast.error("Please add atleast one image");
       return;
-    } else if (!totalImages[0].imageFile) {
+    } else if (!totalImages[0].imageFile && operationID === "add") {
       toast.error("First image is required");
       return;
     }
@@ -126,6 +114,35 @@ const ProductOperation = () => {
           productImage,
           quantity,
           title,
+          imageURL,
+        } = watch();
+        reset({
+          category,
+          description,
+          inStock,
+          originalPrice,
+          discountedPrice,
+          productImage,
+          quantity,
+          title,
+          imageURL,
+        });
+      }
+    } else {
+      const res = await dispatch(updateProduct(data));
+      if (res.payload?.success) {
+        reset();
+        navigate("/admin/product");
+      } else {
+        const {
+          category,
+          description,
+          inStock,
+          originalPrice,
+          discountedPrice,
+          productImage,
+          quantity,
+          title,
         } = watch();
         reset({
           category,
@@ -138,33 +155,6 @@ const ProductOperation = () => {
           title,
         });
       }
-    } else {
-      const res = await dispatch(updateProduct(data));
-      // if (res.payload?.success) {
-      //   reset();
-      //   navigate("/admin/product");
-      // } else {
-      //   const {
-      //     category,
-      //     description,
-      //     inStock,
-      //     originalPrice,
-      //     discountedPrice,
-      //     productImage,
-      //     quantity,
-      //     title,
-      //   } = watch();
-      //   reset({
-      //     category,
-      //     description,
-      //     inStock,
-      //     originalPrice,
-      //     discountedPrice,
-      //     productImage,
-      //     quantity,
-      //     title,
-      //   });
-      // }
     }
   };
 
@@ -194,6 +184,15 @@ const ProductOperation = () => {
       navigate(-1);
     } else if (operationID !== "add" && operationID !== "update") {
       navigate(-1);
+    }
+
+    // adding the images url in the state if its update
+    if (operationID === "update") {
+      const newData: { imageFile: File | null; imageUrl: string }[] = [];
+      state.imageURL.map((image: string) => {
+        newData.push({ imageFile: null, imageUrl: image });
+      });
+      setTotalImages([...newData]);
     }
   }, [operationID, navigate]);
 
@@ -369,6 +368,7 @@ const ProductOperation = () => {
                     </Text>
                   </VStack>
                 </HStack>
+
                 {/* left slider button */}
                 <Button
                   borderRadius={"full"}

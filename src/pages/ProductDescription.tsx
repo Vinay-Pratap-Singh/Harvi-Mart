@@ -17,7 +17,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineRateReview } from "react-icons/md";
 import StarReview from "../components/StarReview";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserReview from "../components/CustomerReviews";
 import Layout from "./Layout/Layout";
 import { useLocation } from "react-router-dom";
@@ -28,10 +28,16 @@ import {
   getIndividualProductReview,
 } from "../redux/reviewSlice";
 import { AppDispatch, RootState } from "../redux/store";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineLeft,
+  AiOutlineRight,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { addProductToCart } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
 import { Helmet } from "react-helmet";
+import { BiImageAdd } from "react-icons/bi";
 
 const ProductDescription = () => {
   const { state } = useLocation();
@@ -54,6 +60,8 @@ const ProductDescription = () => {
   });
   const [rating, setRating] = useState(0);
   const { cartItems } = useSelector((state: RootState) => state.cart);
+  const [currentImagePreview, setCurrentImagePreview] = useState(0);
+  const slideContainerRef = useRef<HTMLDivElement>(null);
 
   // function to handle buy now
   const handleBuyNow = () => {};
@@ -85,6 +93,26 @@ const ProductDescription = () => {
     }
   };
 
+  // function to scroll container left
+  const handleLeftSlider = () => {
+    if (slideContainerRef.current) {
+      slideContainerRef.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // function to scroll container right
+  const handleRightSlider = () => {
+    if (slideContainerRef.current) {
+      slideContainerRef.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
   // assigning the rating value to react hook form
   useEffect(() => {
     setValue("rating", rating);
@@ -101,18 +129,96 @@ const ProductDescription = () => {
         />
       </Helmet>
 
-      <HStack gap={10} p={10} pos={"relative"}>
+      <HStack w={"full"} gap={10} p={10} pos={"relative"}>
         {/* left section for image */}
-        <Box w={96} pos={"fixed"} left={10} top={20}>
+        <VStack w={"100%"} alignSelf={"baseline"}>
           <Image
-            src={state?.images[0]?.image?.secure_url}
-            h={96}
+            src={state?.images[currentImagePreview]?.image?.secure_url}
+            maxH={80}
             alt="product image"
           />
-        </Box>
+
+          <Box pos={"relative"}>
+            {/* for multiple products image */}
+            <HStack
+              w={"full"}
+              overflowX="scroll"
+              alignItems={"left"}
+              justifyContent={"left"}
+              ref={slideContainerRef}
+              mt={5}
+              sx={{
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
+              }}
+              p={2}
+            >
+              {state?.images.length &&
+                state?.images.map(
+                  (
+                    image: {
+                      image: { public_id: string; secure_url: string };
+                      id: string;
+                    },
+                    index: number
+                  ) => {
+                    return (
+                      <Box
+                        w={28}
+                        h={28}
+                        flexShrink={0}
+                        shadow={"md"}
+                        borderRadius={5}
+                        cursor={"pointer"}
+                        justifyContent={"center"}
+                        _hover={{ color: "primaryColor" }}
+                        onMouseEnter={() => {
+                          setCurrentImagePreview(index);
+                        }}
+                      >
+                        <Image
+                          key={Date.now() + index}
+                          src={image?.image?.secure_url}
+                        />
+                      </Box>
+                    );
+                  }
+                )}
+            </HStack>
+
+            {/* left slider button */}
+            <Button
+              borderRadius={"full"}
+              p="0"
+              pos="absolute"
+              bottom={12}
+              left={0}
+              zIndex={10}
+              size={"sm"}
+              onClick={handleLeftSlider}
+            >
+              <AiOutlineLeft fontSize={"20px"} />
+            </Button>
+
+            {/* right slider button */}
+            <Button
+              borderRadius={"full"}
+              p="0"
+              pos="absolute"
+              bottom={12}
+              right={0}
+              zIndex={10}
+              size={"sm"}
+              onClick={handleRightSlider}
+            >
+              <AiOutlineRight fontSize={"20px"} />
+            </Button>
+          </Box>
+        </VStack>
 
         {/* right section for product details */}
-        <VStack w={"full"} gap={10} pl={"450px"}>
+        <VStack w={"full"} gap={10}>
           {/* for product details */}
           <VStack
             alignItems={"self-start"}

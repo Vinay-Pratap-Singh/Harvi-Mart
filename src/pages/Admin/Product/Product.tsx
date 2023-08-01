@@ -31,7 +31,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { getAllProducts } from "../../../redux/productSlice";
 import { getAllCategories } from "../../../redux/categorySlice";
 import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
-import { IproductData } from "../../../helper/interfaces";
+import { Iproduct, IproductData, Iimage } from "../../../helper/interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
 
@@ -57,20 +57,23 @@ const Product = () => {
   } = useDisclosure();
 
   // for handling the edit button click
-  const handleProductEditBtn = (product: any) => {
-    // const data: IproductData = {
-    //   id: product?._id,
-    //   category: product?.category?._id,
-    //   description: product?.description,
-    //   inStock: product?.inStock,
-    //   originalPrice: product?.originalPrice,
-    //   discountedPrice: product?.discountedPrice,
-    //   productImage: null,
-    //   quantity: product?.quantity,
-    //   title: product?.title,
-    //   imageURL: product?.images?.[0].image?.secure_url,
-    // };
-    // navigate("/admin/product/operation/update", { state: { ...data } });
+  const handleProductEditBtn = (product: Iproduct) => {
+    const images: string[] = product.images.map(
+      (image: Iimage) => image?.image?.secure_url
+    );
+    const data: IproductData = {
+      id: product?._id,
+      category: product?.category?._id,
+      description: product?.description,
+      inStock: String(product?.inStock),
+      originalPrice: product?.originalPrice,
+      discountedPrice: product?.discountedPrice,
+      productImage: null,
+      quantity: product?.quantity,
+      title: product?.title,
+      imageURL: [...images],
+    };
+    navigate("/admin/product/operation/update", { state: { ...data } });
   };
 
   // function for handling the product search
@@ -214,101 +217,103 @@ const Product = () => {
                     <Td colSpan={7}>Oops! There is no products</Td>
                   </Tr>
                 ) : (
-                  productToBeDisplayed.map((product: any, index) => {
-                    return (
-                      <Tr key={product?._id}>
-                        <Td
-                          p="1"
-                          textAlign={"center"}
-                          verticalAlign={"text-top"}
-                        >
-                          {index < 10 ? `0${index + 1}` : index + 1}
-                        </Td>
-                        <Td p="1" verticalAlign={"text-top"}>
-                          <Box w="32" whiteSpace={"normal"}>
-                            {product?.title}
-                          </Box>
-                        </Td>
-                        <Td p="1" verticalAlign={"text-top"}>
-                          <Box w="60" whiteSpace={"normal"}>
-                            {product?.description}
-                          </Box>
-                        </Td>
-                        <Td
-                          p="1"
-                          textAlign={"center"}
-                          verticalAlign={"text-top"}
-                        >
-                          {product?.originalPrice} Rs
-                        </Td>
-                        <Td p="1" verticalAlign={"text-top"}>
-                          {product.category
-                            ? product?.category?.name
-                            : "Not Available"}
-                        </Td>
-                        <Td
-                          p="1"
-                          textAlign={"center"}
-                          verticalAlign={"text-top"}
-                        >
-                          {product.quantity
-                            ? product?.quantity
-                            : "Not Available"}
-                        </Td>
-                        <Td p="1" verticalAlign={"text-top"}>
-                          <ButtonGroup>
-                            <Tooltip
-                              hasArrow
-                              label="More Product Detail"
-                              color={"orange.500"}
-                              bgColor={"white"}
-                              placement={"top"}
-                            >
-                              <Button
-                                p="0"
-                                _hover={{ color: "#e06464" }}
-                                fontSize={"xl"}
-                              >
-                                <MdOutlineDescription />
-                              </Button>
-                            </Tooltip>
-                            <Tooltip
-                              hasArrow
-                              label="Edit Product"
-                              color={"orange.500"}
-                              bgColor={"white"}
-                              placement={"top"}
-                            >
-                              <Button
-                                p="0"
-                                _hover={{ color: "#e06464" }}
-                                fontSize={"xl"}
-                                colorScheme="yellow"
-                                onClick={() => {
-                                  handleProductEditBtn(product);
-                                }}
-                              >
-                                <MdOutlineModeEdit />
-                              </Button>
-                            </Tooltip>
-
-                            <Box
-                              onClick={() =>
-                                setProductToBeDeleted(product?._id)
-                              }
-                            >
-                              <DeleteProduct
-                                deleteProductIsOpen={deleteProductIsOpen}
-                                deleteProductOnClose={deleteProductOnClose}
-                                deleteProductOnOpen={deleteProductOnOpen}
-                                id={productToBeDeleted}
-                              />
+                  productToBeDisplayed.map(
+                    (product: Iproduct, index: number) => {
+                      return (
+                        <Tr key={product?._id}>
+                          <Td
+                            p="1"
+                            textAlign={"center"}
+                            verticalAlign={"text-top"}
+                          >
+                            {index < 10 ? `0${index + 1}` : index + 1}
+                          </Td>
+                          <Td p="1" verticalAlign={"text-top"}>
+                            <Box w="32" whiteSpace={"normal"}>
+                              {product?.title}
                             </Box>
-                          </ButtonGroup>
-                        </Td>
-                      </Tr>
-                    );
-                  })
+                          </Td>
+                          <Td p="1" verticalAlign={"text-top"}>
+                            <Box w="60" whiteSpace={"normal"}>
+                              {product?.description}
+                            </Box>
+                          </Td>
+                          <Td
+                            p="1"
+                            textAlign={"center"}
+                            verticalAlign={"text-top"}
+                          >
+                            {product?.originalPrice} Rs
+                          </Td>
+                          <Td p="1" verticalAlign={"text-top"}>
+                            {product.category
+                              ? product?.category?.name
+                              : "Not Available"}
+                          </Td>
+                          <Td
+                            p="1"
+                            textAlign={"center"}
+                            verticalAlign={"text-top"}
+                          >
+                            {product.quantity
+                              ? product?.quantity
+                              : "Not Available"}
+                          </Td>
+                          <Td p="1" verticalAlign={"text-top"}>
+                            <ButtonGroup>
+                              <Tooltip
+                                hasArrow
+                                label="More Product Detail"
+                                color={"orange.500"}
+                                bgColor={"white"}
+                                placement={"top"}
+                              >
+                                <Button
+                                  p="0"
+                                  _hover={{ color: "#e06464" }}
+                                  fontSize={"xl"}
+                                >
+                                  <MdOutlineDescription />
+                                </Button>
+                              </Tooltip>
+                              <Tooltip
+                                hasArrow
+                                label="Edit Product"
+                                color={"orange.500"}
+                                bgColor={"white"}
+                                placement={"top"}
+                              >
+                                <Button
+                                  p="0"
+                                  _hover={{ color: "#e06464" }}
+                                  fontSize={"xl"}
+                                  colorScheme="yellow"
+                                  onClick={() => {
+                                    handleProductEditBtn(product);
+                                  }}
+                                >
+                                  <MdOutlineModeEdit />
+                                </Button>
+                              </Tooltip>
+
+                              <Box
+                                onClick={() =>
+                                  setProductToBeDeleted(product?._id)
+                                }
+                              >
+                                <DeleteProduct
+                                  deleteProductIsOpen={deleteProductIsOpen}
+                                  deleteProductOnClose={deleteProductOnClose}
+                                  deleteProductOnOpen={deleteProductOnOpen}
+                                  id={productToBeDeleted}
+                                />
+                              </Box>
+                            </ButtonGroup>
+                          </Td>
+                        </Tr>
+                      );
+                    }
+                  )
                 )}
               </Tbody>
             </Table>
