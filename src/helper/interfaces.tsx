@@ -1,8 +1,21 @@
+// interface for user details
+export interface IuserDetails {
+  addresses: Iaddress[];
+  avatar: { public_id: string; secure_url: string };
+  email: string;
+  fullName: string;
+  isActive: boolean;
+  loginCount: number;
+  phoneNumber: string;
+  role: number;
+  _id: string;
+}
+
 // for auth slice state
 export interface IauthSliceState {
   accessToken: string;
   isLoggedIn: boolean;
-  userDetails: any;
+  userDetails: IuserDetails;
   loading: boolean;
 }
 
@@ -120,4 +133,22 @@ export interface IcheckoutData {
 // for updated cart items after adding the user selected quantity as a field
 export interface IupdateCartItem extends Iproduct {
   userSelectedQuantity: number;
+}
+
+// interface for the orders data on admin page
+export interface IordersData {
+  address: Iaddress[];
+  coupon?: IcouponData | null;
+  orderStatus: string;
+  paymentMethod: string;
+  phoneNumber: string;
+  products: {
+    price: number;
+    product: Iproduct;
+    quantity: number;
+    _id: string;
+  }[];
+  total: number;
+  user: IuserDetails;
+  _id: string;
 }

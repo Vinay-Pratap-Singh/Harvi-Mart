@@ -20,6 +20,7 @@ import Dashboard from "../pages/Admin/Dashboard";
 import Product from "../pages/Admin/Product/Product";
 import AddProduct from "../pages/Admin/Product/ProductOperation";
 import PaymentSuccess from "../pages/PaymentSuccess";
+import Order from "../pages/Admin/Order";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/product/operation/:operationID",
         element: <AddProduct />,
+      },
+      {
+        path: "/admin/orders",
+        element: <Order />,
       },
     ],
   },

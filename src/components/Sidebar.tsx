@@ -81,7 +81,7 @@ const Sidebar = () => {
         >
           <Link
             as={RouterLink}
-            to="/admin/order"
+            to="/admin/orders"
             display="flex"
             alignItems={"center"}
             gap={2}

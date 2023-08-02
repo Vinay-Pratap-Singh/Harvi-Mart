@@ -138,12 +138,22 @@ const authSlice = createSlice({
       })
 
       // for handling the logout functionality
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state) => {
         toast.success("Logout successfull");
         localStorage.clear();
         state.accessToken = "";
         state.isLoggedIn = false;
-        state.userDetails = {};
+        state.userDetails = {
+          _id: "",
+          addresses: [],
+          avatar: { public_id: "", secure_url: "" },
+          email: "",
+          fullName: "",
+          isActive: false,
+          loginCount: 0,
+          phoneNumber: "",
+          role: 0,
+        };
       })
 
       // for handling the forget password
