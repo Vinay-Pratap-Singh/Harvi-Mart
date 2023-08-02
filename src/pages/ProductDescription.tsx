@@ -118,6 +118,11 @@ const ProductDescription = () => {
     setValue("rating", rating);
   }, [rating]);
 
+  // moving the window to top on mounting
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -131,22 +136,21 @@ const ProductDescription = () => {
 
       <HStack w={"full"} gap={10} p={10} pos={"relative"}>
         {/* left section for image */}
-        <VStack w={"100%"} alignSelf={"baseline"}>
+        <VStack w={"100%"} alignSelf={"baseline"} gap={5}>
           <Image
             src={state?.images[currentImagePreview]?.image?.secure_url}
             maxH={80}
             alt="product image"
           />
 
-          <Box pos={"relative"}>
+          <Box pos={"relative"} w={"full"} px={5} py={2} shadow={"md"}>
             {/* for multiple products image */}
             <HStack
-              w={"full"}
+              minW={"full"}
               overflowX="scroll"
               alignItems={"left"}
               justifyContent={"left"}
               ref={slideContainerRef}
-              mt={5}
               sx={{
                 "::-webkit-scrollbar": {
                   display: "none",
@@ -168,11 +172,14 @@ const ProductDescription = () => {
                         w={28}
                         h={28}
                         flexShrink={0}
-                        shadow={"md"}
                         borderRadius={5}
                         cursor={"pointer"}
                         justifyContent={"center"}
-                        _hover={{ color: "primaryColor" }}
+                        _hover={{
+                          color: "primaryColor",
+                        }}
+                        shadow={currentImagePreview === index ? "md" : ""}
+                        transition={"all 0.2s ease-in-out"}
                         onMouseEnter={() => {
                           setCurrentImagePreview(index);
                         }}
@@ -193,7 +200,7 @@ const ProductDescription = () => {
               p="0"
               pos="absolute"
               bottom={12}
-              left={0}
+              left={1}
               zIndex={10}
               size={"sm"}
               onClick={handleLeftSlider}
@@ -207,7 +214,7 @@ const ProductDescription = () => {
               p="0"
               pos="absolute"
               bottom={12}
-              right={0}
+              right={1}
               zIndex={10}
               size={"sm"}
               onClick={handleRightSlider}

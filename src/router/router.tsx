@@ -41,6 +41,14 @@ const router = createBrowserRouter([
     element: <ProductDescription />,
   },
   { path: "/not-authorized", element: <NotAuthorized /> },
+  {
+    path: "/password/forget",
+    element: <Forget />,
+  },
+  {
+    path: "/auth/reset/:token",
+    element: <Reset />,
+  },
 
   // for admin and normal user access
   {
@@ -53,14 +61,6 @@ const router = createBrowserRouter([
       />
     ),
     children: [
-      {
-        path: "/password/forget",
-        element: <Forget />,
-      },
-      {
-        path: "/auth/reset/:token",
-        element: <Reset />,
-      },
       {
         path: "/user/profile",
         element: <Profile />,

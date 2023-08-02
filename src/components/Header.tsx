@@ -39,7 +39,7 @@ const Header = () => {
   const { isLoggedIn, userDetails } = useSelector(
     (state: RootState) => state.auth
   );
-  const userProfileImage = userDetails?.avatar?.secure_url || "";
+  const userProfileImage: string = userDetails?.avatar?.secure_url || "";
   const userRole = userDetails?.role;
   const { wishlists } = useSelector((state: RootState) => state.wishlist);
   const [totalWishlistItem, setTotalWishlistItem] = useState(0);
@@ -185,6 +185,21 @@ const Header = () => {
             >
               <AiOutlineShoppingCart fontSize={"20px"} />
               Cart
+              <Text
+                as={"span"}
+                bgColor={"orange.500"}
+                color={"white"}
+                fontWeight={"bold"}
+                fontSize={"sm"}
+                pos={"absolute"}
+                right={-4}
+                top={-4}
+                py={"1px"}
+                px={"7px"}
+                borderRadius={"full"}
+              >
+                {JSON.parse(localStorage.getItem("cartItems") || "[]").length}
+              </Text>
             </Link>
           </ListItem>
         )}

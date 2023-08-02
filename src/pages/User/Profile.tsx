@@ -39,12 +39,12 @@ const Profile = () => {
     (state: RootState) => state.auth
   );
   const addresses: Iaddress[] = userDetails.addresses;
-  const [userData, setUserData] = useState({
+  const userData: { imageURL: string; name: string } = {
     imageURL: userDetails?.avatar?.secure_url
       ? userDetails?.avatar?.secure_url
       : "",
     name: userDetails?.fullName,
-  });
+  };
   const randomID = useId();
 
   // for managing the modals state
