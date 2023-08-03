@@ -11,48 +11,48 @@ body {
 }
 
 /* Customize the vertical scrollbar */
-::-webkit-scrollbar {
-  width: 7px; /* Width of the vertical scrollbar */
+/* ::-webkit-scrollbar {
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Background color of the scrollbar track */
-}
+  background: #f1f1f1;
+} */
 
-::-webkit-scrollbar-thumb {
-  background: #888; /* Color of the scrollbar thumb */
-  border-radius: 6px; /* Border radius of the scrollbar thumb */
+/* ::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color of the scrollbar thumb on hover */
-}
+  background: #555;
+} */
 
 /* Customize the horizontal scrollbar */
-::-webkit-scrollbar-horizontal {
-  height: 7px; /* Height of the horizontal scrollbar */
-}
+/* ::-webkit-scrollbar-horizontal {
+  height: 7px;
+} */
 
-::-webkit-scrollbar-track-horizontal {
-  background: #f1f1f1; /* Background color of the horizontal scrollbar track */
-}
+/* ::-webkit-scrollbar-track-horizontal {
+  background: #f1f1f1;
+} */
 
-::-webkit-scrollbar-thumb-horizontal {
-  background: #888; /* Color of the horizontal scrollbar thumb */
-  border-radius: 6px; /* Border radius of the horizontal scrollbar thumb */
-}
+/* ::-webkit-scrollbar-thumb-horizontal {
+  background: #888;
+  border-radius: 6px;
+} */
 
-::-webkit-scrollbar-thumb-horizontal:hover {
-  background: #555; /* Color of the horizontal scrollbar thumb on hover */
-}
+/* ::-webkit-scrollbar-thumb-horizontal:hover {
+  background: #555;
+} */
 
-/* Hide the scrollbar when not hovered */
-::-webkit-scrollbar-thumb,
+/* Hide the scrollbar when not hovered  */
+/* ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb-horizontal {
   transition: background-color 0.3s ease-in-out;
-}
+} */
 
-::-webkit-scrollbar-thumb:hover,
+/* ::-webkit-scrollbar-thumb:hover,
 ::-webkit-scrollbar-thumb-horizontal:hover {
   background: #555;
-}
+} */
