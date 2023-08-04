@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import {
   Button,
   Heading,
+  Select,
   Table,
   TableContainer,
   Tbody,
@@ -49,7 +50,7 @@ const Order = () => {
           </Text>{" "}
         </Heading>
 
-        {/* for displaying the product table */}
+        {/* for displaying the orders table */}
         <TableContainer>
           <Table>
             <Thead>
@@ -63,7 +64,15 @@ const Order = () => {
                 <Th>Purchase Amount</Th>
                 <Th>Order Status</Th>
                 <Th>Payment Method</Th>
-                <Th>Payment Status</Th>
+
+                <Th>
+                  <Select placeholder="Select option">
+                    <option value="all">Payment Status</option>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                  </Select>
+                </Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>

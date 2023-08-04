@@ -29,6 +29,7 @@ const ProductCard = ({ product }: Iprop) => {
       key={product?._id}
       w={60}
       p={2}
+      flexShrink={0}
       rounded={"md"}
       shadow={"md"}
       pos={"relative"}

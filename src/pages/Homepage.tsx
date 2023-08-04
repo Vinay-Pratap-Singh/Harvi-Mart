@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   HStack,
   Heading,
@@ -11,32 +12,50 @@ import {
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import homepageImage from "../assets/homepage.jpg";
-import CategoryCard from "../components/CategoryCard";
 import { Link as RouterLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import ProductCard from "../components/ProductCard";
+import { Iproduct } from "../helper/interfaces";
+import { useEffect, useRef } from "react";
+import { getAllProducts } from "../redux/productSlice";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const Homepage = () => {
-  // category items details
-  const categories = [
-    {
-      imageURL: "jeans",
-      categoryName: "Jeans",
-      categoryDescription:
-        "We have the best collection of the jeans from top brands",
-    },
-    {
-      imageURL: "tshirt",
-      categoryName: "T-shirts",
-      categoryDescription:
-        "We have the best collection of the t-shirts from top brands",
-    },
-    {
-      imageURL: "shoes",
-      categoryName: "Shoes",
-      categoryDescription:
-        "We have the best collection of the shoes from top brands",
-    },
-  ];
+  const dispatch = useDispatch<AppDispatch>();
+  const { products, isLoading } = useSelector(
+    (state: RootState) => state.product
+  );
+  const productToBeDisplayed =
+    products.length > 10 ? products.slice(0, 10) : products;
+
+  const slideContainerRef = useRef<HTMLDivElement>(null);
+
+  // function to scroll container left
+  const handleLeftSlider = () => {
+    if (slideContainerRef.current) {
+      slideContainerRef.current.scrollBy({
+        left: -400,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // function to scroll container right
+  const handleRightSlider = () => {
+    if (slideContainerRef.current) {
+      slideContainerRef.current.scrollBy({
+        left: 400,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // for loading the products
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
   return (
     <Layout>
@@ -57,31 +76,29 @@ const Homepage = () => {
         {/* for describing the speciality */}
         <VStack w={"50%"} alignItems={"flex-start"}>
           <Heading fontSize={"2xl"}>
-            Elevate Your Style with{" "}
+            Elevate Your Choice with{" "}
             <Text as={"span"} color="orange.500">
               Harvi Mart
             </Text>
           </Heading>
-          <Heading fontSize={"lg"}>
-            Your One-Stop Shop for Trendy Clothing
-          </Heading>
+
+          <Heading fontSize={"lg"}>Your one-stop shop for your need</Heading>
           <Text fontSize={"sm"} fontWeight={"semibold"}>
-            Elevate your wardrobe with Harvi Mart - your destination for{" "}
+            Discover a world of trendy clothing, cutting-edge electronics, fresh
+            groceries, and more at Harvi Mart. Curated by experts, our
             <Text as={"span"} color={"orange.500"}>
-              trendy clothing
-            </Text>
-            . Our collection is{" "}
-            <Text as={"span"} color={"orange.500"}>
-              curated by fashion experts
+              one-stop-shop
             </Text>{" "}
-            to ensure that you stay ahead of the curve. Discover the latest
-            styles for men and women, from casual wear to formal attire
+            offers a seamless shopping experience, bringing convenience and
+            elegance to your doorstep. Join the Harvi Mart community and embrace
+            a lifestyle that celebrates your unique preferences and passions.
+            Elevate your style with limitless choices today.
           </Text>
           <UnorderedList fontSize={"sm"} pl={4} fontWeight={"semibold"}>
             <ListItem>Free shipping on all orders</ListItem>
             <ListItem>Hassle-free returns</ListItem>
             <ListItem>Exclusive discounts and deals</ListItem>
-            <ListItem>Wide range of sizes available</ListItem>
+            <ListItem>Wide range of products available</ListItem>
             <ListItem>24/7 customer support</ListItem>
           </UnorderedList>
 
@@ -91,23 +108,60 @@ const Homepage = () => {
         </VStack>
       </HStack>
 
-      {/* for categories section */}
+      {/* for products section */}
       <VStack my={10} gap={5}>
-        <Heading fontSize={"2xl"}>Our Trendy Clothing Category</Heading>
+        <Heading fontSize={"2xl"}>Our Trendy Products</Heading>
 
         {/* adding the categories cards */}
-        <HStack flexWrap={"wrap"} gap={5}>
-          {categories.map((element, index) => {
-            return (
-              <CategoryCard
-                key={index}
-                categoryDescription={element.categoryDescription}
-                categoryName={element.categoryName}
-                imageURL={element.imageURL}
-              />
-            );
-          })}
-        </HStack>
+        <Box maxW={"full"} pos={"relative"} px={5}>
+          <HStack
+            overflowX="scroll"
+            alignItems={"left"}
+            justifyContent={"left"}
+            ref={slideContainerRef}
+            scrollBehavior={"smooth"}
+            gap={5}
+            py={5}
+            sx={{
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          >
+            {productToBeDisplayed.map((product: Iproduct) => {
+              return <ProductCard key={product._id} product={product} />;
+            })}
+          </HStack>
+          {/* adding the left and right buttons */}
+
+          <Button
+            borderRadius={"full"}
+            p="0"
+            pos="absolute"
+            top={"50%"}
+            transform={"translateY(-50%)"}
+            left={2}
+            zIndex={10}
+            size={"sm"}
+            onClick={handleLeftSlider}
+          >
+            <AiOutlineLeft fontSize={"20px"} />
+          </Button>
+
+          <Button
+            borderRadius={"full"}
+            p="0"
+            pos="absolute"
+            top={"50%"}
+            transform={"translateY(-50%)"}
+            right={2}
+            zIndex={10}
+            size={"sm"}
+            onClick={handleRightSlider}
+          >
+            <AiOutlineRight fontSize={"20px"} />
+          </Button>
+        </Box>
       </VStack>
     </Layout>
   );
