@@ -31,9 +31,19 @@ const ProductCard = ({ product }: Iprop) => {
       p={2}
       flexShrink={0}
       rounded={"md"}
-      shadow={"md"}
+      border={"1px solid #f2f2f2"}
+      transition={"all 0.1s ease-in-out"}
+      _hover={{
+        boxShadow: "0 0 10px gray",
+        border: "none",
+        transform: "translateY(-10px)",
+      }}
       pos={"relative"}
       alignSelf={"stretch"}
+      cursor={"pointer"}
+      onClick={() =>
+        navigate(`/product/detail/${product?._id}`, { state: { ...product } })
+      }
     >
       <Box
         pos={"absolute"}
@@ -52,37 +62,45 @@ const ProductCard = ({ product }: Iprop) => {
       </Box>
 
       <Image h={40} src={product?.images?.[0]?.image?.secure_url} />
-      <Heading fontSize={"md"} fontWeight={"semibold"}>
+      <Heading fontSize={"md"} fontWeight={"semibold"} noOfLines={1}>
         {product?.title}
       </Heading>
       {product?.discountedPrice ? (
-        <HStack>
+        <HStack w={"full"}>
           <Text fontWeight={"semibold"} fontSize={"md"}>
             &#x20b9;{product?.discountedPrice}
           </Text>
-          <Text fontSize={"sm"} fontWeight={"semibold"}>
+          <Text
+            fontSize={"xs"}
+            color={"gray.500"}
+            alignSelf={"flex-end"}
+            fontWeight={"semibold"}
+          >
             <s>&#x20b9;{product?.originalPrice}</s>
+          </Text>
+          <Text fontWeight={"semibold"} fontSize={"sm"} color={"primaryColor"}>
+            (
+            {(
+              ((product?.originalPrice - product.discountedPrice) /
+                product?.originalPrice) *
+              100
+            ).toFixed(0)}
+            % Off)
           </Text>
         </HStack>
       ) : (
-        <Text fontSize={"sm"} fontWeight={"semibold"}>
+        <Text
+          fontSize={"sm"}
+          fontWeight={"semibold"}
+          w={"full"}
+          textAlign={"left"}
+        >
           &#x20b9;{product?.originalPrice}
         </Text>
       )}
-      <Text fontSize={"sm"} noOfLines={2}>
+      <Text fontSize={"sm"} noOfLines={2} w={"full"} textAlign={"left"}>
         {product?.description}
       </Text>
-
-      {/* button for description page */}
-      <Button
-        w={"full"}
-        colorScheme="orange"
-        onClick={() =>
-          navigate(`/product/detail/${product?._id}`, { state: { ...product } })
-        }
-      >
-        More Details
-      </Button>
     </VStack>
   );
 };

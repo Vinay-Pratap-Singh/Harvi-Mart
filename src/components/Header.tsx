@@ -46,8 +46,6 @@ const Header = () => {
 
   // for handling the button loading state
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // for handling the wishlist api calls
-  const [apiCalled, setApiCalled] = useState(false);
 
   // for search bar input
   const { handleSubmit, register } = useForm<{ searchedText: string }>({
@@ -69,34 +67,6 @@ const Header = () => {
     await dispatch(logout());
     setIsSubmitting(false);
   };
-
-  // for getting the total number of items in wishlist
-  useEffect(() => {
-    if (isLoggedIn) {
-      let totalProducts = 0;
-      wishlists.length !== 0
-        ? wishlists.forEach((wishlist: any) => {
-            totalProducts += wishlist?.products?.length;
-          })
-        : (totalProducts = 0);
-      setTotalWishlistItem(totalProducts);
-    }
-  }, [wishlists]);
-
-  // getting the latest wishlist data
-  useEffect(() => {
-    if (isLoggedIn && !apiCalled) {
-      const data = localStorage.getItem("wishlist");
-      if (data) {
-        setApiCalled(true);
-      } else {
-        (async () => {
-          await dispatch(getAllWishlists());
-          setApiCalled(true);
-        })();
-      }
-    }
-  }, []);
 
   return (
     <HStack
