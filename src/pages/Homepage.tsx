@@ -53,9 +53,9 @@ const Homepage = () => {
   };
 
   // for loading the products
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllProducts());
+  // }, []);
 
   return (
     <Layout>

@@ -169,6 +169,7 @@ const ProductDescription = () => {
                   ) => {
                     return (
                       <Box
+                        key={image.id}
                         w={28}
                         h={28}
                         flexShrink={0}

@@ -80,7 +80,7 @@ const Order = () => {
             {/* adding the table body */}
             <Tbody fontSize={"14.5px"} fontWeight={"semibold"}>
               {orders.length === 0 ? (
-                <Tr>
+                <Tr textAlign={"center"}>
                   <Td colSpan={9}>Oops! There is no products</Td>
                 </Tr>
               ) : (

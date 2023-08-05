@@ -11,6 +11,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import DisplayWishlists from "./Modals/DisplayWishlists";
 import { Iproduct } from "../helper/interfaces";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 interface Iprop {
   product: Iproduct;
@@ -18,6 +20,7 @@ interface Iprop {
 
 const ProductCard = ({ product }: Iprop) => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const {
     isOpen: displayWishlistIsOpen,
     onOpen: displayWishlistOnOpen,
@@ -45,21 +48,23 @@ const ProductCard = ({ product }: Iprop) => {
         navigate(`/product/detail/${product?._id}`, { state: { ...product } })
       }
     >
-      <Box
-        pos={"absolute"}
-        right={2}
-        cursor={"pointer"}
-        color={"gray.300"}
-        _hover={{ color: "#f92a2a" }}
-        transition={"all 0.2s ease-in-out"}
-      >
-        <DisplayWishlists
-          displayWishlistIsOpen={displayWishlistIsOpen}
-          displayWishlistOnClose={displayWishlistOnClose}
-          displayWishlistOnOpen={displayWishlistOnOpen}
-          productID={product?._id}
-        />
-      </Box>
+      {isLoggedIn && (
+        <Box
+          pos={"absolute"}
+          right={2}
+          cursor={"pointer"}
+          color={"gray.300"}
+          _hover={{ color: "#f92a2a" }}
+          transition={"all 0.2s ease-in-out"}
+        >
+          <DisplayWishlists
+            displayWishlistIsOpen={displayWishlistIsOpen}
+            displayWishlistOnClose={displayWishlistOnClose}
+            displayWishlistOnOpen={displayWishlistOnOpen}
+            productID={product?._id}
+          />
+        </Box>
+      )}
 
       <Image h={40} src={product?.images?.[0]?.image?.secure_url} />
       <Heading fontSize={"md"} fontWeight={"semibold"} noOfLines={1}>
@@ -68,7 +73,7 @@ const ProductCard = ({ product }: Iprop) => {
       {product?.discountedPrice ? (
         <HStack w={"full"}>
           <Text fontWeight={"semibold"} fontSize={"md"}>
-            &#x20b9;{product?.discountedPrice}
+            Rs {product?.discountedPrice}
           </Text>
           <Text
             fontSize={"xs"}
@@ -76,7 +81,7 @@ const ProductCard = ({ product }: Iprop) => {
             alignSelf={"flex-end"}
             fontWeight={"semibold"}
           >
-            <s>&#x20b9;{product?.originalPrice}</s>
+            <s>Rs {product?.originalPrice}</s>
           </Text>
           <Text fontWeight={"semibold"} fontSize={"sm"} color={"primaryColor"}>
             (
@@ -90,12 +95,12 @@ const ProductCard = ({ product }: Iprop) => {
         </HStack>
       ) : (
         <Text
-          fontSize={"sm"}
           fontWeight={"semibold"}
+          fontSize={"md"}
           w={"full"}
           textAlign={"left"}
         >
-          &#x20b9;{product?.originalPrice}
+          Rs {product?.originalPrice}
         </Text>
       )}
       <Text fontSize={"sm"} noOfLines={2} w={"full"} textAlign={"left"}>

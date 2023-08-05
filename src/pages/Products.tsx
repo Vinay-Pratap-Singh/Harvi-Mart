@@ -144,8 +144,8 @@ const Products = () => {
   // getting the products and categories
   useEffect(() => {
     (async () => {
-      await dispatch(getAllProducts());
-      await dispatch(getAllCategories());
+      // await dispatch(getAllProducts());
+      // await dispatch(getAllCategories());
     })();
     setCategoryValue("");
     setPriceValue("");

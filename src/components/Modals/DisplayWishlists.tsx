@@ -1,38 +1,22 @@
 import {
   Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   HStack,
   Heading,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  addProductToWishlist,
-  createWishlist,
-  getAllWishlists,
-} from "../../redux/wishlistSlice";
+import { addProductToWishlist } from "../../redux/wishlistSlice";
 import { AiFillHeart, AiOutlineCheck } from "react-icons/ai";
-import { useEffect } from "react";
 import AddWishlist from "./AddWishlist";
-
-interface Iwishlist {
-  name: string;
-}
+import { Iwishlist } from "../../helper/interfaces";
 
 interface Iprops {
   displayWishlistIsOpen: boolean;
@@ -61,12 +45,6 @@ const DisplayWishlists: React.FC<Iprops> = ({
     displayWishlistOnClose();
     await dispatch(addProductToWishlist(id));
   };
-
-  useEffect(() => {
-    (async () => {
-      await dispatch(getAllWishlists());
-    })();
-  }, [dispatch]);
 
   return (
     <>
@@ -106,9 +84,10 @@ const DisplayWishlists: React.FC<Iprops> = ({
             {wishlists.length === 0 ? (
               <Text>Oops! No wishlist found</Text>
             ) : (
-              wishlists.map((wishlist: any) => {
+              wishlists.map((wishlist: Iwishlist) => {
                 return (
                   <HStack
+                    key={wishlist._id}
                     justifyContent={"space-between"}
                     mb={1}
                     p={2}
