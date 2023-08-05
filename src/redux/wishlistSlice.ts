@@ -5,10 +5,12 @@ import { Iwishlist } from "../helper/interfaces";
 
 interface Istate {
   wishlists: Iwishlist[];
+  isWishlistLoaded: boolean;
 }
 
 const initialState: Istate = {
   wishlists: JSON.parse(localStorage.getItem("wishlist") || "[]"),
+  isWishlistLoaded: false,
 };
 
 // function to get all wishlists
@@ -98,6 +100,7 @@ const wishlistSlice = createSlice({
             "wishlist",
             JSON.stringify(action?.payload?.wishlists)
           );
+          state.isWishlistLoaded = true;
         }
       })
       .addCase(getAllWishlists.rejected, () => {

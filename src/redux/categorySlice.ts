@@ -3,8 +3,14 @@ import { toast } from "react-hot-toast";
 import axiosInstance from "../helper/AxiosInstance";
 import { IcategoryDetails } from "../helper/interfaces";
 
-const initialState = {
+interface Istate {
+  categories: IcategoryDetails[];
+  isCategoriesLoaded: boolean;
+}
+
+const initialState: Istate = {
   categories: [],
+  isCategoriesLoaded: false,
 };
 
 // function to get all category data
@@ -93,6 +99,7 @@ const categorySlice = createSlice({
       .addCase(getAllCategories.fulfilled, (state, action) => {
         if (action.payload?.categories) {
           state.categories = action.payload.categories;
+          state.isCategoriesLoaded = true;
         }
       })
       .addCase(getAllCategories.rejected, () => {

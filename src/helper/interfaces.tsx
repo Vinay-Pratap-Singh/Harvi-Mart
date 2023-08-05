@@ -35,6 +35,7 @@ export interface IloginData {
 
 // interface for category data
 export interface IcategoryDetails {
+  _id?: string;
   name: string;
   description?: string;
 }

@@ -7,11 +7,13 @@ interface Istate {
   products: Iproduct[];
   searchedText: string;
   isLoading: boolean;
+  isProductLoaded: boolean;
 }
 const initialState: Istate = {
   products: [],
   searchedText: "",
   isLoading: false,
+  isProductLoaded: false,
 };
 
 // function to get all products
@@ -105,6 +107,7 @@ const productSlice = createSlice({
     builder
       .addCase(getAllProducts.pending, (state) => {
         state.isLoading = true;
+        state.isProductLoaded = true;
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         if (action.payload) {
