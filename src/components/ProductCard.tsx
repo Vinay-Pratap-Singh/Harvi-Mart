@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   HStack,
   Heading,
   Image,
@@ -44,13 +43,11 @@ const ProductCard = ({ product }: Iprop) => {
       pos={"relative"}
       alignSelf={"stretch"}
       cursor={"pointer"}
-      onClick={() =>
-        navigate(`/product/detail/${product?._id}`, { state: { ...product } })
-      }
     >
       {isLoggedIn && (
         <Box
           pos={"absolute"}
+          zIndex={20}
           right={2}
           cursor={"pointer"}
           color={"gray.300"}
@@ -66,46 +63,57 @@ const ProductCard = ({ product }: Iprop) => {
         </Box>
       )}
 
-      <Image h={40} src={product?.images?.[0]?.image?.secure_url} />
-      <Heading fontSize={"md"} fontWeight={"semibold"} noOfLines={1}>
-        {product?.title}
-      </Heading>
-      {product?.discountedPrice ? (
-        <HStack w={"full"}>
-          <Text fontWeight={"semibold"} fontSize={"md"}>
-            Rs {product?.discountedPrice}
-          </Text>
+      <Image h={40} mb={2} src={product?.images?.[0]?.image?.secure_url} />
+      <Box
+        w={"full"}
+        onClick={() =>
+          navigate(`/product/detail/${product?._id}`, { state: { ...product } })
+        }
+      >
+        <Heading fontSize={"md"} fontWeight={"semibold"} noOfLines={1}>
+          {product?.title}
+        </Heading>
+        {product?.discountedPrice ? (
+          <HStack w={"full"}>
+            <Text fontWeight={"semibold"} fontSize={"md"}>
+              Rs {product?.discountedPrice}
+            </Text>
+            <Text
+              fontSize={"xs"}
+              color={"gray.500"}
+              alignSelf={"flex-end"}
+              fontWeight={"semibold"}
+            >
+              <s>Rs {product?.originalPrice}</s>
+            </Text>
+            <Text
+              fontWeight={"semibold"}
+              fontSize={"sm"}
+              color={"primaryColor"}
+            >
+              (
+              {(
+                ((product?.originalPrice - product.discountedPrice) /
+                  product?.originalPrice) *
+                100
+              ).toFixed(0)}
+              % Off)
+            </Text>
+          </HStack>
+        ) : (
           <Text
-            fontSize={"xs"}
-            color={"gray.500"}
-            alignSelf={"flex-end"}
             fontWeight={"semibold"}
+            fontSize={"md"}
+            w={"full"}
+            textAlign={"left"}
           >
-            <s>Rs {product?.originalPrice}</s>
+            Rs {product?.originalPrice}
           </Text>
-          <Text fontWeight={"semibold"} fontSize={"sm"} color={"primaryColor"}>
-            (
-            {(
-              ((product?.originalPrice - product.discountedPrice) /
-                product?.originalPrice) *
-              100
-            ).toFixed(0)}
-            % Off)
-          </Text>
-        </HStack>
-      ) : (
-        <Text
-          fontWeight={"semibold"}
-          fontSize={"md"}
-          w={"full"}
-          textAlign={"left"}
-        >
-          Rs {product?.originalPrice}
+        )}
+        <Text fontSize={"sm"} noOfLines={2} w={"full"} textAlign={"left"}>
+          {product?.description}
         </Text>
-      )}
-      <Text fontSize={"sm"} noOfLines={2} w={"full"} textAlign={"left"}>
-        {product?.description}
-      </Text>
+      </Box>
     </VStack>
   );
 };
