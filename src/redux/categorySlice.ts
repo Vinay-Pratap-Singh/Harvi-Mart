@@ -6,11 +6,13 @@ import { IcategoryDetails } from "../helper/interfaces";
 interface Istate {
   categories: IcategoryDetails[];
   isCategoriesLoaded: boolean;
+  isLoading: boolean;
 }
 
 const initialState: Istate = {
   categories: [],
   isCategoriesLoaded: false,
+  isLoading: true,
 };
 
 // function to get all category data
@@ -96,44 +98,64 @@ const categorySlice = createSlice({
   extraReducers: (builder) => {
     // for getting all categories data
     builder
+      .addCase(getAllCategories.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(getAllCategories.fulfilled, (state, action) => {
         if (action.payload?.categories) {
           state.categories = action.payload.categories;
           state.isCategoriesLoaded = true;
+          state.isLoading = false;
         }
       })
-      .addCase(getAllCategories.rejected, () => {
+      .addCase(getAllCategories.rejected, (state) => {
         toast.error("Failed to load all categories data");
+        state.isLoading = false;
       })
 
       //   for create new category
+      .addCase(createCategory.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(createCategory.fulfilled, (state, action) => {
         if (action.payload?.success) {
           toast.success(action.payload?.message);
+          state.isLoading = false;
         }
       })
-      .addCase(createCategory.rejected, () => {
+      .addCase(createCategory.rejected, (state) => {
         toast.error("Failed to create new category");
+        state.isLoading = false;
       })
 
       // for delete category
+      .addCase(deleteCategory.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         if (action.payload?.success) {
           toast.success(action.payload?.message);
+          state.isLoading = false;
         }
       })
-      .addCase(deleteCategory.rejected, () => {
+      .addCase(deleteCategory.rejected, (state) => {
         toast.error("Failed to delete category");
+        state.isLoading = false;
       })
 
       // for update category
+      .addCase(updateCategory.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(updateCategory.fulfilled, (state, action) => {
         if (action.payload?.success) {
           toast.success(action.payload?.message);
+          state.isLoading = false;
         }
       })
-      .addCase(updateCategory.rejected, () => {
+      .addCase(updateCategory.rejected, (state) => {
         toast.error("Failed to update category");
+        state.isLoading = false;
       });
   },
 });

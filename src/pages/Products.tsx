@@ -5,28 +5,30 @@ import {
   Image,
   Radio,
   RadioGroup,
+  SkeletonText,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import { useEffect, useState } from "react";
-import { getAllProducts } from "../redux/productSlice";
 import ProductShimmer from "../shimmer/ProductShimmer";
-import { getAllCategories } from "../redux/categorySlice";
 import noProductFound from "../assets/noProductFound.jpg";
 import { AiOutlineClear } from "react-icons/ai";
 import { Iproduct } from "../helper/interfaces";
 import { Helmet } from "react-helmet";
 
 const Products = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { products, searchedText, isLoading } = useSelector(
-    (state: RootState) => state.product
+  const {
+    products,
+    searchedText,
+    isLoading: isProductLoading,
+  } = useSelector((state: RootState) => state.product);
+  const { categories, isLoading: isCategoryLoading } = useSelector(
+    (state: RootState) => state.category
   );
-  const { categories } = useSelector((state: RootState) => state.category);
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   const [categoryValue, setCategoryValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
@@ -139,17 +141,7 @@ const Products = () => {
         });
       setProductToBeDisplayed(newData);
     }
-  }, [priceValue, categoryValue]);
-
-  // getting the products and categories
-  useEffect(() => {
-    (async () => {
-      // await dispatch(getAllProducts());
-      // await dispatch(getAllCategories());
-    })();
-    setCategoryValue("");
-    setPriceValue("");
-  }, []);
+  }, [priceValue, categoryValue, products]);
 
   // for handling user product search
   useEffect(() => {
@@ -194,86 +186,112 @@ const Products = () => {
             <Heading as={"h2"} fontSize={"md"} fontWeight={"semibold"}>
               By Category
             </Heading>
-            <RadioGroup onChange={setCategoryValue} value={categoryValue}>
-              <Stack direction="column" spacing={1}>
-                {categories.length !== 0 &&
-                  categories.map((category: any) => {
-                    return (
-                      <Radio
-                        key={category?._id}
-                        value={category?.name}
-                        colorScheme="orange"
-                        size="sm"
-                      >
-                        {category?.name}
-                      </Radio>
-                    );
-                  })}
-              </Stack>
-            </RadioGroup>
+            {isCategoryLoading ? (
+              <SkeletonText
+                mt="4"
+                noOfLines={4}
+                spacing="5"
+                skeletonHeight="2"
+                pr={2}
+              />
+            ) : (
+              <RadioGroup onChange={setCategoryValue} value={categoryValue}>
+                <Stack direction="column" spacing={1}>
+                  {categories.length !== 0 &&
+                    categories.map((category: any) => {
+                      return (
+                        <Radio
+                          key={category?._id}
+                          value={category?.name}
+                          colorScheme="orange"
+                          size="sm"
+                        >
+                          <Text fontWeight={"semibold"}> {category?.name}</Text>
+                        </Radio>
+                      );
+                    })}
+                </Stack>
+              </RadioGroup>
+            )}
           </Stack>
 
           {/* for filter by price */}
-          <Stack alignSelf={"flex-start"} spacing={2} pl={2}>
+          <Stack alignSelf={"flex-start"} spacing={2} pl={2} pb={2} w={"full"}>
             <Heading as={"h2"} fontSize={"md"} fontWeight={"semibold"}>
               By Price
             </Heading>
-            <RadioGroup onChange={setPriceValue} value={priceValue}>
-              <Stack direction="column" spacing={1}>
-                <Radio
-                  price-min="0"
-                  price-max="300"
-                  colorScheme="orange"
-                  size="sm"
-                  value="0,300"
-                >
-                  Under &#x20b9;300
-                </Radio>
-                <Radio
-                  price-min="300"
-                  price-max="500"
-                  colorScheme="orange"
-                  size="sm"
-                  value="300,500"
-                >
-                  &#x20b9;300 - &#x20b9;500
-                </Radio>
-                <Radio
-                  price-min="500"
-                  price-max="1000"
-                  colorScheme="orange"
-                  size="sm"
-                  value="500,1000"
-                >
-                  &#x20b9;500 - &#x20b9;1000
-                </Radio>
-                <Radio
-                  price-min="1000"
-                  price-max="1500"
-                  colorScheme="orange"
-                  size="sm"
-                  value="1000,1500"
-                >
-                  &#x20b9;1000 - &#x20b9;1500
-                </Radio>
-                <Radio
-                  price-min="1500"
-                  price-max=""
-                  colorScheme="orange"
-                  size="sm"
-                  value="1500, "
-                >
-                  Over &#x20b9;1500
-                </Radio>
-              </Stack>
-            </RadioGroup>
+            {isCategoryLoading ? (
+              <SkeletonText
+                mt="4"
+                noOfLines={4}
+                spacing="5"
+                skeletonHeight="2"
+                pr={2}
+              />
+            ) : (
+              <RadioGroup onChange={setPriceValue} value={priceValue}>
+                <Stack direction="column" spacing={1}>
+                  <Radio
+                    price-min="0"
+                    price-max="300"
+                    colorScheme="orange"
+                    size="sm"
+                    value="0,300"
+                  >
+                    <Text fontWeight={"semibold"}>Under &#x20b9;300</Text>
+                  </Radio>
+                  <Radio
+                    price-min="300"
+                    price-max="500"
+                    colorScheme="orange"
+                    size="sm"
+                    value="300,500"
+                  >
+                    <Text fontWeight={"semibold"}>
+                      &#x20b9;300 - &#x20b9;500
+                    </Text>
+                  </Radio>
+                  <Radio
+                    price-min="500"
+                    price-max="1000"
+                    colorScheme="orange"
+                    size="sm"
+                    value="500,1000"
+                  >
+                    <Text fontWeight={"semibold"}>
+                      &#x20b9;500 - &#x20b9;1000
+                    </Text>
+                  </Radio>
+                  <Radio
+                    price-min="1000"
+                    price-max="1500"
+                    colorScheme="orange"
+                    size="sm"
+                    value="1000,1500"
+                  >
+                    <Text fontWeight={"semibold"}>
+                      &#x20b9;1000 - &#x20b9;1500
+                    </Text>
+                  </Radio>
+                  <Radio
+                    price-min="1500"
+                    price-max=""
+                    colorScheme="orange"
+                    size="sm"
+                    value="1500, "
+                  >
+                    <Text fontWeight={"semibold"}>Over &#x20b9;1500</Text>
+                  </Radio>
+                </Stack>
+              </RadioGroup>
+            )}
           </Stack>
         </VStack>
 
         {/* for displaying the product card */}
         <VStack w={"full"} alignSelf={"baseline"} gap={5}>
           {/* displaying the clear filter option */}
-          {!isLoading && (categoryValue !== "" || priceValue !== "") && (
+          {!isProductLoading && (categoryValue !== "" || priceValue !== "") && (
             <Heading
               alignSelf={"flex-start"}
               fontSize={16}
@@ -294,11 +312,11 @@ const Products = () => {
             w={"full"}
             alignSelf={"baseline"}
             justifyContent={"center"}
-            gap={10}
+            gap={5}
             flexWrap={"wrap"}
           >
             {/* rendering the products and shimmer based on product data */}
-            {isLoading ? (
+            {isProductLoading ? (
               [...Array(7)].map((_, i) => {
                 return <ProductShimmer key={i} />;
               })
