@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import { ReactNode, useEffect, useMemo } from "react";
+import { ReactNode, useEffect } from "react";
 import { HStack } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
 import { useDispatch, useSelector } from "react-redux";

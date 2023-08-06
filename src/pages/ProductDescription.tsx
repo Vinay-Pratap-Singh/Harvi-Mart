@@ -18,9 +18,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineRateReview } from "react-icons/md";
 import StarReview from "../components/StarReview";
 import { useEffect, useRef, useState } from "react";
-import UserReview from "../components/CustomerReviews";
+import CustomerReviews from "../components/CustomerReviews";
 import Layout from "./Layout/Layout";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Iproduct, IproductReview } from "../helper/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,7 +29,6 @@ import {
 } from "../redux/reviewSlice";
 import { AppDispatch, RootState } from "../redux/store";
 import {
-  AiOutlineClose,
   AiOutlineLeft,
   AiOutlineRight,
   AiOutlineShoppingCart,
@@ -37,11 +36,12 @@ import {
 import { addProductToCart } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
 import { Helmet } from "react-helmet";
-import { BiImageAdd } from "react-icons/bi";
+import { nanoid } from "@reduxjs/toolkit";
 
 const ProductDescription = () => {
   const { state } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -60,11 +60,31 @@ const ProductDescription = () => {
   });
   const [rating, setRating] = useState(0);
   const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const [currentImagePreview, setCurrentImagePreview] = useState(0);
   const slideContainerRef = useRef<HTMLDivElement>(null);
 
   // function to handle buy now
-  const handleBuyNow = () => {};
+  const handleBuyNow = (product: Iproduct) => {
+    // checking for the item already in cart or not
+    let isInCart = false;
+    if (cartItems.length !== 0) {
+      for (let i = 0; i < cartItems.length; i++) {
+        if (cartItems[i]?._id === product?._id) {
+          isInCart = true;
+          break;
+        }
+      }
+    }
+    if (!isInCart) {
+      (async () => {
+        await dispatch(addProductToCart(product));
+      })();
+    }
+
+    // sending the user to the cart page
+    navigate("/cart");
+  };
 
   // function to add the product into cart
   const addToCart = (product: Iproduct) => {
@@ -181,7 +201,7 @@ const ProductDescription = () => {
                         }}
                         shadow={currentImagePreview === index ? "md" : ""}
                         transition={"all 0.2s ease-in-out"}
-                        onMouseEnter={() => {
+                        onClick={() => {
                           setCurrentImagePreview(index);
                         }}
                       >
@@ -275,12 +295,25 @@ const ProductDescription = () => {
               <Text>Hurry up! only {state?.quantity} left</Text>
             )}
             <HStack>
-              <Button colorScheme="orange" onClick={handleBuyNow}>
+              <Button
+                disabled={!isLoggedIn}
+                colorScheme="orange"
+                onClick={() =>
+                  isLoggedIn
+                    ? handleBuyNow(state)
+                    : toast.error("Please login to continue")
+                }
+              >
                 Buy Now
               </Button>
               <Button
+                disabled={!isLoggedIn}
                 _hover={{ color: "primaryColor" }}
-                onClick={() => addToCart(state)}
+                onClick={() =>
+                  isLoggedIn
+                    ? addToCart(state)
+                    : toast.error("Please login to continue")
+                }
               >
                 <AiOutlineShoppingCart size={22} />
               </Button>
@@ -292,7 +325,7 @@ const ProductDescription = () => {
             <Heading fontSize={"2xl"} fontWeight={"bold"} mb={5}>
               Customer Reviews
             </Heading>
-            <UserReview productID={state?._id} />
+            <CustomerReviews key={nanoid()} productID={state?._id} />
           </VStack>
 
           {/* creating the product review section */}

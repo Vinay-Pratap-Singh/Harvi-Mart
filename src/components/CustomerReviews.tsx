@@ -16,7 +16,6 @@ import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import { getIndividualProductReview } from "../redux/reviewSlice";
 import DeleteReview from "./AlertBox/DeleteReview";
-import StarReview from "./StarReview";
 
 interface Iprop {
   productID: string;
@@ -32,80 +31,47 @@ const CustomerReviews = ({ productID }: Iprop) => {
     onClose: deleteReviewOnClose,
   } = useDisclosure();
   const [idToBeDeleted, setIdToBeDeleted] = useState("");
-  const [reviewStar, setReviewStar] = useState({
+  const reviewStar = {
     oneStar: 0,
     twoStar: 0,
     threeStar: 0,
     fourStar: 0,
     fiveStar: 0,
-  });
-
-  // calculating the each number of stars
-  // reviews.length &&
-  //   reviews.map((review: any) => {
-  //     const rating = review?.rating;
-  //     switch (rating) {
-  //       case 1: {
-  //         reviewStar.oneStar += 1;
-  //         break;
-  //       }
-  //       case 2: {
-  //         reviewStar.twoStar += 1;
-  //         break;
-  //       }
-  //       case 3: {
-  //         reviewStar.threeStar += 1;
-  //         break;
-  //       }
-  //       case 4: {
-  //         reviewStar.fourStar += 1;
-  //         break;
-  //       }
-  //       case 5: {
-  //         reviewStar.fiveStar += 1;
-  //         break;
-  //       }
-  //     }
-  //   });
-
-  useEffect(() => {
-    const stars = { ...reviewStar };
-    reviews.length &&
-      reviews.forEach((review: any) => {
-        const rating = review?.rating;
-        switch (rating) {
-          case 1: {
-            reviewStar.oneStar += 1;
-            break;
-          }
-          case 2: {
-            reviewStar.twoStar += 1;
-            break;
-          }
-          case 3: {
-            reviewStar.threeStar += 1;
-            break;
-          }
-          case 4: {
-            reviewStar.fourStar += 1;
-            break;
-          }
-          case 5: {
-            reviewStar.fiveStar += 1;
-            break;
-          }
+  };
+  reviews.length &&
+    reviews.forEach((review: any) => {
+      const rating = review?.rating;
+      switch (rating) {
+        case 1: {
+          reviewStar.oneStar += 1;
+          break;
         }
-      });
-    setReviewStar({ ...stars });
-  }, [reviews]);
+        case 2: {
+          reviewStar.twoStar += 1;
+          break;
+        }
+        case 3: {
+          reviewStar.threeStar += 1;
+          break;
+        }
+        case 4: {
+          reviewStar.fourStar += 1;
+          break;
+        }
+        case 5: {
+          reviewStar.fiveStar += 1;
+          break;
+        }
+      }
+    });
 
   // getting the product review
   useEffect(() => {
     (async () => {
       await dispatch(getIndividualProductReview(productID));
     })();
-  }, []);
-  console.log(reviewStar);
+  }, [productID]);
+
   return (
     <VStack w={"full"} alignItems={"flex-start"}>
       {/* adding the reviews rating chart */}
@@ -130,7 +96,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
               icon={<AiFillStar fontSize={20} />}
               variant={"ghost"}
               _hover={{ bg: "none" }}
-              color={"gray.400"}
+              color={"primaryColor"}
               aria-label="Review Star"
               size="xs"
               cursor={"default"}

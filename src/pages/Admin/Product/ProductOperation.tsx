@@ -279,11 +279,10 @@ const ProductOperation = () => {
                             alignItems={"center"}
                             justifyContent={"center"}
                             w={"fit-content"}
-                            onMouseEnter={() => {
+                            onClick={() => {
                               totalImages[index].imageUrl &&
                                 setCurrentImagePreview(index);
                             }}
-                            onMouseLeave={() => setCurrentImagePreview(0)}
                           >
                             <FormLabel
                               htmlFor={`productImage${index}`}

@@ -26,7 +26,6 @@ export const getIndividualReview = createAsyncThunk(
   async (reviewID: string) => {
     try {
       const res = await axiosInstance.get(`/reviews/${reviewID}`);
-
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
@@ -40,7 +39,6 @@ export const getIndividualProductReview = createAsyncThunk(
   async (productID: string) => {
     try {
       const res = await axiosInstance.get(`/reviews/products/${productID}`);
-
       return res.data;
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
