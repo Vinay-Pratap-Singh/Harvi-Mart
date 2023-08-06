@@ -14,16 +14,15 @@ import Layout from "./Layout/Layout";
 import homepageImage from "../assets/homepage.jpg";
 import { Link as RouterLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import { Iproduct } from "../helper/interfaces";
-import { useEffect, useRef } from "react";
-import { getAllProducts } from "../redux/productSlice";
+import { useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import ProductShimmer from "../shimmer/ProductShimmer";
 
 const Homepage = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const { products, isLoading } = useSelector(
     (state: RootState) => state.product
   );
@@ -51,11 +50,6 @@ const Homepage = () => {
       });
     }
   };
-
-  // for loading the products
-  // useEffect(() => {
-  //   dispatch(getAllProducts());
-  // }, []);
 
   return (
     <Layout>
@@ -112,8 +106,8 @@ const Homepage = () => {
       <VStack my={10} gap={5}>
         <Heading fontSize={"2xl"}>Our Trendy Products</Heading>
 
-        {/* adding the categories cards */}
-        <Box maxW={"full"} pos={"relative"} px={5}>
+        {/* adding the products cards */}
+        <Box w={"full"} pos={"relative"} px={5}>
           <HStack
             overflowX="scroll"
             alignItems={"left"}
@@ -128,9 +122,24 @@ const Homepage = () => {
               },
             }}
           >
-            {productToBeDisplayed.map((product: Iproduct) => {
-              return <ProductCard key={product._id} product={product} />;
-            })}
+            {isLoading ? (
+              [...Array(7)].map((_, i) => {
+                return <ProductShimmer key={i} />;
+              })
+            ) : productToBeDisplayed.length ? (
+              productToBeDisplayed.map((product: Iproduct) => {
+                return <ProductCard key={product._id} product={product} />;
+              })
+            ) : (
+              <Text
+                w={"full"}
+                textAlign={"center"}
+                fontWeight={"semibold"}
+                fontSize={"md"}
+              >
+                No products found
+              </Text>
+            )}
           </HStack>
           {/* adding the left and right buttons */}
 

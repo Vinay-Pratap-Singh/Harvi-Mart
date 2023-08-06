@@ -75,13 +75,6 @@ const Wishlist = () => {
     await dispatch(removeFromWishlist(id));
   };
 
-  // loading the wishlist data
-  useEffect(() => {
-    (async () => {
-      await dispatch(getAllWishlists());
-    })();
-  }, []);
-
   return (
     <Layout>
       {/* adding the dynamic meta data */}

@@ -17,10 +17,9 @@ import DeleteCategory from "../../components/AlertBox/DeleteCategory";
 import UpdateCategory from "../../components/Modals/UpdateCategory";
 import Layout from "../Layout/Layout";
 import AddCategory from "../../components/Modals/AddCategory";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getAllCategories } from "../../redux/categorySlice";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { Helmet } from "react-helmet";
 
 const Category = () => {
@@ -50,16 +49,6 @@ const Category = () => {
     onOpen: addCategoryOnOpen,
     onClose: addCategoryOnClose,
   } = useDisclosure();
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  // for loading categories data on page render
-  useEffect(() => {
-    (async () => {
-      await dispatch(getAllCategories());
-      console.log("inside the useEffect");
-    })();
-  }, []);
 
   return (
     <Layout>

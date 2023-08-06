@@ -23,13 +23,11 @@ import {
 } from "@chakra-ui/react";
 import Layout from "../../Layout/Layout";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
-import { getAllProducts } from "../../../redux/productSlice";
-import { getAllCategories } from "../../../redux/categorySlice";
+import { ChangeEvent, useState } from "react";
 import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
 import { Iproduct, IproductData, Iimage } from "../../../helper/interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -40,7 +38,6 @@ interface IuserSearchedText {
 }
 
 const Product = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { categories } = useSelector((state: RootState) => state.category);
   const { products } = useSelector((state: RootState) => state.product);
@@ -101,15 +98,6 @@ const Product = () => {
     });
     setProductToBeDisplayed(newProductData);
   };
-
-  // for getting the products data on page load
-  useEffect(() => {
-    (async () => {
-      await dispatch(getAllProducts());
-      await dispatch(getAllCategories());
-      setProductToBeDisplayed(products);
-    })();
-  }, []);
 
   return (
     <Layout>

@@ -97,17 +97,11 @@ const addressSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // for getting all addresses
-      .addCase(getAllAddresses.fulfilled, (state, action) => {
-        console.log(action.payload);
-      })
       .addCase(getAllAddresses.rejected, () => {
         toast.error("Failed to get all addresses");
       })
 
       // for getting user addresses
-      .addCase(getUserAddresses.fulfilled, (state, action) => {
-        console.log(action.payload);
-      })
       .addCase(getUserAddresses.rejected, () => {
         toast.error("Failed to get user addresses");
       })

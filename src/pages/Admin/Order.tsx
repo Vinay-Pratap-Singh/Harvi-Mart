@@ -1,9 +1,7 @@
 import { Helmet } from "react-helmet";
 import Layout from "../Layout/Layout";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getAllOrders } from "../../redux/orderSlice";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import {
   Button,
   Heading,
@@ -23,13 +21,7 @@ import { IordersData } from "../../helper/interfaces";
 import { MdOutlineDescription } from "react-icons/md";
 
 const Order = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, orders } = useSelector((state: RootState) => state.order);
-
-  // fetching the orders data
-  useEffect(() => {
-    dispatch(getAllOrders());
-  }, []);
+  const { orders } = useSelector((state: RootState) => state.order);
 
   return (
     <Layout>

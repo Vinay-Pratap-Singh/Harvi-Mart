@@ -6,11 +6,13 @@ import { IordersData } from "../helper/interfaces";
 interface Istate {
   isLoading: boolean;
   orders: IordersData[];
+  isOrdersLoaded: boolean;
 }
 
 const initialState: Istate = {
   isLoading: false,
   orders: [],
+  isOrdersLoaded: false,
 };
 
 // function to fetch all orders
@@ -36,6 +38,7 @@ const orderSlice = createSlice({
         if (action.payload?.success) {
           state.isLoading = false;
           state.orders = action.payload?.orders;
+          state.isOrdersLoaded = true;
         }
       })
       .addCase(getAllOrders.rejected, (state) => {

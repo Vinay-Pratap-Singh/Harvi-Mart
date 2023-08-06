@@ -3,8 +3,14 @@ import { IcouponData } from "../helper/interfaces";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
 
-const initialState = {
+interface Istate {
+  coupons: IcouponData[];
+  isCouponLoaded: boolean;
+}
+
+const initialState: Istate = {
   coupons: [],
+  isCouponLoaded: false,
 };
 
 // function to get all coupons data
@@ -94,6 +100,7 @@ const couponSlice = createSlice({
       .addCase(getAllCoupons.fulfilled, (state, action) => {
         if (action.payload) {
           state.coupons = action?.payload?.coupons;
+          state.isCouponLoaded = true;
         }
       })
       .addCase(getAllCoupons.rejected, () => {

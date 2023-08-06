@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { useEffect, useState } from "react";
-import { getAllCoupons } from "../../redux/couponSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useState } from "react";
 import Layout from "../Layout/Layout";
 import {
   Box,
@@ -21,7 +20,6 @@ import DeleteCoupon from "../../components/AlertBox/DeleteCoupon";
 import { Helmet } from "react-helmet";
 
 const Coupon = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const { coupons } = useSelector((state: RootState) => state.coupon);
 
   // for managing the update coupon data
@@ -49,13 +47,6 @@ const Coupon = () => {
     onOpen: addCouponOnOpen,
     onClose: addCouponOnClose,
   } = useDisclosure();
-
-  // for loading coupons data on page render
-  useEffect(() => {
-    (async () => {
-      await dispatch(getAllCoupons());
-    })();
-  }, []);
 
   return (
     <Layout>
