@@ -25,6 +25,22 @@ export const getAllOrders = createAsyncThunk("/get/orders", async () => {
   }
 });
 
+// function to cancel the order by admin
+// patch request
+// /order/orderid/admin
+export const cancelOrderByAdmin = createAsyncThunk(
+  "/cancel/order",
+  async (orderID: string) => {
+    try {
+      const res = await axiosInstance.patch(`/orders/${orderID}/admin`);
+      console.log(res.data);
+      return res.data;
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,

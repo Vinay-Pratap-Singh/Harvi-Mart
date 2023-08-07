@@ -79,7 +79,7 @@ const Homepage = () => {
           <Heading fontSize={"lg"}>Your one-stop shop for your need</Heading>
           <Text fontSize={"sm"} fontWeight={"semibold"}>
             Discover a world of trendy clothing, cutting-edge electronics, fresh
-            groceries, and more at Harvi Mart. Curated by experts, our
+            groceries, and more at Harvi Mart. Curated by experts, our{" "}
             <Text as={"span"} color={"orange.500"}>
               one-stop-shop
             </Text>{" "}

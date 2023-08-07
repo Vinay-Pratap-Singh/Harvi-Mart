@@ -142,6 +142,7 @@ export interface IordersData {
   coupon?: IcouponData | null;
   orderStatus: string;
   paymentMethod: string;
+  paymentStatus: string;
   phoneNumber: string;
   products: {
     price: number;

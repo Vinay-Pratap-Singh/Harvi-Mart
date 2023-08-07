@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
   Button,
+  HStack,
   Heading,
-  Select,
   Table,
   TableContainer,
   Tbody,
@@ -16,13 +16,16 @@ import {
   Tooltip,
   Tr,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { IordersData } from "../../helper/interfaces";
 import { MdOutlineDescription } from "react-icons/md";
+import CancelOrderByAdmin from "../../components/AlertBox/CancelOrderByAdmin";
 
 const Order = () => {
   const { orders } = useSelector((state: RootState) => state.order);
-
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  console.log(orders);
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -56,15 +59,7 @@ const Order = () => {
                 <Th>Purchase Amount</Th>
                 <Th>Order Status</Th>
                 <Th>Payment Method</Th>
-
-                <Th>
-                  <Select placeholder="Select option">
-                    <option value="all">Payment Status</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                  </Select>
-                </Th>
+                <Th>Payment Status</Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>
@@ -76,7 +71,7 @@ const Order = () => {
                   <Td colSpan={9}>Oops! There is no products</Td>
                 </Tr>
               ) : (
-                orders.map((order: IordersData, index) => {
+                orders.map((order: IordersData, index: number) => {
                   return (
                     <Tr key={order._id}>
                       <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
@@ -101,24 +96,33 @@ const Order = () => {
                         {order?.paymentMethod}
                       </Td>
                       <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                        {order?.orderStatus}
+                        {order?.paymentStatus}
                       </Td>
                       <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                        <Tooltip
-                          hasArrow
-                          label="More order details"
-                          color={"orange.500"}
-                          bgColor={"white"}
-                          placement={"top"}
-                        >
-                          <Button
-                            p="0"
-                            _hover={{ color: "#e06464" }}
-                            fontSize={"xl"}
+                        <HStack gap={1} pr={2}>
+                          <Tooltip
+                            hasArrow
+                            label="More order details"
+                            color={"orange.500"}
+                            bgColor={"white"}
+                            placement={"top"}
                           >
-                            <MdOutlineDescription />
-                          </Button>
-                        </Tooltip>
+                            <Button
+                              _hover={{ color: "#e06464" }}
+                              fontSize={"xl"}
+                            >
+                              <MdOutlineDescription />
+                            </Button>
+                          </Tooltip>
+                          {/* to cancel the order */}
+                          <CancelOrderByAdmin
+                            key={order?._id}
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            onOpen={onOpen}
+                            orderID={order?._id}
+                          />
+                        </HStack>
                       </Td>
                     </Tr>
                   );

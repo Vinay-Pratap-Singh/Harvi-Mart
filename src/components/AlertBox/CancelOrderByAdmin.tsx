@@ -15,38 +15,32 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { AiOutlineDelete } from "react-icons/ai";
-import {
-  deleteReview,
-  getIndividualProductReview,
-} from "../../redux/reviewSlice";
+import { cancelOrderByAdmin } from "../../redux/orderSlice";
 
 interface Iprops {
-  deleteReviewIsOpen: boolean;
-  deleteReviewOnOpen: () => void;
-  deleteReviewOnClose: () => void;
-  reviewID: string;
-  productID: string;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  orderID: string;
 }
 
-const DeleteReview: React.FC<Iprops> = ({
-  deleteReviewIsOpen,
-  deleteReviewOnOpen,
-  deleteReviewOnClose,
-  reviewID,
-  productID,
+const CancelOrderByAdmin: React.FC<Iprops> = ({
+  isOpen,
+  onOpen,
+  onClose,
+  orderID,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState(false);
 
-  // function to handle delete button action
-  const handleDeleteBtn = async () => {
+  // function to handle cancel button action
+  const handleCancelBtn = async () => {
     setLoading(true);
-    const res = await dispatch(deleteReview(reviewID));
+    const res = await dispatch(cancelOrderByAdmin(orderID));
     if (res.payload?.success) {
-      await dispatch(getIndividualProductReview(productID));
       setLoading(false);
-      deleteReviewOnClose();
+      onClose();
       return;
     }
     setLoading(false);
@@ -56,24 +50,19 @@ const DeleteReview: React.FC<Iprops> = ({
     <>
       <Tooltip
         hasArrow
-        label="Delete Your Review"
+        label="Cancel Order"
         color={"orange.500"}
         bgColor={"white"}
       >
-        <Button
-          onClick={deleteReviewOnOpen}
-          p={1}
-          size={"xs"}
-          colorScheme="red"
-        >
+        <Button onClick={onOpen} colorScheme="red">
           <AiOutlineDelete fontSize={"20px"} />
         </Button>
       </Tooltip>
 
       <AlertDialog
-        isOpen={deleteReviewIsOpen}
+        isOpen={isOpen}
         leastDestructiveRef={cancelRef}
-        onClose={deleteReviewOnClose}
+        onClose={onClose}
         size={"xs"}
       >
         <AlertDialogOverlay>
@@ -100,11 +89,11 @@ const DeleteReview: React.FC<Iprops> = ({
             </AlertDialogHeader>
 
             <AlertDialogBody fontWeight={"semibold"}>
-              <Heading fontSize={"xl"}>Delete Review?</Heading>
+              <Heading fontSize={"xl"}>Cancel Order?</Heading>
               <Text fontSize={"sm"}>
-                Are you sure you want to delete{" "}
+                Are you sure you want to cancel{" "}
                 <Text as={"span"} fontWeight={"bold"}>
-                  this review?
+                  the order?
                 </Text>
               </Text>
             </AlertDialogBody>
@@ -116,15 +105,15 @@ const DeleteReview: React.FC<Iprops> = ({
             >
               <Button
                 colorScheme="red"
-                onClick={handleDeleteBtn}
+                onClick={handleCancelBtn}
                 w={"full"}
                 isLoading={loading}
-                loadingText="Deleting..."
+                loadingText="Canceling..."
               >
-                Delete
+                Cancel Order
               </Button>
-              <Button ref={cancelRef} onClick={deleteReviewOnClose} w={"full"}>
-                Cancel
+              <Button ref={cancelRef} onClick={onClose} w={"full"}>
+                Close
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -134,4 +123,4 @@ const DeleteReview: React.FC<Iprops> = ({
   );
 };
 
-export default DeleteReview;
+export default CancelOrderByAdmin;

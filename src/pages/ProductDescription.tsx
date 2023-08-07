@@ -261,28 +261,31 @@ const ProductDescription = () => {
 
             {/* adding the pricing section */}
             {state?.discountedPrice ? (
-              <VStack>
-                <HStack fontWeight={"semibold"}>
-                  <Text as={"span"} fontSize={"lg"}>
-                    &#x20b9;
-                  </Text>
-                  <Text as={"p"} fontSize={"2xl"}>
-                    {state?.discountedPrice}
-                  </Text>
-                </HStack>
-                <Text fontSize={"xs"} color={"gray.500"}>
-                  M.R.P : <s>&#x20b9;{state?.originalPrice}</s>
-                </Text>
-              </VStack>
-            ) : (
               <HStack fontWeight={"semibold"}>
-                <Text as={"span"} fontSize={"lg"}>
-                  &#x20b9;
-                </Text>
                 <Text as={"p"} fontSize={"2xl"}>
-                  {state?.originalPrice}
+                  Rs {state?.discountedPrice}
                 </Text>
+                <Text fontSize={"xs"} color={"gray.500"}>
+                  M.R.P : <s>Rs {state?.originalPrice}</s>
+                </Text>
+                <Text
+                  fontSize={"sm"}
+                  color={"primaryColor"}
+                  fontWeight={"bold"}
+                >
+                  (
+                  {(
+                    ((state?.originalPrice - state.discountedPrice) /
+                      state?.originalPrice) *
+                    100
+                  ).toFixed(0)}
+                  % Off)
+                </Text>{" "}
               </HStack>
+            ) : (
+              <Text as={"p"} fontSize={"2xl"} fontWeight={"semibold"}>
+                Rs {state?.originalPrice}
+              </Text>
             )}
 
             {/* handling the stocks */}
