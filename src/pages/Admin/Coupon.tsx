@@ -18,6 +18,7 @@ import AddCoupon from "../../components/Modals/AddCoupon";
 import UpdateCoupon from "../../components/Modals/UpdateCoupon";
 import DeleteCoupon from "../../components/AlertBox/DeleteCoupon";
 import { Helmet } from "react-helmet";
+import { nanoid } from "@reduxjs/toolkit";
 
 const Coupon = () => {
   const { coupons } = useSelector((state: RootState) => state.coupon);
@@ -82,6 +83,7 @@ const Coupon = () => {
             <Heading fontSize={"2xl"}>My Coupons</Heading>
             <Box pos="absolute" top={3} right={5}>
               <AddCoupon
+                key={nanoid()}
                 addCouponIsOpen={addCouponIsOpen}
                 addCouponOnClose={addCouponOnClose}
                 addCouponOnOpen={addCouponOnOpen}
@@ -115,6 +117,7 @@ const Coupon = () => {
                             }
                           >
                             <UpdateCoupon
+                              key={coupon._id}
                               updateCouponIsOpen={updateCouponIsOpen}
                               updateCouponOnClose={updateCouponOnClose}
                               updateCouponOnOpen={updateCouponOnOpen}
@@ -127,6 +130,7 @@ const Coupon = () => {
                           </Box>
                           <Box onClick={() => setDeleteCouponID(coupon?._id)}>
                             <DeleteCoupon
+                              key={coupon._id}
                               deleteCouponIsOpen={deleteCouponIsOpen}
                               deleteCouponOnClose={deleteCouponOnClose}
                               deleteCouponOnOpen={deleteCouponOnOpen}

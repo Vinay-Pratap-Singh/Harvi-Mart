@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { Helmet } from "react-helmet";
+import { nanoid } from "@reduxjs/toolkit";
 
 const Category = () => {
   const { categories } = useSelector((state: RootState) => state.category);
@@ -88,6 +89,7 @@ const Category = () => {
             <Heading fontSize={"2xl"}>My Categories</Heading>
             <Box pos="absolute" top={3} right={5}>
               <AddCategory
+                key={nanoid()}
                 addCategoryIsOpen={addCategoryIsOpen}
                 addCategoryOnClose={addCategoryOnClose}
                 addCategoryOnOpen={addCategoryOnOpen}
@@ -142,6 +144,7 @@ const Category = () => {
                               }
                             >
                               <UpdateCategory
+                                key={category?._id}
                                 updateCategoryIsOpen={updateCategoryIsOpen}
                                 updateCategoryOnClose={updateCategoryOnClose}
                                 updateCategoryOnOpen={updateCategoryOnOpen}
@@ -152,6 +155,7 @@ const Category = () => {
                               onClick={() => setDeleteCategoryID(category?._id)}
                             >
                               <DeleteCategory
+                                key={category?._id}
                                 deleteCategoryIsOpen={deleteCategoryIsOpen}
                                 deleteCategoryOnClose={deleteCategoryOnClose}
                                 deleteCategoryOnOpen={deleteCategoryOnOpen}

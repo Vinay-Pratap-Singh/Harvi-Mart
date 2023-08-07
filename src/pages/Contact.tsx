@@ -38,10 +38,11 @@ const Contact = () => {
     defaultValues: { name: "", email: "", message: "" },
   });
 
-  // function to login the user
-  const handleLogin: SubmitHandler<IcontactData> = (data) => {
+  // function to contact the admin
+  const handleContact: SubmitHandler<IcontactData> = (data) => {
     console.log(data);
   };
+
   return (
     <Box
       w={"100vw"}
@@ -59,7 +60,7 @@ const Contact = () => {
         />
       </Helmet>
 
-      <form onSubmit={handleSubmit(handleLogin)}>
+      <form onSubmit={handleSubmit(handleContact)}>
         <HStack gap={8} w={"full"}>
           <Image src={myImage} alt="login page image" h={"450px"} w={"60%"} />
 

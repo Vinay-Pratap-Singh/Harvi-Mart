@@ -20,7 +20,7 @@ import { MdOutlineLocalOffer, MdShoppingCartCheckout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import CartItem from "../components/CartItem";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { applyCoupon } from "../redux/couponSlice";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -40,6 +40,7 @@ import {
 import { Helmet } from "react-helmet";
 import AddAddress from "../components/Modals/AddAddress";
 import { getLoggedInUserData } from "../redux/authSlice";
+import { nanoid } from "@reduxjs/toolkit";
 
 interface Iform {
   couponCode: string;
@@ -76,7 +77,6 @@ const Cart = () => {
     onClose: addAddressOnClose,
     onOpen: addAddressOnOpen,
   } = useDisclosure();
-  const randomID = useId();
 
   // function to handle apply coupon
   const handleApplyCoupon: SubmitHandler<Iform> = async (data) => {
@@ -312,7 +312,7 @@ const Cart = () => {
                   </Stack>
                 </RadioGroup>
                 <AddAddress
-                  key={randomID}
+                  key={nanoid()}
                   addAddressIsOpen={addAddressIsOpen}
                   addAddressOnClose={addAddressOnClose}
                   addAddressOnOpen={addAddressOnOpen}
@@ -321,7 +321,7 @@ const Cart = () => {
               </>
             ) : (
               <AddAddress
-                key={randomID}
+                key={nanoid()}
                 addAddressIsOpen={addAddressIsOpen}
                 addAddressOnClose={addAddressOnClose}
                 addAddressOnOpen={addAddressOnOpen}

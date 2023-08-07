@@ -55,6 +55,7 @@ const ProductCard = ({ product }: Iprop) => {
           transition={"all 0.2s ease-in-out"}
         >
           <DisplayWishlists
+            key={product?._id}
             displayWishlistIsOpen={displayWishlistIsOpen}
             displayWishlistOnClose={displayWishlistOnClose}
             displayWishlistOnOpen={displayWishlistOnOpen}

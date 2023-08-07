@@ -54,8 +54,6 @@ const Signup = () => {
       // sending the user to homepage
       navigate("/");
     } else {
-      console.log("failed");
-
       const { email, password, fullName, phoneNumber } = watch();
       reset({ email, password, fullName, phoneNumber });
     }

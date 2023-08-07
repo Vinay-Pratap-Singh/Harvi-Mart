@@ -10,7 +10,6 @@ import {
   Text,
   VStack,
   useDisclosure,
-  useId,
 } from "@chakra-ui/react";
 import { BiUser } from "react-icons/bi";
 import { GrFormPrevious } from "react-icons/gr";
@@ -29,6 +28,7 @@ import { getLoggedInUserData } from "../../redux/authSlice";
 import UserProfileShimmer from "../../shimmer/UserProfileShimmer";
 import AddressShimmer from "../../shimmer/AddressShimmer";
 import { Helmet } from "react-helmet";
+import { nanoid } from "@reduxjs/toolkit";
 
 const Profile = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,7 +45,6 @@ const Profile = () => {
       : "",
     name: userDetails?.fullName,
   };
-  const randomID = useId();
 
   // for managing the modals state
   const {
@@ -158,6 +157,7 @@ const Profile = () => {
                 <GridItem>{userDetails?.phoneNumber}</GridItem>
                 <GridItem>
                   <UpdateProfile
+                    key={nanoid()}
                     updateProfileIsOpen={updateProfileIsOpen}
                     updateProfileOnClose={updateProfileOnClose}
                     updateProfileOnOpen={updateProfileOnOpen}
@@ -229,7 +229,7 @@ const Profile = () => {
                     </HStack>
                     <Box w={"93%"} pos={"absolute"} bottom={3}>
                       <AddAddress
-                        key={randomID}
+                        key={nanoid()}
                         addAddressIsOpen={addAddressIsOpen}
                         addAddressOnClose={addAddressOnClose}
                         addAddressOnOpen={addAddressOnOpen}
@@ -279,15 +279,17 @@ const Profile = () => {
                           addAddressOnClose={addAddressOnClose}
                           addAddressOnOpen={addAddressOnOpen}
                           title="Add"
-                          key={randomID}
+                          key={nanoid()}
                         />
                         <UpdateAddress
+                          key={addresses[currentAddressIndex]?._id}
                           updateAddressIsOpen={updateAddressIsOpen}
                           updateAddressOnClose={updateAddressOnClose}
                           updateAddressOnOpen={updateAddressOnOpen}
                           data={addresses[currentAddressIndex]}
                         />
                         <DeleteAddress
+                          key={addresses[currentAddressIndex]?._id}
                           deleteAddressIsOpen={deleteAddressIsOpen}
                           deleteAddressOnClose={deleteAddressOnClose}
                           deleteAddressOnOpen={deleteAddressOnOpen}

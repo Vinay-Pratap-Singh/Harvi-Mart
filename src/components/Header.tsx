@@ -77,17 +77,6 @@ const Header = () => {
     setIsSubmitting(false);
   };
 
-  // for getting the totalWishlistItems
-  // useEffect(() => {
-  //   console.log("inside the effect");
-  //   let item = 0;
-  //   wishlists.length &&
-  //     wishlists.forEach((wishlist: Iwishlist) => {
-  //       item += wishlist.products.length;
-  //     });
-  //   setTotalWishlistItem(item);
-  // }, [wishlists]);
-
   return (
     <HStack
       justifyContent={"space-between"}

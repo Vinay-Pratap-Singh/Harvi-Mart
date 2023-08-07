@@ -20,14 +20,15 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import AddWishlist from "../components/Modals/AddWishlist";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
-import { useEffect, useState } from "react";
-import { getAllWishlists, removeFromWishlist } from "../redux/wishlistSlice";
+import { useState } from "react";
+import { removeFromWishlist } from "../redux/wishlistSlice";
 import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
 import RemoveFromWishlist from "../components/AlertBox/RemoveFromWishlist";
 import { addProductToCart } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
 import { Iproduct, Iwishlist } from "../helper/interfaces";
 import { Helmet } from "react-helmet";
+import { nanoid } from "@reduxjs/toolkit";
 
 const Wishlist = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -102,6 +103,7 @@ const Wishlist = () => {
             </Heading>
             <Box w={"fit-content"}>
               <AddWishlist
+                key={nanoid()}
                 addWishlistIsOpen={addWishlistIsOpen}
                 addWishlistOnClose={addWishlistOnClose}
                 addWishlistOnOpen={addWishlistOnOpen}
@@ -124,6 +126,7 @@ const Wishlist = () => {
                         </Box>
                         <Box onClick={() => setDeleteWishlistID(wishlist?._id)}>
                           <DeleteWishlist
+                            key={wishlist?._id}
                             deleteWishlistIsOpen={deleteWishlistIsOpen}
                             deleteWishlistOnClose={deleteWishlistOnClose}
                             deleteWishlistOnOpen={deleteWishlistOnOpen}
@@ -219,6 +222,7 @@ const Wishlist = () => {
                                     }
                                   >
                                     <RemoveFromWishlist
+                                      key={nanoid()}
                                       removeFromWishlistIsOpen={
                                         removeFromWishlistIsOpen
                                       }
