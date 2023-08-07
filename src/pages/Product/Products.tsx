@@ -1,4 +1,4 @@
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../../components/ProductCard";
 import {
   HStack,
   Heading,
@@ -10,14 +10,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import Layout from "./Layout/Layout";
+import Layout from "../Layout/Layout";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
-import ProductShimmer from "../shimmer/ProductShimmer";
-import noProductFound from "../assets/noProductFound.jpg";
+import ProductShimmer from "../../shimmer/ProductShimmer";
+import noProductFound from "../../assets/noProductFound.jpg";
 import { AiOutlineClear } from "react-icons/ai";
-import { Iproduct } from "../helper/interfaces";
+import { Iproduct } from "../../helper/interfaces";
 import { Helmet } from "react-helmet";
 
 const Products = () => {

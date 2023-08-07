@@ -7,8 +7,8 @@ import Reset from "../pages/Password/Reset";
 import Profile from "../pages/User/Profile";
 import Category from "../pages/Admin/Category";
 import Contact from "../pages/Contact";
-import Products from "../pages/Products";
-import ProductDescription from "../pages/ProductDescription";
+import Products from "../pages/Product/Products";
+import ProductDescription from "../pages/Product/ProductDescription";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
 import NotFound from "../pages/NotFound";
@@ -21,6 +21,7 @@ import Product from "../pages/Admin/Product/Product";
 import AddProduct from "../pages/Admin/Product/ProductOperation";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import Order from "../pages/Admin/Order";
+import AdminProductDescription from "../pages/Admin/Product/ProductDescription";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/product/operation/:operationID",
         element: <AddProduct />,
+      },
+      {
+        path: "/admin/product/:productID",
+        element: <AdminProductDescription />,
       },
       {
         path: "/admin/orders",

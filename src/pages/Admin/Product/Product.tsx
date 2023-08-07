@@ -217,12 +217,12 @@ const Product = () => {
                             {index < 10 ? `0${index + 1}` : index + 1}
                           </Td>
                           <Td p="1" verticalAlign={"text-top"}>
-                            <Box w="32" whiteSpace={"normal"}>
+                            <Box w="32" whiteSpace={"normal"} noOfLines={2}>
                               {product?.title}
                             </Box>
                           </Td>
                           <Td p="1" verticalAlign={"text-top"}>
-                            <Box w="60" whiteSpace={"normal"}>
+                            <Box w="60" whiteSpace={"normal"} noOfLines={2}>
                               {product?.description}
                             </Box>
                           </Td>
@@ -260,6 +260,11 @@ const Product = () => {
                                   p="0"
                                   _hover={{ color: "#e06464" }}
                                   fontSize={"xl"}
+                                  onClick={() =>
+                                    navigate(`/admin/product/${product?._id}`, {
+                                      state: { ...product },
+                                    })
+                                  }
                                 >
                                   <MdOutlineDescription />
                                 </Button>

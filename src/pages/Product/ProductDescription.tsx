@@ -16,24 +16,24 @@ import {
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineRateReview } from "react-icons/md";
-import StarReview from "../components/StarReview";
+import StarReview from "../../components/StarReview";
 import { useEffect, useRef, useState } from "react";
-import CustomerReviews from "../components/CustomerReviews";
-import Layout from "./Layout/Layout";
+import CustomerReviews from "../../components/CustomerReviews";
+import Layout from "../Layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Iproduct, IproductReview } from "../helper/interfaces";
+import { Iproduct, IproductReview } from "../../helper/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProductReview,
   getIndividualProductReview,
-} from "../redux/reviewSlice";
-import { AppDispatch, RootState } from "../redux/store";
+} from "../../redux/reviewSlice";
+import { AppDispatch, RootState } from "../../redux/store";
 import {
   AiOutlineLeft,
   AiOutlineRight,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import { addProductToCart } from "../redux/cartSlice";
+import { addProductToCart } from "../../redux/cartSlice";
 import { toast } from "react-hot-toast";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
@@ -205,10 +205,7 @@ const ProductDescription = () => {
                           setCurrentImagePreview(index);
                         }}
                       >
-                        <Image
-                          key={Date.now() + index}
-                          src={image?.image?.secure_url}
-                        />
+                        <Image key={nanoid()} src={image?.image?.secure_url} />
                       </Box>
                     );
                   }
