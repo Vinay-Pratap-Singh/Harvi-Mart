@@ -75,7 +75,7 @@ const Order = () => {
                   return (
                     <Tr key={order._id}>
                       <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                        {index < 10 ? `0${index + 1}` : index + 1}
+                        {index < 9 ? `0${index + 1}` : index + 1}
                       </Td>
                       <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
                         {order?.user?.fullName}

@@ -154,3 +154,15 @@ export interface IordersData {
   user: IuserDetails;
   _id: string;
 }
+
+export interface IuserSliceData {
+  addresses: Iaddress;
+  avatar: { public_id: string; secure_url: string };
+  email: string;
+  fullName: string;
+  isActive: boolean;
+  loginCount: number;
+  phoneNumber: string;
+  role: number;
+  _id: string;
+}

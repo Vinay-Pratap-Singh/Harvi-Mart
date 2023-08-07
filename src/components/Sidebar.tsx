@@ -9,6 +9,7 @@ import {
 import { AiOutlineHome, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { FiUsers } from "react-icons/fi";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -66,6 +67,31 @@ const Sidebar = () => {
             <AiOutlineHome fontSize={20} />
             <Text fontSize={"md"} fontWeight={500}>
               Overview
+            </Text>
+          </Link>
+        </ListItem>
+
+        {/* for users */}
+        <ListItem
+          w={"full"}
+          shadow={"sm"}
+          pl={3}
+          py={2}
+          _hover={{ pl: 5, color: "primaryColor" }}
+          transition={"all 0.25s ease-in-out"}
+        >
+          <Link
+            as={RouterLink}
+            to="/admin/users"
+            display="flex"
+            alignItems={"center"}
+            gap={2}
+            _hover={{ textDecoration: "none" }}
+            _focus={{ textDecoration: "none" }}
+          >
+            <FiUsers fontSize={20} />
+            <Text fontSize={"md"} fontWeight={500}>
+              Users
             </Text>
           </Link>
         </ListItem>

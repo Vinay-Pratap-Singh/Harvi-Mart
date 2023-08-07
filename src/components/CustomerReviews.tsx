@@ -304,7 +304,9 @@ const CustomerReviews = ({ productID }: Iprop) => {
                   {review.title}
 
                   {/* button to delete review if he is the user is the reviewer */}
-                  {userDetails?._id === review?.reviewedBy && (
+                  {(userDetails?._id === review?.reviewedBy ||
+                    userDetails?.role ===
+                      Number(process.env.REACT_APP_ADMIN_ROLE)) && (
                     <Box
                       onClick={() => setIdToBeDeleted(review?._id)}
                       pos={"absolute"}

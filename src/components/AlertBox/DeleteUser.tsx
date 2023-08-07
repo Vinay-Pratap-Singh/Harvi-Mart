@@ -9,6 +9,7 @@ import {
   Button,
   Heading,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -22,6 +23,7 @@ interface Iprops {
   deleteUserOnOpen: () => void;
   deleteUserOnClose: () => void;
   id: string;
+  role: string;
 }
 
 const DeleteUser: React.FC<Iprops> = ({
@@ -29,6 +31,7 @@ const DeleteUser: React.FC<Iprops> = ({
   deleteUserOnOpen,
   deleteUserOnClose,
   id,
+  role,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -51,16 +54,27 @@ const DeleteUser: React.FC<Iprops> = ({
 
   return (
     <>
-      <Button
-        onClick={deleteUserOnOpen}
-        w={"full"}
-        colorScheme="red"
-        color={"white"}
-        size={"md"}
-        fontSize={"15px"}
+      <Tooltip
+        hasArrow
+        label="Delete Account"
+        color={"orange.500"}
+        bgColor={"white"}
       >
-        Delete Account
-      </Button>
+        <Button
+          onClick={deleteUserOnOpen}
+          w={role === "user" ? "full" : "fit-content"}
+          colorScheme="red"
+          color={"white"}
+          size={"md"}
+          fontSize={"15px"}
+        >
+          {role === "user" ? (
+            "Delete Account"
+          ) : (
+            <AiOutlineDelete fontSize={"20px"} />
+          )}
+        </Button>
+      </Tooltip>
 
       <AlertDialog
         isOpen={deleteUserIsOpen}

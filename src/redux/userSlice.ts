@@ -1,10 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../helper/AxiosInstance";
 import { toast } from "react-hot-toast";
-import { IupdateProfile } from "../helper/interfaces";
+import { IupdateProfile, IuserSliceData } from "../helper/interfaces";
 import { getLoggedInUserData } from "./authSlice";
 
-const initialState = {};
+interface Istate {
+  isLoading: boolean;
+  isUsersLoaded: boolean;
+  users: IuserSliceData[];
+}
+
+const initialState: Istate = {
+  isLoading: false,
+  isUsersLoaded: false,
+  users: [],
+};
+
+// function to get all users
+export const getAllUsersData = createAsyncThunk("/get/allusers", async () => {
+  try {
+    const res = await axiosInstance.get("/users");
+    return res.data;
+  } catch (error: any) {
+    toast.error(error?.response?.data?.message);
+  }
+});
 
 // function to update user details
 export const updateUserDetails = createAsyncThunk(
@@ -42,7 +62,22 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // for update category
+      // for getting all user data
+      .addCase(getAllUsersData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUsersData.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          state.isUsersLoaded = true;
+          state.users = action.payload?.users;
+        }
+        state.isLoading = false;
+      })
+      .addCase(getAllUsersData.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      // for update user
       .addCase(updateUserDetails.fulfilled, (state, action) => {
         if (action.payload?.success) {
           toast.success(action.payload?.message);
@@ -52,7 +87,7 @@ const userSlice = createSlice({
         toast.error("Failed to update user details");
       })
 
-      // for delete category
+      // for delete user
       .addCase(deleteUserAccount.fulfilled, (state, action) => {
         if (action.payload?.success) {
           toast.success(action.payload?.message);

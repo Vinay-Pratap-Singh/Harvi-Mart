@@ -2,8 +2,11 @@ import { HStack, Image } from "@chakra-ui/react";
 import notFound from "../assets/notFound.jpg";
 import Layout from "./Layout/Layout";
 import { Helmet } from "react-helmet";
+import { useLocation } from "react-router-dom";
 
 const NotFound = () => {
+  const { pathname } = useLocation();
+
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -17,11 +20,17 @@ const NotFound = () => {
 
       <HStack
         w={"full"}
-        h={"70vh"}
+        pl={pathname.startsWith("/admin") ? 60 : 0}
+        h={pathname.startsWith("/admin") ? "100vh" : "70vh"}
         alignItems={"center"}
         justifyContent={"center"}
       >
-        <Image src={notFound} alt="Not found image" h={"full"} w={"600px"} />
+        <Image
+          src={notFound}
+          alt="Not found image"
+          h={pathname.startsWith("/admin") ? "auto" : "full"}
+          w={"600px"}
+        />
       </HStack>
     </Layout>
   );

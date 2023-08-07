@@ -12,6 +12,7 @@ import { getAllWishlists } from "../../redux/wishlistSlice";
 import React from "react";
 import { getAllCoupons } from "../../redux/couponSlice";
 import { getAllOrders } from "../../redux/orderSlice";
+import { getAllUsersData } from "../../redux/userSlice";
 
 // defining the type of prop here
 type Props = { children: ReactNode };
@@ -29,6 +30,7 @@ const Layout = ({ children }: Props) => {
   );
   const { isCouponLoaded } = useSelector((state: RootState) => state.coupon);
   const { isOrdersLoaded } = useSelector((state: RootState) => state.order);
+  const { isUsersLoaded } = useSelector((state: RootState) => state.user);
 
   // fetching the required data to display
   useEffect(() => {
@@ -39,6 +41,7 @@ const Layout = ({ children }: Props) => {
     if (pathname.startsWith("/admin")) {
       !isCouponLoaded && dispatch(getAllCoupons());
       !isOrdersLoaded && dispatch(getAllOrders());
+      !isUsersLoaded && dispatch(getAllUsersData());
     }
   }, [
     dispatch,
@@ -48,6 +51,7 @@ const Layout = ({ children }: Props) => {
     isWishlistLoaded,
     isCouponLoaded,
     isOrdersLoaded,
+    isUsersLoaded,
     pathname,
   ]);
 
