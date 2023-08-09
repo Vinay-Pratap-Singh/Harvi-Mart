@@ -90,7 +90,7 @@ const Coupon = () => {
               />
             </Box>
 
-            <UnorderedList w={"full"} overflowY={"scroll"} pr={1}>
+            <UnorderedList w={"full"} overflowY={"scroll"} pr={1} pb={2}>
               {coupons &&
                 coupons.map((coupon: any) => {
                   return (
