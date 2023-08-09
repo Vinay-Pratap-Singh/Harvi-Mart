@@ -5,6 +5,7 @@ import { IproductReview } from "../helper/interfaces";
 
 const initialState = {
   reviews: [],
+  isReviewLoaded: false,
 };
 
 // function to get all reviews
@@ -78,6 +79,15 @@ const reviewSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // for get all reviews
+      .addCase(getAllReviews.fulfilled, (state, action) => {
+        state.reviews = action.payload?.reviews;
+        state.isReviewLoaded = true;
+      })
+      .addCase(getAllReviews.rejected, () => {
+        toast.error("Failed to load the product reviews");
+      })
+
       // for create product review
       .addCase(createProductReview.fulfilled, (state, action) => {
         if (action.payload?.success) {

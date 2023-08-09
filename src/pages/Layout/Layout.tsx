@@ -13,6 +13,7 @@ import React from "react";
 import { getAllCoupons } from "../../redux/couponSlice";
 import { getAllOrders } from "../../redux/orderSlice";
 import { getAllUsersData } from "../../redux/userSlice";
+import { getAllReviews } from "../../redux/reviewSlice";
 
 // defining the type of prop here
 type Props = { children: ReactNode };
@@ -31,6 +32,7 @@ const Layout = ({ children }: Props) => {
   const { isCouponLoaded } = useSelector((state: RootState) => state.coupon);
   const { isOrdersLoaded } = useSelector((state: RootState) => state.order);
   const { isUsersLoaded } = useSelector((state: RootState) => state.user);
+  const { isReviewLoaded } = useSelector((state: RootState) => state.review);
 
   // fetching the required data to display
   useEffect(() => {
@@ -42,6 +44,7 @@ const Layout = ({ children }: Props) => {
       !isCouponLoaded && dispatch(getAllCoupons());
       !isOrdersLoaded && dispatch(getAllOrders());
       !isUsersLoaded && dispatch(getAllUsersData());
+      !isReviewLoaded && isLoggedIn && dispatch(getAllReviews());
     }
   }, [
     dispatch,
@@ -52,6 +55,7 @@ const Layout = ({ children }: Props) => {
     isCouponLoaded,
     isOrdersLoaded,
     isUsersLoaded,
+    isReviewLoaded,
     pathname,
   ]);
 
