@@ -21,7 +21,7 @@ import { RootState } from "../../redux/store";
 import DeleteUser from "../../components/AlertBox/DeleteUser";
 import { IuserSliceData } from "../../helper/interfaces";
 import { AiOutlineFilePdf, AiOutlineUser } from "react-icons/ai";
-import { BiCloudDownload } from "react-icons/bi";
+import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { useRef } from "react";
 import usePdfDownload from "../../helper/Hooks/usePdfDownload";
 
@@ -29,7 +29,7 @@ const Users = () => {
   const { users } = useSelector((state: RootState) => state.user);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const report = useRef<HTMLDivElement>(null);
-  const { generatePDF, pdfData, resetPdfData } = usePdfDownload();
+  const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -71,11 +71,16 @@ const Users = () => {
               bgColor={"primaryColor"}
               color={"white"}
             >
-              <a href={URL.createObjectURL(pdfData)} download="User Report.pdf">
+              <a
+                rel="noreferrer"
+                href={URL.createObjectURL(pdfData)}
+                download="User Report.pdf"
+                onClick={resetPdfData}
+              >
                 <BiCloudDownload fontSize={28} />
               </a>
             </Tooltip>
-          ) : (
+          ) : !isGenerating ? (
             <Tooltip
               hasArrow
               label="Generate Report"
@@ -89,6 +94,8 @@ const Users = () => {
                 <AiOutlineFilePdf fontSize={28} />
               </Text>
             </Tooltip>
+          ) : (
+            <BiLoaderCircle fontSize={28} />
           )}
         </Box>
 

@@ -3,6 +3,7 @@ import Layout from "../Layout/Layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
+  Box,
   Button,
   HStack,
   Heading,
@@ -21,11 +22,17 @@ import {
 import { IordersData } from "../../helper/interfaces";
 import { MdOutlineDescription } from "react-icons/md";
 import CancelOrderByAdmin from "../../components/AlertBox/CancelOrderByAdmin";
+import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
+import { AiOutlineFilePdf } from "react-icons/ai";
+import usePdfDownload from "../../helper/Hooks/usePdfDownload";
+import { useRef } from "react";
 
 const Order = () => {
   const { orders } = useSelector((state: RootState) => state.order);
   const { isOpen, onClose, onOpen } = useDisclosure();
-  console.log(orders);
+  const report = useRef<HTMLDivElement>(null);
+  const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
+
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -45,8 +52,58 @@ const Order = () => {
           </Text>{" "}
         </Heading>
 
+        {/* adding the report download button */}
+        <Box
+          h={10}
+          w={10}
+          borderRadius={"full"}
+          boxShadow={"md"}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          color={"primaryColor"}
+          cursor={"pointer"}
+          pos={"fixed"}
+          bottom={10}
+          right={20}
+        >
+          {pdfData ? (
+            <Tooltip
+              hasArrow
+              label="Download Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <a
+                rel="noreferrer"
+                href={URL.createObjectURL(pdfData)}
+                download="Order Report.pdf"
+                onClick={resetPdfData}
+              >
+                <BiCloudDownload fontSize={28} />
+              </a>
+            </Tooltip>
+          ) : !isGenerating ? (
+            <Tooltip
+              hasArrow
+              label="Generate Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <Text
+                as={"span"}
+                onClick={() => report.current && generatePDF(report.current)}
+              >
+                <AiOutlineFilePdf fontSize={28} />
+              </Text>
+            </Tooltip>
+          ) : (
+            <BiLoaderCircle fontSize={28} />
+          )}
+        </Box>
+
         {/* for displaying the orders table */}
-        <TableContainer>
+        <TableContainer ref={report}>
           <Table>
             <Thead>
               <Tr>

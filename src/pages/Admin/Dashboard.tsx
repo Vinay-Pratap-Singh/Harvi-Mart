@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { AiOutlineFilePdf, AiOutlineShoppingCart } from "react-icons/ai";
-import { BiCategory, BiCloudDownload } from "react-icons/bi";
+import { BiCategory, BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
@@ -33,7 +33,7 @@ const Dashboard = () => {
   const [categoriesChartData, setCategoriesChartData] = useState<any>();
   const [reviewsChartData, setReviewsChartData] = useState<any>();
   const report = useRef<HTMLDivElement>(null);
-  const { generatePDF, pdfData, resetPdfData } = usePdfDownload();
+  const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
 
   // calculating the total earning
   let totalEarnedAmount = 0;
@@ -227,13 +227,15 @@ const Dashboard = () => {
               color={"white"}
             >
               <a
+                rel="noreferrer"
                 href={URL.createObjectURL(pdfData)}
                 download="Dashboard Report.pdf"
+                onClick={resetPdfData}
               >
                 <BiCloudDownload fontSize={28} />
               </a>
             </Tooltip>
-          ) : (
+          ) : !isGenerating ? (
             <Tooltip
               hasArrow
               label="Generate Report"
@@ -242,14 +244,13 @@ const Dashboard = () => {
             >
               <Text
                 as={"span"}
-                onClick={() => {
-                  report.current && generatePDF(report.current);
-                  resetPdfData();
-                }}
+                onClick={() => report.current && generatePDF(report.current)}
               >
                 <AiOutlineFilePdf fontSize={28} />
               </Text>
             </Tooltip>
+          ) : (
+            <BiLoaderCircle fontSize={28} />
           )}
         </Box>
 

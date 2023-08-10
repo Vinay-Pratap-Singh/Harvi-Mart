@@ -7,19 +7,28 @@ import {
   Heading,
   Image,
   Text,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import { Helmet } from "react-helmet";
 import { useRef, useState } from "react";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import {
+  AiOutlineFilePdf,
+  AiOutlineLeft,
+  AiOutlineRight,
+} from "react-icons/ai";
 import { nanoid } from "@reduxjs/toolkit";
 import CustomerReviews from "../../../components/CustomerReviews";
+import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
+import usePdfDownload from "../../../helper/Hooks/usePdfDownload";
 
 const ProductDescription = () => {
   // getting the products details to display
   const { state } = useLocation();
   const [currentImagePreview, setCurrentImagePreview] = useState(0);
   const slideContainerRef = useRef<HTMLDivElement>(null);
+  const report = useRef<HTMLDivElement>(null);
+  const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
 
   // function to scroll container left
   const handleLeftSlider = () => {
@@ -59,7 +68,57 @@ const ProductDescription = () => {
           </Text>
         </Heading>
 
-        <VStack w={"full"} gap={10} p={10}>
+        {/* adding the report download button */}
+        <Box
+          h={10}
+          w={10}
+          borderRadius={"full"}
+          boxShadow={"md"}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          color={"primaryColor"}
+          cursor={"pointer"}
+          pos={"fixed"}
+          bottom={10}
+          right={20}
+        >
+          {pdfData ? (
+            <Tooltip
+              hasArrow
+              label="Download Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <a
+                rel="noreferrer"
+                href={URL.createObjectURL(pdfData)}
+                download="Product Report.pdf"
+                onClick={resetPdfData}
+              >
+                <BiCloudDownload fontSize={28} />
+              </a>
+            </Tooltip>
+          ) : !isGenerating ? (
+            <Tooltip
+              hasArrow
+              label="Generate Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <Text
+                as={"span"}
+                onClick={() => report.current && generatePDF(report.current)}
+              >
+                <AiOutlineFilePdf fontSize={28} />
+              </Text>
+            </Tooltip>
+          ) : (
+            <BiLoaderCircle fontSize={28} />
+          )}
+        </Box>
+
+        <VStack w={"full"} gap={10} p={10} ref={report}>
           <HStack w={"full"} gap={10} pos={"relative"}>
             {/* left section for image */}
             <VStack w={"full"} alignSelf={"baseline"} gap={5}>
