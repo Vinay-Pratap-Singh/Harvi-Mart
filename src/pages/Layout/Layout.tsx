@@ -44,7 +44,7 @@ const Layout = ({ children }: Props) => {
       !isCouponLoaded && dispatch(getAllCoupons());
       !isOrdersLoaded && dispatch(getAllOrders());
       !isUsersLoaded && dispatch(getAllUsersData());
-      !isReviewLoaded && isLoggedIn && dispatch(getAllReviews());
+      !isReviewLoaded && dispatch(getAllReviews());
     }
   }, [
     dispatch,

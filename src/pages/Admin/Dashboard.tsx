@@ -1,23 +1,20 @@
-import { Box, HStack, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, Heading, Text, Tooltip, VStack } from "@chakra-ui/react";
 import Layout from "../Layout/Layout";
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { BiCategory } from "react-icons/bi";
+import { AiOutlineFilePdf, AiOutlineShoppingCart } from "react-icons/ai";
+import { BiCategory, BiCloudDownload } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
 import { GiMoneyStack } from "react-icons/gi";
 import { nanoid } from "@reduxjs/toolkit";
-import {
-  IcategoryDetails,
-  IordersData,
-  Iproduct,
-} from "../../helper/interfaces";
+import { IordersData } from "../../helper/interfaces";
 import PillsData from "../../components/PillsData";
 import PieChart from "../../components/PieChart";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import usePdfDownload from "../../helper/Hooks/usePdfDownload";
 
 interface IpillData {
   id: string;
@@ -35,6 +32,8 @@ const Dashboard = () => {
   const { reviews } = useSelector((state: RootState) => state.review);
   const [categoriesChartData, setCategoriesChartData] = useState<any>();
   const [reviewsChartData, setReviewsChartData] = useState<any>();
+  const report = useRef<HTMLDivElement>(null);
+  const { generatePDF, pdfData, resetPdfData } = usePdfDownload();
 
   // calculating the total earning
   let totalEarnedAmount = 0;
@@ -197,7 +196,7 @@ const Dashboard = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={60} gap={10}>
+      <VStack minH={"100vh"} w="full" pt={5} pl={60} gap={10} pos={"relative"}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
@@ -205,8 +204,57 @@ const Dashboard = () => {
           </Text>{" "}
         </Heading>
 
+        {/* adding the report download button */}
+        <Box
+          h={10}
+          w={10}
+          borderRadius={"full"}
+          boxShadow={"md"}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          color={"primaryColor"}
+          cursor={"pointer"}
+          pos={"absolute"}
+          top={20}
+          right={28}
+        >
+          {pdfData ? (
+            <Tooltip
+              hasArrow
+              label="Download Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <a
+                href={URL.createObjectURL(pdfData)}
+                download="Dashboard Report.pdf"
+              >
+                <BiCloudDownload fontSize={28} />
+              </a>
+            </Tooltip>
+          ) : (
+            <Tooltip
+              hasArrow
+              label="Generate Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <Text
+                as={"span"}
+                onClick={() => {
+                  report.current && generatePDF(report.current);
+                  resetPdfData();
+                }}
+              >
+                <AiOutlineFilePdf fontSize={28} />
+              </Text>
+            </Tooltip>
+          )}
+        </Box>
+
         {/* displaying the catrgory and review charts */}
-        <HStack gap={10} alignItems={"center"}>
+        <HStack gap={10} alignItems={"center"} ref={report}>
           {/* category chart */}
           <VStack gap={2} alignItems={"center"} justifyContent={"center"}>
             <PieChart data={categoriesChartData} />

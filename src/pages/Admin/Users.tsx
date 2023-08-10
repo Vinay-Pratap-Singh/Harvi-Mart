@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet";
 import Layout from "../Layout/Layout";
 import {
   Box,
-  Button,
   Heading,
   Image,
   Table,
@@ -12,6 +11,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   VStack,
   useDisclosure,
@@ -20,11 +20,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DeleteUser from "../../components/AlertBox/DeleteUser";
 import { IuserSliceData } from "../../helper/interfaces";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineFilePdf, AiOutlineUser } from "react-icons/ai";
+import { BiCloudDownload } from "react-icons/bi";
+import { useRef } from "react";
+import usePdfDownload from "../../helper/Hooks/usePdfDownload";
 
 const Users = () => {
-  const { isLoading, users } = useSelector((state: RootState) => state.user);
+  const { users } = useSelector((state: RootState) => state.user);
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const report = useRef<HTMLDivElement>(null);
+  const { generatePDF, pdfData, resetPdfData } = usePdfDownload();
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -44,8 +49,51 @@ const Users = () => {
           </Text>{" "}
         </Heading>
 
+        {/* adding the report download button */}
+        <Box
+          h={10}
+          w={10}
+          borderRadius={"full"}
+          boxShadow={"md"}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          color={"primaryColor"}
+          cursor={"pointer"}
+          pos={"fixed"}
+          bottom={10}
+          right={20}
+        >
+          {pdfData ? (
+            <Tooltip
+              hasArrow
+              label="Download Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <a href={URL.createObjectURL(pdfData)} download="User Report.pdf">
+                <BiCloudDownload fontSize={28} />
+              </a>
+            </Tooltip>
+          ) : (
+            <Tooltip
+              hasArrow
+              label="Generate Report"
+              bgColor={"primaryColor"}
+              color={"white"}
+            >
+              <Text
+                as={"span"}
+                onClick={() => report.current && generatePDF(report.current)}
+              >
+                <AiOutlineFilePdf fontSize={28} />
+              </Text>
+            </Tooltip>
+          )}
+        </Box>
+
         {/* for displaying the users table */}
-        <TableContainer>
+        <TableContainer ref={report}>
           <Table>
             <Thead>
               <Tr>
