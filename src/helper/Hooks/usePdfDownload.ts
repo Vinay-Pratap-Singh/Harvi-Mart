@@ -15,11 +15,11 @@ const usePdfDownload = (): UsePdfDownloadResult => {
     const pdf = new jsPDF("p", "mm", "a4");
 
     const canvas = await html2canvas(content, {
-      scrollX: -window.scrollX,
-      scrollY: -window.scrollY,
-      windowWidth: content.scrollWidth,
-      windowHeight: content.scrollHeight,
       useCORS: true,
+      allowTaint: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0,
     });
 
     const imageData = canvas.toDataURL("image/png");

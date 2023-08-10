@@ -253,33 +253,35 @@ const Dashboard = () => {
           )}
         </Box>
 
-        {/* displaying the catrgory and review charts */}
-        <HStack gap={10} alignItems={"center"} ref={report}>
-          {/* category chart */}
-          <VStack gap={2} alignItems={"center"} justifyContent={"center"}>
-            <PieChart data={categoriesChartData} />
-            <Heading fontSize={"xl"}>Products in categories</Heading>
-          </VStack>
+        <VStack gap={10} ref={report}>
+          {/* displaying the catrgory and review charts */}
+          <HStack gap={10} alignItems={"center"}>
+            {/* category chart */}
+            <VStack gap={2} alignItems={"center"} justifyContent={"center"}>
+              <PieChart data={categoriesChartData} />
+              <Heading fontSize={"xl"}>Products in categories</Heading>
+            </VStack>
 
-          {/* review chart */}
-          <VStack gap={2} alignItems={"center"} justifyContent={"center"}>
-            <PieChart data={reviewsChartData} />
-            <Heading fontSize={"xl"}>Average products review</Heading>
-          </VStack>
-        </HStack>
+            {/* review chart */}
+            <VStack gap={2} alignItems={"center"} justifyContent={"center"}>
+              <PieChart data={reviewsChartData} />
+              <Heading fontSize={"xl"}>Average products review</Heading>
+            </VStack>
+          </HStack>
 
-        {/* displaying the records pills */}
-        <HStack
-          flexWrap={"wrap"}
-          gap={5}
-          alignItems={"center"}
-          justifyContent={"center"}
-          pb={10}
-        >
-          {pillsData?.map((pill: IpillData) => {
-            return <PillsData key={pill?.id} data={pill} />;
-          })}
-        </HStack>
+          {/* displaying the records pills */}
+          <HStack
+            flexWrap={"wrap"}
+            gap={5}
+            alignItems={"center"}
+            justifyContent={"center"}
+            pb={10}
+          >
+            {pillsData?.map((pill: IpillData) => {
+              return <PillsData key={pill?.id} data={pill} />;
+            })}
+          </HStack>
+        </VStack>
       </VStack>
     </Layout>
   );
