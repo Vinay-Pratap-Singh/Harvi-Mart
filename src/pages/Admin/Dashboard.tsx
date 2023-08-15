@@ -255,7 +255,7 @@ const Dashboard = () => {
         </Box>
 
         <VStack gap={10} ref={report}>
-          {/* displaying the catrgory and review charts */}
+          {/* displaying the category and review charts */}
           <HStack gap={10} alignItems={"center"}>
             {/* category chart */}
             <VStack gap={2} alignItems={"center"} justifyContent={"center"}>

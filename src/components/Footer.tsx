@@ -2,6 +2,7 @@ import {
   HStack,
   Link,
   ListItem,
+  Stack,
   Text,
   UnorderedList,
   VStack,
@@ -17,13 +18,25 @@ const Footer = () => {
   return (
     <VStack
       px={10}
-      h={"18vh"}
+      py={[2, 2, 0]}
+      h={["auto", "auto", "18vh"]}
       fontWeight={"semibold"}
       justifyContent={"center"}
       alignItems={"center"}
+      borderTop={"1px solid #e5e5e5"}
     >
-      <HStack w={"full"} justifyContent={"space-between"}>
-        <Text display={"flex"} alignItems={"center"} gap={1}>
+      <Stack
+        direction={["column", "column", "row"]}
+        w={["100vw", "100vw", "full"]}
+        alignItems={"center"}
+        justifyContent={["center", "center", "space-between"]}
+      >
+        <Text
+          display={"flex"}
+          alignItems={"center"}
+          gap={1}
+          fontSize={["sm", "sm", "initial"]}
+        >
           All rights reserved by{" "}
           <Link
             as={RouterLink}
@@ -44,9 +57,13 @@ const Footer = () => {
         {/* adding pages navigation */}
         <UnorderedList
           display={"flex"}
+          flexWrap={"wrap"}
           alignContent={"center"}
-          gap={10}
+          justifyContent={"center"}
+          gap={[2, 2, 10]}
           listStyleType={"none"}
+          fontSize={["sm", "sm", "initial"]}
+          w={["full", "full", "initial"]}
         >
           <ListItem>
             <Link
@@ -92,7 +109,7 @@ const Footer = () => {
           alignContent={"center"}
           gap={5}
           listStyleType={"none"}
-          fontSize={22}
+          fontSize={["md", "md", 22]}
         >
           <ListItem
             _hover={{ color: "primaryColor" }}
@@ -152,8 +169,8 @@ const Footer = () => {
             </Link>
           </ListItem>
         </UnorderedList>
-      </HStack>
-      <Text>Made with ❤️ by Harvi</Text>
+      </Stack>
+      <Text fontSize={["sm", "sm", "initial"]}>Made with ❤️ by Harvi</Text>
     </VStack>
   );
 };

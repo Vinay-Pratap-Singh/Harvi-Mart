@@ -81,14 +81,14 @@ const Header = () => {
     <HStack
       justifyContent={"space-between"}
       alignItems={"center"}
-      px={10}
+      px={[5, 10]}
       h={"12vh"}
     >
       {/* adding the logo */}
       <Link as={RouterLink} to={"/"} _hover={{ textDecoration: "none" }}>
         <HStack fontSize={24} fontWeight={"bold"} color={"orange.500"}>
           <AiOutlineShoppingCart fontSize={32} />
-          <Text>Harvi Mart</Text>
+          <Text display={["none", "none", "block"]}>Harvi Mart</Text>
         </HStack>
       </Link>
 
@@ -97,7 +97,7 @@ const Header = () => {
         <form onSubmit={handleSubmit(handleSearchProduct)}>
           <InputGroup>
             <Input
-              w={96}
+              w={["auto", "auto", 96]}
               focusBorderColor="primaryColor"
               placeholder="Looking for something specific? "
               {...register("searchedText")}
@@ -123,7 +123,7 @@ const Header = () => {
       >
         {/* wishlist */}
         {isLoggedIn && (
-          <ListItem pos={"relative"}>
+          <ListItem pos={"relative"} display={["none", "none", "block"]}>
             <Link
               as={RouterLink}
               to={"/wishlist"}
@@ -154,7 +154,7 @@ const Header = () => {
 
         {/* cart */}
         {isLoggedIn && (
-          <ListItem pos={"relative"}>
+          <ListItem pos={"relative"} display={["none", "none", "block"]}>
             <Link
               as={RouterLink}
               to={"/cart"}
@@ -195,7 +195,7 @@ const Header = () => {
               <PopoverTrigger>
                 <HStack cursor={"pointer"}>
                   <BiUser size={20} />
-                  <Text>Account</Text>
+                  <Text display={["none", "block"]}>Account</Text>
                 </HStack>
               </PopoverTrigger>
 
@@ -245,6 +245,66 @@ const Header = () => {
                         <AiOutlineProfile fontSize={20} />
                         <Text fontSize={"md"} fontWeight={500}>
                           My Profile
+                        </Text>
+                      </Link>
+                    </ListItem>
+
+                    <ListItem
+                      pos={"relative"}
+                      display={["block", "block", "none"]}
+                    >
+                      <Link
+                        as={RouterLink}
+                        to={"/wishlist"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        gap={2}
+                      >
+                        <AiFillHeart fontSize={"20px"} />
+                        Wishlist
+                        <Text
+                          as={"span"}
+                          bgColor={"orange.500"}
+                          color={"white"}
+                          fontWeight={"bold"}
+                          fontSize={"sm"}
+                          py={"1px"}
+                          px={"7px"}
+                          borderRadius={"full"}
+                        >
+                          {totalWishlistItem}
+                        </Text>
+                      </Link>
+                    </ListItem>
+
+                    <ListItem
+                      pos={"relative"}
+                      display={["block", "block", "none"]}
+                    >
+                      <Link
+                        as={RouterLink}
+                        to={"/cart"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        gap={2}
+                      >
+                        <AiOutlineShoppingCart fontSize={"20px"} />
+                        Cart
+                        <Text
+                          as={"span"}
+                          bgColor={"orange.500"}
+                          color={"white"}
+                          fontWeight={"bold"}
+                          fontSize={"sm"}
+                          py={"1px"}
+                          px={"7px"}
+                          borderRadius={"full"}
+                        >
+                          {
+                            JSON.parse(
+                              localStorage.getItem("cartItems") || "[]"
+                            ).length
+                          }
                         </Text>
                       </Link>
                     </ListItem>
