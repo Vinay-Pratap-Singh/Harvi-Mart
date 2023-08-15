@@ -24,9 +24,10 @@ import { AiOutlineFilePdf, AiOutlineUser } from "react-icons/ai";
 import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { useRef } from "react";
 import usePdfDownload from "../../helper/Hooks/usePdfDownload";
+import TableShimmer from "../../shimmer/TableShimmer";
 
 const Users = () => {
-  const { users } = useSelector((state: RootState) => state.user);
+  const { users, isLoading } = useSelector((state: RootState) => state.user);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const report = useRef<HTMLDivElement>(null);
   const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
@@ -120,7 +121,37 @@ const Users = () => {
 
             {/* adding the table body */}
             <Tbody fontSize={"14.5px"} fontWeight={"semibold"}>
-              {users.length === 0 ? (
+              {isLoading ? (
+                <Tr>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                </Tr>
+              ) : users.length === 0 ? (
                 <Tr textAlign={"center"}>
                   <Td colSpan={9}>Oops! There is no products</Td>
                 </Tr>

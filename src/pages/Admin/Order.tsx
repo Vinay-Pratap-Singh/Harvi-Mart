@@ -26,9 +26,10 @@ import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import usePdfDownload from "../../helper/Hooks/usePdfDownload";
 import { useRef } from "react";
+import TableShimmer from "../../shimmer/TableShimmer";
 
 const Order = () => {
-  const { orders } = useSelector((state: RootState) => state.order);
+  const { orders, isLoading } = useSelector((state: RootState) => state.order);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const report = useRef<HTMLDivElement>(null);
   const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
@@ -115,15 +116,37 @@ const Order = () => {
                 <Th>Phone No.</Th>
                 <Th>Purchase Amount</Th>
                 <Th>Order Status</Th>
-                <Th>Payment Method</Th>
-                <Th>Payment Status</Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>
 
             {/* adding the table body */}
             <Tbody fontSize={"14.5px"} fontWeight={"semibold"}>
-              {orders.length === 0 ? (
+              {isLoading ? (
+                <Tr>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                  <Td>
+                    <TableShimmer />
+                  </Td>
+                </Tr>
+              ) : orders.length === 0 ? (
                 <Tr textAlign={"center"}>
                   <Td colSpan={9}>Oops! There is no products</Td>
                 </Tr>
@@ -150,12 +173,6 @@ const Order = () => {
                         {order?.orderStatus}
                       </Td>
                       <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                        {order?.paymentMethod}
-                      </Td>
-                      <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
-                        {order?.paymentStatus}
-                      </Td>
-                      <Td p="1" textAlign={"center"} verticalAlign={"text-top"}>
                         <HStack gap={1} pr={2}>
                           <Tooltip
                             hasArrow
@@ -172,13 +189,15 @@ const Order = () => {
                             </Button>
                           </Tooltip>
                           {/* to cancel the order */}
-                          <CancelOrderByAdmin
-                            key={order?._id}
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            onOpen={onOpen}
-                            orderID={order?._id}
-                          />
+                          {order?.orderStatus === "ORDERED" && (
+                            <CancelOrderByAdmin
+                              key={order?._id}
+                              isOpen={isOpen}
+                              onClose={onClose}
+                              onOpen={onOpen}
+                              orderID={order?._id}
+                            />
+                          )}
                         </HStack>
                       </Td>
                     </Tr>

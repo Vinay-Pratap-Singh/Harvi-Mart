@@ -32,6 +32,7 @@ import DeleteProduct from "../../../components/AlertBox/DeleteProduct";
 import { Iproduct, IproductData, Iimage } from "../../../helper/interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
+import TableShimmer from "../../../shimmer/TableShimmer";
 
 interface IuserSearchedText {
   searchedText: string;
@@ -39,8 +40,12 @@ interface IuserSearchedText {
 
 const Product = () => {
   const navigate = useNavigate();
-  const { categories } = useSelector((state: RootState) => state.category);
-  const { products } = useSelector((state: RootState) => state.product);
+  const { categories, isLoading: isCategoryLoading } = useSelector(
+    (state: RootState) => state.category
+  );
+  const { products, isLoading: isProductLoading } = useSelector(
+    (state: RootState) => state.product
+  );
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   // for storing the id of product to be deleleted
   const [productToBeDeleted, setProductToBeDeleted] = useState("");
@@ -200,7 +205,31 @@ const Product = () => {
 
               {/* adding the table body */}
               <Tbody fontSize={"14.5px"} fontWeight={"semibold"}>
-                {productToBeDisplayed.length === 0 ? (
+                {isCategoryLoading || isProductLoading ? (
+                  <Tr>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                    <Td>
+                      <TableShimmer />
+                    </Td>
+                  </Tr>
+                ) : productToBeDisplayed.length === 0 ? (
                   <Tr>
                     <Td colSpan={7}>Oops! There is no products</Td>
                   </Tr>
