@@ -25,6 +25,7 @@ const usePdfDownload = (): UsePdfDownloadResult => {
       logging: false,
       scrollX: 0,
       scrollY: 0,
+      width: content.scrollWidth,
     });
 
     const imageData = canvas.toDataURL("image/png");
