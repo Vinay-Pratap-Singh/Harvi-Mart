@@ -20,9 +20,10 @@ import Dashboard from "../pages/Admin/Dashboard";
 import Product from "../pages/Admin/Product/Product";
 import AddProduct from "../pages/Admin/Product/ProductOperation";
 import PaymentSuccess from "../pages/PaymentSuccess";
-import Order from "../pages/Admin/Order";
+import Order from "../pages/Admin/Order/Order";
 import AdminProductDescription from "../pages/Admin/Product/ProductDescription";
 import Users from "../pages/Admin/Users";
+import OrderDescription from "../pages/Admin/Order/OrderDescription";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/orders",
         element: <Order />,
+      },
+      {
+        path: "/admin/orders/:orderID",
+        element: <OrderDescription />,
       },
     ],
   },

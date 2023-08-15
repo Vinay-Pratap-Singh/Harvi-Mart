@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
-import Layout from "../Layout/Layout";
+import Layout from "../../Layout/Layout";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 import {
   Box,
   Button,
@@ -19,20 +19,22 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IordersData } from "../../helper/interfaces";
+import { IordersData } from "../../../helper/interfaces";
 import { MdOutlineDescription } from "react-icons/md";
-import CancelOrderByAdmin from "../../components/AlertBox/CancelOrderByAdmin";
+import CancelOrderByAdmin from "../../../components/AlertBox/CancelOrderByAdmin";
 import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { AiOutlineFilePdf } from "react-icons/ai";
-import usePdfDownload from "../../helper/Hooks/usePdfDownload";
+import usePdfDownload from "../../../helper/Hooks/usePdfDownload";
 import { useRef } from "react";
-import TableShimmer from "../../shimmer/TableShimmer";
+import TableShimmer from "../../../shimmer/TableShimmer";
+import { useNavigate } from "react-router-dom";
 
 const Order = () => {
   const { orders, isLoading } = useSelector((state: RootState) => state.order);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const report = useRef<HTMLDivElement>(null);
   const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
+  const navigate = useNavigate();
 
   return (
     <Layout>
@@ -184,6 +186,11 @@ const Order = () => {
                             <Button
                               _hover={{ color: "#e06464" }}
                               fontSize={"xl"}
+                              onClick={() =>
+                                navigate(`/admin/orders/${order?._id}`, {
+                                  state: { ...order },
+                                })
+                              }
                             >
                               <MdOutlineDescription />
                             </Button>

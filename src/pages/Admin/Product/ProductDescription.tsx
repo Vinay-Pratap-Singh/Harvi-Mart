@@ -56,7 +56,7 @@ const ProductDescription = () => {
         <title>Product Description</title>
         <meta
           name="description"
-          content="Effortlessly Add and Update Products - Harvi Mart's Product Operation page offers seamless product management for administrators. Add new items or update existing ones with ease. Stay in control of your inventory and keep your product offerings up-to-date. Streamline your e-commerce operations with Harvi Mart's user-friendly Product Operation."
+          content="Elevate your shopping experience at Harvi Mart's Product Description Page. Explore detailed information about our high-quality products, from stylish fashion pieces to cutting-edge electronics and home essentials. Find the perfect fit for your needs and preferences with comprehensive product descriptions, specifications, and features. Shop confidently with Harvi Mart, where quality and convenience meet. Discover more and make informed choices for your lifestyle."
         />
       </Helmet>
 
@@ -96,7 +96,7 @@ const ProductDescription = () => {
                 download="Product Report.pdf"
                 onClick={resetPdfData}
               >
-                <BiCloudDownload fontSize={28} />
+                <BiCloudDownload fontSize={28} cursor={"pointer"} />
               </a>
             </Tooltip>
           ) : !isGenerating ? (
@@ -110,14 +110,15 @@ const ProductDescription = () => {
                 as={"span"}
                 onClick={() => report.current && generatePDF(report.current)}
               >
-                <AiOutlineFilePdf fontSize={28} />
+                <AiOutlineFilePdf fontSize={28} cursor={"pointer"} />
               </Text>
             </Tooltip>
           ) : (
-            <BiLoaderCircle fontSize={28} />
+            <BiLoaderCircle fontSize={28} cursor={"pointer"} />
           )}
         </Box>
 
+        {/* product description */}
         <VStack w={"full"} gap={10} p={10} ref={report}>
           <HStack w={"full"} gap={10} pos={"relative"}>
             {/* left section for image */}
