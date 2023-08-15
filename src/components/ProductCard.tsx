@@ -29,7 +29,7 @@ const ProductCard = ({ product }: Iprop) => {
   return (
     <VStack
       key={product?._id}
-      w={60}
+      w={[44, 44, 60]}
       p={2}
       flexShrink={0}
       rounded={"md"}
@@ -38,7 +38,7 @@ const ProductCard = ({ product }: Iprop) => {
       _hover={{
         boxShadow: "0 0 10px gray",
         border: "none",
-        transform: "translateY(-10px)",
+        transform: "translateY(-5px)",
       }}
       pos={"relative"}
       alignSelf={"stretch"}
@@ -64,54 +64,79 @@ const ProductCard = ({ product }: Iprop) => {
         </Box>
       )}
 
-      <Image h={40} mb={2} src={product?.images?.[0]?.image?.secure_url} />
+      <Image
+        h={[32, 32, 40]}
+        mb={2}
+        src={product?.images?.[0]?.image?.secure_url}
+      />
       <Box
         w={"full"}
         onClick={() =>
           navigate(`/product/detail/${product?._id}`, { state: { ...product } })
         }
       >
-        <Heading fontSize={"md"} fontWeight={"semibold"} noOfLines={1}>
+        <Heading
+          fontSize={["sm", "sm", "md"]}
+          fontWeight={"semibold"}
+          noOfLines={1}
+        >
           {product?.title}
         </Heading>
-        {product?.discountedPrice ? (
-          <HStack w={"full"}>
-            <Text fontWeight={"semibold"} fontSize={"md"}>
+        {product?.discountedPrice &&
+        !(
+          Number(product?.discountedPrice) === Number(product?.originalPrice)
+        ) ? (
+          <HStack w={"full"} flexWrap={"wrap"}>
+            <Text fontWeight={"semibold"} fontSize={["sm", "sm", "md"]}>
               Rs {product?.discountedPrice}
             </Text>
             <Text
-              fontSize={"xs"}
+              fontSize={["11px", "11px", "xs"]}
               color={"gray.500"}
               alignSelf={"flex-end"}
               fontWeight={"semibold"}
             >
               <s>Rs {product?.originalPrice}</s>
             </Text>
-            <Text
-              fontWeight={"semibold"}
-              fontSize={"sm"}
-              color={"primaryColor"}
-            >
+            {Number(
               (
-              {(
                 ((product?.originalPrice - product.discountedPrice) /
                   product?.originalPrice) *
                 100
-              ).toFixed(0)}
-              % Off)
-            </Text>
+              ).toFixed(0)
+            ) && (
+              <Text
+                fontWeight={"semibold"}
+                fontSize={["xs", "xs", "sm"]}
+                color={"primaryColor"}
+              >
+                (
+                {(
+                  ((product?.originalPrice - product.discountedPrice) /
+                    product?.originalPrice) *
+                  100
+                ).toFixed(0)}
+                % Off)
+              </Text>
+            )}
           </HStack>
         ) : (
           <Text
             fontWeight={"semibold"}
-            fontSize={"md"}
+            fontSize={["sm", "sm", "md"]}
             w={"full"}
             textAlign={"left"}
           >
             Rs {product?.originalPrice}
           </Text>
         )}
-        <Text fontSize={"sm"} noOfLines={2} w={"full"} textAlign={"left"}>
+        <Text
+          fontSize={["xs", "xs", "sm"]}
+          fontWeight={"medium"}
+          noOfLines={2}
+          w={"full"}
+          textAlign={"left"}
+        >
           {product?.description}
         </Text>
       </Box>

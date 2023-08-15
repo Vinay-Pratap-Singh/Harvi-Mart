@@ -9,16 +9,18 @@ import {
   Stack,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Layout from "../Layout/Layout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProductShimmer from "../../shimmer/ProductShimmer";
 import noProductFound from "../../assets/noProductFound.jpg";
 import { AiOutlineClear } from "react-icons/ai";
 import { Iproduct } from "../../helper/interfaces";
 import { Helmet } from "react-helmet";
+import { BiFilter } from "react-icons/bi";
 
 const Products = () => {
   const {
@@ -32,12 +34,33 @@ const Products = () => {
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   const [categoryValue, setCategoryValue] = useState("");
   const [priceValue, setPriceValue] = useState("");
+  // ref to get filters
+  const filterCategoryRef = useRef<HTMLDivElement>(null);
+  const filterPriceRef = useRef<HTMLDivElement>(null);
+  const { isOpen, onToggle } = useDisclosure();
 
   // function to clear all the filters
   const clearFilters = () => {
     setCategoryValue("");
     setPriceValue("");
     setProductToBeDisplayed(products);
+  };
+
+  // function to show and hide filter
+  const toggleFilters = () => {
+    const width = window.innerWidth;
+    if (width < 770 && filterPriceRef.current && filterCategoryRef.current) {
+      if (
+        filterCategoryRef.current.style.display === "none" &&
+        filterPriceRef.current.style.display === "none"
+      ) {
+        filterCategoryRef.current.style.display = "block";
+        filterPriceRef.current.style.display = "block";
+      } else {
+        filterCategoryRef.current.style.display = "none";
+        filterPriceRef.current.style.display = "none";
+      }
+    }
   };
 
   // for invoking the filters
@@ -168,14 +191,43 @@ const Products = () => {
         />
       </Helmet>
 
-      <HStack ml={10} my={5} minH={"70vh"}>
+      <HStack
+        flexDirection={["column", "column", "row"]}
+        ml={[0, 0, 10]}
+        mx={[2, 2, 0]}
+        my={[2, 2, 5]}
+        minH={["initial", "initial", "70vh"]}
+        gap={[5, 5, 0]}
+      >
         {/* for displaying the filter options */}
-        <VStack alignSelf={"flex-start"} width={80} boxShadow={"md"} gap={3}>
-          <Heading as={"h1"} fontSize={"lg"} fontWeight={"semibold"}>
-            Filter Product
+        <VStack
+          ml={[0, 0, 10]}
+          alignSelf={["center", "center", "flex-start"]}
+          width={["full", "full", 80]}
+          boxShadow={"md"}
+          gap={[0, 0, 3]}
+        >
+          <Heading
+            w={"full"}
+            as={"h1"}
+            fontSize={["md", "md", "lg"]}
+            fontWeight={"semibold"}
+            pl={[2, 2, 0]}
+            textAlign={["left", "left", "center"]}
+            display={"flex"}
+            alignItems={"center"}
+            gap={2}
+            cursor={["pointer", "pointer", "none"]}
+            transition={"all 0.5s ease-in-out"}
+            onClick={toggleFilters}
+          >
+            <BiFilter fontSize={"24"} /> Filter Product
           </Heading>
+
           {/* for filter by category */}
           <Stack
+            ref={filterCategoryRef}
+            display={["none", "none", "block"]}
             w="full"
             alignSelf={"flex-start"}
             spacing={2}
@@ -196,7 +248,11 @@ const Products = () => {
               />
             ) : (
               <RadioGroup onChange={setCategoryValue} value={categoryValue}>
-                <Stack direction="column" spacing={1}>
+                <Stack
+                  direction={["row", "row", "column"]}
+                  flexWrap={"wrap"}
+                  spacing={1}
+                >
                   {categories.length !== 0 &&
                     categories.map((category: any) => {
                       return (
@@ -216,7 +272,15 @@ const Products = () => {
           </Stack>
 
           {/* for filter by price */}
-          <Stack alignSelf={"flex-start"} spacing={2} pl={2} pb={2} w={"full"}>
+          <Stack
+            ref={filterPriceRef}
+            display={["none", "none", "block"]}
+            alignSelf={["center", "center", "flex-start"]}
+            spacing={2}
+            pl={2}
+            pb={2}
+            w={"full"}
+          >
             <Heading as={"h2"} fontSize={"md"} fontWeight={"semibold"}>
               By Price
             </Heading>
@@ -230,7 +294,11 @@ const Products = () => {
               />
             ) : (
               <RadioGroup onChange={setPriceValue} value={priceValue}>
-                <Stack direction="column" spacing={1}>
+                <Stack
+                  direction={["row", "row", "column"]}
+                  flexWrap={"wrap"}
+                  spacing={1}
+                >
                   <Radio
                     price-min="0"
                     price-max="300"
@@ -289,14 +357,14 @@ const Products = () => {
         </VStack>
 
         {/* for displaying the product card */}
-        <VStack w={"full"} alignSelf={"baseline"} gap={5}>
+        <VStack w={"full"} alignSelf={"baseline"} gap={[2, 2, 5]}>
           {/* displaying the clear filter option */}
           {!isProductLoading && (categoryValue !== "" || priceValue !== "") && (
             <Heading
               alignSelf={"flex-start"}
               fontSize={16}
               fontWeight={"semibold"}
-              ml={5}
+              ml={[0, 0, 5]}
               display={"flex"}
               alignItems={"center"}
               gap={1}
@@ -312,7 +380,7 @@ const Products = () => {
             w={"full"}
             alignSelf={"baseline"}
             justifyContent={"center"}
-            gap={5}
+            gap={[2, 2, 5]}
             flexWrap={"wrap"}
           >
             {/* rendering the products and shimmer based on product data */}
