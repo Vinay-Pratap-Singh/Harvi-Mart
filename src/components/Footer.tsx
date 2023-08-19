@@ -18,15 +18,15 @@ const Footer = () => {
   return (
     <VStack
       px={10}
-      py={[2, 2, 0]}
-      h={["auto", "auto", "18vh"]}
+      py={[2, 2, 2, 0]}
+      h={["auto", "auto", "auto", "18vh"]}
       fontWeight={"semibold"}
       justifyContent={"center"}
       alignItems={"center"}
       borderTop={"1px solid #e5e5e5"}
     >
       <Stack
-        direction={["column", "column", "row"]}
+        direction={["column", "column", "column", "row"]}
         w={["100vw", "100vw", "full"]}
         alignItems={"center"}
         justifyContent={["center", "center", "space-between"]}

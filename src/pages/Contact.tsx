@@ -46,7 +46,7 @@ const Contact = () => {
   return (
     <Box
       w={"100vw"}
-      h={"100vh"}
+      h={["auto", "auto", "100vh"]}
       display={"flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -61,15 +61,27 @@ const Contact = () => {
       </Helmet>
 
       <form onSubmit={handleSubmit(handleContact)}>
-        <HStack gap={8} w={"full"}>
-          <Image src={myImage} alt="login page image" h={"450px"} w={"60%"} />
+        <HStack
+          gap={[4, 8]}
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          flexDirection={["column", "column", "row"]}
+          pb={[5, 5, 0]}
+        >
+          <Image
+            src={myImage}
+            alt="contact us page image"
+            h={["auto", "auto", "300px", "450px"]}
+            w={["98%", "98%", "350px", "auto"]}
+          />
 
-          {/* for login form card */}
+          {/* for contact form card */}
           <VStack
             boxShadow={"md"}
-            h={"full"}
-            w={"23rem"}
-            p={5}
+            h={["auto", "auto", "full"]}
+            w={["90%", "full", "23rem"]}
+            p={[2, 2, 5]}
             gap={1}
             borderRadius={"5px"}
           >

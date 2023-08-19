@@ -12,6 +12,7 @@ import {
   InputLeftElement,
   Link,
   Text,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -26,6 +27,7 @@ import { IsignupData } from "../helper/interfaces";
 import { AppDispatch } from "../redux/store";
 import { createAccount } from "../redux/authSlice";
 import { Helmet } from "react-helmet";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const Signup = () => {
   const {
@@ -252,6 +254,18 @@ const Signup = () => {
             </Button>
 
             <HStack fontWeight={"500"} fontSize={"sm"}>
+              <Link as={RouterLink} to="/">
+                <Tooltip
+                  label="Back to homepage"
+                  hasArrow
+                  bgColor={"white"}
+                  color={"primaryColor"}
+                >
+                  <Box _hover={{ color: "primaryColor" }}>
+                    <AiOutlineArrowLeft />
+                  </Box>
+                </Tooltip>
+              </Link>
               <Text>Already have an account ?</Text>
               <Link as={RouterLink} to={"/login"} color={"orange.500"}>
                 Login

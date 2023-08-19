@@ -88,7 +88,7 @@ const Header = () => {
       <Link as={RouterLink} to={"/"} _hover={{ textDecoration: "none" }}>
         <HStack fontSize={24} fontWeight={"bold"} color={"orange.500"}>
           <AiOutlineShoppingCart fontSize={32} />
-          <Text display={["none", "none", "block"]}>Harvi Mart</Text>
+          <Text display={["none", "none", "none", "block"]}>Harvi Mart</Text>
         </HStack>
       </Link>
 
@@ -123,7 +123,10 @@ const Header = () => {
       >
         {/* wishlist */}
         {isLoggedIn && (
-          <ListItem pos={"relative"} display={["none", "none", "block"]}>
+          <ListItem
+            pos={"relative"}
+            display={["none", "none", "none", "block"]}
+          >
             <Link
               as={RouterLink}
               to={"/wishlist"}
@@ -154,7 +157,10 @@ const Header = () => {
 
         {/* cart */}
         {isLoggedIn && (
-          <ListItem pos={"relative"} display={["none", "none", "block"]}>
+          <ListItem
+            pos={"relative"}
+            display={["none", "none", "none", "block"]}
+          >
             <Link
               as={RouterLink}
               to={"/cart"}
@@ -251,7 +257,7 @@ const Header = () => {
 
                     <ListItem
                       pos={"relative"}
-                      display={["block", "block", "none"]}
+                      display={["block", "block", "block", "none"]}
                     >
                       <Link
                         as={RouterLink}
@@ -279,7 +285,7 @@ const Header = () => {
 
                     <ListItem
                       pos={"relative"}
-                      display={["block", "block", "none"]}
+                      display={["block", "block", "block", "none"]}
                     >
                       <Link
                         as={RouterLink}

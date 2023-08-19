@@ -88,7 +88,7 @@ const Reset = () => {
   return (
     <Box
       w={"100vw"}
-      h={"100vh"}
+      h={["auto", "auto", "100vh"]}
       display={"flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -103,15 +103,27 @@ const Reset = () => {
       </Helmet>
 
       <form onSubmit={handleSubmit(handlePasswordReset)}>
-        <HStack gap={8} w={"full"}>
-          <Image src={myImage} alt="login page image" h={"450px"} />
+        <HStack
+          gap={[0, 0, 4]}
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          flexDirection={["column", "column", "row"]}
+          pb={[5, 5, 0]}
+        >
+          <Image
+            src={myImage}
+            alt="reset page image"
+            h={["auto", "auto", "300px", "450px"]}
+            w={["98%", "98%", "350px", "550px", "auto"]}
+          />
 
-          {/* for login form card */}
+          {/* for reset form card */}
           <VStack
             boxShadow={"md"}
-            h={"full"}
-            w={"23rem"}
-            p={5}
+            h={["auto", "auto", "full"]}
+            w={["90%", "full", "23rem"]}
+            p={[2, 2, 5]}
             gap={1}
             borderRadius={"5px"}
           >

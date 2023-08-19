@@ -9,6 +9,7 @@ import {
   HStack,
   Heading,
   Image,
+  Stack,
   Text,
   Tooltip,
   VStack,
@@ -87,16 +88,16 @@ const Wishlist = () => {
         />
       </Helmet>
 
-      <HStack gap={10} p={5} overflow={"hidden"} h="70vh">
-        <Image src={wishlistImg} alt={"wishlist image"} h={"450px"} />
+      <Stack
+        gap={[5, 5, 5, 10]}
+        flexDirection={["column", "column", "column", "row"]}
+        p={5}
+        h={["auto", "auto", "auto", "70vh"]}
+        overflow={"hidden"}
+      >
+        <Image src={wishlistImg} alt={"wishlist image"} h={"auto"} />
         {/* right side for wishlist */}
-        <VStack
-          w={"full"}
-          alignSelf={"flex-start"}
-          py={5}
-          overflowY={"scroll"}
-          h="full"
-        >
+        <VStack w={"full"} alignSelf={"flex-start"} py={5} h="full" ml={0}>
           <HStack w={"full"} justifyContent={"space-between"} pr={5}>
             <Heading fontSize={"2xl"} fontWeight={"bold"}>
               Your Wishlist
@@ -114,7 +115,7 @@ const Wishlist = () => {
           {/* displaying all the wishlist with their items */}
           <Accordion allowToggle w={"full"}>
             {wishlists.length === 0 ? (
-              <Text>Oops! No wishlist found</Text>
+              <Text fontSize={["sm", "sm", "md"]}>Oops! No wishlist found</Text>
             ) : (
               wishlists.map((wishlist: Iwishlist) => {
                 return (
@@ -137,7 +138,7 @@ const Wishlist = () => {
                       </AccordionButton>
                     </h2>
                     {wishlist?.products.length === 0 ? (
-                      <AccordionPanel pb={4}>
+                      <AccordionPanel pb={4} fontSize={["sm", "sm", "md"]}>
                         Oops! No products are there
                       </AccordionPanel>
                     ) : (
@@ -158,13 +159,14 @@ const Wishlist = () => {
                               >
                                 <VStack alignSelf={"flex-start"}>
                                   <Heading
-                                    fontSize={"md"}
                                     fontWeight={"bold"}
                                     alignSelf={"flex-start"}
+                                    fontSize={["sm", "sm", "md"]}
                                   >
                                     {product?.title}
                                   </Heading>
                                   <Text
+                                    fontSize={["sm", "sm", "md"]}
                                     fontWeight={"medium"}
                                     noOfLines={3}
                                     alignSelf={"flex-start"}
@@ -172,25 +174,58 @@ const Wishlist = () => {
                                     {product?.description}
                                   </Text>
 
-                                  {product?.discountedPrice ? (
-                                    <HStack alignSelf={"flex-start"}>
-                                      <Text fontWeight={"semibold"}>
-                                        &#x20b9;{product?.discountedPrice}
+                                  {product?.discountedPrice &&
+                                  !(
+                                    Number(product?.discountedPrice) ===
+                                    Number(product?.originalPrice)
+                                  ) ? (
+                                    <HStack w={"full"} flexWrap={"wrap"}>
+                                      <Text
+                                        fontWeight={"semibold"}
+                                        fontSize={["sm", "sm", "md"]}
+                                      >
+                                        Rs {product?.discountedPrice}
                                       </Text>
                                       <Text
-                                        fontSize={"xs"}
+                                        fontSize={["11px", "11px", "xs"]}
+                                        color={"gray.500"}
+                                        alignSelf={"flex-end"}
                                         fontWeight={"semibold"}
                                       >
-                                        <s>&#x20b9;{product?.originalPrice}</s>
+                                        <s>Rs {product?.originalPrice}</s>
                                       </Text>
+                                      {Number(
+                                        (
+                                          ((product?.originalPrice -
+                                            product.discountedPrice) /
+                                            product?.originalPrice) *
+                                          100
+                                        ).toFixed(0)
+                                      ) && (
+                                        <Text
+                                          fontWeight={"semibold"}
+                                          fontSize={["xs", "xs", "sm"]}
+                                          color={"primaryColor"}
+                                        >
+                                          (
+                                          {(
+                                            ((product?.originalPrice -
+                                              product.discountedPrice) /
+                                              product?.originalPrice) *
+                                            100
+                                          ).toFixed(0)}
+                                          % Off)
+                                        </Text>
+                                      )}
                                     </HStack>
                                   ) : (
                                     <Text
-                                      fontSize={"sm"}
                                       fontWeight={"semibold"}
-                                      alignSelf={"flex-start"}
+                                      fontSize={["sm", "sm", "md"]}
+                                      w={"full"}
+                                      textAlign={"left"}
                                     >
-                                      &#x20b9;{product?.originalPrice}
+                                      Rs {product?.originalPrice}
                                     </Text>
                                   )}
                                 </VStack>
@@ -248,7 +283,7 @@ const Wishlist = () => {
             )}
           </Accordion>
         </VStack>
-      </HStack>
+      </Stack>
     </Layout>
   );
 };

@@ -12,6 +12,7 @@ import {
   InputLeftElement,
   Link,
   Text,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -23,6 +24,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { forgetPassword } from "../../redux/authSlice";
 import { Helmet } from "react-helmet";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 // interface for login data
 interface IforgetPasswordData {
@@ -51,7 +53,7 @@ const Forget = () => {
   return (
     <Box
       w={"100vw"}
-      h={"100vh"}
+      h={["auto", "auto", "100vh"]}
       display={"flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -66,15 +68,27 @@ const Forget = () => {
       </Helmet>
 
       <form onSubmit={handleSubmit(handleForgetPassword)}>
-        <HStack gap={8} w={"full"}>
-          <Image src={myImage} alt="login page image" h={"450px"} />
+        <HStack
+          gap={[0, 0, 4, 8]}
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          flexDirection={["column", "column", "row"]}
+          pb={[5, 5, 0]}
+        >
+          <Image
+            src={myImage}
+            alt="forget page image"
+            h={["auto", "auto", "300px", "450px"]}
+            w={["98%", "98%", "350px", "auto"]}
+          />
 
-          {/* for login form card */}
+          {/* for forget form card */}
           <VStack
             boxShadow={"md"}
-            h={"full"}
-            w={"23rem"}
-            p={5}
+            h={["auto", "auto", "full"]}
+            w={["90%", "full", "23rem"]}
+            p={[2, 2, 5]}
             gap={1}
             borderRadius={"5px"}
           >
@@ -128,6 +142,18 @@ const Forget = () => {
             </Button>
 
             <HStack fontWeight={"500"} fontSize={"sm"}>
+              <Link as={RouterLink} to="/">
+                <Tooltip
+                  label="Back to homepage"
+                  hasArrow
+                  bgColor={"white"}
+                  color={"primaryColor"}
+                >
+                  <Box _hover={{ color: "primaryColor" }}>
+                    <AiOutlineArrowLeft />
+                  </Box>
+                </Tooltip>
+              </Link>
               <Text>Already have an account ?</Text>
               <Link as={RouterLink} to={"/login"} color={"orange.500"}>
                 Login
