@@ -9,7 +9,6 @@ import {
   Stack,
   Text,
   VStack,
-  useDisclosure,
 } from "@chakra-ui/react";
 import Layout from "../Layout/Layout";
 import { useSelector } from "react-redux";
@@ -37,7 +36,6 @@ const Products = () => {
   // ref to get filters
   const filterCategoryRef = useRef<HTMLDivElement>(null);
   const filterPriceRef = useRef<HTMLDivElement>(null);
-  const { isOpen, onToggle } = useDisclosure();
 
   // function to clear all the filters
   const clearFilters = () => {

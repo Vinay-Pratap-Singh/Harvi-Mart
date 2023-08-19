@@ -61,7 +61,7 @@ const Signup = () => {
   return (
     <Box
       w={"100vw"}
-      h={"100vh"}
+      h={["auto", "auto", "auto", "100vh"]}
       display={"flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -76,16 +76,29 @@ const Signup = () => {
       </Helmet>
 
       <form onSubmit={handleSubmit(handleSignup)}>
-        <HStack gap={8} w={"full"}>
-          <Image src={myImage} alt="login page image" h={"450px"} />
+        <HStack
+          gap={[0, 0, 4, 8]}
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          flexDirection={["column", "column", "row"]}
+          pb={[5, 5, 0]}
+          my={[0, 0, 5, 0]}
+        >
+          <Image
+            src={myImage}
+            alt="signup page image"
+            h={["auto", "auto", "300px", "450px"]}
+            w={["98%", "98%", "350px", "auto"]}
+          />
 
-          {/* for login form card */}
+          {/* for signup form card */}
           <VStack
             boxShadow={"md"}
-            h={"full"}
-            w={"23rem"}
-            px={5}
-            py={2}
+            h={["auto", "auto", "auto", "full"]}
+            w={["90%", "full", "23rem"]}
+            p={[2, 2, 5]}
+            gap={1}
             borderRadius={"5px"}
           >
             <Heading display={"flex"} gap={2} size={"lg"} fontSize={"2xl"}>
