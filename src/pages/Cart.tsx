@@ -143,9 +143,7 @@ const Cart = () => {
     dispatch(createUpdatedCart());
     dispatch(calculateAmount());
     if (!addresses.length || !addresses[0]._id) {
-      (async () => {
-        await dispatch(getLoggedInUserData());
-      })();
+      dispatch(getLoggedInUserData());
     }
   }, [addresses, dispatch]);
 

@@ -7,6 +7,7 @@ import {
   Heading,
   Image,
   Link,
+  Stack,
   Text,
   VStack,
   useDisclosure,
@@ -88,10 +89,10 @@ const Profile = () => {
 
   // for fetching the addresses
   useEffect(() => {
-    (async () => {
-      await dispatch(getLoggedInUserData());
-    })();
-  }, []);
+    if (!addresses.length || !addresses[0]._id) {
+      dispatch(getLoggedInUserData());
+    }
+  }, [addresses, dispatch]);
 
   // for updating the currentIndex
   useEffect(() => {
@@ -109,8 +110,11 @@ const Profile = () => {
         />
       </Helmet>
 
-      <VStack p={5} gap={10}>
-        <Heading fontSize={"2xl"}>
+      <VStack p={5} gap={[3, 3, 5, 10]}>
+        <Heading
+          fontSize={["lg", "lg", "2xl"]}
+          textAlign={["center", "center", "initial"]}
+        >
           Welcome{" "}
           <Text as={"span"} color={"orange.500"}>
             {userDetails?.fullName}
@@ -118,7 +122,11 @@ const Profile = () => {
           to your profile
         </Heading>
 
-        <HStack gap={10} alignItems={"stretch"}>
+        <Stack
+          direction={["column", "column", "column", "row"]}
+          gap={[4, 4, 8, 10]}
+          alignItems={"stretch"}
+        >
           {/* for user's personal information */}
           {loading ? (
             <UserProfileShimmer />
@@ -129,7 +137,7 @@ const Profile = () => {
               shadow={"md"}
               p={3}
               borderRadius={5}
-              width={96}
+              width={["full", "full", 96]}
             >
               <Heading fontSize={"xl"}>Personal Details</Heading>
               {userDetails?.avatar?.secure_url ? (
@@ -146,8 +154,10 @@ const Profile = () => {
 
               <Grid
                 templateColumns="repeat(2,1fr)"
-                gap={2}
+                columnGap={2}
+                rowGap={[1, 1, 2]}
                 fontWeight={"semibold"}
+                fontSize={["sm", "sm", "initial"]}
               >
                 <GridItem>Full Name</GridItem>
                 <GridItem>{userDetails?.fullName}</GridItem>
@@ -187,7 +197,7 @@ const Profile = () => {
               shadow={"md"}
               p={3}
               borderRadius={5}
-              width={96}
+              width={["full", "full", 96]}
               pos={"relative"}
             >
               <HStack w={"full"} justifyContent={"space-between"}>
@@ -241,9 +251,11 @@ const Profile = () => {
                   <VStack w={"full"}>
                     <Grid
                       templateColumns="repeat(2,1fr)"
-                      gap={2}
-                      fontWeight={"semibold"}
                       w={"full"}
+                      columnGap={2}
+                      rowGap={[1, 1, 2]}
+                      fontWeight={"semibold"}
+                      fontSize={["sm", "sm", "initial"]}
                     >
                       <GridItem>Full Name</GridItem>
                       <GridItem>
@@ -272,7 +284,11 @@ const Profile = () => {
                     </Grid>
 
                     {/* adding the buttons */}
-                    <VStack w={"93%"} pos={"absolute"} bottom={3}>
+                    <VStack
+                      w={["full", "full", "93%"]}
+                      pos={["initial", "initial", "absolute"]}
+                      bottom={3}
+                    >
                       <HStack w={"full"}>
                         <AddAddress
                           addAddressIsOpen={addAddressIsOpen}
@@ -302,7 +318,7 @@ const Profile = () => {
               </HStack>
             </VStack>
           )}
-        </HStack>
+        </Stack>
       </VStack>
     </Layout>
   );

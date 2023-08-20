@@ -107,8 +107,8 @@ const cartSlice = createSlice({
       .addCase(handleCheckout.fulfilled, (state, action) => {
         if (action.payload?.success) {
           window.location.href = action.payload?.url;
-          state.isLoading = false;
         }
+        state.isLoading = false;
       })
       .addCase(handleCheckout.rejected, (state) => {
         toast.error("Oops! failed to checkout");
