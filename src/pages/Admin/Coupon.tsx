@@ -60,7 +60,7 @@ const Coupon = () => {
         />
       </Helmet>
 
-      <VStack w={"full"} h="100vh" pl={60} gap={5} pt={5}>
+      <VStack w={"full"} h="100vh" pl={[0, 0, 0, 60]} gap={5} pt={5}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>

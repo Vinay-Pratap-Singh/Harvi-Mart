@@ -138,6 +138,9 @@ const authSlice = createSlice({
       })
 
       // for handling the logout functionality
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(logout.fulfilled, (state) => {
         toast.success("Logout successfull");
         localStorage.clear();
@@ -154,6 +157,10 @@ const authSlice = createSlice({
           phoneNumber: "",
           role: 0,
         };
+        state.loading = false;
+      })
+      .addCase(logout.rejected, (state) => {
+        state.loading = false;
       })
 
       // for handling the forget password

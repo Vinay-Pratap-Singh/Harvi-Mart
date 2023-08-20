@@ -60,7 +60,7 @@ const ProductDescription = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={60}>
+      <VStack minH={"100vh"} w="full" pt={5} pl={[0, 0, 0, 60]}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>

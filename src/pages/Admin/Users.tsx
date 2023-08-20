@@ -42,7 +42,7 @@ const Users = () => {
         />
       </Helmet>
 
-      <VStack w={"full"} pl={60} pt={5} gap={10}>
+      <VStack w={"full"} pl={[0, 0, 0, 60]} pt={5} gap={10}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>

@@ -62,7 +62,7 @@ const Category = () => {
         />
       </Helmet>
 
-      <VStack w={"full"} h="100vh" gap={5} pl={60} pt={5}>
+      <VStack w={"full"} h="100vh" gap={5} pl={[0, 0, 0, 60]} pt={5}>
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>

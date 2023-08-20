@@ -196,7 +196,14 @@ const Dashboard = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={60} gap={10} pos={"relative"}>
+      <VStack
+        minH={"100vh"}
+        w="full"
+        pt={5}
+        pl={[0, 0, 0, 60]}
+        gap={10}
+        pos={"relative"}
+      >
         <Heading fontSize={"3xl"}>
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>

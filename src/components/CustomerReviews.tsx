@@ -71,7 +71,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
     (async () => {
       await dispatch(getIndividualProductReview(productID));
     })();
-  }, [productID]);
+  }, [productID, dispatch]);
 
   return (
     <VStack w={"full"} alignItems={"flex-start"}>
