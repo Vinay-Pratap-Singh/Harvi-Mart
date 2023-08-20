@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Stack,
   Text,
   Textarea,
   VStack,
@@ -89,7 +90,7 @@ const ProductDescription = () => {
   // function to add the product into cart
   const addToCart = (product: Iproduct) => {
     // checking for the item already in cart or not
-    if (cartItems.length !== 0) {
+    if (cartItems.length) {
       for (let i = 0; i < cartItems.length; i++) {
         if (cartItems[i]?._id === product?._id) {
           toast.error("Product is already in the cart");
@@ -154,16 +155,28 @@ const ProductDescription = () => {
         />
       </Helmet>
 
-      <HStack w={"full"} gap={10} p={10} pos={"relative"}>
+      <Stack
+        direction={["column", "column", "column", "row"]}
+        w={"full"}
+        gap={10}
+        p={[0, 0, 5, 10]}
+        pos={"relative"}
+      >
         {/* left section for image */}
-        <VStack w={"100%"} alignSelf={"baseline"} gap={5}>
+        <VStack w={"full"} alignSelf={"baseline"} gap={5}>
           <Image
             src={state?.images[currentImagePreview]?.image?.secure_url}
             maxH={80}
             alt="product image"
           />
 
-          <Box pos={"relative"} w={"full"} px={5} py={2} shadow={"md"}>
+          <Box
+            pos={"relative"}
+            w={["95%", "95%", "95%", "full"]}
+            px={[2, 2, 5]}
+            py={2}
+            shadow={"md"}
+          >
             {/* for multiple products image */}
             <HStack
               minW={"full"}
@@ -218,7 +231,7 @@ const ProductDescription = () => {
               p="0"
               pos="absolute"
               bottom={12}
-              left={1}
+              left={[0, 0, 1]}
               zIndex={10}
               size={"sm"}
               onClick={handleLeftSlider}
@@ -232,7 +245,7 @@ const ProductDescription = () => {
               p="0"
               pos="absolute"
               bottom={12}
-              right={1}
+              right={[0, 0, 1]}
               zIndex={10}
               size={"sm"}
               onClick={handleRightSlider}
@@ -243,7 +256,13 @@ const ProductDescription = () => {
         </VStack>
 
         {/* right section for product details */}
-        <VStack w={"full"} gap={10}>
+        <VStack
+          w={"full"}
+          gap={[2, 2, 5, 10]}
+          px={[2, 2, 2, 0]}
+          alignItems={["center", "center", "center", "initial"]}
+          justifyContent={["center", "center", "center", "initial"]}
+        >
           {/* for product details */}
           <VStack
             alignItems={"self-start"}
@@ -251,15 +270,17 @@ const ProductDescription = () => {
             w={"full"}
             fontWeight={"semibold"}
           >
-            <Heading fontSize={"2xl"} fontWeight={"bold"}>
+            <Heading fontSize={["xl", "xl", "xl", "2xl"]} fontWeight={"bold"}>
               {state?.title}
             </Heading>
-            <Text>{state?.description}</Text>
+            <Text fontSize={["sm", "sm", "sm", "initial"]}>
+              {state?.description}
+            </Text>
 
             {/* adding the pricing section */}
             {state?.discountedPrice ? (
               <HStack fontWeight={"semibold"}>
-                <Text as={"p"} fontSize={"2xl"}>
+                <Text as={"p"} fontSize={["xl", "xl", "xl", "2xl"]}>
                   Rs {state?.discountedPrice}
                 </Text>
                 <Text fontSize={"xs"} color={"gray.500"}>
@@ -280,7 +301,11 @@ const ProductDescription = () => {
                 </Text>{" "}
               </HStack>
             ) : (
-              <Text as={"p"} fontSize={"2xl"} fontWeight={"semibold"}>
+              <Text
+                as={"p"}
+                fontSize={["xl", "xl", "xl", "2xl"]}
+                fontWeight={"semibold"}
+              >
                 Rs {state?.originalPrice}
               </Text>
             )}
@@ -322,7 +347,7 @@ const ProductDescription = () => {
 
           {/* for customer review */}
           <VStack w={"full"} alignItems={"flex-start"}>
-            <Heading fontSize={"2xl"} fontWeight={"bold"} mb={5}>
+            <Heading fontSize={"2xl"} fontWeight={"bold"} mb={[2, 2, 2, 5]}>
               Customer Reviews
             </Heading>
             <CustomerReviews key={nanoid()} productID={state?._id} />
@@ -342,7 +367,7 @@ const ProductDescription = () => {
               onSubmit={handleSubmit(handleFormSubmit)}
               style={{ width: "100%" }}
             >
-              <VStack>
+              <VStack mb={[2, 2, 2, 0]}>
                 {/* for review title */}
                 <FormControl isInvalid={Boolean(errors?.title)}>
                   <FormLabel fontSize={"sm"}>Title</FormLabel>
@@ -408,6 +433,7 @@ const ProductDescription = () => {
                   isLoading={isSubmitting}
                   loadingText="Adding review..."
                   colorScheme="orange"
+                  size={["md", "md", "lg", "lg"]}
                 >
                   Submit Review
                 </Button>
@@ -415,7 +441,7 @@ const ProductDescription = () => {
             </form>
           </VStack>
         </VStack>
-      </HStack>
+      </Stack>
     </Layout>
   );
 };

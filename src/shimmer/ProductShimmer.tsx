@@ -7,7 +7,7 @@ const ProductShimmer = () => {
       height={["250px", "250px", "300px"]}
       flexShrink={0}
     >
-      <Skeleton h="200px" />
+      <Skeleton h={["150px", "150px", "200px"]} />
       <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
     </Box>
   );

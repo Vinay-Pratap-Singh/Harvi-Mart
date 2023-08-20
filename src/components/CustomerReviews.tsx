@@ -38,7 +38,8 @@ const CustomerReviews = ({ productID }: Iprop) => {
     fourStar: 0,
     fiveStar: 0,
   };
-  reviews.length &&
+  reviews &&
+    reviews.length &&
     reviews.forEach((review: any) => {
       const rating = review?.rating;
       switch (rating) {
@@ -75,7 +76,12 @@ const CustomerReviews = ({ productID }: Iprop) => {
   return (
     <VStack w={"full"} alignItems={"flex-start"}>
       {/* adding the reviews rating chart */}
-      <HStack gap={20} mb={5}>
+      <Stack
+        direction={["column", "column", "column", "row"]}
+        w={"full"}
+        gap={[2, 2, 5, 5, 10]}
+        mb={[0, 0, 0, 5]}
+      >
         <VStack fontWeight={"semibold"}>
           <Heading fontSize={"4xl"}>
             {reviews.length
@@ -130,7 +136,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
               }
               colorScheme="green"
               size="sm"
-              w={60}
+              w={["70%", "75%", "75%", 56, 60]}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
@@ -162,7 +168,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
               }
               colorScheme="green"
               size="sm"
-              w={60}
+              w={["70%", "75%", "75%", 56, 60]}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
@@ -194,7 +200,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
               }
               colorScheme="green"
               size="sm"
-              w={60}
+              w={["70%", "75%", "75%", 56, 60]}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
@@ -224,7 +230,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
               }
               colorScheme="yellow"
               size="sm"
-              w={60}
+              w={["70%", "75%", "75%", 56, 60]}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
@@ -254,7 +260,7 @@ const CustomerReviews = ({ productID }: Iprop) => {
               }
               colorScheme="red"
               size="sm"
-              w={60}
+              w={["70%", "75%", "75%", 56, 60]}
               borderRadius={5}
             />
             <Text color={"gray.600"}>
@@ -265,11 +271,11 @@ const CustomerReviews = ({ productID }: Iprop) => {
             </Text>
           </HStack>
         </Stack>
-      </HStack>
+      </Stack>
 
       <VStack gap={3} w={"full"}>
         {reviews.length === 0 ? (
-          <Text fontWeight={"semibold"} fontSize={"lg"}>
+          <Text fontWeight={"semibold"} fontSize={["sm", "sm", "md", "lg"]}>
             No reviews available for this product{" "}
             <Text as={"span"} color={"primaryColor"} fontWeight={"bold"}>
               :(
