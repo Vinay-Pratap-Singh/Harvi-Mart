@@ -9,6 +9,7 @@ import {
   InputRightElement,
   Radio,
   RadioGroup,
+  SkeletonText,
   Stack,
   Text,
   Tooltip,
@@ -66,7 +67,9 @@ const Cart = () => {
   const { updatedCartItems, isLoading } = useSelector(
     (state: RootState) => state.cart
   );
-  const { userDetails } = useSelector((state: RootState) => state.auth);
+  const { userDetails, loading: isAddressLoading } = useSelector(
+    (state: RootState) => state.auth
+  );
   const addresses: Iaddress[] = userDetails.addresses;
   const { totalPrice, totalDiscount } = useSelector(
     (state: RootState) => state.cart
@@ -126,19 +129,25 @@ const Cart = () => {
       phoneNumber: "9874563210",
       products,
       total: totalPrice,
+      coupon: couponData?.couponCode,
     };
     couponData?.couponCode && (data.coupon = couponData?.couponCode);
     const res = await dispatch(handleCheckout(data));
+    if (!res.payload?.success) {
+      toast.error("Failed to checkout");
+    }
   };
 
   // using useEffect to calculate the price and discount on component loading
   useEffect(() => {
     dispatch(createUpdatedCart());
     dispatch(calculateAmount());
-    (async () => {
-      await dispatch(getLoggedInUserData());
-    })();
-  }, []);
+    if (!addresses.length || !addresses[0]._id) {
+      (async () => {
+        await dispatch(getLoggedInUserData());
+      })();
+    }
+  }, [addresses, dispatch]);
 
   return (
     <Layout>
@@ -151,16 +160,26 @@ const Cart = () => {
         />
       </Helmet>
 
-      <HStack p={10} gap={10} minH={"70vh"}>
+      <Stack
+        direction={["column", "column", "column", "row"]}
+        p={[3, 3, 5, 10]}
+        gap={[3, 3, 5, 10]}
+        minH={"70vh"}
+      >
         {/* for displaying the products */}
         <VStack
-          w={updatedCartItems.length > 0 ? "70%" : "100%"}
+          w={[
+            "full",
+            "full",
+            "full",
+            updatedCartItems.length > 0 ? "70%" : "100%",
+          ]}
           alignSelf={"flex-start"}
           gap={5}
         >
           {!updatedCartItems?.length ? (
             <VStack gap={5}>
-              <Text fontWeight={"semibold"}>
+              <Text fontWeight={"semibold"} fontSize={["sm", "sm", "md"]}>
                 "Oops! there is no product in cart
               </Text>
               <Image w={"25rem"} src={noProductInCart} />
@@ -174,16 +193,23 @@ const Cart = () => {
 
         {/* for displaying the checkout */}
         {updatedCartItems.length > 0 && (
-          <VStack w="30%" alignSelf={"flex-start"} gap={2}>
+          <VStack
+            w={["full", "full", "full", "30%"]}
+            alignSelf={"flex-start"}
+            gap={2}
+            shadow={"md"}
+            p={2}
+            rounded={"md"}
+          >
             <VStack w="full" fontWeight={"medium"}>
               <HStack w="full" justifyContent={"space-between"}>
                 <Text>Price</Text>
-                <Text>&#x20b9; {totalPrice}</Text>
+                <Text>Rs {totalPrice}</Text>
               </HStack>
               <HStack w="full" justifyContent={"space-between"}>
                 <Text>Discount</Text>
                 <Text>
-                  &#x20b9;{" "}
+                  Rs{" "}
                   {couponData.isCouponApplied
                     ? totalDiscount + (totalPrice - couponData.discountedTotal)
                     : totalDiscount}
@@ -198,7 +224,7 @@ const Cart = () => {
               >
                 <Text>Total Amount</Text>
                 <Text>
-                  &#x20b9;{" "}
+                  Rs{" "}
                   {couponData.isCouponApplied
                     ? totalPrice -
                       totalDiscount -
@@ -259,7 +285,15 @@ const Cart = () => {
             )}
 
             {/* displaying the address */}
-            {addresses.length ? (
+            {isAddressLoading ? (
+              <SkeletonText
+                w={"full"}
+                mt="2"
+                noOfLines={5}
+                spacing="4"
+                skeletonHeight="3"
+              />
+            ) : addresses.length ? (
               <>
                 <RadioGroup
                   alignSelf={"flex-start"}
@@ -340,7 +374,7 @@ const Cart = () => {
             </Button>
           </VStack>
         )}
-      </HStack>
+      </Stack>
     </Layout>
   );
 };

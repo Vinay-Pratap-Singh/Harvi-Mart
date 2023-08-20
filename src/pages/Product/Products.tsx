@@ -189,7 +189,7 @@ const Products = () => {
         />
       </Helmet>
 
-      <HStack
+      <Stack
         flexDirection={["column", "column", "row"]}
         ml={[0, 0, 10]}
         mx={[2, 2, 0]}
@@ -202,7 +202,7 @@ const Products = () => {
           ml={[0, 0, 10]}
           alignSelf={["center", "center", "flex-start"]}
           width={["full", "full", 80]}
-          boxShadow={"md"}
+          // boxShadow={window.innerWidth > 600 ? "md" : "none"}
           gap={[0, 0, 3]}
         >
           <Heading
@@ -409,7 +409,7 @@ const Products = () => {
             )}
           </HStack>
         </VStack>
-      </HStack>
+      </Stack>
     </Layout>
   );
 };

@@ -64,16 +64,20 @@ const Homepage = () => {
       </Helmet>
 
       {/* main section of the homepage */}
-      <Stack direction={["column", "column", "row"]} gap={10} m={[5, 5, 10]}>
+      <Stack
+        direction={["column", "column", "column", "row"]}
+        gap={[5, 5, 5, 10]}
+        m={[5, 5, 5, 10]}
+      >
         {/* adding home page image */}
         <Image
-          w={["full", "full", "50%"]}
+          w={["full", "full", "full", "50%"]}
           src={homepageImage}
           alt="home page image"
         />
 
         {/* for describing the speciality */}
-        <VStack w={["full", "full", "50%"]} alignItems={"flex-start"}>
+        <VStack w={["full", "full", "full", "50%"]} alignItems={"flex-start"}>
           <Heading fontSize={"2xl"}>
             Elevate Your Choice with{" "}
             <Text as={"span"} color="orange.500">
@@ -102,13 +106,15 @@ const Homepage = () => {
           </UnorderedList>
 
           <Link as={RouterLink} to={"/products"}>
-            <Button colorScheme="orange">Browse Collection</Button>
+            <Button size={["sm", "sm", "md", "lg"]} colorScheme="orange">
+              Browse Collection
+            </Button>
           </Link>
         </VStack>
       </Stack>
 
       {/* for products section */}
-      <VStack my={[5, 5, 10]} gap={[2, 2, 5]}>
+      <VStack my={[5, 5, 10]} gap={[0, 0, 0, 5]}>
         <Heading fontSize={"2xl"}>Our Trendy Products</Heading>
 
         {/* adding the products cards */}

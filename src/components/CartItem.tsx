@@ -1,4 +1,5 @@
 import {
+  Box,
   HStack,
   Heading,
   Image,
@@ -53,94 +54,197 @@ const CartItem = ({ cartItem }: Iprops) => {
   };
 
   return (
-    <HStack
-      key={cartItem?._id}
-      p={2}
-      boxShadow={"md"}
-      w={"full"}
-      justifyContent={"space-between"}
-    >
-      <HStack>
-        <Image
-          src={cartItem?.images[0]?.image?.secure_url}
-          h={32}
-          alt="product image"
-        />
+    <Box key={cartItem?._id} p={2} boxShadow={"md"} w={"full"} rounded={"md"}>
+      <HStack justifyContent={"space-between"}>
+        <HStack>
+          <Image
+            src={cartItem?.images[0]?.image?.secure_url}
+            h={32}
+            alt="product image"
+          />
 
-        <VStack alignSelf={"flex-start"}>
-          <Heading fontSize={"md"} fontWeight={"bold"} alignSelf={"flex-start"}>
-            {cartItem?.title}
-          </Heading>
-          <Text fontWeight={"medium"} noOfLines={3} alignSelf={"flex-start"}>
-            {cartItem?.description}
-          </Text>
-          {cartItem?.discountedPrice ? (
-            <HStack alignSelf={"flex-start"}>
-              <Text fontWeight={"semibold"}>
-                &#x20b9;{cartItem?.discountedPrice}
-              </Text>
-              <Text fontSize={"xs"} fontWeight={"semibold"}>
-                <s>&#x20b9;{cartItem?.originalPrice}</s>
-              </Text>
-            </HStack>
-          ) : (
-            <Text
-              fontSize={"sm"}
-              fontWeight={"semibold"}
+          <VStack
+            alignSelf={"flex-start"}
+            display={["none", "none", "none", "block"]}
+          >
+            <Heading
+              fontSize={"md"}
+              fontWeight={"bold"}
               alignSelf={"flex-start"}
             >
-              &#x20b9;{cartItem?.originalPrice}
+              {cartItem?.title}
+            </Heading>
+            <Text fontWeight={"medium"} noOfLines={3} alignSelf={"flex-start"}>
+              {cartItem?.description}
             </Text>
-          )}
+            {cartItem?.discountedPrice &&
+            !(
+              Number(cartItem?.discountedPrice) ===
+              Number(cartItem?.originalPrice)
+            ) ? (
+              <HStack w={"full"} flexWrap={"wrap"}>
+                <Text fontWeight={"semibold"} fontSize={["sm", "sm", "md"]}>
+                  Rs {cartItem?.discountedPrice}
+                </Text>
+                <Text
+                  fontSize={["11px", "11px", "xs"]}
+                  color={"gray.500"}
+                  alignSelf={"flex-end"}
+                  fontWeight={"semibold"}
+                >
+                  <s>Rs {cartItem?.originalPrice}</s>
+                </Text>
+                {Number(
+                  (
+                    ((cartItem?.originalPrice - cartItem.discountedPrice) /
+                      cartItem?.originalPrice) *
+                    100
+                  ).toFixed(0)
+                ) && (
+                  <Text
+                    fontWeight={"semibold"}
+                    fontSize={["xs", "xs", "sm"]}
+                    color={"primaryColor"}
+                  >
+                    (
+                    {(
+                      ((cartItem?.originalPrice - cartItem.discountedPrice) /
+                        cartItem?.originalPrice) *
+                      100
+                    ).toFixed(0)}
+                    % Off)
+                  </Text>
+                )}
+              </HStack>
+            ) : (
+              <Text
+                fontWeight={"semibold"}
+                fontSize={["sm", "sm", "md"]}
+                w={"full"}
+                textAlign={"left"}
+              >
+                Rs {cartItem?.originalPrice}
+              </Text>
+            )}
+          </VStack>
+        </HStack>
+
+        <VStack>
+          {/* adding button to remove from cart */}
+          <RemoveFromCart
+            key={cartItem?._id}
+            id={cartItem?._id}
+            removeFromCartIsOpen={removeFromCartIsOpen}
+            removeFromCartOnClose={removeFromCartOnClose}
+            removeFromCartOnOpen={removeFromCartOnOpen}
+          />
+
+          <InputGroup>
+            <InputLeftAddon
+              fontWeight={"bold"}
+              fontSize={20}
+              cursor={"pointer"}
+              _hover={{ color: "primaryColor" }}
+              children="-"
+              onClick={decreaseProductCount}
+            />
+            <Input
+              type="number"
+              placeholder="1"
+              value={noOfItem}
+              readOnly
+              textAlign={"center"}
+              fontWeight={"bold"}
+              w={14}
+            />
+            <InputRightAddon
+              fontWeight={"bold"}
+              fontSize={20}
+              cursor={"pointer"}
+              _hover={{ color: "primaryColor" }}
+              children="+"
+              onClick={increaseProductCount}
+            />
+          </InputGroup>
+          <Text
+            fontWeight={"semibold"}
+            fontSize={["sm", "sm", "md", "initial"]}
+          >
+            Total :{" Rs "}
+            {cartItem?.discountedPrice
+              ? cartItem?.discountedPrice * noOfItem
+              : cartItem?.originalPrice * noOfItem}{" "}
+          </Text>
         </VStack>
       </HStack>
 
-      <VStack>
-        {/* adding button to remove from cart */}
-        <RemoveFromCart
-          key={cartItem?._id}
-          id={cartItem?._id}
-          removeFromCartIsOpen={removeFromCartIsOpen}
-          removeFromCartOnClose={removeFromCartOnClose}
-          removeFromCartOnOpen={removeFromCartOnOpen}
-        />
-
-        <InputGroup>
-          <InputLeftAddon
-            fontWeight={"bold"}
-            fontSize={20}
-            cursor={"pointer"}
-            _hover={{ color: "primaryColor" }}
-            children="-"
-            onClick={decreaseProductCount}
-          />
-          <Input
-            type="number"
-            placeholder="1"
-            value={noOfItem}
-            readOnly
-            textAlign={"center"}
-            fontWeight={"bold"}
-            w={14}
-          />
-          <InputRightAddon
-            fontWeight={"bold"}
-            fontSize={20}
-            cursor={"pointer"}
-            _hover={{ color: "primaryColor" }}
-            children="+"
-            onClick={increaseProductCount}
-          />
-        </InputGroup>
-        <Text fontWeight={"semibold"}>
-          Total :{" "}
-          {cartItem?.discountedPrice
-            ? cartItem?.discountedPrice * noOfItem
-            : cartItem?.originalPrice * noOfItem}{" "}
-          &#x20b9;
+      {/* product description for mobile view */}
+      <VStack
+        alignSelf={"flex-start"}
+        display={["block", "block", "block", "none"]}
+        mt={2}
+      >
+        <Heading fontSize={"md"} fontWeight={"bold"} alignSelf={"flex-start"}>
+          {cartItem?.title}
+        </Heading>
+        <Text
+          fontWeight={"medium"}
+          noOfLines={3}
+          alignSelf={"flex-start"}
+          fontSize={"sm"}
+        >
+          {cartItem?.description}
         </Text>
+        {cartItem?.discountedPrice &&
+        !(
+          Number(cartItem?.discountedPrice) === Number(cartItem?.originalPrice)
+        ) ? (
+          <HStack w={"full"} flexWrap={"wrap"}>
+            <Text fontWeight={"semibold"} fontSize={["sm", "sm", "md"]}>
+              Rs {cartItem?.discountedPrice}
+            </Text>
+            <Text
+              fontSize={["11px", "11px", "xs"]}
+              color={"gray.500"}
+              alignSelf={"flex-end"}
+              fontWeight={"semibold"}
+            >
+              <s>Rs {cartItem?.originalPrice}</s>
+            </Text>
+            {Number(
+              (
+                ((cartItem?.originalPrice - cartItem.discountedPrice) /
+                  cartItem?.originalPrice) *
+                100
+              ).toFixed(0)
+            ) && (
+              <Text
+                fontWeight={"semibold"}
+                fontSize={["xs", "xs", "sm"]}
+                color={"primaryColor"}
+              >
+                (
+                {(
+                  ((cartItem?.originalPrice - cartItem.discountedPrice) /
+                    cartItem?.originalPrice) *
+                  100
+                ).toFixed(0)}
+                % Off)
+              </Text>
+            )}
+          </HStack>
+        ) : (
+          <Text
+            fontWeight={"semibold"}
+            fontSize={["sm", "sm", "md"]}
+            w={"full"}
+            textAlign={"left"}
+          >
+            Rs {cartItem?.originalPrice}
+          </Text>
+        )}
       </VStack>
-    </HStack>
+    </Box>
   );
 };
 
