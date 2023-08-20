@@ -8,6 +8,7 @@ import {
   HStack,
   Heading,
   Image,
+  Stack,
   Text,
   Tooltip,
   VStack,
@@ -34,8 +35,18 @@ const OrderDescription = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={[0, 0, 0, 60]}>
-        <Heading fontSize={"3xl"}>
+      <VStack
+        minH={"100vh"}
+        w={"full"}
+        pl={[0, 0, 0, 60]}
+        pt={[12, 12, 12, 5]}
+        gap={[5, 5, 5, 10]}
+      >
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["lg", "lg", "xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Order Description
@@ -53,9 +64,9 @@ const OrderDescription = () => {
           justifyContent={"center"}
           color={"primaryColor"}
           cursor={"pointer"}
-          pos={"fixed"}
-          top={10}
-          right={20}
+          pos={"absolute"}
+          top={[0, null, null, 10]}
+          right={[2, null, null, 16, 28]}
         >
           {pdfData ? (
             <Tooltip
@@ -93,7 +104,13 @@ const OrderDescription = () => {
         </Box>
 
         {/* order description */}
-        <VStack w={"full"} gap={10} pos={"relative"} p={10} ref={report}>
+        <VStack
+          w={"full"}
+          gap={10}
+          pos={"relative"}
+          p={[5, 5, 5, 10]}
+          ref={report}
+        >
           {/* for displaying the purchased products */}
           <HStack
             alignItems={"center"}
@@ -140,15 +157,21 @@ const OrderDescription = () => {
 
           {/* for order summary */}
           <VStack gap={5}>
-            <Heading fontSize={"2xl"}>Complete Order Summary</Heading>
-            <HStack gap={10} alignItems={"center"}>
+            <Heading fontSize={["lg", "lg", "xl", "2xl"]}>
+              Complete Order Summary
+            </Heading>
+            <Stack
+              direction={["column", "column", "column", "row"]}
+              gap={[5, 5, 5, 5, 10]}
+              alignItems={"center"}
+            >
               {/* for user details */}
               <VStack
                 fontWeight={"medium"}
                 fontSize={"sm"}
                 shadow={"md"}
                 rounded={"md"}
-                w={"400px"}
+                w={["full", "full", "full", "350px", "400px"]}
                 p={5}
               >
                 <Heading fontSize={"xl"}>User Details</Heading>
@@ -183,7 +206,7 @@ const OrderDescription = () => {
                 fontSize={"sm"}
                 shadow={"md"}
                 rounded={"md"}
-                w={"400px"}
+                w={["full", "full", "full", "350px", "400px"]}
                 p={5}
                 alignSelf={"stretch"}
               >
@@ -204,7 +227,7 @@ const OrderDescription = () => {
                   <GridItem>Rs {state?.total}</GridItem>
                 </Grid>
               </VStack>
-            </HStack>
+            </Stack>
           </VStack>
         </VStack>
       </VStack>

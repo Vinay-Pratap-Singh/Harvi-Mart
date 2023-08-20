@@ -42,8 +42,17 @@ const Users = () => {
         />
       </Helmet>
 
-      <VStack w={"full"} pl={[0, 0, 0, 60]} pt={5} gap={10}>
-        <Heading fontSize={"3xl"}>
+      <VStack
+        w={"full"}
+        pl={[0, 0, 0, 60]}
+        pt={[12, 12, 12, 5]}
+        gap={[5, 5, 5, 10]}
+      >
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["lg", "lg", "xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Users Page
@@ -56,14 +65,14 @@ const Users = () => {
           w={10}
           borderRadius={"full"}
           boxShadow={"md"}
-          display={"flex"}
+          display={["none", "none", "none", "flex"]}
           alignItems={"center"}
           justifyContent={"center"}
           color={"primaryColor"}
           cursor={"pointer"}
-          pos={"fixed"}
-          bottom={10}
-          right={20}
+          pos={"absolute"}
+          top={[null, null, null, 10]}
+          right={[null, null, null, 16, 28]}
         >
           {pdfData ? (
             <Tooltip

@@ -1,4 +1,12 @@
-import { Box, HStack, Heading, Text, Tooltip, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  Tooltip,
+  VStack,
+} from "@chakra-ui/react";
 import Layout from "../Layout/Layout";
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
@@ -199,12 +207,16 @@ const Dashboard = () => {
       <VStack
         minH={"100vh"}
         w="full"
-        pt={5}
+        pt={[12, 12, 12, 5]}
         pl={[0, 0, 0, 60]}
-        gap={10}
+        gap={[5, 5, 5, 10]}
         pos={"relative"}
       >
-        <Heading fontSize={"3xl"}>
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["lg", "lg", "xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Admin Dashboard
@@ -217,14 +229,14 @@ const Dashboard = () => {
           w={10}
           borderRadius={"full"}
           boxShadow={"md"}
-          display={"flex"}
+          display={["none", "none", "none", "flex"]}
           alignItems={"center"}
           justifyContent={"center"}
           color={"primaryColor"}
           cursor={"pointer"}
           pos={"absolute"}
-          top={20}
-          right={28}
+          top={[null, null, null, 12, 20]}
+          right={[null, null, null, 16, 28]}
         >
           {pdfData ? (
             <Tooltip
@@ -261,9 +273,13 @@ const Dashboard = () => {
           )}
         </Box>
 
-        <VStack gap={10} ref={report}>
+        <VStack gap={[5, 5, 5, 10]} ref={report}>
           {/* displaying the category and review charts */}
-          <HStack gap={10} alignItems={"center"}>
+          <Stack
+            direction={["column", "column", "column", "row"]}
+            gap={[5, 5, 5, 10]}
+            alignItems={"center"}
+          >
             {/* category chart */}
             <VStack gap={2} alignItems={"center"} justifyContent={"center"}>
               <PieChart data={categoriesChartData} />
@@ -275,7 +291,7 @@ const Dashboard = () => {
               <PieChart data={reviewsChartData} />
               <Heading fontSize={"xl"}>Average products review</Heading>
             </VStack>
-          </HStack>
+          </Stack>
 
           {/* displaying the records pills */}
           <HStack
@@ -284,6 +300,7 @@ const Dashboard = () => {
             alignItems={"center"}
             justifyContent={"center"}
             pb={10}
+            px={5}
           >
             {pillsData?.map((pill: IpillData) => {
               return <PillsData key={pill?.id} data={pill} />;
