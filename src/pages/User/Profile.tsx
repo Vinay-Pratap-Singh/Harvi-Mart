@@ -110,7 +110,13 @@ const Profile = () => {
         />
       </Helmet>
 
-      <VStack p={5} gap={[3, 3, 5, 10]}>
+      <VStack
+        p={5}
+        gap={[3, 3, 5, 10]}
+        minH={"70vh"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
         <Heading
           fontSize={["lg", "lg", "2xl"]}
           textAlign={["center", "center", "initial"]}
@@ -285,8 +291,8 @@ const Profile = () => {
 
                     {/* adding the buttons */}
                     <VStack
-                      w={["full", "full", "93%"]}
-                      pos={["initial", "initial", "absolute"]}
+                      w={["full", "full", "full", "93%"]}
+                      pos={["initial", "initial", "initial", "absolute"]}
                       bottom={3}
                     >
                       <HStack w={"full"}>
@@ -298,14 +304,14 @@ const Profile = () => {
                           key={nanoid()}
                         />
                         <UpdateAddress
-                          key={addresses[currentAddressIndex]?._id}
+                          key={addresses[currentAddressIndex]?._id + "-updates"}
                           updateAddressIsOpen={updateAddressIsOpen}
                           updateAddressOnClose={updateAddressOnClose}
                           updateAddressOnOpen={updateAddressOnOpen}
                           data={addresses[currentAddressIndex]}
                         />
                         <DeleteAddress
-                          key={addresses[currentAddressIndex]?._id}
+                          key={addresses[currentAddressIndex]?._id + "-deletes"}
                           deleteAddressIsOpen={deleteAddressIsOpen}
                           deleteAddressOnClose={deleteAddressOnClose}
                           deleteAddressOnOpen={deleteAddressOnOpen}
