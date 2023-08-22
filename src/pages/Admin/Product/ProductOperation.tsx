@@ -215,7 +215,7 @@ const ProductOperation = () => {
       >
         <Heading
           textAlign={["center", "center", "center", "initial"]}
-          fontSize={["lg", "lg", "xl", "3xl"]}
+          fontSize={["xl", "xl", "2xl", "3xl"]}
           w={["full", "full", "full", "auto"]}
         >
           Welcome to the{" "}

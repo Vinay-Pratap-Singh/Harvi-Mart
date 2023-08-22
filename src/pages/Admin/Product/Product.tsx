@@ -118,7 +118,7 @@ const Product = () => {
       <VStack minH={"100vh"} pl={[0, 0, 0, 60]} pt={[12, 12, 12, 5]} w={"full"}>
         <Heading
           textAlign={["center", "center", "center", "initial"]}
-          fontSize={["lg", "lg", "xl", "3xl"]}
+          fontSize={["xl", "xl", "2xl", "3xl"]}
           w={["full", "full", "full", "auto"]}
         >
           Welcome to the{" "}

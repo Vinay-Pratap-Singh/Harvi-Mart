@@ -8,6 +8,7 @@ import {
   Heading,
   Image,
   ListItem,
+  Stack,
   Text,
   UnorderedList,
   VStack,
@@ -60,28 +61,55 @@ const Coupon = () => {
         />
       </Helmet>
 
-      <VStack w={"full"} h="100vh" pl={[0, 0, 0, 60]} gap={5} pt={5}>
-        <Heading fontSize={"3xl"}>
+      <VStack
+        w={"full"}
+        h={["auto", "auto", "auto", "100vh"]}
+        gap={5}
+        pl={[0, 0, 0, 60]}
+        pt={[12, 12, 12, 5]}
+      >
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["xl", "xl", "2xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Coupon Page
           </Text>{" "}
         </Heading>
-        <HStack gap={8} justifyContent={"center"}>
-          <Image h={"400px"} src={couponImage} alt="coupon page main image" />
+
+        <Stack
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={[5, 5, 5, 5, 8]}
+          direction={["column", "column", "column", "column", "row"]}
+          pb={[5, 5, 5, 5, 0]}
+        >
+          <Image
+            w={["90%", "90%", "90%", "90%", "550px"]}
+            src={couponImage}
+            alt="coupon page main image"
+          />
 
           {/* for coupon card to perform CRUD */}
           <VStack
-            w={96}
-            h={"450px"}
+            w={["90%", "90%", "90%", "90%", 96]}
+            h={[
+              "fit-content",
+              "fit-content",
+              "fit-content",
+              "fit-content",
+              "450px",
+            ]}
             boxShadow={"md"}
-            p={5}
+            p={[2, 2, 2, 2, 5]}
             borderRadius={"5px"}
             pos="relative"
             gap={3}
           >
-            <Heading fontSize={"2xl"}>My Coupons</Heading>
-            <Box pos="absolute" top={3} right={5}>
+            <Heading fontSize={["lg", "lg", "xl", "2xl"]}>My Coupons</Heading>
+            <Box pos="absolute" top={[1, 1, 1, 1, 3]} right={5}>
               <AddCoupon
                 key={nanoid()}
                 addCouponIsOpen={addCouponIsOpen}
@@ -144,7 +172,7 @@ const Coupon = () => {
                 })}
             </UnorderedList>
           </VStack>
-        </HStack>
+        </Stack>
       </VStack>
     </Layout>
   );

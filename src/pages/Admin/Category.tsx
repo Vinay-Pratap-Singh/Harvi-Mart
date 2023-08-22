@@ -9,6 +9,7 @@ import {
   HStack,
   Heading,
   Image,
+  Stack,
   Text,
   VStack,
   useDisclosure,
@@ -62,32 +63,57 @@ const Category = () => {
         />
       </Helmet>
 
-      <VStack w={"full"} h="100vh" gap={5} pl={[0, 0, 0, 60]} pt={5}>
-        <Heading fontSize={"3xl"}>
+      <VStack
+        w={"full"}
+        h={["auto", "auto", "auto", "100vh"]}
+        gap={5}
+        pl={[0, 0, 0, 60]}
+        pt={[12, 12, 12, 5]}
+      >
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["xl", "xl", "2xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Category Page
           </Text>{" "}
         </Heading>
-        <HStack gap={8}>
+
+        <Stack
+          alignItems={"center"}
+          justifyContent={"center"}
+          gap={[2, 2, 2, 2, 8]}
+          direction={["column", "column", "column", "column", "row"]}
+          pb={[5, 5, 5, 5, 0]}
+        >
           <Image
-            w={"550px"}
+            w={["90%", "90%", "90%", "90%", "550px"]}
             src={categoryPageImg}
             alt="category page main image"
           />
 
           {/* for category card to perform CRUD */}
           <VStack
-            w={96}
-            h={"450px"}
+            w={["90%", "90%", "90%", "90%", 96]}
+            h={[
+              "fit-content",
+              "fit-content",
+              "fit-content",
+              "fit-content",
+              "450px",
+            ]}
             boxShadow={"md"}
-            p={5}
+            p={[2, 2, 2, 2, 5]}
             borderRadius={"5px"}
             pos="relative"
             gap={3}
           >
-            <Heading fontSize={"2xl"}>My Categories</Heading>
-            <Box pos="absolute" top={3} right={5}>
+            <Heading fontSize={["lg", "lg", "xl", "2xl"]}>
+              My Categories
+            </Heading>
+            <Box pos="absolute" top={[1, 1, 1, 1, 3]} right={5}>
               <AddCategory
                 key={nanoid()}
                 addCategoryIsOpen={addCategoryIsOpen}
@@ -96,13 +122,7 @@ const Category = () => {
               />
             </Box>
 
-            <Accordion
-              allowToggle
-              w={"full"}
-              // minH={"full"}
-              overflowY={"scroll"}
-              px={1}
-            >
+            <Accordion allowToggle w={"full"} overflowY={"scroll"} px={1}>
               {categories &&
                 categories.map((category: any, index: number) => {
                   return (
@@ -170,7 +190,7 @@ const Category = () => {
                 })}
             </Accordion>
           </VStack>
-        </HStack>
+        </Stack>
       </VStack>
     </Layout>
   );
