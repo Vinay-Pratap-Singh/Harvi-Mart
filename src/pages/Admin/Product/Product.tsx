@@ -115,8 +115,12 @@ const Product = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={[0, 0, 0, 60]}>
-        <Heading fontSize={"3xl"}>
+      <VStack minH={"100vh"} pl={[0, 0, 0, 60]} pt={[12, 12, 12, 5]} w={"full"}>
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["lg", "lg", "xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Product Page
@@ -124,11 +128,11 @@ const Product = () => {
         </Heading>
 
         {/* creating the table for displaying the products details */}
-        <VStack w="full" p={5}>
+        <VStack w="full" p={[2, 2, 2, 5]}>
           {/* for search and add product button */}
           <HStack justifyContent={"space-between"} w="full">
             <form onSubmit={handleSubmit(handleSearch)}>
-              <InputGroup w="80">
+              <InputGroup w={["auto", "auto", "auto", "80"]}>
                 <Input
                   type="text"
                   placeholder="Search product"
@@ -155,7 +159,7 @@ const Product = () => {
           </HStack>
 
           {/* for displaying the product table */}
-          <TableContainer w="full" overflow="hidden">
+          <TableContainer w="full">
             <Table>
               <Thead>
                 <Tr>

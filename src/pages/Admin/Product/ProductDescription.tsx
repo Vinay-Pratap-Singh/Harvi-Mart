@@ -6,6 +6,7 @@ import {
   HStack,
   Heading,
   Image,
+  Stack,
   Text,
   Tooltip,
   VStack,
@@ -60,8 +61,18 @@ const ProductDescription = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={[0, 0, 0, 60]}>
-        <Heading fontSize={"3xl"}>
+      <VStack
+        minH={"100vh"}
+        w="full"
+        pl={[0, 0, 0, 60]}
+        pt={[12, 12, 12, 5]}
+        gap={[5, 5, 5, 10]}
+      >
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["lg", "lg", "xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             Product Description
@@ -79,9 +90,9 @@ const ProductDescription = () => {
           justifyContent={"center"}
           color={"primaryColor"}
           cursor={"pointer"}
-          pos={"fixed"}
-          bottom={10}
-          right={20}
+          pos={"absolute"}
+          top={[0, null, null, 10]}
+          right={[2, null, null, 16, 28]}
         >
           {pdfData ? (
             <Tooltip
@@ -119,8 +130,20 @@ const ProductDescription = () => {
         </Box>
 
         {/* product description */}
-        <VStack w={"full"} gap={10} p={10} ref={report}>
-          <HStack w={"full"} gap={10} pos={"relative"}>
+        <VStack
+          ref={report}
+          direction={["column", "column", "column", "row"]}
+          w={"full"}
+          gap={10}
+          p={[0, 0, 5, 5, 10]}
+          pos={"relative"}
+        >
+          <Stack
+            direction={["column", "column", "column", "column", "row"]}
+            w={"full"}
+            gap={10}
+            pos={"relative"}
+          >
             {/* left section for image */}
             <VStack w={"full"} alignSelf={"baseline"} gap={5}>
               <Image
@@ -129,7 +152,13 @@ const ProductDescription = () => {
                 alt="product image"
               />
 
-              <Box pos={"relative"} w={"full"} px={5} py={2} shadow={"md"}>
+              <Box
+                pos={"relative"}
+                w={["95%", "95%", "95%", "full"]}
+                px={[2, 2, 5]}
+                py={2}
+                shadow={"md"}
+              >
                 {/* for multiple products image */}
                 <HStack
                   minW={"full"}
@@ -215,20 +244,25 @@ const ProductDescription = () => {
             <VStack w={"full"} gap={10} alignSelf={"flex-start"}>
               {/* for product details */}
               <VStack
-                alignItems={"self-start"}
-                alignSelf={"flex-start"}
-                w={"full"}
                 fontWeight={"semibold"}
+                w={"full"}
+                px={[2, 2, 2, 0]}
+                alignItems={"self-start"}
               >
-                <Heading fontSize={"2xl"} fontWeight={"bold"}>
+                <Heading
+                  fontSize={["xl", "xl", "xl", "2xl"]}
+                  fontWeight={"bold"}
+                >
                   {state?.title}
                 </Heading>
-                <Text>{state?.description}</Text>
+                <Text fontSize={["sm", "sm", "sm", "initial"]}>
+                  {state?.description}
+                </Text>
 
                 {/* adding the pricing section */}
                 {state?.discountedPrice ? (
                   <HStack fontWeight={"semibold"}>
-                    <Text as={"p"} fontSize={"2xl"}>
+                    <Text as={"p"} fontSize={["xl", "xl", "xl", "2xl"]}>
                       Rs {state?.discountedPrice}
                     </Text>
                     <Text fontSize={"xs"} color={"gray.500"}>
@@ -249,7 +283,11 @@ const ProductDescription = () => {
                     </Text>{" "}
                   </HStack>
                 ) : (
-                  <Text as={"p"} fontSize={"2xl"} fontWeight={"semibold"}>
+                  <Text
+                    as={"p"}
+                    fontSize={["xl", "xl", "xl", "2xl"]}
+                    fontWeight={"semibold"}
+                  >
                     Rs {state?.originalPrice}
                   </Text>
                 )}
@@ -266,17 +304,25 @@ const ProductDescription = () => {
                 )}
 
                 {/* for category */}
-                <Text>Category Name: {state?.category?.name}</Text>
+                <Text fontSize={["sm", "sm", "sm", "initial"]}>
+                  Category Name: {state?.category?.name}
+                </Text>
 
                 {/* for unit sold */}
-                <Text>Total units sold : {state?.numOfUnitsSold}</Text>
+                <Text fontSize={["sm", "sm", "sm", "initial"]}>
+                  Total units sold : {state?.numOfUnitsSold}
+                </Text>
               </VStack>
             </VStack>
-          </HStack>
+          </Stack>
 
           {/* for customer review */}
-          <VStack w={"full"} alignItems={"flex-start"}>
-            <Heading fontSize={"2xl"} fontWeight={"bold"} mb={5}>
+          <VStack w={"full"} alignItems={"flex-start"} pb={[2, 2, 2, 0]}>
+            <Heading
+              fontSize={["xl", "xl", "xl", "2xl"]}
+              fontWeight={"bold"}
+              mb={5}
+            >
               Customer Reviews
             </Heading>
             <CustomerReviews key={nanoid()} productID={state?._id} />

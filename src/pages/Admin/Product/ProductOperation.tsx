@@ -47,7 +47,6 @@ const ProductOperation = () => {
     register,
     watch,
     setValue,
-
     formState: { errors, isSubmitting },
     reset,
   } = useForm<IproductData>({
@@ -207,8 +206,18 @@ const ProductOperation = () => {
         />
       </Helmet>
 
-      <VStack minH={"100vh"} w="full" pt={5} pl={[0, 0, 0, 60]}>
-        <Heading fontSize={"3xl"}>
+      <VStack
+        minH={"100vh"}
+        w="full"
+        pl={[0, 0, 0, 60]}
+        pt={[12, 12, 12, 5]}
+        gap={[5, 5, 5, 10]}
+      >
+        <Heading
+          textAlign={["center", "center", "center", "initial"]}
+          fontSize={["lg", "lg", "xl", "3xl"]}
+          w={["full", "full", "full", "auto"]}
+        >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
             {operationID === "add" ? "Add Product Page" : "Update Product Page"}
@@ -216,10 +225,25 @@ const ProductOperation = () => {
         </Heading>
 
         {/* adding the form to take user input to create a product */}
-        <Stack py={5} maxW={"90%"}>
+        <Stack py={[2, 2, 2, 5]} w={["full", "full", "full", "full", "90%"]}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <Grid templateColumns={"repeat(2,1fr)"} gap={5}>
-              <GridItem m={"auto"} w={"500px"} pos={"relative"}>
+            <Grid
+              templateColumns={[
+                "none",
+                "none",
+                "none",
+                "none",
+                "repeat(2,1fr)",
+              ]}
+              gap={5}
+              pr={[2, 2, 2, 2, 0]}
+            >
+              <GridItem
+                m={"auto"}
+                w={["full", "full", "full", "400px", "500px"]}
+                pos={"relative"}
+                pl={[2, 2, 2, 2, 0]}
+              >
                 {/* for main image preview */}
                 <FormControl
                   display="flex"
@@ -233,8 +257,8 @@ const ProductOperation = () => {
                     display={"flex"}
                     alignItems={"center"}
                     justifyContent={"center"}
-                    h={80}
-                    w={80}
+                    h={[72, 80]}
+                    w={[72, 80]}
                     cursor={"pointer"}
                     _hover={{ color: "primaryColor" }}
                   >
@@ -255,6 +279,7 @@ const ProductOperation = () => {
 
                 {/* for multiple products image */}
                 <HStack
+                  w={["95vw", "95vw", "95vw", "full"]}
                   overflowX="scroll"
                   alignItems={"left"}
                   justifyContent={"left"}
@@ -374,7 +399,7 @@ const ProductOperation = () => {
                   p="0"
                   pos="absolute"
                   bottom={12}
-                  left={0}
+                  left={[2, 2, 2, 2, 0]}
                   zIndex={10}
                   size={"sm"}
                   onClick={handleLeftSlider}
@@ -422,7 +447,7 @@ const ProductOperation = () => {
                   </FormErrorMessage>
                 </FormControl>
 
-                <HStack mb={3}>
+                <Stack direction={["column", "column", "column", "row"]} mb={3}>
                   {/* for product original price */}
                   <FormControl isInvalid={Boolean(errors?.originalPrice)}>
                     <FormLabel fontSize={"sm"}>Original Price</FormLabel>
@@ -461,9 +486,9 @@ const ProductOperation = () => {
                       {errors.discountedPrice && errors.discountedPrice.message}
                     </FormErrorMessage>
                   </FormControl>
-                </HStack>
+                </Stack>
 
-                <HStack mb={3}>
+                <Stack mb={3} direction={["column", "column", "column", "row"]}>
                   {/* for product inStock */}
                   <FormControl isInvalid={Boolean(errors?.inStock)}>
                     <FormLabel fontSize={"sm"}>In Stock</FormLabel>
@@ -511,7 +536,7 @@ const ProductOperation = () => {
                       {errors.category && errors.category.message}
                     </FormErrorMessage>
                   </FormControl>
-                </HStack>
+                </Stack>
 
                 {/* for product quantity */}
                 <FormControl isInvalid={Boolean(errors?.quantity)}>
@@ -558,7 +583,7 @@ const ProductOperation = () => {
                 </FormControl>
               </GridItem>
 
-              <GridItem colSpan={2} mx={"auto"}>
+              <GridItem colSpan={[1, 1, 1, 2]} mx={"auto"}>
                 {" "}
                 <Button
                   type="submit"

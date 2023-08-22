@@ -113,8 +113,10 @@ const OrderDescription = () => {
         >
           {/* for displaying the purchased products */}
           <HStack
+            w={"full"}
             alignItems={"center"}
-            gap={10}
+            justifyContent={"center"}
+            gap={[5, 5, 5, 10]}
             flexWrap={"wrap"}
             alignSelf={"flex-start"}
           >
