@@ -13,10 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import { deleteUserAccount } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   deleteUserIsOpen: boolean;
@@ -34,7 +33,7 @@ const DeleteUser: React.FC<Iprops> = ({
   role,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 

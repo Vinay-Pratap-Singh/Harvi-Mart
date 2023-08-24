@@ -19,24 +19,23 @@ import Layout from "../../Layout/Layout";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BiImageAdd } from "react-icons/bi";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
 import { addNewProduct, updateProduct } from "../../../redux/productSlice";
 import { IproductData } from "../../../helper/interfaces";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { toast } from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "../../../helper/Hooks/redux";
 
 const ProductOperation = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { operationID } = useParams();
   const { state } = useLocation();
   const slideContainerRef = useRef<HTMLDivElement>(null);
 
   // getting the categories data
-  const { categories } = useSelector((state: RootState) => state.category);
+  const { categories } = useAppSelector((state) => state.category);
   const [totalImages, setTotalImages] = useState<
     { imageFile: File | null; imageUrl: string }[]
   >([]);

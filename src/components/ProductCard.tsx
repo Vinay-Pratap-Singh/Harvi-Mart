@@ -10,8 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DisplayWishlists from "./Modals/DisplayWishlists";
 import { Iproduct } from "../helper/interfaces";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useAppSelector } from "../helper/Hooks/redux";
 
 interface Iprop {
   product: Iproduct;
@@ -19,7 +18,7 @@ interface Iprop {
 
 const ProductCard = ({ product }: Iprop) => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const {
     isOpen: displayWishlistIsOpen,
     onOpen: displayWishlistOnOpen,

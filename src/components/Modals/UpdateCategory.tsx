@@ -19,6 +19,7 @@ import { GrEdit } from "react-icons/gr";
 import { updateCategory } from "../../redux/categorySlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface IupdateCategory {
   id: string;
@@ -39,7 +40,7 @@ const UpdateCategory: React.FC<Iprops> = ({
   updateCategoryOnOpen,
   data,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,

@@ -10,7 +10,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Link,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -21,10 +20,9 @@ import { useParams } from "react-router-dom";
 import { BiLock } from "react-icons/bi";
 import { useState } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import { resetPassword } from "../../redux/authSlice";
 import { Helmet } from "react-helmet";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 // interface for login data
 interface IresetPasswordData {
@@ -44,7 +42,7 @@ const Reset = () => {
       confirmPassword: "",
     },
   });
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   // getting the token from the url
   const { token } = useParams();

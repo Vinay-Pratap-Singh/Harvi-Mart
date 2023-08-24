@@ -23,12 +23,10 @@ import CustomerReviews from "../../components/CustomerReviews";
 import Layout from "../Layout/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Iproduct, IproductReview } from "../../helper/interfaces";
-import { useDispatch, useSelector } from "react-redux";
 import {
   createProductReview,
   getIndividualProductReview,
 } from "../../redux/reviewSlice";
-import { AppDispatch, RootState } from "../../redux/store";
 import {
   AiOutlineLeft,
   AiOutlineRight,
@@ -38,10 +36,11 @@ import { addProductToCart } from "../../redux/cartSlice";
 import { toast } from "react-hot-toast";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
 
 const ProductDescription = () => {
   const { state } = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const {
@@ -59,9 +58,10 @@ const ProductDescription = () => {
       reviewedFor: state?._id,
     },
   });
+
   const [rating, setRating] = useState(0);
-  const { cartItems } = useSelector((state: RootState) => state.cart);
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const [currentImagePreview, setCurrentImagePreview] = useState(0);
   const slideContainerRef = useRef<HTMLDivElement>(null);
 

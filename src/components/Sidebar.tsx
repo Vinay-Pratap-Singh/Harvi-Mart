@@ -19,14 +19,13 @@ import { BiCategory } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { AppDispatch, RootState } from "../redux/store";
 import { logout } from "../redux/authSlice";
+import { useAppDispatch, useAppSelector } from "../helper/Hooks/redux";
 
 const Sidebar = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
   const sidebar = useRef<HTMLDivElement>(null);
   const menuBtn = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLDivElement>(null);

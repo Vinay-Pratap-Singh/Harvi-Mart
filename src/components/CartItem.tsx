@@ -13,16 +13,16 @@ import {
 } from "@chakra-ui/react";
 import RemoveFromCart from "./AlertBox/RemoveFromCart";
 import { IupdateCartItem } from "../helper/interfaces";
-import { useDispatch } from "react-redux";
 import { calculateAmount, manageProductCount } from "../redux/cartSlice";
 import { toast } from "react-hot-toast";
+import { useAppDispatch } from "../helper/Hooks/redux";
 
 interface Iprops {
   cartItem: IupdateCartItem;
 }
 
 const CartItem = ({ cartItem }: Iprops) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const noOfItem = cartItem?.userSelectedQuantity || 1;
   const totalProductCount = cartItem?.quantity;
   const {

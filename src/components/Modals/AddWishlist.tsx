@@ -13,12 +13,11 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AppDispatch, RootState } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createWishlist } from "../../redux/wishlistSlice";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
 
 interface Iwishlist {
   name: string;
@@ -47,9 +46,9 @@ const AddWishlist: React.FC<Iprops> = ({
     },
   });
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   // function to handle add new category
   const handleCreateCategory: SubmitHandler<Iwishlist> = async (data) => {

@@ -24,9 +24,7 @@ import { Iaddress } from "../../helper/interfaces";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { useEffect } from "react";
 import { updateAddress } from "../../redux/addressSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { getLoggedInUserData } from "../../redux/authSlice";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   updateAddressIsOpen: boolean;
@@ -58,7 +56,7 @@ const UpdateAddress: React.FC<Iprops> = ({
       pinCode: data?.pinCode,
     },
   });
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   // function to login the user
   const handleUpdate: SubmitHandler<Iaddress> = async (data) => {

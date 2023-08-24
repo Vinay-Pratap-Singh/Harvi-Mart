@@ -44,10 +44,10 @@ axiosInstance.interceptors.response.use(
           // getting the new refresh token
           const res = await axiosInstance.post("/auth/refresh");
           console.log(res);
-          localStorage.setItem("accessToken", res.data.accessToken);
+          localStorage.setItem("accessToken", res?.data?.accessToken);
           // retrying the original request with the new access token
           originalConfig.headers &&
-            (originalConfig.headers.Authorization = `Bearer ${res.data.accessToken}`);
+            (originalConfig.headers.Authorization = `Bearer ${res?.data?.accessToken}`);
           return axiosInstance(originalConfig);
         } catch (error) {
           console.log(error);

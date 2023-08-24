@@ -19,8 +19,6 @@ import Layout from "./Layout/Layout";
 import wishlistImg from "../assets/wishlist.jpg";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import AddWishlist from "../components/Modals/AddWishlist";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
 import { useState } from "react";
 import { removeFromWishlist } from "../redux/wishlistSlice";
 import DeleteWishlist from "../components/AlertBox/DeleteWishlist";
@@ -30,11 +28,12 @@ import { toast } from "react-hot-toast";
 import { Iproduct, Iwishlist } from "../helper/interfaces";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAppDispatch, useAppSelector } from "../helper/Hooks/redux";
 
 const Wishlist = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { wishlists } = useSelector((state: RootState) => state.wishlist);
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const dispatch = useAppDispatch();
+  const { wishlists } = useAppSelector((state) => state.wishlist);
+  const { cartItems } = useAppSelector((state) => state.cart);
   const [deleteWishlistID, setDeleteWishlistID] = useState("");
   const [idToDelete, setIdToDelete] = useState({
     wishlistID: "",

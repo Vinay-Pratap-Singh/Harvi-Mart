@@ -11,20 +11,19 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillStar } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import { getIndividualProductReview } from "../redux/reviewSlice";
 import DeleteReview from "./AlertBox/DeleteReview";
+import { useAppDispatch, useAppSelector } from "../helper/Hooks/redux";
 
 interface Iprop {
   productID: string;
 }
 
 const CustomerReviews = ({ productID }: Iprop) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { reviews } = useSelector((state: RootState) => state.review);
-  const { userDetails } = useSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
+  const { reviews } = useAppSelector((state) => state.review);
+  const { userDetails } = useAppSelector((state) => state.auth);
   const {
     isOpen: deleteReviewIsOpen,
     onOpen: deleteReviewOnOpen,

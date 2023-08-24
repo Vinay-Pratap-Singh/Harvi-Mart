@@ -9,8 +9,6 @@ import {
 } from "@chakra-ui/react";
 import Layout from "../Layout/Layout";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { AiOutlineFilePdf, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiCategory, BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
@@ -23,6 +21,7 @@ import PillsData from "../../components/PillsData";
 import PieChart from "../../components/PieChart";
 import { useState, useEffect, useRef } from "react";
 import usePdfDownload from "../../helper/Hooks/usePdfDownload";
+import { useAppSelector } from "../../helper/Hooks/redux";
 
 interface IpillData {
   id: string;
@@ -32,12 +31,13 @@ interface IpillData {
 }
 
 const Dashboard = () => {
-  const { products } = useSelector((state: RootState) => state.product);
-  const { categories } = useSelector((state: RootState) => state.category);
-  const { coupons } = useSelector((state: RootState) => state.coupon);
-  const { orders } = useSelector((state: RootState) => state.order);
-  const { users } = useSelector((state: RootState) => state.user);
-  const { reviews } = useSelector((state: RootState) => state.review);
+  const { products } = useAppSelector((state) => state.product);
+  const { categories } = useAppSelector((state) => state.category);
+  const { coupons } = useAppSelector((state) => state.coupon);
+  const { orders } = useAppSelector((state) => state.order);
+  const { users } = useAppSelector((state) => state.user);
+  const { reviews } = useAppSelector((state) => state.review);
+
   const [categoriesChartData, setCategoriesChartData] = useState<any>();
   const [reviewsChartData, setReviewsChartData] = useState<any>();
   const report = useRef<HTMLDivElement>(null);

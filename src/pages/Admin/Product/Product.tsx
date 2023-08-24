@@ -23,8 +23,6 @@ import {
 } from "@chakra-ui/react";
 import Layout from "../../Layout/Layout";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import { MdOutlineDescription, MdOutlineModeEdit } from "react-icons/md";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
@@ -33,6 +31,7 @@ import { Iproduct, IproductData, Iimage } from "../../../helper/interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
 import TableShimmer from "../../../shimmer/TableShimmer";
+import { useAppSelector } from "../../../helper/Hooks/redux";
 
 interface IuserSearchedText {
   searchedText: string;
@@ -40,12 +39,13 @@ interface IuserSearchedText {
 
 const Product = () => {
   const navigate = useNavigate();
-  const { categories, isLoading: isCategoryLoading } = useSelector(
-    (state: RootState) => state.category
+  const { categories, isLoading: isCategoryLoading } = useAppSelector(
+    (state) => state.category
   );
-  const { products, isLoading: isProductLoading } = useSelector(
-    (state: RootState) => state.product
+  const { products, isLoading: isProductLoading } = useAppSelector(
+    (state) => state.product
   );
+
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   // for storing the id of product to be deleleted
   const [productToBeDeleted, setProductToBeDeleted] = useState("");

@@ -19,13 +19,12 @@ import UpdateCategory from "../../components/Modals/UpdateCategory";
 import Layout from "../Layout/Layout";
 import AddCategory from "../../components/Modals/AddCategory";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAppSelector } from "../../helper/Hooks/redux";
 
 const Category = () => {
-  const { categories } = useSelector((state: RootState) => state.category);
+  const { categories } = useAppSelector((state) => state.category);
   // for managing the update category data
   const [updateCategoryData, setUpdateCategoryData] = useState<{
     id: string;

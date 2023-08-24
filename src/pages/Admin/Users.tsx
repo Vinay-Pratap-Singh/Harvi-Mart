@@ -16,8 +16,6 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import DeleteUser from "../../components/AlertBox/DeleteUser";
 import { IuserSliceData } from "../../helper/interfaces";
 import { AiOutlineFilePdf, AiOutlineUser } from "react-icons/ai";
@@ -25,12 +23,14 @@ import { BiCloudDownload, BiLoaderCircle } from "react-icons/bi";
 import { useRef } from "react";
 import usePdfDownload from "../../helper/Hooks/usePdfDownload";
 import TableShimmer from "../../shimmer/TableShimmer";
+import { useAppSelector } from "../../helper/Hooks/redux";
 
 const Users = () => {
-  const { users, isLoading } = useSelector((state: RootState) => state.user);
+  const { users, isLoading } = useAppSelector((state) => state.user);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const report = useRef<HTMLDivElement>(null);
   const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();
+
   return (
     <Layout>
       {/* adding the dynamic meta data */}

@@ -25,24 +25,21 @@ import {
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
 import { logout } from "../redux/authSlice";
 import { useState, useMemo } from "react";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setSearchedText } from "../redux/productSlice";
 import { Iwishlist } from "../helper/interfaces";
+import { useAppDispatch, useAppSelector } from "../helper/Hooks/redux";
 
 const Header = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn, userDetails } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { isLoggedIn, userDetails } = useAppSelector((state) => state.auth);
   const userProfileImage: string = userDetails?.avatar?.secure_url || "";
   const userRole = userDetails?.role;
-  const { wishlists } = useSelector((state: RootState) => state.wishlist);
+  const { wishlists } = useAppSelector((state) => state.wishlist);
   const totalWishlistItem = useMemo(() => {
     let item = 0;
     wishlists.forEach((wishlist: Iwishlist) => {

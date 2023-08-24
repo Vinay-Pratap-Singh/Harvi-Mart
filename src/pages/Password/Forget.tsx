@@ -20,11 +20,10 @@ import myImage from "../../assets/forgetPassword.jpg";
 import myImageLogo from "../../assets/forgetPasswordLogo.png";
 import { Link as RouterLink } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import { forgetPassword } from "../../redux/authSlice";
 import { Helmet } from "react-helmet";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 // interface for login data
 interface IforgetPasswordData {
@@ -41,7 +40,7 @@ const Forget = () => {
       email: "",
     },
   });
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   // function to get the reset link
   const handleForgetPassword: SubmitHandler<IforgetPasswordData> = async (

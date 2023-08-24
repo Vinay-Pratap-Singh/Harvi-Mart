@@ -18,8 +18,6 @@ import {
 } from "@chakra-ui/react";
 import Layout from "./Layout/Layout";
 import { MdOutlineLocalOffer, MdShoppingCartCheckout } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
 import CartItem from "../components/CartItem";
 import { useEffect, useState } from "react";
 import { applyCoupon } from "../redux/couponSlice";
@@ -42,13 +40,14 @@ import { Helmet } from "react-helmet";
 import AddAddress from "../components/Modals/AddAddress";
 import { getLoggedInUserData } from "../redux/authSlice";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAppDispatch, useAppSelector } from "../helper/Hooks/redux";
 
 interface Iform {
   couponCode: string;
 }
 
 const Cart = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -64,16 +63,12 @@ const Cart = () => {
     discountedTotal: 0,
   });
   const [selectedAddress, setSelectedAddress] = useState("");
-  const { updatedCartItems, isLoading } = useSelector(
-    (state: RootState) => state.cart
-  );
-  const { userDetails, loading: isAddressLoading } = useSelector(
-    (state: RootState) => state.auth
+  const { updatedCartItems, isLoading } = useAppSelector((state) => state.cart);
+  const { userDetails, loading: isAddressLoading } = useAppSelector(
+    (state) => state.auth
   );
   const addresses: Iaddress[] = userDetails.addresses;
-  const { totalPrice, totalDiscount } = useSelector(
-    (state: RootState) => state.cart
-  );
+  const { totalPrice, totalDiscount } = useAppSelector((state) => state.cart);
 
   const {
     isOpen: addAddressIsOpen,

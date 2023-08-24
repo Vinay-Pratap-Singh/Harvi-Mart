@@ -18,10 +18,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { BiImageAdd, BiUser } from "react-icons/bi";
 import { useState, ChangeEvent } from "react";
 import { IupdateProfile } from "../../helper/interfaces";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import { updateUserDetails } from "../../redux/userSlice";
-import { getLoggedInUserData } from "../../redux/authSlice";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   updateProfileIsOpen: boolean;
@@ -49,7 +47,7 @@ const UpdateProfile: React.FC<Iprops> = ({
     },
   });
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   // for product image preview
   const [userImgPreview, setUserImgPreview] = useState(data?.imageURL);

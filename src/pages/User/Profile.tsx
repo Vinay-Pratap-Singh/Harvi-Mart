@@ -23,22 +23,19 @@ import { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { Iaddress } from "../../helper/interfaces";
 import AddAddress from "../../components/Modals/AddAddress";
-import { AppDispatch, RootState } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUserData } from "../../redux/authSlice";
 import UserProfileShimmer from "../../shimmer/UserProfileShimmer";
 import AddressShimmer from "../../shimmer/AddressShimmer";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
 
 const Profile = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [currentAddressIndex, setCurrentAddressIndex] = useState(0);
 
   // getting the details of user
-  const { userDetails, loading } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { userDetails, loading } = useAppSelector((state) => state.auth);
   const addresses: Iaddress[] = userDetails.addresses;
   const userData: { imageURL: string; name: string } = {
     imageURL: userDetails?.avatar?.secure_url

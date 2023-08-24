@@ -1,7 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IcouponData } from "../../helper/interfaces";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import {
   Button,
   FormControl,
@@ -17,6 +15,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { createCoupon } from "../../redux/couponSlice";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   addCouponIsOpen: boolean;
@@ -29,7 +28,7 @@ const AddCoupon: React.FC<Iprops> = ({
   addCouponOnClose,
   addCouponOnOpen,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,

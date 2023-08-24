@@ -10,11 +10,10 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { useRef, useState, Dispatch, SetStateAction } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-import { AppDispatch } from "../../redux/store";
-import { useDispatch } from "react-redux";
 import { deleteAddress } from "../../redux/addressSlice";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   deleteAddressIsOpen: boolean;
@@ -30,7 +29,7 @@ const DeleteAddress: React.FC<Iprops> = ({
   id,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
   // function to handle delete button action

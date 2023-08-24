@@ -11,8 +11,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Layout from "../Layout/Layout";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useEffect, useRef, useState } from "react";
 import ProductShimmer from "../../shimmer/ProductShimmer";
 import noProductFound from "../../assets/noProductFound.jpg";
@@ -20,15 +18,16 @@ import { AiOutlineClear } from "react-icons/ai";
 import { Iproduct } from "../../helper/interfaces";
 import { Helmet } from "react-helmet";
 import { BiFilter } from "react-icons/bi";
+import { useAppSelector } from "../../helper/Hooks/redux";
 
 const Products = () => {
   const {
     products,
     searchedText,
     isLoading: isProductLoading,
-  } = useSelector((state: RootState) => state.product);
-  const { categories, isLoading: isCategoryLoading } = useSelector(
-    (state: RootState) => state.category
+  } = useAppSelector((state) => state.product);
+  const { categories, isLoading: isCategoryLoading } = useAppSelector(
+    (state) => state.category
   );
   const [productToBeDisplayed, setProductToBeDisplayed] = useState(products);
   const [categoryValue, setCategoryValue] = useState("");

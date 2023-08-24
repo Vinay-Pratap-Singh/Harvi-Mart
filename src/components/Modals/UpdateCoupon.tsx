@@ -1,6 +1,4 @@
-import { useDispatch } from "react-redux";
 import { IcouponData } from "../../helper/interfaces";
-import { AppDispatch } from "../../redux/store";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { updateCoupon } from "../../redux/couponSlice";
 import { useEffect } from "react";
@@ -19,6 +17,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { GrEdit } from "react-icons/gr";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   updateCouponIsOpen: boolean;
@@ -33,7 +32,7 @@ const UpdateCoupon: React.FC<Iprops> = ({
   updateCouponOnOpen,
   data,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const {
     handleSubmit,
     register,

@@ -15,10 +15,9 @@ import {
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IcategoryDetails } from "../../helper/interfaces";
-import { AppDispatch } from "../../redux/store";
-import { useDispatch } from "react-redux";
 import { createCategory } from "../../redux/categorySlice";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   addCategoryIsOpen: boolean;
@@ -44,7 +43,7 @@ const AddCategory: React.FC<Iprops> = ({
     },
   });
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // function to handle add new category

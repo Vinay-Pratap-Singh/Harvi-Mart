@@ -18,16 +18,15 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../assets/signup.jpg";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiLock } from "react-icons/bi";
 import { IloginData } from "../helper/interfaces";
-import { AppDispatch } from "../redux/store";
 import { login } from "../redux/authSlice";
 import { Helmet } from "react-helmet";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useAppDispatch } from "../helper/Hooks/redux";
 
 const Login = () => {
   const {
@@ -44,7 +43,7 @@ const Login = () => {
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // function to login the user

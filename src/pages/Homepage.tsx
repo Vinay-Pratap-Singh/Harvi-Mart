@@ -15,18 +15,15 @@ import Layout from "./Layout/Layout";
 import homepageImage from "../assets/homepage.jpg";
 import { Link as RouterLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import ProductCard from "../components/ProductCard";
 import { Iproduct } from "../helper/interfaces";
 import { useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import ProductShimmer from "../shimmer/ProductShimmer";
+import { useAppSelector } from "../helper/Hooks/redux";
 
 const Homepage = () => {
-  const { products, isLoading } = useSelector(
-    (state: RootState) => state.product
-  );
+  const { products, isLoading } = useAppSelector((state) => state.product);
   const productToBeDisplayed =
     products.length > 10 ? products.slice(0, 10) : products;
 

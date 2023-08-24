@@ -1,7 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Iaddress } from "../../helper/interfaces";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import {
   Button,
   FormControl,
@@ -20,12 +18,12 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { createAddress } from "../../redux/addressSlice";
-import { getLoggedInUserData } from "../../redux/authSlice";
 import { BiUser } from "react-icons/bi";
 import { BsHouseCheck, BsPhone } from "react-icons/bs";
 import { FaCity } from "react-icons/fa";
 import { TbBuildingEstate } from "react-icons/tb";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   addAddressIsOpen: boolean;
@@ -40,7 +38,7 @@ const AddAddress: React.FC<Iprops> = ({
   addAddressOnOpen,
   title,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,

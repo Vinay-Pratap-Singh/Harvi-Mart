@@ -1,7 +1,5 @@
 import { Helmet } from "react-helmet";
 import Layout from "../../Layout/Layout";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import {
   Box,
   Button,
@@ -28,9 +26,10 @@ import usePdfDownload from "../../../helper/Hooks/usePdfDownload";
 import { useRef } from "react";
 import TableShimmer from "../../../shimmer/TableShimmer";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../helper/Hooks/redux";
 
 const Order = () => {
-  const { orders, isLoading } = useSelector((state: RootState) => state.order);
+  const { orders, isLoading } = useAppSelector((state) => state.order);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const report = useRef<HTMLDivElement>(null);
   const { generatePDF, pdfData, resetPdfData, isGenerating } = usePdfDownload();

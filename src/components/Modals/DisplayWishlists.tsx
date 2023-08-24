@@ -11,12 +11,11 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AppDispatch, RootState } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
 import { addProductToWishlist } from "../../redux/wishlistSlice";
 import { AiFillHeart, AiOutlineCheck } from "react-icons/ai";
 import AddWishlist from "./AddWishlist";
 import { Iwishlist } from "../../helper/interfaces";
+import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
 
 interface Iprops {
   displayWishlistIsOpen: boolean;
@@ -31,8 +30,8 @@ const DisplayWishlists: React.FC<Iprops> = ({
   displayWishlistOnOpen,
   productID,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { wishlists } = useSelector((state: RootState) => state.wishlist);
+  const dispatch = useAppDispatch();
+  const { wishlists } = useAppSelector((state) => state.wishlist);
   const {
     isOpen: addWishlistIsOpen,
     onOpen: addWishlistOnOpen,

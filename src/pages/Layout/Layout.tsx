@@ -4,9 +4,7 @@ import Header from "../../components/Header";
 import { ReactNode, useEffect } from "react";
 import { HStack } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../redux/productSlice";
-import { AppDispatch, RootState } from "../../redux/store";
 import { getAllCategories } from "../../redux/categorySlice";
 import { getAllWishlists } from "../../redux/wishlistSlice";
 import React from "react";
@@ -14,25 +12,22 @@ import { getAllCoupons } from "../../redux/couponSlice";
 import { getAllOrders } from "../../redux/orderSlice";
 import { getAllUsersData } from "../../redux/userSlice";
 import { getAllReviews } from "../../redux/reviewSlice";
+import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
 
 // defining the type of prop here
 type Props = { children: ReactNode };
 
 const Layout = ({ children }: Props) => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const { isProductLoaded } = useSelector((state: RootState) => state.product);
-  const { isCategoriesLoaded } = useSelector(
-    (state: RootState) => state.category
-  );
-  const { isWishlistLoaded } = useSelector(
-    (state: RootState) => state.wishlist
-  );
-  const { isCouponLoaded } = useSelector((state: RootState) => state.coupon);
-  const { isOrdersLoaded } = useSelector((state: RootState) => state.order);
-  const { isUsersLoaded } = useSelector((state: RootState) => state.user);
-  const { isReviewLoaded } = useSelector((state: RootState) => state.review);
+  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { isProductLoaded } = useAppSelector((state) => state.product);
+  const { isCategoriesLoaded } = useAppSelector((state) => state.category);
+  const { isWishlistLoaded } = useAppSelector((state) => state.wishlist);
+  const { isCouponLoaded } = useAppSelector((state) => state.coupon);
+  const { isOrdersLoaded } = useAppSelector((state) => state.order);
+  const { isUsersLoaded } = useAppSelector((state) => state.user);
+  const { isReviewLoaded } = useAppSelector((state) => state.review);
 
   // fetching the required data to display
   useEffect(() => {

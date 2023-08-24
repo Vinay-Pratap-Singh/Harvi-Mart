@@ -1,10 +1,8 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { Navigate, Outlet } from "react-router-dom";
+import { useAppSelector } from "../Hooks/redux";
 
 const NotRequireAuth = () => {
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   return isLoggedIn ? <Navigate to={"/"} replace /> : <Outlet />;
 };
 

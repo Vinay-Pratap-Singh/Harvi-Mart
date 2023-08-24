@@ -12,10 +12,9 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
 import { deleteCategory } from "../../redux/categorySlice";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useAppDispatch } from "../../helper/Hooks/redux";
 
 interface Iprops {
   deleteCategoryIsOpen: boolean;
@@ -31,7 +30,7 @@ const DeleteCategory: React.FC<Iprops> = ({
   id,
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
   // function to handle delete button action

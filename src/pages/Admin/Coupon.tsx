@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useState } from "react";
 import Layout from "../Layout/Layout";
 import {
@@ -20,9 +18,10 @@ import UpdateCoupon from "../../components/Modals/UpdateCoupon";
 import DeleteCoupon from "../../components/AlertBox/DeleteCoupon";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAppSelector } from "../../helper/Hooks/redux";
 
 const Coupon = () => {
-  const { coupons } = useSelector((state: RootState) => state.coupon);
+  const { coupons } = useAppSelector((state) => state.coupon);
 
   // for managing the update coupon data
   const [updateCouponData, setUpdateCouponData] = useState<{
