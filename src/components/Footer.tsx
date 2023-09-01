@@ -7,11 +7,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { BsGithub, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
-import { MdOutlineAnnouncement, MdOutlinePrivacyTip } from "react-icons/md";
 import { GrContact } from "react-icons/gr";
 import { GiNewspaper } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
+import { MdOutlinePrivacyTip } from "react-icons/md";
 
 const Footer = () => {
   return (
@@ -67,7 +67,7 @@ const Footer = () => {
           <ListItem>
             <Link
               as={RouterLink}
-              to={"#"}
+              to={"/terms"}
               display={"flex"}
               alignItems={"center"}
               gap={1}
@@ -79,7 +79,7 @@ const Footer = () => {
           <ListItem>
             <Link
               as={RouterLink}
-              to={"#"}
+              to={"/privacy"}
               display={"flex"}
               alignItems={"center"}
               gap={1}

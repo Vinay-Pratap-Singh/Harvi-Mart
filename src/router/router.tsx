@@ -25,6 +25,7 @@ import AdminProductDescription from "../pages/Admin/Product/ProductDescription";
 import Users from "../pages/Admin/Users";
 import OrderDescription from "../pages/Admin/Order/OrderDescription";
 import TermAndCondition from "../pages/TermAndCondition";
+import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -142,6 +143,10 @@ const router = createBrowserRouter([
       {
         path: "/terms",
         element: <TermAndCondition />,
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyAndPolicy />,
       },
     ],
   },
