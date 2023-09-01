@@ -7,7 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { BsGithub, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
-import { MdOutlinePrivacyTip } from "react-icons/md";
+import { MdOutlineAnnouncement, MdOutlinePrivacyTip } from "react-icons/md";
 import { GrContact } from "react-icons/gr";
 import { GiNewspaper } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
@@ -64,6 +64,18 @@ const Footer = () => {
           fontSize={["sm", "sm", "initial"]}
           w={["full", "full", "initial"]}
         >
+          <ListItem>
+            <Link
+              as={RouterLink}
+              to={"/disclaimer"}
+              display={"flex"}
+              alignItems={"center"}
+              gap={1}
+              _hover={{ color: "primaryColor" }}
+            >
+              <MdOutlineAnnouncement fontSize={20} /> <Text>Disclaimer</Text>
+            </Link>
+          </ListItem>
           <ListItem>
             <Link
               as={RouterLink}
