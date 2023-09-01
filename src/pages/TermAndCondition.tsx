@@ -5,31 +5,27 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  HStack,
   Heading,
   Image,
   Link,
-  ListItem,
   Stack,
   Text,
-  UnorderedList,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
 import { Helmet } from "react-helmet";
 import Layout from "./Layout/Layout";
 import { Link as RouterLink } from "react-router-dom";
-import DisclaimerImage from "../assets/disclaimer.jpg";
+import termAndConditionImg from "../assets/termAndCondition.png";
 
-const Disclaimer = () => {
+const TermAndCondition = () => {
   return (
     <Layout>
       {/* adding the dynamic meta data */}
       <Helmet>
-        <title>Harvi Mart</title>
+        <title>Term and Condition</title>
         <meta
           name="description"
-          content="Welcome to Harvi Mart - Your Ultimate Shopping Destination. Discover a world of top-quality products, from electronics and fashion to home decor. Explore our website and start your shopping journey with confidence. Click to browse our extensive collection and find the perfect items that match your style and preferences."
+          content="Harvimart's Terms and Conditions | Navigate Our Project Guidelines | Understand User Responsibilities, Legal Framework, and More | Ensuring a Transparent Shopping Experience."
         />
       </Helmet>
 
@@ -41,7 +37,7 @@ const Disclaimer = () => {
         >
           Welcome to the{" "}
           <Text as={"span"} color={"primaryColor"}>
-            Disclaimer Page
+            Terms and Condition Page
           </Text>
         </Heading>
 
@@ -54,7 +50,11 @@ const Disclaimer = () => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <Image src={DisclaimerImage} alt="disclaimer" h={"350px"} />
+          <Image
+            src={termAndConditionImg}
+            alt="term and condition"
+            h={"350px"}
+          />
 
           {/* adding the accordion for disclaimers detail */}
           <Accordion
@@ -72,7 +72,7 @@ const Disclaimer = () => {
                   <AccordionIcon />
                 </AccordionButton>
               </Heading>
-              <AccordionPanel pb={4} fontWeight={"medium"} color={"gray.500"}>
+              <AccordionPanel pb={4} color={"gray.600"}>
                 Harvimart is a project created for educational and practice
                 purposes. The products displayed on this website, except for the
                 images from Freepik, have been added by the site owner for
@@ -90,7 +90,7 @@ const Disclaimer = () => {
                   <AccordionIcon />
                 </AccordionButton>
               </Heading>
-              <AccordionPanel pb={4} fontWeight={"medium"} color={"gray.500"}>
+              <AccordionPanel pb={4} color={"gray.600"}>
                 Users have the option to make dummy payments for the products as
                 a part of the testing process. These payments are for simulation
                 purposes only and will not result in any actual charges or
@@ -107,7 +107,7 @@ const Disclaimer = () => {
                   <AccordionIcon />
                 </AccordionButton>
               </Heading>
-              <AccordionPanel pb={4} fontWeight={"medium"} color={"gray.500"}>
+              <AccordionPanel pb={4} color={"gray.600"}>
                 All images used on this website, except those from{" "}
                 <Link as={RouterLink} to={"https://www.freepik.com/"}>
                   Freepik
@@ -127,7 +127,7 @@ const Disclaimer = () => {
                   <AccordionIcon />
                 </AccordionButton>
               </Heading>
-              <AccordionPanel pb={4} fontWeight={"medium"} color={"gray.500"}>
+              <AccordionPanel pb={4} color={"gray.600"}>
                 Harvimart does not have any legal obligation to fulfill orders
                 or deliver products displayed on the website, as they are solely
                 for educational and practice purposes.
@@ -143,7 +143,7 @@ const Disclaimer = () => {
                   <AccordionIcon />
                 </AccordionButton>
               </Heading>
-              <AccordionPanel pb={4} fontWeight={"medium"} color={"gray.500"}>
+              <AccordionPanel pb={4} color={"gray.600"}>
                 Harvimart reserves the right to update or modify this disclaimer
                 as needed. Users are encouraged to check this page periodically
                 for any changes. Continued use of the website implies acceptance
@@ -157,4 +157,4 @@ const Disclaimer = () => {
   );
 };
 
-export default Disclaimer;
+export default TermAndCondition;

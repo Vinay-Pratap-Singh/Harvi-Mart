@@ -67,18 +67,6 @@ const Footer = () => {
           <ListItem>
             <Link
               as={RouterLink}
-              to={"/disclaimer"}
-              display={"flex"}
-              alignItems={"center"}
-              gap={1}
-              _hover={{ color: "primaryColor" }}
-            >
-              <MdOutlineAnnouncement fontSize={20} /> <Text>Disclaimer</Text>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link
-              as={RouterLink}
               to={"#"}
               display={"flex"}
               alignItems={"center"}
