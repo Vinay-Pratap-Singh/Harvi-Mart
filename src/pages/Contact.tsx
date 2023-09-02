@@ -21,6 +21,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiArrowBack, BiUser } from "react-icons/bi";
 import { Helmet } from "react-helmet";
+import Layout from "./Layout/Layout";
 
 // interface for contact data
 interface IcontactData {
@@ -44,13 +45,7 @@ const Contact = () => {
   };
 
   return (
-    <Box
-      w={"100vw"}
-      h={["auto", "auto", "100vh"]}
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-    >
+    <Layout>
       {/* adding the dynamic meta data */}
       <Helmet>
         <title>Contact Us</title>
@@ -60,146 +55,157 @@ const Contact = () => {
         />
       </Helmet>
 
-      <form onSubmit={handleSubmit(handleContact)}>
-        <HStack
-          gap={[4, 8]}
-          w={"full"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          flexDirection={["column", "column", "row"]}
-          pb={[5, 5, 0]}
-        >
-          <Image
-            src={myImage}
-            alt="contact us page image"
-            h={["auto", "auto", "300px", "450px"]}
-            w={["98%", "98%", "350px", "auto"]}
-          />
-
-          {/* for contact form card */}
-          <VStack
-            boxShadow={"md"}
-            h={["auto", "auto", "full"]}
-            w={["90%", "full", "23rem"]}
-            p={[2, 2, 5]}
-            gap={1}
-            borderRadius={"5px"}
+      <Box
+        my={5}
+        minH={["auto", "auto", "auto", "70vh"]}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <form onSubmit={handleSubmit(handleContact)}>
+          <HStack
+            gap={[4, 8]}
+            w={"full"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            flexDirection={["column", "column", "row"]}
+            pb={[5, 5, 0]}
           >
-            <Heading display={"flex"} gap={2} size={"lg"} fontSize={"2xl"}>
-              Contact Us <Text color="orange.500">:)</Text>
-            </Heading>
+            <Image
+              src={myImage}
+              alt="contact us page image"
+              h={["auto", "auto", "300px", "300px", "450px"]}
+              w={["98%", "98%", "350px", "420px", "auto"]}
+            />
 
-            {/* for name */}
-            <FormControl isInvalid={Boolean(errors?.name)}>
-              <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
-              <InputGroup>
-                <InputLeftElement
-                  fontSize={"xl"}
-                  color={"orange.500"}
-                  children={<BiUser />}
-                />
-                <Input
-                  type="text"
+            {/* for contact form card */}
+            <VStack
+              boxShadow={"md"}
+              h={["auto", "auto", "full"]}
+              w={["90%", "full", "23rem"]}
+              p={[2, 2, 5]}
+              gap={1}
+              borderRadius={"5px"}
+            >
+              <Heading display={"flex"} gap={2} size={"lg"} fontSize={"2xl"}>
+                Contact Us <Text color="orange.500">:)</Text>
+              </Heading>
+
+              {/* for name */}
+              <FormControl isInvalid={Boolean(errors?.name)}>
+                <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<BiUser />}
+                  />
+                  <Input
+                    type="text"
+                    focusBorderColor="primaryColor"
+                    placeholder="Vinay Pratap Singh Harvi"
+                    {...register("name", {
+                      required: {
+                        value: true,
+                        message: "Please enter your full name",
+                      },
+                      minLength: {
+                        value: 3,
+                        message: "Please enter a valid name",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.name && errors.name.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {/* for email */}
+              <FormControl isInvalid={Boolean(errors?.email)}>
+                <FormLabel fontSize={"sm"}>Your Email</FormLabel>
+                <InputGroup>
+                  <InputLeftElement
+                    fontSize={"xl"}
+                    color={"orange.500"}
+                    children={<HiOutlineMail />}
+                  />
+                  <Input
+                    type="email"
+                    focusBorderColor="primaryColor"
+                    placeholder="test@gmail.com"
+                    {...register("email", {
+                      required: {
+                        value: true,
+                        message: "Please enter your email id",
+                      },
+                      pattern: {
+                        value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                        message: "Please enter a valid email address",
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>
+                  {errors.email && errors.email.message}
+                </FormErrorMessage>
+              </FormControl>
+
+              {/* for message */}
+              <FormControl
+                pos={"relative"}
+                isInvalid={Boolean(errors?.message)}
+              >
+                <FormLabel fontSize={"sm"}>Message</FormLabel>
+
+                <Textarea
+                  height={24}
                   focusBorderColor="primaryColor"
-                  placeholder="Vinay Pratap Singh Harvi"
-                  {...register("name", {
+                  resize={"none"}
+                  placeholder="Enter your message..."
+                  {...register("message", {
                     required: {
                       value: true,
-                      message: "Please enter your full name",
-                    },
-                    minLength: {
-                      value: 3,
-                      message: "Please enter a valid name",
+                      message: "Please enter your message",
                     },
                   })}
                 />
-              </InputGroup>
 
-              <FormErrorMessage>
-                {errors.name && errors.name.message}
-              </FormErrorMessage>
-            </FormControl>
+                <FormErrorMessage>
+                  {errors.message && errors.message.message}
+                </FormErrorMessage>
+              </FormControl>
 
-            {/* for email */}
-            <FormControl isInvalid={Boolean(errors?.email)}>
-              <FormLabel fontSize={"sm"}>Your Email</FormLabel>
-              <InputGroup>
-                <InputLeftElement
-                  fontSize={"xl"}
-                  color={"orange.500"}
-                  children={<HiOutlineMail />}
-                />
-                <Input
-                  type="email"
-                  focusBorderColor="primaryColor"
-                  placeholder="test@gmail.com"
-                  {...register("email", {
-                    required: {
-                      value: true,
-                      message: "Please enter your email id",
-                    },
-                    pattern: {
-                      value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                      message: "Please enter a valid email address",
-                    },
-                  })}
-                />
-              </InputGroup>
+              {/* submit button */}
+              <Button
+                type="submit"
+                isLoading={isSubmitting}
+                loadingText="Sending..."
+                w={"full"}
+                colorScheme="orange"
+              >
+                Send Message
+              </Button>
 
-              <FormErrorMessage>
-                {errors.email && errors.email.message}
-              </FormErrorMessage>
-            </FormControl>
-
-            {/* for message */}
-            <FormControl pos={"relative"} isInvalid={Boolean(errors?.message)}>
-              <FormLabel fontSize={"sm"}>Message</FormLabel>
-
-              <Textarea
-                height={24}
-                focusBorderColor="primaryColor"
-                resize={"none"}
-                placeholder="Enter your message..."
-                {...register("message", {
-                  required: {
-                    value: true,
-                    message: "Please enter your message",
-                  },
-                })}
-              />
-
-              <FormErrorMessage>
-                {errors.message && errors.message.message}
-              </FormErrorMessage>
-            </FormControl>
-
-            {/* submit button */}
-            <Button
-              type="submit"
-              isLoading={isSubmitting}
-              loadingText="Sending..."
-              w={"full"}
-              colorScheme="orange"
-            >
-              Send Message
-            </Button>
-
-            <Link
-              as={RouterLink}
-              to={"/"}
-              fontWeight={500}
-              color={"orange.500"}
-              fontSize={"sm"}
-            >
-              <HStack>
-                <BiArrowBack />
-                <Text>Back to Home Page</Text>
-              </HStack>
-            </Link>
-          </VStack>
-        </HStack>
-      </form>
-    </Box>
+              <Link
+                as={RouterLink}
+                to={"/"}
+                fontWeight={500}
+                color={"orange.500"}
+                fontSize={"sm"}
+              >
+                <HStack>
+                  <BiArrowBack />
+                  <Text>Back to Home Page</Text>
+                </HStack>
+              </Link>
+            </VStack>
+          </HStack>
+        </form>
+      </Box>
+    </Layout>
   );
 };
 
