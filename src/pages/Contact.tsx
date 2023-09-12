@@ -39,11 +39,6 @@ const Contact = () => {
     defaultValues: { name: "", email: "", message: "" },
   });
 
-  // function to contact the admin
-  const handleContact: SubmitHandler<IcontactData> = (data) => {
-    console.log(data);
-  };
-
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -62,7 +57,10 @@ const Contact = () => {
         alignItems={"center"}
         justifyContent={"center"}
       >
-        <form onSubmit={handleSubmit(handleContact)}>
+        <form name="contact" method="post">
+          {/* for netlify bot */}
+          <input type="hidden" name="form-name" value="contact" />
+
           <HStack
             gap={[4, 8]}
             w={"full"}
