@@ -80,7 +80,7 @@ const Sidebar = () => {
         ref={sidebar}
         display={["none", "none", "none", "block"]}
         h={["100vh"]}
-        pos={["absolute", "absolute", "absolute", "fixed"]}
+        pos={"fixed"}
         left={0}
         top={0}
         zIndex={20}

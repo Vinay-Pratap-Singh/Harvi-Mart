@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   HStack,
   Heading,
@@ -15,7 +14,6 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../assets/contactPage.jpg";
 import { Link as RouterLink } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
@@ -23,22 +21,7 @@ import { BiArrowBack, BiUser } from "react-icons/bi";
 import { Helmet } from "react-helmet";
 import Layout from "./Layout/Layout";
 
-// interface for contact data
-interface IcontactData {
-  name: string;
-  email: string;
-  message: string;
-}
-
 const Contact = () => {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm<IcontactData>({
-    defaultValues: { name: "", email: "", message: "" },
-  });
-
   return (
     <Layout>
       {/* adding the dynamic meta data */}
@@ -90,7 +73,7 @@ const Contact = () => {
               </Heading>
 
               {/* for name */}
-              <FormControl isInvalid={Boolean(errors?.name)}>
+              <FormControl>
                 <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
                 <InputGroup>
                   <InputLeftElement
@@ -102,26 +85,14 @@ const Contact = () => {
                     type="text"
                     focusBorderColor="primaryColor"
                     placeholder="Vinay Pratap Singh Harvi"
-                    {...register("name", {
-                      required: {
-                        value: true,
-                        message: "Please enter your full name",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Please enter a valid name",
-                      },
-                    })}
+                    required
+                    minLength={3}
                   />
                 </InputGroup>
-
-                <FormErrorMessage>
-                  {errors.name && errors.name.message}
-                </FormErrorMessage>
               </FormControl>
 
               {/* for email */}
-              <FormControl isInvalid={Boolean(errors?.email)}>
+              <FormControl>
                 <FormLabel fontSize={"sm"}>Your Email</FormLabel>
                 <InputGroup>
                   <InputLeftElement
@@ -133,60 +104,31 @@ const Contact = () => {
                     type="email"
                     focusBorderColor="primaryColor"
                     placeholder="test@gmail.com"
-                    {...register("email", {
-                      required: {
-                        value: true,
-                        message: "Please enter your email id",
-                      },
-                      pattern: {
-                        value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                        message: "Please enter a valid email address",
-                      },
-                    })}
+                    required
+                    pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"
                   />
                 </InputGroup>
-
-                <FormErrorMessage>
-                  {errors.email && errors.email.message}
-                </FormErrorMessage>
               </FormControl>
 
               {/* for message */}
-              <FormControl
-                pos={"relative"}
-                isInvalid={Boolean(errors?.message)}
-              >
+              <FormControl pos={"relative"}>
                 <FormLabel fontSize={"sm"}>Message</FormLabel>
-
                 <Textarea
                   height={24}
                   focusBorderColor="primaryColor"
                   resize={"none"}
                   placeholder="Enter your message..."
-                  {...register("message", {
-                    required: {
-                      value: true,
-                      message: "Please enter your message",
-                    },
-                  })}
+                  required
+                  minLength={20}
                 />
-
-                <FormErrorMessage>
-                  {errors.message && errors.message.message}
-                </FormErrorMessage>
               </FormControl>
 
               {/* submit button */}
-              <Button
-                type="submit"
-                isLoading={isSubmitting}
-                loadingText="Sending..."
-                w={"full"}
-                colorScheme="orange"
-              >
+              <Button type="submit" w={"full"} colorScheme="orange">
                 Send Message
               </Button>
 
+              {/* go to homepage */}
               <Link
                 as={RouterLink}
                 to={"/"}

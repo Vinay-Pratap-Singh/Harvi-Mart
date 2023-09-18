@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Link,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -17,12 +18,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import myImage from "../../assets/resetPassword.jpg";
 import myImageLogo from "../../assets/forgetPasswordLogo.png";
 import { useParams } from "react-router-dom";
-import { BiLock } from "react-icons/bi";
+import { BiArrowBack, BiLock } from "react-icons/bi";
 import { useState } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { resetPassword } from "../../redux/authSlice";
 import { Helmet } from "react-helmet";
 import { useAppDispatch } from "../../helper/Hooks/redux";
+import { Link as RouterLink } from "react-router-dom";
 
 // interface for login data
 interface IresetPasswordData {
@@ -228,6 +230,20 @@ const Reset = () => {
             >
               Reset Password
             </Button>
+
+            {/* go to homepage */}
+            <Link
+              as={RouterLink}
+              to={"/"}
+              fontWeight={500}
+              color={"orange.500"}
+              fontSize={"sm"}
+            >
+              <HStack>
+                <BiArrowBack />
+                <Text>Back to Home Page</Text>
+              </HStack>
+            </Link>
           </VStack>
         </HStack>
       </form>

@@ -229,14 +229,14 @@ const Dashboard = () => {
           w={10}
           borderRadius={"full"}
           boxShadow={"md"}
-          display={["none", "none", "none", "flex"]}
+          display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
           color={"primaryColor"}
           cursor={"pointer"}
           pos={"absolute"}
-          top={[null, null, null, 12, 20]}
-          right={[null, null, null, 16, 28]}
+          top={[0, null, null, 10]}
+          right={[2, null, null, 16, 28]}
         >
           {pdfData ? (
             <Tooltip

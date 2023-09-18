@@ -55,6 +55,14 @@ const router = createBrowserRouter([
     path: "/auth/reset/:token",
     element: <Reset />,
   },
+  {
+    path: "/terms",
+    element: <TermAndCondition />,
+  },
+  {
+    path: "/privacy",
+    element: <PrivacyAndPolicy />,
+  },
 
   // for admin and normal user access
   {
@@ -139,14 +147,6 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
-      },
-      {
-        path: "/terms",
-        element: <TermAndCondition />,
-      },
-      {
-        path: "/privacy",
-        element: <PrivacyAndPolicy />,
       },
     ],
   },
