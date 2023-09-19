@@ -88,7 +88,6 @@ const Cart = () => {
         orderTotal: totalPrice - totalDiscount,
       })
     );
-    console.log(res.payload);
     if (res?.payload?.success) {
       setCouponData({
         couponCode: data.couponCode,
@@ -121,10 +120,9 @@ const Cart = () => {
     const data: IcheckoutData = {
       address: selectedAddress,
       paymentMethod: "COD",
-      phoneNumber: "9874563210",
+      phoneNumber: userDetails?.phoneNumber,
       products,
       total: totalPrice,
-      coupon: couponData?.couponCode,
     };
     couponData?.couponCode && (data.coupon = couponData?.couponCode);
     const res = await dispatch(handleCheckout(data));

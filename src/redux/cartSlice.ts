@@ -107,6 +107,7 @@ const cartSlice = createSlice({
       .addCase(handleCheckout.fulfilled, (state, action) => {
         if (action.payload?.success) {
           window.location.href = action.payload?.url;
+          localStorage.removeItem("cartItems");
         }
         state.isLoading = false;
       })

@@ -4,6 +4,7 @@ import axios, {
   AxiosError,
   AxiosRequestConfig,
 } from "axios";
+import toast from "react-hot-toast";
 
 const BASEURL = process.env.REACT_APP_BASEURL;
 const axiosInstance: AxiosInstance = axios.create({
@@ -32,7 +33,6 @@ axiosInstance.interceptors.response.use(
   async (error: AxiosError<any>) => {
     const originalConfig = error.config as AxiosRequestConfig;
     if (error.response) {
-      console.log(error?.response?.status);
       // access token was expired
       if (
         error.response?.status === 401 &&
@@ -40,17 +40,17 @@ axiosInstance.interceptors.response.use(
       ) {
         retryAttempts.add(originalConfig.url!);
         try {
-          console.log("getting refresh token");
           // getting the new refresh token
           const res = await axiosInstance.post("/auth/refresh");
-          console.log(res);
-          localStorage.setItem("accessToken", res?.data?.accessToken);
+          if (res?.data?.success) {
+            toast.success(res?.data?.message);
+            localStorage.setItem("accessToken", res?.data?.accessToken);
+          }
           // retrying the original request with the new access token
           originalConfig.headers &&
             (originalConfig.headers.Authorization = `Bearer ${res?.data?.accessToken}`);
           return axiosInstance(originalConfig);
         } catch (error) {
-          console.log(error);
           localStorage.clear();
           window.location.href = "/login";
           return Promise.reject(error);

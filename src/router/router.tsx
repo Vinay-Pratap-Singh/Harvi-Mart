@@ -26,6 +26,7 @@ import Users from "../pages/Admin/Users";
 import OrderDescription from "../pages/Admin/Order/OrderDescription";
 import TermAndCondition from "../pages/TermAndCondition";
 import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
+import UserOrder from "../pages/User/Order";
 
 const router = createBrowserRouter([
   // accessible for everyone without login
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: "/user/profile",
         element: <Profile />,
+      },
+      {
+        path: "/user/order",
+        element: <UserOrder />,
       },
       {
         path: "/wishlist",
