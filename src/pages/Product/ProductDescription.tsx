@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Link,
   Stack,
   Text,
   Textarea,
@@ -37,6 +38,7 @@ import { toast } from "react-hot-toast";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
 import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 const ProductDescription = () => {
   const { state } = useLocation();
@@ -363,82 +365,108 @@ const ProductDescription = () => {
               <Text>Share your thoughts with other customers</Text>
             </Box>
 
-            <form
-              onSubmit={handleSubmit(handleFormSubmit)}
-              style={{ width: "100%" }}
-            >
-              <VStack mb={[2, 2, 2, 0]}>
-                {/* for review title */}
-                <FormControl isInvalid={Boolean(errors?.title)}>
-                  <FormLabel fontSize={"sm"}>Title</FormLabel>
-                  <InputGroup>
-                    <InputLeftElement
-                      fontSize={"xl"}
-                      color={"orange.500"}
-                      children={<MdOutlineRateReview />}
-                    />
-                    <Input
-                      type="text"
-                      focusBorderColor="primaryColor"
-                      placeholder="Loved the product"
-                      {...register("title", {
-                        required: {
-                          value: true,
-                          message: "Please enter review title",
-                        },
-                        minLength: {
-                          value: 10,
-                          message: "Title should have at least 10 characters",
-                        },
-                      })}
-                    />
-                  </InputGroup>
+            {isLoggedIn ? (
+              <form
+                onSubmit={handleSubmit(handleFormSubmit)}
+                style={{ width: "100%" }}
+              >
+                <VStack mb={[2, 2, 2, 0]}>
+                  {/* for review title */}
+                  <FormControl isInvalid={Boolean(errors?.title)}>
+                    <FormLabel fontSize={"sm"}>Title</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement
+                        fontSize={"xl"}
+                        color={"orange.500"}
+                        children={<MdOutlineRateReview />}
+                      />
+                      <Input
+                        type="text"
+                        focusBorderColor="primaryColor"
+                        placeholder="Loved the product"
+                        {...register("title", {
+                          required: {
+                            value: true,
+                            message: "Please enter review title",
+                          },
+                          minLength: {
+                            value: 10,
+                            message: "Title should have at least 10 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
-                  <FormErrorMessage>
-                    {errors.title && errors.title.message}
-                  </FormErrorMessage>
-                </FormControl>
+                    <FormErrorMessage>
+                      {errors.title && errors.title.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                {/* for review description */}
-                <FormControl isInvalid={Boolean(errors?.review)}>
-                  <FormLabel fontSize={"sm"}>Description</FormLabel>
-                  <InputGroup>
-                    <Textarea
-                      focusBorderColor="primaryColor"
-                      resize={"none"}
-                      h={40}
-                      placeholder="Good product in this price range"
-                      {...register("review", {
-                        required: {
-                          value: true,
-                          message: "Please enter review description",
-                        },
-                      })}
-                    />
-                  </InputGroup>
+                  {/* for review description */}
+                  <FormControl isInvalid={Boolean(errors?.review)}>
+                    <FormLabel fontSize={"sm"}>Description</FormLabel>
+                    <InputGroup>
+                      <Textarea
+                        focusBorderColor="primaryColor"
+                        resize={"none"}
+                        h={40}
+                        placeholder="Good product in this price range"
+                        {...register("review", {
+                          required: {
+                            value: true,
+                            message: "Please enter review description",
+                          },
+                          minLength: {
+                            value: 20,
+                            message:
+                              "Review should have at least 20 characters",
+                          },
+                        })}
+                      />
+                    </InputGroup>
 
-                  <FormErrorMessage>
-                    {errors.review && errors.review.message}
-                  </FormErrorMessage>
-                </FormControl>
+                    <FormErrorMessage>
+                      {errors.review && errors.review.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                {/* adding the star component for review */}
-                <FormControl alignSelf={"flex-start"} alignItems={"flex-start"}>
-                  <FormLabel fontSize={"sm"}>Rating</FormLabel>
-                  <StarReview onChange={setRating} />
-                </FormControl>
+                  {/* adding the star component for review */}
+                  <FormControl
+                    alignSelf={"flex-start"}
+                    alignItems={"flex-start"}
+                  >
+                    <FormLabel fontSize={"sm"}>Rating</FormLabel>
+                    <StarReview onChange={setRating} />
+                  </FormControl>
 
-                <Button
-                  type="submit"
-                  isLoading={isSubmitting}
-                  loadingText="Adding review..."
-                  colorScheme="orange"
-                  size={["md", "md", "lg", "lg"]}
+                  <Button
+                    type="submit"
+                    isLoading={isSubmitting}
+                    loadingText="Adding review..."
+                    colorScheme="orange"
+                    size={["md", "md", "lg", "lg"]}
+                  >
+                    Submit Review
+                  </Button>
+                </VStack>
+              </form>
+            ) : (
+              <Text
+                display={"flex"}
+                gap={2}
+                fontWeight={"semibold"}
+                pb={[3, 3, 3, 0]}
+              >
+                Please login to review the product{" "}
+                <Link
+                  textColor={"primaryColor"}
+                  display={"flex"}
+                  alignItems={"center"}
                 >
-                  Submit Review
-                </Button>
-              </VStack>
-            </form>
+                  Login ?
+                </Link>
+              </Text>
+            )}
           </VStack>
         </VStack>
       </Stack>
