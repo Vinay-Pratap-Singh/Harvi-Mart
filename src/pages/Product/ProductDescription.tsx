@@ -38,7 +38,7 @@ import { toast } from "react-hot-toast";
 import { Helmet } from "react-helmet";
 import { nanoid } from "@reduxjs/toolkit";
 import { useAppDispatch, useAppSelector } from "../../helper/Hooks/redux";
-import { BiRightArrowAlt } from "react-icons/bi";
+import { Link as RouterLink } from "react-router-dom";
 
 const ProductDescription = () => {
   const { state } = useLocation();
@@ -459,6 +459,7 @@ const ProductDescription = () => {
               >
                 Please login to review the product{" "}
                 <Link
+                  as={RouterLink}
                   textColor={"primaryColor"}
                   display={"flex"}
                   alignItems={"center"}

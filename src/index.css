@@ -9,3 +9,34 @@ body {
   max-width: 1440px;
   margin: auto;
 }
+
+/* designing the contact form */
+.contact-form-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 5px;
+  width: 100%;
+}
+
+.contact-form-input,
+.contact-form-textarea {
+  outline: 1px solid rgb(228, 228, 228);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgb(129, 129, 129);
+  transition: all 0.2s ease-in-out;
+}
+
+.contact-form-input:focus,
+.contact-form-textarea:focus {
+  outline: 2px solid #dd6b20;
+}
+
+.contact-form-textarea {
+  height: 100px;
+  resize: none;
+}

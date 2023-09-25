@@ -1,23 +1,16 @@
 import {
   Box,
   Button,
-  FormControl,
-  FormLabel,
   HStack,
   Heading,
   Image,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Link,
   Text,
-  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import myImage from "../assets/contactPage.jpg";
 import { Link as RouterLink } from "react-router-dom";
-import { HiOutlineMail } from "react-icons/hi";
-import { BiArrowBack, BiUser } from "react-icons/bi";
+import { BiArrowBack } from "react-icons/bi";
 import { Helmet } from "react-helmet";
 import Layout from "./Layout/Layout";
 
@@ -73,55 +66,39 @@ const Contact = () => {
               </Heading>
 
               {/* for name */}
-              <FormControl>
-                <FormLabel fontSize={"sm"}>Your Full Name</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<BiUser />}
-                  />
-                  <Input
-                    type="text"
-                    focusBorderColor="primaryColor"
-                    placeholder="Vinay Pratap Singh Harvi"
-                    required
-                    minLength={3}
-                  />
-                </InputGroup>
-              </FormControl>
+              <label className="contact-form-label">
+                Your Full Name
+                <input
+                  className="contact-form-input"
+                  type="text"
+                  placeholder="Vinay Pratap Singh"
+                  required
+                  minLength={5}
+                />
+              </label>
 
               {/* for email */}
-              <FormControl>
-                <FormLabel fontSize={"sm"}>Your Email</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    fontSize={"xl"}
-                    color={"orange.500"}
-                    children={<HiOutlineMail />}
-                  />
-                  <Input
-                    type="email"
-                    focusBorderColor="primaryColor"
-                    placeholder="test@gmail.com"
-                    required
-                    pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"
-                  />
-                </InputGroup>
-              </FormControl>
+              <label className="contact-form-label">
+                Your Email
+                <input
+                  className="contact-form-input"
+                  type="email"
+                  placeholder="test@gmail.com"
+                  required
+                  pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"
+                />
+              </label>
 
               {/* for message */}
-              <FormControl pos={"relative"}>
-                <FormLabel fontSize={"sm"}>Message</FormLabel>
-                <Textarea
-                  height={24}
-                  focusBorderColor="primaryColor"
-                  resize={"none"}
+              <label className="contact-form-label">
+                Message
+                <textarea
+                  className="contact-form-textarea"
                   placeholder="Enter your message..."
                   required
                   minLength={20}
                 />
-              </FormControl>
+              </label>
 
               {/* submit button */}
               <Button type="submit" w={"full"} colorScheme="orange">
