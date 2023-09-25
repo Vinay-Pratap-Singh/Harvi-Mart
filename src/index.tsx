@@ -5,6 +5,8 @@ import { App } from "./App";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "./index.css";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -18,3 +20,6 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
+
+serviceWorkerRegistration.register();
+reportWebVitals();
