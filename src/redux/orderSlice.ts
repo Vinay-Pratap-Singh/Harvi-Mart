@@ -84,6 +84,16 @@ const orderSlice = createSlice({
       })
       .addCase(getLoggedInUserOrders.rejected, (state) => {
         state.isLoading = false;
+      })
+
+      // for cancelOrderByAdmin
+      .addCase(cancelOrderByAdmin.fulfilled, (state, action) => {
+        if (action.payload?.success) {
+          toast.success("Order cancelled");
+        }
+      })
+      .addCase(cancelOrderByAdmin.rejected, () => {
+        toast.error("Failed to cancel the orders");
       });
   },
 });

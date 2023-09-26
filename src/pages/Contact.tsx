@@ -73,41 +73,6 @@ const Contact = () => {
               </Heading>
 
               {/* for name */}
-              {/* <label className="contact-form-label">
-                Your Full Name
-                <input
-                  className="contact-form-input"
-                  type="text"
-                  placeholder="Vinay Pratap Singh"
-                  required
-                  minLength={5}
-                />
-              </label> */}
-
-              {/* for email */}
-              {/* <label className="contact-form-label">
-                Your Email
-                <input
-                  className="contact-form-input"
-                  type="email"
-                  placeholder="test@gmail.com"
-                  required
-                  pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"
-                />
-              </label> */}
-
-              {/* for message */}
-              {/* <label className="contact-form-label">
-                Message
-                <textarea
-                  className="contact-form-textarea"
-                  placeholder="Enter your message..."
-                  required
-                  minLength={20}
-                />
-              </label> */}
-
-              {/* for name */}
               <FormControl>
                 <FormLabel fontSize={"sm"} htmlFor="name">
                   Your Full Name

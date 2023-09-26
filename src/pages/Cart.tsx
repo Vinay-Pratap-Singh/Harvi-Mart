@@ -131,7 +131,7 @@ const Cart = () => {
     }
   };
 
-  // using useEffect to calculate the price and discount on component loading
+  // using useEffect to get all addresses
   useEffect(() => {
     dispatch(createUpdatedCart());
     dispatch(calculateAmount());
